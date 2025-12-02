@@ -58,14 +58,35 @@ DOMAIN_PACKS_DIR = "domain_packs"
 # Load spaCy model
 @st.cache_resource
 def load_spacy_model():
-    """Load spaCy model with caching"""
+    """Load spaCy model with caching and better error handling"""
     try:
         return spacy.load("en_core_web_sm")
     except OSError:
-        logger.warning("Downloading spaCy model...")
-        import subprocess
-        subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
-        return spacy.load("en_core_web_sm")
+        try:
+            logger.warning("spaCy model not found. Attempting to download...")
+            import subprocess
+            import sys
+            
+            # Use sys.executable to get correct Python path
+            result = subprocess.run(
+                [sys.executable, "-m", "spacy", "download", "en_core_web_sm"],
+                capture_output=True,
+                text=True,
+                timeout=120
+            )
+            
+            if result.returncode == 0:
+                logger.info("spaCy model downloaded successfully")
+                return spacy.load("en_core_web_sm")
+            else:
+                logger.error(f"Failed to download spaCy model: {result.stderr}")
+                st.error("⚠️ spaCy model download failed. Please run: python -m spacy download en_core_web_sm")
+                st.stop()
+        except Exception as e:
+            logger.error(f"Error downloading spaCy model: {e}")
+            st.error(f"⚠️ Could not load spaCy model. Error: {e}")
+            st.info("💡 Solution: Add 'setup.sh' file to your repo with spaCy download command")
+            st.stop()
 
 nlp = load_spacy_model()
 
