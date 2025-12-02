@@ -1,68 +1,26 @@
 # Enhanced Dynamic NLP Pipeline - Requirements
 # =============================================
-# Updated: December 2024
-# Python Version: 3.9+
-# Tested on: Python 3.9, 3.10, 3.11
+# Optimized for Streamlit Cloud
+# Python 3.11+
 
-# ==========================================
 # Core Framework
-# ==========================================
-streamlit>=1.28.0,<2.0.0
+streamlit>=1.28.0
 
-# ==========================================
-# Data Processing & Analysis
-# ==========================================
-pandas>=2.0.0,<3.0.0
-numpy>=1.24.0,<2.0.0
-openpyxl>=3.1.0,<4.0.0
-pyarrow>=13.0.0,<15.0.0
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+openpyxl>=3.1.0
+pyarrow>=13.0.0
 
-# ==========================================
-# NLP & Machine Learning
-# ==========================================
-spacy>=3.6.0,<4.0.0
-textblob>=0.17.0,<1.0.0
-nltk>=3.8.0,<4.0.0
+# NLP & ML
+spacy>=3.6.0
+textblob>=0.17.0
+nltk>=3.8.0
 
-# TextBlob - Sentiment Analysis
-textblob>=0.17.0,<1.0.0
-
-# NLTK - Required by TextBlob
-nltk>=3.8.0,<4.0.0
-
-# ==========================================
-# Translation Services
-# ==========================================
-# Google Translate (stable version)
-# googletrans==3.1.0a0
-
-# Alternative if googletrans fails:
+# Translation - Using deep-translator (more stable than googletrans)
 deep-translator>=1.11.0
 
-# ==========================================
-# Utilities & Support Libraries
-# ==========================================
-python-dateutil>=2.8.0,<3.0.0
+# Utilities
+python-dateutil>=2.8.0
 
-# ==========================================
-# Optional: Performance Enhancements
-# ==========================================
-# Uncomment if you want faster processing
-# numba>=0.57.0
-# cython>=3.0.0
-
-# ==========================================
-# Post-Installation Commands
-# ==========================================
-# After installing requirements, run:
-#
-# 1. Download spaCy language model:
-#    python -m spacy download en_core_web_sm
-#
-# 2. Download TextBlob corpora:
-#    python -m textblob.download_corpora
-#
-# 3. Download NLTK data (if needed):
-#    python -c "import nltk; nltk.download('brown'); nltk.download('punkt')"
-#
-# ==========================================
+# Note: After deployment, models will be downloaded automatically

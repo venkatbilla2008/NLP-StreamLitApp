@@ -33,7 +33,7 @@ import os
 # NLP Libraries
 import spacy
 from textblob import TextBlob
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 
 # ========================================================================================
 # CONFIGURATION & CONSTANTS
@@ -73,7 +73,7 @@ nlp = load_spacy_model()
 @st.cache_resource
 def get_translator():
     """Get cached translator instance"""
-    return Translator()
+    return None  # deep-translator doesn't need persistent instance
 
 translator = get_translator()
 
@@ -742,23 +742,19 @@ class SentimentAnalyzer:
 
 
 class TranslationService:
-    """Multi-language translation service"""
+    """Multi-language translation service using deep-translator"""
     
     @staticmethod
     @lru_cache(maxsize=CACHE_SIZE)
     def translate_to_english(text: str) -> str:
-        """Translate text to English if needed"""
+        """Translate text to English if needed using deep-translator"""
         if not text or not isinstance(text, str):
             return text
         
         try:
-            detection = translator.detect(text)
-            
-            if detection.lang == 'en':
-                return text
-            
-            translated = translator.translate(text, dest='en')
-            return translated.text
+            # Use deep-translator - auto-detects language and translates
+            translated = GoogleTranslator(source='auto', target='en').translate(text)
+            return translated
         
         except Exception as e:
             logger.error(f"Translation error: {e}")
