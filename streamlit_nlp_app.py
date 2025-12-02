@@ -1004,6 +1004,16 @@ class FileHandler:
                 st.error(f"Unsupported file format: {file_extension}")
                 return None
             
+            # Fix duplicate column names
+            if not df.columns.is_unique:
+                cols = pd.Series(df.columns)
+                for dup in cols[cols.duplicated()].unique():
+                    dup_indices = [i for i, x in enumerate(df.columns) if x == dup]
+                    for i, idx in enumerate(dup_indices[1:], start=1):
+                        df.columns.values[idx] = f"{dup}_{i}"
+                logger.warning(f"Fixed duplicate column names: {list(df.columns)}")
+                st.warning(f"⚠️ Fixed duplicate column names in file. New columns: {list(df.columns)}")
+            
             logger.info(f"Successfully loaded file: {uploaded_file.name} ({len(df)} rows)")
             return df
         
