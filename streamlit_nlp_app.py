@@ -197,39 +197,61 @@ class DomainLoader:
         loaded_count = 0
         
         if not os.path.exists(self.domain_packs_dir):
-            logger.warning(f"Domain packs directory not found: {self.domain_packs_dir}")
+            logger.error(f"Domain packs directory not found: {self.domain_packs_dir}")
+            logger.error(f"Current working directory: {os.getcwd()}")
+            logger.error(f"Directory contents: {os.listdir('.')}")
             return 0
+        
+        logger.info(f"Scanning domain_packs directory: {self.domain_packs_dir}")
         
         # Load company mapping first
         mapping_path = os.path.join(self.domain_packs_dir, "company_industry_mapping.json")
         if os.path.exists(mapping_path):
             self.load_company_mapping(mapping_path)
+            logger.info(f"Loaded company mapping from {mapping_path}")
         
         # Scan for industry directories
-        for item in os.listdir(self.domain_packs_dir):
+        try:
+            items = os.listdir(self.domain_packs_dir)
+            logger.info(f"Found {len(items)} items in domain_packs: {items}")
+        except Exception as e:
+            logger.error(f"Error listing domain_packs directory: {e}")
+            return 0
+        
+        for item in items:
             item_path = os.path.join(self.domain_packs_dir, item)
             
             # Skip if not a directory
             if not os.path.isdir(item_path):
+                logger.debug(f"Skipping non-directory: {item}")
                 continue
             
             # Skip hidden directories
             if item.startswith('.'):
+                logger.debug(f"Skipping hidden directory: {item}")
                 continue
             
             # Look for rules.json and keywords.json
             rules_path = os.path.join(item_path, "rules.json")
             keywords_path = os.path.join(item_path, "keywords.json")
             
+            logger.info(f"Checking industry: {item}")
+            logger.info(f"  Rules exists: {os.path.exists(rules_path)}")
+            logger.info(f"  Keywords exists: {os.path.exists(keywords_path)}")
+            
             if os.path.exists(rules_path) and os.path.exists(keywords_path):
                 try:
                     self.load_from_files(rules_path, keywords_path, item)
                     loaded_count += 1
-                    logger.info(f"Auto-loaded industry: {item}")
+                    logger.info(f"✅ Successfully auto-loaded: {item}")
                 except Exception as e:
-                    logger.error(f"Failed to auto-load {item}: {e}")
+                    logger.error(f"❌ Failed to auto-load {item}: {str(e)}")
+                    import traceback
+                    logger.error(f"Traceback: {traceback.format_exc()}")
+            else:
+                logger.warning(f"⚠️ Skipping {item}: missing rules.json or keywords.json")
         
-        logger.info(f"Auto-loaded {loaded_count} industries from {self.domain_packs_dir}")
+        logger.info(f"Auto-load complete: {loaded_count} industries loaded from {self.domain_packs_dir}")
         return loaded_count
     
     def load_from_files(self, rules_file: str, keywords_file: str, industry_name: str):
@@ -993,31 +1015,35 @@ class DynamicNLPPipeline:
         return results
     
     def results_to_dataframe(self, results: List[NLPResult]) -> pd.DataFrame:
-        """Convert NLPResult list to DataFrame"""
+        """
+        Convert NLPResult list to DataFrame with essential columns only
+        
+        Removed columns for cleaner output:
+        - Industry (user knows which industry they selected)
+        - Redacted_Text (internal use, Original_Text is primary)
+        - Translated_Text (internal processing step)
+        - Category_Confidence (technical detail)
+        - Category_Path (redundant with L1-L4)
+        - Matched_Rule (technical detail)
+        - Theme_Count (redundant with Proximity_Group)
+        - PII_Detected (can infer from Original_Text)
+        - PII_Items_Redacted (technical detail)
+        - PII_Types (technical detail)
+        """
         data = []
         
         for result in results:
             row = {
                 'Conversation_ID': result.conversation_id,
-                'Industry': result.industry or 'Unknown',
                 'Original_Text': result.original_text,
-                'Redacted_Text': result.redacted_text,
-                'Translated_Text': result.translated_text,
                 'L1_Category': result.category.l1,
                 'L2_Subcategory': result.category.l2,
                 'L3_Tertiary': result.category.l3,
                 'L4_Quaternary': result.category.l4,
-                'Category_Confidence': result.category.confidence,
-                'Category_Path': result.category.match_path,
-                'Matched_Rule': result.category.matched_rule,
                 'Primary_Proximity': result.proximity.primary_proximity,
                 'Proximity_Group': result.proximity.proximity_group,
-                'Theme_Count': result.proximity.theme_count,
                 'Sentiment': result.sentiment,
-                'Sentiment_Score': result.sentiment_score,
-                'PII_Detected': result.pii_result.pii_detected,
-                'PII_Items_Redacted': result.pii_result.total_items,
-                'PII_Types': json.dumps(result.pii_result.pii_counts)
+                'Sentiment_Score': result.sentiment_score
             }
             data.append(row)
         
@@ -1137,11 +1163,17 @@ def main():
         st.session_state.domain_loader = DomainLoader()
         
         # Auto-load all industries from domain_packs folder
-        with st.spinner("🔄 Loading industries..."):
+        with st.spinner("🔄 Loading industries from domain_packs/..."):
             loaded_count = st.session_state.domain_loader.auto_load_all_industries()
+            
             if loaded_count > 0:
-                st.success(f"✅ Loaded {loaded_count} industries from domain_packs/")
-                logger.info(f"Successfully auto-loaded {loaded_count} industries")
+                industries_list = st.session_state.domain_loader.get_available_industries()
+                st.success(f"✅ Loaded {loaded_count} industries: {', '.join(sorted(industries_list))}")
+                logger.info(f"Successfully auto-loaded {loaded_count} industries: {industries_list}")
+            else:
+                st.error("❌ No industries loaded from domain_packs/ folder!")
+                st.info("💡 Check that domain_packs/ folder exists with industry subfolders containing rules.json and keywords.json")
+                logger.error("Failed to auto-load any industries")
             else:
                 st.warning("⚠️ No industries found in domain_packs/ folder")
     
