@@ -1253,8 +1253,6 @@ def main():
                     st.error(f"❌ Directory not found: {domain_dir}")
                     st.code(f"Current working directory: {os.getcwd()}")
                     st.code(f"Files in current directory: {os.listdir('.')}")
-            else:
-                st.warning("⚠️ No industries found in domain_packs/ folder")
     
     # Sidebar configuration
     st.sidebar.header("⚙️ Configuration")
