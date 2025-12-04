@@ -1472,16 +1472,19 @@ def main():
                 st.metric("Industry", selected_industry)
             
             with metric_cols[2]:
-                pii_count = sum(1 for r in results if r.pii_result.pii_detected)
-                st.metric("Records with PII", pii_count)
+                # Count unique L1 categories
+                unique_categories = results_df['L1_Category'].nunique()
+                st.metric("Unique Categories", unique_categories)
             
             with metric_cols[3]:
-                total_pii = sum(r.pii_result.total_items for r in results)
-                st.metric("Total PII Items", total_pii)
+                # Average sentiment score
+                avg_sentiment = results_df['Sentiment_Score'].mean()
+                st.metric("Avg. Sentiment", f"{avg_sentiment:.2f}")
             
             with metric_cols[4]:
-                avg_confidence = results_df['Category_Confidence'].mean()
-                st.metric("Avg. Confidence", f"{avg_confidence:.2%}")
+                # Count negative sentiment
+                negative_count = len(results_df[results_df['Sentiment'].isin(['Negative', 'Very Negative'])])
+                st.metric("Negative Sentiment", f"{negative_count} ({negative_count/len(results)*100:.1f}%)")
             
             with metric_cols[5]:
                 processing_speed = len(results) / processing_time
