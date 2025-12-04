@@ -187,6 +187,51 @@ class DomainLoader:
                 return self.company_mapping
         return {}
     
+    def auto_load_all_industries(self) -> int:
+        """
+        Automatically load all industries from domain_packs directory
+        
+        Returns:
+            Number of industries loaded
+        """
+        loaded_count = 0
+        
+        if not os.path.exists(self.domain_packs_dir):
+            logger.warning(f"Domain packs directory not found: {self.domain_packs_dir}")
+            return 0
+        
+        # Load company mapping first
+        mapping_path = os.path.join(self.domain_packs_dir, "company_industry_mapping.json")
+        if os.path.exists(mapping_path):
+            self.load_company_mapping(mapping_path)
+        
+        # Scan for industry directories
+        for item in os.listdir(self.domain_packs_dir):
+            item_path = os.path.join(self.domain_packs_dir, item)
+            
+            # Skip if not a directory
+            if not os.path.isdir(item_path):
+                continue
+            
+            # Skip hidden directories
+            if item.startswith('.'):
+                continue
+            
+            # Look for rules.json and keywords.json
+            rules_path = os.path.join(item_path, "rules.json")
+            keywords_path = os.path.join(item_path, "keywords.json")
+            
+            if os.path.exists(rules_path) and os.path.exists(keywords_path):
+                try:
+                    self.load_from_files(rules_path, keywords_path, item)
+                    loaded_count += 1
+                    logger.info(f"Auto-loaded industry: {item}")
+                except Exception as e:
+                    logger.error(f"Failed to auto-load {item}: {e}")
+        
+        logger.info(f"Auto-loaded {loaded_count} industries from {self.domain_packs_dir}")
+        return loaded_count
+    
     def load_from_files(self, rules_file: str, keywords_file: str, industry_name: str):
         """
         Load rules and keywords from uploaded files
@@ -1087,100 +1132,103 @@ def main():
     
     st.markdown("---")
     
-    # Initialize domain loader in session state
+    # Initialize domain loader in session state and auto-load industries
     if 'domain_loader' not in st.session_state:
         st.session_state.domain_loader = DomainLoader()
+        
+        # Auto-load all industries from domain_packs folder
+        with st.spinner("🔄 Loading industries..."):
+            loaded_count = st.session_state.domain_loader.auto_load_all_industries()
+            if loaded_count > 0:
+                st.success(f"✅ Loaded {loaded_count} industries from domain_packs/")
+                logger.info(f"Successfully auto-loaded {loaded_count} industries")
+            else:
+                st.warning("⚠️ No industries found in domain_packs/ folder")
     
     # Sidebar configuration
     st.sidebar.header("⚙️ Configuration")
     
     # Industry Selection
-    st.sidebar.subheader("🏭 Industry Configuration")
+    st.sidebar.subheader("🏭 Industry Selection")
     
-    # Upload industry rules and keywords
-    st.sidebar.markdown("**Upload Industry Files**")
-    
-    uploaded_rules = st.sidebar.file_uploader(
-        "Upload Rules JSON",
-        type=['json'],
-        help="Upload industry-specific rules JSON file",
-        key="rules_uploader"
-    )
-    
-    uploaded_keywords = st.sidebar.file_uploader(
-        "Upload Keywords JSON",
-        type=['json'],
-        help="Upload industry-specific keywords JSON file",
-        key="keywords_uploader"
-    )
-    
-    uploaded_company_mapping = st.sidebar.file_uploader(
-        "Upload Company-Industry Mapping (Optional)",
-        type=['json'],
-        help="Upload master company-industry mapping JSON",
-        key="mapping_uploader"
-    )
-    
-    industry_name = st.sidebar.text_input(
-        "Industry Name",
-        value="Custom_Industry",
-        help="Enter the name of this industry (e.g., Banking, Healthcare, E-commerce)"
-    )
-    
-    # Load industry files button
-    if st.sidebar.button("📥 Load Industry Configuration", type="primary"):
-        if uploaded_rules and uploaded_keywords:
-            try:
-                # Save uploaded files temporarily
-                rules_path = f"/tmp/{industry_name}_rules.json"
-                keywords_path = f"/tmp/{industry_name}_keywords.json"
-                
-                with open(rules_path, 'wb') as f:
-                    f.write(uploaded_rules.getvalue())
-                
-                with open(keywords_path, 'wb') as f:
-                    f.write(uploaded_keywords.getvalue())
-                
-                # Load into domain loader
-                st.session_state.domain_loader.load_from_files(
-                    rules_path,
-                    keywords_path,
-                    industry_name
-                )
-                
-                # Load company mapping if provided
-                if uploaded_company_mapping:
-                    mapping_path = f"/tmp/company_mapping.json"
-                    with open(mapping_path, 'wb') as f:
-                        f.write(uploaded_company_mapping.getvalue())
-                    st.session_state.domain_loader.load_company_mapping(mapping_path)
-                
-                st.sidebar.success(f"✅ Loaded {industry_name} configuration!")
-                
-            except Exception as e:
-                st.sidebar.error(f"❌ Error loading configuration: {e}")
-        else:
-            st.sidebar.warning("⚠️ Please upload both Rules and Keywords JSON files")
-    
-    # Show loaded industries
+    # Get available industries
     available_industries = st.session_state.domain_loader.get_available_industries()
     
-    if available_industries:
-        st.sidebar.markdown("**Loaded Industries:**")
-        for ind in available_industries:
-            data = st.session_state.domain_loader.get_industry_data(ind)
-            st.sidebar.info(f"✓ {ind}: {data.get('rules_count', 0)} rules, {data.get('keywords_count', 0)} keywords")
-    
-    # Select active industry for processing
-    if available_industries:
-        selected_industry = st.sidebar.selectbox(
-            "Select Industry for Analysis",
-            options=available_industries,
-            help="Choose which industry rules to use for classification"
-        )
+    if not available_industries:
+        st.sidebar.error("❌ No industries loaded. Please add industry folders to domain_packs/")
+        
+        # Show manual upload option as fallback
+        with st.sidebar.expander("📤 Manual Upload (Fallback)"):
+            st.markdown("**Upload Industry Files Manually**")
+            
+            uploaded_rules = st.file_uploader(
+                "Upload Rules JSON",
+                type=['json'],
+                help="Upload industry-specific rules JSON file",
+                key="rules_uploader"
+            )
+            
+            uploaded_keywords = st.file_uploader(
+                "Upload Keywords JSON",
+                type=['json'],
+                help="Upload industry-specific keywords JSON file",
+                key="keywords_uploader"
+            )
+            
+            industry_name = st.text_input(
+                "Industry Name",
+                value="Custom_Industry",
+                help="Enter the name of this industry"
+            )
+            
+            if st.button("📥 Load Industry", type="primary"):
+                if uploaded_rules and uploaded_keywords:
+                    try:
+                        rules_path = f"/tmp/{industry_name}_rules.json"
+                        keywords_path = f"/tmp/{industry_name}_keywords.json"
+                        
+                        with open(rules_path, 'wb') as f:
+                            f.write(uploaded_rules.getvalue())
+                        
+                        with open(keywords_path, 'wb') as f:
+                            f.write(uploaded_keywords.getvalue())
+                        
+                        st.session_state.domain_loader.load_from_files(
+                            rules_path,
+                            keywords_path,
+                            industry_name
+                        )
+                        
+                        st.success(f"✅ Loaded {industry_name} successfully!")
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"❌ Error loading industry: {e}")
+                else:
+                    st.error("⚠️ Please upload both rules and keywords files")
     else:
-        st.sidebar.warning("⚠️ No industries loaded yet. Please upload configuration files.")
-        selected_industry = None
+        # Display industry selection dropdown
+        selected_industry = st.sidebar.selectbox(
+            "Select Industry",
+            options=[""] + sorted(available_industries),
+            help="Choose your industry domain for analysis"
+        )
+        
+        if selected_industry:
+            # Show industry details
+            industry_data = st.session_state.domain_loader.get_industry_data(selected_industry)
+            
+            st.sidebar.success(f"✅ **{selected_industry}** selected")
+            st.sidebar.info(f"""
+            **Configuration:**
+            - 📋 Rules: {industry_data.get('rules_count', 0)}
+            - 🔑 Keywords: {industry_data.get('keywords_count', 0)}
+            """)
+            
+            # Store in session state
+            st.session_state.selected_industry = selected_industry
+        else:
+            st.sidebar.warning("⚠️ Please select an industry to continue")
+            st.session_state.selected_industry = None
     
     st.sidebar.markdown("---")
     
@@ -1211,7 +1259,9 @@ def main():
     )
     
     # Process when data file is uploaded and industry is selected
-    if data_file and selected_industry:
+    if data_file and st.session_state.get('selected_industry'):
+        
+        selected_industry = st.session_state.selected_industry
         
         # Load data
         data_df = FileHandler.read_file(data_file)
@@ -1219,6 +1269,9 @@ def main():
             return
         
         st.success(f"✅ Loaded {len(data_df)} records")
+    
+    elif data_file and not st.session_state.get('selected_industry'):
+        st.warning("⚠️ Please select an industry from the sidebar before processing your data")
         
         # Column selection
         st.subheader("🔧 Configuration")
