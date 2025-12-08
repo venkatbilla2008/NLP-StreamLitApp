@@ -411,7 +411,7 @@
             "subcategory": "Communication and Soft Skills",
             "level_3": "Dead Air on call",
             "level_4": "Dead Air on call",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -425,7 +425,7 @@
             "subcategory": "Communication and Soft Skills",
             "level_3": "Hard to Understand Agent",
             "level_4": "Hard to Understand Agent",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -439,7 +439,7 @@
             "subcategory": "Communication and Soft Skills",
             "level_3": "Language Barrier",
             "level_4": "Language Barrier",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -881,7 +881,7 @@
             "subcategory": "Resolution",
             "level_3": "No Solution / Issue - Not Resolved",
             "level_4": "No Solution / Issue - Not Resolved",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1013,7 +1013,7 @@
             "subcategory": "Billing Related",
             "level_3": "Delayed Refund",
             "level_4": "Delayed Refund",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1026,7 +1026,7 @@
             "subcategory": "Billing Related",
             "level_3": "Refund Denied",
             "level_4": "Refund Denied",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1054,7 +1054,7 @@
             "subcategory": "Service Dissatisfaction",
             "level_3": "Complicated Service",
             "level_4": "Complicated Service",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1067,7 +1067,7 @@
             "subcategory": "Service Dissatisfaction",
             "level_3": "Improve Service",
             "level_4": "Improve Service",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1091,7 +1091,7 @@
             "subcategory": "Service Dissatisfaction",
             "level_3": "Service Not helpful",
             "level_4": "Service Not helpful",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1339,7 +1339,7 @@
             "subcategory": "Product Dissatisfaction",
             "level_3": "Missing Track / Album / Artist",
             "level_4": "Missing Track / Album / Artist",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1352,7 +1352,7 @@
             "subcategory": "Product Dissatisfaction",
             "level_3": "Incorrect Track / Album / Artist",
             "level_4": "Incorrect Track / Album / Artist",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1560,7 +1560,7 @@
             "subcategory": "Privacy & Security",
             "level_3": "Compromised Account",
             "level_4": "Compromised Account",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1573,7 +1573,7 @@
             "subcategory": "Privacy & Security",
             "level_3": "Hacked Account",
             "level_4": "Hacked Account",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1655,7 +1655,7 @@
             "subcategory": "Support Related",
             "level_3": "Difficulties contacting Spotify",
             "level_4": "Difficulties contacting Spotify",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1668,7 +1668,7 @@
             "subcategory": "Support Related",
             "level_3": "Unhappy with Chat Service ",
             "level_4": "Unhappy with Chat Service ",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1759,7 +1759,7 @@
             "subcategory": "Support Related",
             "level_3": "Unhappy with BOT",
             "level_4": "Unhappy with BOT",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1772,7 +1772,7 @@
             "subcategory": "Billing Related",
             "level_3": "Incorrect Charges",
             "level_4": "Incorrect Charges",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1800,7 +1800,7 @@
             "subcategory": "Process Policy",
             "level_3": "Unhappy with the policy",
             "level_4": "Unhappy with the policy",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -1826,7 +1826,7 @@
             "subcategory": "Support Related",
             "level_3": "Unhappy with Scripted Responses",
             "level_4": "Unhappy with Scripted Responses",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -2374,7 +2374,7 @@
             "subcategory": "Build Rapport",
             "level_3": "Agent Being Difficult To Understand",
             "level_4": "Agent Being Difficult To Understand",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -2465,7 +2465,7 @@
             "subcategory": "Build Rapport",
             "level_3": "Scripted/Templated Responses",
             "level_4": "Scripted/Templated Responses",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
@@ -2493,7 +2493,7 @@
             "subcategory": "Build Rapport",
             "level_3": "Unclear And Lengthy Responses",
             "level_4": "Unclear And Lengthy Responses",
-            "sentiment": "neutral"
+            "sentiment": "negative"
         }
     },
     {
