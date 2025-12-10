@@ -606,13 +606,12 @@ class DynamicNLPPipeline:
         return results
     
     def results_to_dataframe(self, results: List[NLPResult]) -> pd.DataFrame:
-        """Convert results to DataFrame"""
+        """Convert results to DataFrame - Essential columns only"""
         data = []
         for result in results:
             data.append({
                 'Conversation_ID': result.conversation_id,
                 'Original_Text': result.original_text,
-                'Redacted_Text': result.redacted_text,
                 'L1_Category': result.category.l1,
                 'L2_Subcategory': result.category.l2,
                 'L3_Tertiary': result.category.l3,
@@ -620,10 +619,7 @@ class DynamicNLPPipeline:
                 'Primary_Proximity': result.proximity.primary_proximity,
                 'Proximity_Group': result.proximity.proximity_group,
                 'Sentiment': result.sentiment,
-                'Sentiment_Score': result.sentiment_score,
-                'PII_Detected': result.pii_result.pii_detected,
-                'PII_Count': result.pii_result.total_items,
-                'Detection_Method': result.pii_result.detection_method
+                'Sentiment_Score': result.sentiment_score
             })
         return pd.DataFrame(data)
 
