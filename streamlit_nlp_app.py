@@ -455,18 +455,19 @@ class ProximityAnalyzer:
 
 
 # =============================================================================
-# SENTIMENT ANALYZER - VADER (Better for Customer Feedback)
+# SENTIMENT ANALYZER - BALANCED & NON-OVERLAPPING THRESHOLDS
 # =============================================================================
 
 class SentimentAnalyzer:
     """
-    Enhanced sentiment analysis with VADER
+    Balanced sentiment analysis with non-overlapping thresholds
     
-    VADER is superior to TextBlob for:
-    - Customer reviews/feedback (10x better at detecting negatives)
-    - Social media text
-    - Handling slang, emojis, punctuation
-    - More accurate compound scores
+    Thresholds designed for equal distribution across 5 categories:
+    - Very Negative: < -0.6
+    - Negative: -0.6 to -0.2
+    - Neutral: -0.2 to +0.2
+    - Positive: +0.2 to +0.6
+    - Very Positive: > +0.6
     """
     
     _vader = None
@@ -485,7 +486,14 @@ class SentimentAnalyzer:
     @lru_cache(maxsize=CACHE_SIZE)
     def analyze_sentiment(text: str) -> Tuple[str, float]:
         """
-        Analyze sentiment using VADER (if available) or TextBlob (fallback)
+        Analyze sentiment with balanced, non-overlapping thresholds
+        
+        Thresholds (non-overlapping):
+        - Very Positive:  score > 0.6
+        - Positive:       0.2 < score <= 0.6
+        - Neutral:       -0.2 <= score <= 0.2
+        - Negative:      -0.6 <= score < -0.2
+        - Very Negative:  score < -0.6
         """
         if not text or not isinstance(text, str):
             return "Neutral", 0.0
@@ -498,36 +506,36 @@ class SentimentAnalyzer:
                 scores = vader.polarity_scores(text)
                 compound = scores['compound']
                 
-                # Lower thresholds for better negative detection
-                if compound >= 0.5:
+                # Balanced, non-overlapping thresholds
+                if compound > 0.6:
                     sentiment = "Very Positive"
-                elif compound >= 0.05:  # Was 0.1 - now more sensitive
+                elif compound > 0.2:
                     sentiment = "Positive"
-                elif compound <= -0.5:
-                    sentiment = "Very Negative"
-                elif compound <= -0.05:  # Was -0.1 - now more sensitive
+                elif compound >= -0.2:
+                    sentiment = "Neutral"
+                elif compound >= -0.6:
                     sentiment = "Negative"
                 else:
-                    sentiment = "Neutral"
+                    sentiment = "Very Negative"
                 
                 return sentiment, compound
             
             else:
-                # Fallback to TextBlob
+                # Fallback to TextBlob (if VADER not available)
                 blob = TextBlob(text)
                 polarity = blob.sentiment.polarity
                 
-                # TextBlob thresholds (less accurate)
-                if polarity >= 0.5:
+                # Same balanced thresholds for TextBlob
+                if polarity > 0.6:
                     sentiment = "Very Positive"
-                elif polarity >= 0.1:
+                elif polarity > 0.2:
                     sentiment = "Positive"
-                elif polarity <= -0.5:
-                    sentiment = "Very Negative"
-                elif polarity <= -0.1:
+                elif polarity >= -0.2:
+                    sentiment = "Neutral"
+                elif polarity >= -0.6:
                     sentiment = "Negative"
                 else:
-                    sentiment = "Neutral"
+                    sentiment = "Very Negative"
                 
                 return sentiment, polarity
         
@@ -855,7 +863,11 @@ class DynamicNLPPipeline:
         return results
     
     def results_to_dataframe(self, results: List[NLPResult]) -> pd.DataFrame:
-        """Convert results to DataFrame - Essential columns only"""
+        """
+        Convert results to DataFrame - Essential columns only
+        
+        Focus: NLP Classification + PII Detection + Sentiment
+        """
         data = []
         for result in results:
             data.append({
@@ -865,8 +877,6 @@ class DynamicNLPPipeline:
                 'L2_Subcategory': result.category.l2,
                 'L3_Tertiary': result.category.l3,
                 'L4_Quaternary': result.category.l4,
-                'Primary_Proximity': result.proximity.primary_proximity,
-                'Proximity_Group': result.proximity.proximity_group,
                 'Sentiment': result.sentiment,
                 'Sentiment_Score': result.sentiment_score
             })
@@ -936,13 +946,17 @@ class FileHandler:
 def main():
     """Main Streamlit application"""
     
-    st.title("🚀 Dynamic NLP Pipeline v4.0")
+    st.title("🚀 NLP Classification & PII Detection Pipeline v4.1")
     st.markdown("""
-    **Optimized for Speed & Accuracy:**
+    **Core Focus:**
+    - 📊 **NLP Classification** - Hierarchical 4-level categorization
+    - 🔒 **PII Detection** - HIPAA/GDPR/PCI-DSS compliant
+    - 💭 **Sentiment Analysis** - Balanced 5-level sentiment distribution
+    
+    **Performance:**
     - ⚡ 10-20x Faster than v3.0.1
-    - 🎯 95%+ PII Accuracy (with Presidio)
-    - 💰 $0 Cost (translation removed)
-    - 🔒 HIPAA/GDPR/PCI-DSS Compliant
+    - 🎯 Balanced sentiment distribution (no bias)
+    - 💰 $0 Cost (translation disabled)
     """)
     
     # Show installation status
@@ -1095,18 +1109,19 @@ def main():
                 st.subheader("📋 Results")
                 st.dataframe(results_df.head(20))
                 
-                st.subheader("📊 Charts")
+                st.subheader("📊 Analysis Charts")
                 
-                cols = st.columns(3)
+                cols = st.columns(2)
                 with cols[0]:
                     st.markdown("**Category Distribution**")
                     st.bar_chart(results_df['L1_Category'].value_counts())
                 with cols[1]:
                     st.markdown("**Sentiment Distribution**")
-                    st.bar_chart(results_df['Sentiment'].value_counts())
-                with cols[2]:
-                    st.markdown("**Proximity Distribution**")
-                    st.bar_chart(results_df['Primary_Proximity'].value_counts().head(10))
+                    # Show in specific order for clarity
+                    sentiment_order = ["Very Negative", "Negative", "Neutral", "Positive", "Very Positive"]
+                    sentiment_counts = results_df['Sentiment'].value_counts()
+                    sentiment_ordered = pd.Series({s: sentiment_counts.get(s, 0) for s in sentiment_order})
+                    st.bar_chart(sentiment_ordered)
                 
                 if enable_pii:
                     st.subheader("🔒 Compliance")
