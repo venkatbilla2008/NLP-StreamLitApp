@@ -1,11 +1,14 @@
 # ============================================================================
-# requirements.txt - v3.0.3 with spaCy NER for Fast PII Detection
+# requirements.txt - v3.0.3 FIXED - Numpy/spaCy Compatibility
 # ============================================================================
 
 # Core dependencies
 streamlit>=1.28.0
 pandas>=2.0.0
-numpy>=1.24.0
+
+# CRITICAL: Pin numpy version for spaCy compatibility
+numpy==1.24.3
+
 openpyxl>=3.1.0
 pyarrow>=12.0.0
 python-dateutil>=2.8.0
@@ -15,35 +18,15 @@ vaderSentiment>=3.3.2
 textblob>=0.17.0
 nltk>=3.8.0
 
-# Optional: Presidio for better PII detection
-# presidio-analyzer>=2.2.0
-# presidio-anonymizer>=2.2.0
-
-# spaCy for NER-based PII Detection (ENABLED)
-spacy>=3.7.0
+# spaCy for NER-based PII Detection
+# IMPORTANT: Install spaCy before the model
+spacy>=3.7.0,<3.8.0
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
 
-# Translation (COMMENTED OUT - Disabled in code)
-# deep-translator>=1.11.0
-
 # ============================================================================
-# DEPLOYMENT NOTES
-# ============================================================================
-#
+# CRITICAL FIX: numpy version pinned to 1.24.3
 # 
-# ✅ spaCy NER: ENABLED for fast PII detection
-#    - Detects: Names, Organizations, Locations, Dates, Money
-#    - Faster and more accurate than regex-only
-#
-# ❌ Translation: DISABLED (commented out in code)
-#    - Can be re-enabled by uncommenting TranslationService class
-#    - Uncomment deep-translator above if re-enabling
-#
-# Features Active:
-# ✅ PII Detection (spaCy NER + regex for email/phone/SSN/cards)
-# ✅ NLP Classification (4-level hierarchy)
-# ✅ Sentiment Analysis (TextBlob)
-# ✅ Proximity Analysis
-# ✅ Parallel Processing (8 workers)
-# ✅ Compliance Reporting (HIPAA/GDPR/PCI-DSS/CCPA)
-
+# Issue: "numpy.dtype size changed" error
+# Cause: numpy 2.x is incompatible with spaCy 3.7.x
+# Solution: Use numpy 1.24.3 which is compatible with both spaCy and Streamlit
+# ============================================================================
