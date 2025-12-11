@@ -28,7 +28,10 @@ import io
 import os
 
 # NLP Libraries
-import spacy
+# === SPACY COMMENTED OUT - Optional dependency ===
+# import spacy  # COMMENTED OUT - Not required for basic Classification + PII
+SPACY_AVAILABLE = False  # Set to False since spaCy is disabled
+
 from textblob import TextBlob
 # === TRANSLATION REMOVED ===
 # from deep_translator import GoogleTranslator  # REMOVED
@@ -62,39 +65,41 @@ WARN_FILE_SIZE_MB = 100
 # Domain packs directory structure
 DOMAIN_PACKS_DIR = "domain_packs"
 
-# Load spaCy model
-@st.cache_resource
-def load_spacy_model():
-    """Load spaCy model with caching and better error handling"""
-    try:
-        return spacy.load("en_core_web_sm")
-    except OSError:
-        try:
-            logger.warning("spaCy model not found. Attempting to download...")
-            import subprocess
-            import sys
-            
-            result = subprocess.run(
-                [sys.executable, "-m", "spacy", "download", "en_core_web_sm"],
-                capture_output=True,
-                text=True,
-                timeout=120
-            )
-            
-            if result.returncode == 0:
-                logger.info("spaCy model downloaded successfully")
-                return spacy.load("en_core_web_sm")
-            else:
-                logger.error(f"Failed to download spaCy model: {result.stderr}")
-                st.error("⚠️ spaCy model download failed. Please run: python -m spacy download en_core_web_sm")
-                st.stop()
-        except Exception as e:
-            logger.error(f"Error downloading spaCy model: {e}")
-            st.error(f"⚠️ Could not load spaCy model. Error: {e}")
-            st.info("💡 Solution: Add 'setup.sh' file to your repo with spaCy download command")
-            st.stop()
+# === SPACY MODEL LOADING COMMENTED OUT ===
+# Load spaCy model - DISABLED (not required)
+# @st.cache_resource
+# def load_spacy_model():
+#     """Load spaCy model with caching and better error handling"""
+#     try:
+#         return spacy.load("en_core_web_sm")
+#     except OSError:
+#         try:
+#             logger.warning("spaCy model not found. Attempting to download...")
+#             import subprocess
+#             import sys
+#             
+#             result = subprocess.run(
+#                 [sys.executable, "-m", "spacy", "download", "en_core_web_sm"],
+#                 capture_output=True,
+#                 text=True,
+#                 timeout=120
+#             )
+#             
+#             if result.returncode == 0:
+#                 logger.info("spaCy model downloaded successfully")
+#                 return spacy.load("en_core_web_sm")
+#             else:
+#                 logger.error(f"Failed to download spaCy model: {result.stderr}")
+#                 st.error("⚠️ spaCy model download failed. Please run: python -m spacy download en_core_web_sm")
+#                 st.stop()
+#         except Exception as e:
+#             logger.error(f"Error downloading spaCy model: {e}")
+#             st.error(f"⚠️ Could not load spaCy model. Error: {e}")
+#             st.info("💡 Solution: Add 'setup.sh' file to your repo with spaCy download command")
+#             st.stop()
 
-nlp = load_spacy_model()
+# nlp = load_spacy_model()  # COMMENTED OUT
+nlp = None  # Set to None since spaCy is disabled
 
 
 # ========================================================================================
@@ -781,14 +786,17 @@ def main():
         layout="wide"
     )
     
-    st.title("🔒 Dynamic NLP Pipeline v3.0.2 - Translation Removed")
+    st.title("🔒 NLP Pipeline v3.0.2 - Optimized for Streamlit Cloud")
     st.markdown("""
-    **Focus: Classification + PII Detection**
+    **Focus: Classification + PII Detection (No spaCy)**
     - 📊 NLP Classification (4-level hierarchy)
-    - 🔒 PII Detection (HIPAA/GDPR compliant)
-    - 💭 Sentiment Analysis
-    - ⚡ **Translation Disabled** for 2-3x speed improvement
+    - 🔒 PII Detection (Email, Phone, SSN, Cards)
+    - 💭 Sentiment Analysis (TextBlob)
+    - ⚡ **Translation Disabled** for 2-3x speed
+    - ⚡ **spaCy Disabled** to avoid installation issues
     """)
+    
+    st.info("ℹ️ **Name detection disabled** (required spaCy). Email/Phone/SSN/Card detection still works!")
     
     # Compliance
     cols = st.columns(4)
@@ -834,14 +842,16 @@ def main():
     # Performance settings
     st.sidebar.subheader("⚡ Performance")
     pii_mode = st.sidebar.radio("PII Mode", ['fast', 'full'], index=0)
-    enable_spacy = st.sidebar.checkbox("Enable spaCy NER", value=False)
+    # enable_spacy = st.sidebar.checkbox("Enable spaCy NER", value=False)  # REMOVED - spaCy disabled
+    st.sidebar.info("ℹ️ **Name Detection Disabled**\n\nspaCy NER removed to avoid installation issues")
     max_workers = st.sidebar.slider("Workers", 2, 16, 8)
     
     # Update globals
     import sys
     current_module = sys.modules[__name__]
     current_module.PII_DETECTION_MODE = pii_mode
-    current_module.ENABLE_SPACY_NER = enable_spacy
+    # current_module.ENABLE_SPACY_NER = enable_spacy  # REMOVED - spaCy disabled
+    current_module.ENABLE_SPACY_NER = False  # Always False
     current_module.MAX_WORKERS = max_workers
     
     # Output
