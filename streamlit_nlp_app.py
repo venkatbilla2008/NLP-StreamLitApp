@@ -758,17 +758,17 @@ def main():
                 
                 with cols[0]:
                     st.markdown("**L1 Categories**")
-                    cat_counts = results_polars.groupby('L1_Category').count().sort('Conversation_ID', descending=True)
+                    cat_counts = results_polars.group_by('L1_Category').count().sort('Conversation_ID', descending=True)
                     st.bar_chart(cat_counts.to_pandas().set_index('L1_Category')['Conversation_ID'])
                 
                 with cols[1]:
                     st.markdown("**L2 Subcategories (Top 10)**")
-                    subcat_counts = results_polars.groupby('L2_Subcategory').count().sort('Conversation_ID', descending=True).head(10)
+                    subcat_counts = results_polars.group_by('L2_Subcategory').count().sort('Conversation_ID', descending=True).head(10)
                     st.bar_chart(subcat_counts.to_pandas().set_index('L2_Subcategory')['Conversation_ID'])
                 
                 with cols[2]:
                     st.markdown("**Sentiment**")
-                    sent_counts = results_polars.groupby('Sentiment').count()
+                    sent_counts = results_polars.group_by('Sentiment').count()
                     st.bar_chart(sent_counts.to_pandas().set_index('Sentiment')['Conversation_ID'])
                 
                 # Download
