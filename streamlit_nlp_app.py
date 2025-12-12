@@ -750,7 +750,7 @@ def main():
                 # Removed: Avg Keywords, PII Found, Proximity Themes (columns not in output)
                 
                 # Show sample
-                st.dataframe(results_polars.head(20).to_pandas(), width=None)
+                st.dataframe(results_polars.head(20).to_pandas())
                 
                 # Charts
                 st.subheader("📊 Analytics")
