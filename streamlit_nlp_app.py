@@ -11,8 +11,9 @@ MODIFICATIONS:
 6. Updated sentiment ranges: Very Positive (≥0.60), Positive (≥0.20), Neutral (-0.20 to 0.20), 
    Negative (≥-0.60), Very Negative (<-0.60)
 7. Enhanced consumer text extraction - removes timestamps and labels (e.g., "21:39 +0000 Consumer:")
+8. Added debugging and error handling for DataFrame operations
 
-Version: 3.1.3 - Consumer-Focused Analysis (Clean Consumer Text)
+Version: 3.1.4 - Consumer-Focused Analysis (Enhanced Error Handling)
 """
 
 import streamlit as st
@@ -1276,7 +1277,7 @@ def main():
     )
     
     # Title
-    st.title("🔒 Consumer-Focused NLP Analysis Pipeline v3.1.3")
+    st.title("🔒 Consumer-Focused NLP Analysis Pipeline v3.1.4")
     st.markdown("""
     **Features:**
     - 👤 **Consumer-Only Analysis** - Analyzes only consumer messages from transcripts
@@ -1289,8 +1290,9 @@ def main():
     - ⚡ Optimized for Speed (No Translation Required)
     
     ---
-    **🆕 v3.1.3 Changes:**
-    - ✅ **Enhanced Consumer Text Extraction** - Now removes timestamps and labels
+    **🆕 v3.1.4 Changes:**
+    - ✅ **Enhanced Error Handling** - Better debugging for DataFrame operations
+    - ✅ **Clean Consumer Text** - Removes timestamps and labels
     - ✅ Consumer text starts with actual message (e.g., "I need to change..." instead of "21:39 +0000 Consumer: I need to change...")
     - ✅ Sentiment based on consumer tone only
     - ✅ **Updated Sentiment Ranges:**
@@ -1627,8 +1629,19 @@ def main():
                 # Convert to DataFrame
                 results_df = pipeline.results_to_dataframe(results)
                 
+                # DEBUG: Log DataFrame columns
+                logger.info(f"Results DataFrame columns: {list(results_df.columns)}")
+                logger.info(f"Results DataFrame shape: {results_df.shape}")
+                
                 # Display results
                 st.success(f"✅ Consumer Analysis Complete! Processed {len(results):,} records in {processing_time:.2f} seconds")
+                
+                # DEBUG: Show DataFrame info
+                with st.expander("🐛 Debug: DataFrame Info", expanded=False):
+                    st.write(f"**Columns:** {list(results_df.columns)}")
+                    st.write(f"**Shape:** {results_df.shape}")
+                    st.write(f"**Sample Data:**")
+                    st.dataframe(results_df.head(3))
                 
                 # Metrics
                 st.subheader("📈 Analysis Metrics")
@@ -1642,17 +1655,30 @@ def main():
                     st.metric("Industry", selected_industry)
                 
                 with metric_cols[2]:
-                    unique_categories = results_df['L1_Category'].nunique()
-                    st.metric("Unique Categories", unique_categories)
+                    # Check if column exists before accessing
+                    if 'L1_Category' in results_df.columns:
+                        unique_categories = results_df['L1_Category'].nunique()
+                        st.metric("Unique Categories", unique_categories)
+                    else:
+                        st.metric("Unique Categories", "N/A")
+                        st.error(f"⚠️ Column 'L1_Category' not found. Available columns: {list(results_df.columns)}")
                 
                 with metric_cols[3]:
-                    avg_sentiment = results_df['Sentiment_Score'].mean()
-                    st.metric("Avg. Consumer Sentiment", f"{avg_sentiment:.2f}")
+                    # Check if column exists before accessing
+                    if 'Sentiment_Score' in results_df.columns:
+                        avg_sentiment = results_df['Sentiment_Score'].mean()
+                        st.metric("Avg. Consumer Sentiment", f"{avg_sentiment:.2f}")
+                    else:
+                        st.metric("Avg. Consumer Sentiment", "N/A")
                 
                 with metric_cols[4]:
-                    negative_count = len(results_df[results_df['Sentiment'].isin(['Negative', 'Very Negative'])])
-                    pct = (negative_count/len(results)*100) if len(results) > 0 else 0
-                    st.metric("Negative Sentiment", f"{negative_count:,} ({pct:.1f}%)")
+                    # Check if column exists before accessing
+                    if 'Sentiment' in results_df.columns:
+                        negative_count = len(results_df[results_df['Sentiment'].isin(['Negative', 'Very Negative'])])
+                        pct = (negative_count/len(results)*100) if len(results) > 0 else 0
+                        st.metric("Negative Sentiment", f"{negative_count:,} ({pct:.1f}%)")
+                    else:
+                        st.metric("Negative Sentiment", "N/A")
                 
                 with metric_cols[5]:
                     processing_speed = len(results) / processing_time if processing_time > 0 else 0
@@ -1669,13 +1695,19 @@ def main():
                 
                 with chart_cols[0]:
                     st.markdown("**L1 Category Distribution**")
-                    l1_counts = results_df['L1_Category'].value_counts()
-                    st.bar_chart(l1_counts)
+                    if 'L1_Category' in results_df.columns:
+                        l1_counts = results_df['L1_Category'].value_counts()
+                        st.bar_chart(l1_counts)
+                    else:
+                        st.warning("L1_Category column not found")
                 
                 with chart_cols[1]:
                     st.markdown("**Consumer Sentiment Distribution**")
-                    sentiment_counts = results_df['Sentiment'].value_counts()
-                    st.bar_chart(sentiment_counts)
+                    if 'Sentiment' in results_df.columns:
+                        sentiment_counts = results_df['Sentiment'].value_counts()
+                        st.bar_chart(sentiment_counts)
+                    else:
+                        st.warning("Sentiment column not found")
                 
                 # # Keyword analysis - COMMENTED OUT (Not needed)
                 # st.subheader("🔍 Keyword Analysis")
@@ -1747,7 +1779,7 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: gray;'>
-    <small>Consumer-Focused NLP Pipeline v3.1.3 | Built with Streamlit | HIPAA/GDPR/PCI-DSS/CCPA Compliant</small>
+    <small>Consumer-Focused NLP Pipeline v3.1.4 | Built with Streamlit | HIPAA/GDPR/PCI-DSS/CCPA Compliant</small>
     </div>
     """, unsafe_allow_html=True)
 
