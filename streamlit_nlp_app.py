@@ -32,16 +32,16 @@ import multiprocessing
 # NLP Libraries
 import spacy
 
-# Try to import redactpii if available
+# Try to import redactpii if available (optional dependency)
+REDACTPII_AVAILABLE = False  # Default to False for Streamlit Cloud compatibility
 try:
     import redactpii
     REDACTPII_AVAILABLE = True
     logger = logging.getLogger(__name__)
     logger.info("✅ redactpii library available")
 except ImportError:
-    REDACTPII_AVAILABLE = False
     logger = logging.getLogger(__name__)
-    logger.warning("⚠️ redactpii not available, using built-in PII detection")
+    logger.info("ℹ️ redactpii not installed - using built-in PII detection (this is normal)")
 
 # ========================================================================================
 # CONFIGURATION & CONSTANTS
@@ -1100,7 +1100,7 @@ def main():
         )
     else:
         use_redactpii = False
-        st.sidebar.info("💡 Install redactpii for enhanced PII detection")
+        st.sidebar.info("💡 Using built-in PII detection (redactpii not installed)")
     
     st.sidebar.markdown("---")
     
