@@ -10,8 +10,9 @@ MODIFICATIONS:
 5. Multiple failure keywords detection support
 6. Updated sentiment ranges: Very Positive (≥0.60), Positive (≥0.20), Neutral (-0.20 to 0.20), 
    Negative (≥-0.60), Very Negative (<-0.60)
+7. Enhanced consumer text extraction - removes timestamps and labels (e.g., "21:39 +0000 Consumer:")
 
-Version: 3.1.2 - Consumer-Focused Analysis (Updated Sentiment Ranges)
+Version: 3.1.3 - Consumer-Focused Analysis (Clean Consumer Text)
 """
 
 import streamlit as st
@@ -167,7 +168,7 @@ class NLPResult:
 class ConsumerMessageExtractor:
     """
     Extracts consumer messages from agent-consumer conversation transcripts
-    Supports various transcript formats
+    Supports various transcript formats and cleans timestamps/labels
     """
     
     # Common patterns for identifying consumer vs agent messages
@@ -182,16 +183,65 @@ class ConsumerMessageExtractor:
         r'\[(?:agent|representative|rep|support)\]',
     ]
     
+    # Pattern to match and remove timestamps (various formats)
+    TIMESTAMP_PATTERNS = [
+        r'\d{2}:\d{2}:\d{2}\s*[+-]?\d{0,4}\s*',  # HH:MM:SS +0000
+        r'\d{2}:\d{2}\s*[+-]?\d{0,4}\s*',  # HH:MM +0000
+        r'\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\s*',  # YYYY-MM-DD HH:MM:SS
+        r'\[\d{2}:\d{2}:\d{2}\]\s*',  # [HH:MM:SS]
+        r'\d{1,2}/\d{1,2}/\d{4}\s+\d{1,2}:\d{2}\s*(?:AM|PM)?\s*',  # MM/DD/YYYY HH:MM AM/PM
+    ]
+    
+    # Pattern to match and remove consumer/customer labels
+    LABEL_PATTERNS = [
+        r'(?i)^consumer[\s:>-]+',
+        r'(?i)^customer[\s:>-]+',
+        r'(?i)^caller[\s:>-]+',
+        r'(?i)^client[\s:>-]+',
+        r'(?i)^user[\s:>-]+',
+        r'\[(?i)consumer\][\s:]*',
+        r'\[(?i)customer\][\s:]*',
+    ]
+    
+    @classmethod
+    def _clean_message(cls, message: str) -> str:
+        """
+        Clean message by removing timestamps and consumer/customer labels
+        
+        Args:
+            message: Raw message text
+            
+        Returns:
+            Cleaned message text
+        """
+        if not message:
+            return ""
+        
+        cleaned = message.strip()
+        
+        # Remove timestamps
+        for timestamp_pattern in cls.TIMESTAMP_PATTERNS:
+            cleaned = re.sub(timestamp_pattern, '', cleaned, flags=re.IGNORECASE)
+        
+        # Remove consumer/customer labels
+        for label_pattern in cls.LABEL_PATTERNS:
+            cleaned = re.sub(label_pattern, '', cleaned)
+        
+        # Clean up extra whitespace
+        cleaned = ' '.join(cleaned.split())
+        
+        return cleaned.strip()
+    
     @classmethod
     def extract_consumer_messages(cls, transcript: str) -> str:
         """
-        Extract only consumer messages from transcript
+        Extract only consumer messages from transcript and clean them
         
         Args:
             transcript: Full conversation transcript
             
         Returns:
-            String containing only consumer messages
+            String containing only cleaned consumer messages
         """
         if not transcript or not isinstance(transcript, str):
             return ""
@@ -220,12 +270,16 @@ class ConsumerMessageExtractor:
                 if match:
                     # Get the message content (last group)
                     message = match.group(match.lastindex) if match.lastindex else match.group(0)
-                    consumer_messages.append(message.strip())
+                    cleaned_message = cls._clean_message(message)
+                    if cleaned_message:
+                        consumer_messages.append(cleaned_message)
                     break
             else:
                 # If no pattern matches, assume it's consumer message if it doesn't start with common agent indicators
                 if not any(line.lower().startswith(indicator) for indicator in ['agent', 'representative', 'rep', 'support']):
-                    consumer_messages.append(line)
+                    cleaned_message = cls._clean_message(line)
+                    if cleaned_message:
+                        consumer_messages.append(cleaned_message)
         
         # Join all consumer messages
         return ' '.join(consumer_messages)
@@ -1222,10 +1276,11 @@ def main():
     )
     
     # Title
-    st.title("🔒 Consumer-Focused NLP Analysis Pipeline v3.1.2")
+    st.title("🔒 Consumer-Focused NLP Analysis Pipeline v3.1.3")
     st.markdown("""
     **Features:**
     - 👤 **Consumer-Only Analysis** - Analyzes only consumer messages from transcripts
+    - 🧹 **Clean Text Extraction** - Removes timestamps, labels, and formatting
     - 🏭 Dynamic Industry-Specific Rules & Keywords
     - 🔐 HIPAA/GDPR/PCI-DSS Compliant PII Redaction
     - 📊 Hierarchical Category Classification (L1 → L2 → L3 → L4)
@@ -1234,8 +1289,9 @@ def main():
     - ⚡ Optimized for Speed (No Translation Required)
     
     ---
-    **🆕 v3.1.2 Changes:**
-    - ✅ Consumer message extraction from transcripts
+    **🆕 v3.1.3 Changes:**
+    - ✅ **Enhanced Consumer Text Extraction** - Now removes timestamps and labels
+    - ✅ Consumer text starts with actual message (e.g., "I need to change..." instead of "21:39 +0000 Consumer: I need to change...")
     - ✅ Sentiment based on consumer tone only
     - ✅ **Updated Sentiment Ranges:**
       - Very Positive: score ≥ 0.60
@@ -1243,8 +1299,7 @@ def main():
       - Neutral: -0.20 ≤ score < 0.20
       - Negative: -0.60 ≤ score < -0.20
       - Very Negative: score < -0.60
-    - ✅ Translation section removed (not required)
-    - ✅ Removed: Primary_Proximity, Proximity_Group, Total_Turns, Consumer_Turns, Matched_Keywords
+    - ✅ Translation removed (not required)
     - ✅ Streamlined output with essential columns only
     """)
     
@@ -1692,7 +1747,7 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: gray;'>
-    <small>Consumer-Focused NLP Pipeline v3.1.2 | Built with Streamlit | HIPAA/GDPR/PCI-DSS/CCPA Compliant</small>
+    <small>Consumer-Focused NLP Pipeline v3.1.3 | Built with Streamlit | HIPAA/GDPR/PCI-DSS/CCPA Compliant</small>
     </div>
     """, unsafe_allow_html=True)
 
