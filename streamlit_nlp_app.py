@@ -908,9 +908,9 @@ class DynamicNLPPipeline:
     def results_to_dataframe(self, results: List[NLPResult]) -> pd.DataFrame:
         """
         Convert NLPResult list to DataFrame
-        Focus on: ID, Transcripts, Classification, Proximity, PII
+        Focus on: ID, Transcripts, Classification ONLY
         
-        OPTIMIZED: Removed columns to save output generation time
+        OPTIMIZED: Removed PII and Proximity columns to save output generation time
         """
         data = []
         
@@ -928,11 +928,11 @@ class DynamicNLPPipeline:
                 # 'Category_Confidence': result.category.confidence,  # COMMENTED OUT - Not needed
                 # 'Category_Path': result.category.match_path,  # COMMENTED OUT - Not needed
                 # 'Matched_Rule': result.category.matched_rule,  # COMMENTED OUT - Not needed
-                'Primary_Proximity': result.proximity.primary_proximity,
-                'Proximity_Group': result.proximity.proximity_group,
+                # 'Primary_Proximity': result.proximity.primary_proximity,  # COMMENTED OUT - Save output time
+                # 'Proximity_Group': result.proximity.proximity_group,  # COMMENTED OUT - Save output time
                 # 'Theme_Count': result.proximity.theme_count,  # COMMENTED OUT - Not needed
                 # 'PII_Detected': result.pii_result.pii_detected,  # COMMENTED OUT - Not needed
-                'PII_Items_Redacted': result.pii_result.total_items,
+                # 'PII_Items_Redacted': result.pii_result.total_items,  # COMMENTED OUT - Save output time
                 # 'PII_Types': json.dumps(result.pii_result.pii_counts)  # COMMENTED OUT - Not needed
             }
             data.append(row)
@@ -1040,19 +1040,19 @@ def main():
     st.markdown("""
     **Focus Areas:**
     - 📊 **Classification**: L1 → L2 → L3 → L4 hierarchical categories
-    - 🎯 **Proximity Analysis**: Contextual theme grouping
+    - 🎯 **Proximity Analysis**: Contextual theme grouping (processed internally)
     - 🆔 **ID Tracking**: Conversation/record identification
     - 📝 **Transcripts**: Original text
-    - 🔐 **PII Redaction**: HIPAA/GDPR/PCI-DSS/CCPA compliant (FAST MODE)
+    - 🔐 **PII Redaction**: HIPAA/GDPR/PCI-DSS/CCPA compliant (processed internally)
     
     ---
-    **⚡ ULTRA-FAST Performance:**
-    - Parallel processing with **{MAX_WORKERS} workers** (multiprocessing)
+    **⚡ Maximum Performance:**
+    - Parallel processing with **{MAX_WORKERS} workers** (threading)
     - LRU caching with **{CACHE_SIZE:,} entries**
     - Batch size: **{BATCH_SIZE:,} records**
-    - **Target: 10-15 records/second** (3x faster than v4.0)
-    - Optimized output: **9 essential columns only**
-    - PII detection: **FAST MODE** (skip expensive validations)
+    - **Target: 8-10 records/second**
+    - Ultra-lightweight output: **6 essential columns only**
+    - PII & Proximity: **Full processing** (internal, available in reports)
     """.format(MAX_WORKERS=MAX_WORKERS, CACHE_SIZE=CACHE_SIZE, BATCH_SIZE=BATCH_SIZE))
     
     # Compliance badges
@@ -1146,21 +1146,18 @@ def main():
         - ✅ 2000 batch size
         - ✅ Aggressive regex caching
         - ✅ Smart classification
-        - ✅ 9-column output
+        - ✅ 6-column output (lightweight!)
         
-        **PII Detection:**
-        - ✅ FULL MODE (all validations)
-        - ✅ Credit card Luhn validation
-        - ✅ SSN format validation
-        - ✅ DOB validation
-        - ✅ spaCy NER for names
-        - ✅ All 10 PII types
-        - ✅ 95%+ accuracy
+        **Full Processing (Internal):**
+        - ✅ PII: All 10 types + validations
+        - ✅ Proximity: All 13 themes
+        - ✅ 95%+ accuracy maintained
+        - ✅ Available in reports & UI
         
         **Speed:**
         - 8-10 rec/s (stable)
         - Works on all platforms
-        - Full PII accuracy
+        - Fastest output generation
         """)
 
     
@@ -1312,15 +1309,15 @@ def main():
                     st.metric("Categories", unique_l1)
                 
                 with metric_cols[3]:
-                    # Note: PII_Detected column removed from output for speed
-                    # Using PII_Items_Redacted instead
-                    pii_count = len(results_df[results_df['PII_Items_Redacted'] > 0])
+                    # Note: PII columns removed from output for speed
+                    # PII still detected internally, just not in final output
+                    pii_count = sum(1 for r in results if r.pii_result.pii_detected)
                     st.metric("Records with PII", pii_count)
                 
                 with metric_cols[4]:
-                    # Note: Category_Confidence removed from output for speed
-                    # Showing total proximity themes instead
-                    avg_themes = results_df['Proximity_Group'].str.count(',').mean() + 1
+                    # Note: Proximity columns removed from output for speed
+                    # Using internal results object to calculate themes
+                    avg_themes = sum(r.proximity.theme_count for r in results) / len(results)
                     st.metric("Avg Themes", f"{avg_themes:.1f}")
                 
                 # Results preview
@@ -1339,15 +1336,25 @@ def main():
                 
                 with chart_cols[1]:
                     st.markdown("**Primary Proximity**")
-                    prox_counts = results_df['Primary_Proximity'].value_counts().head(10)
-                    st.bar_chart(prox_counts)
+                    # Note: Proximity columns removed from output for speed
+                    # Using internal results object to build chart
+                    proximity_data = {}
+                    for r in results:
+                        prox = r.proximity.primary_proximity
+                        proximity_data[prox] = proximity_data.get(prox, 0) + 1
+                    prox_series = pd.Series(proximity_data).sort_values(ascending=False).head(10)
+                    st.bar_chart(prox_series)
                 
                 with chart_cols[2]:
-                    st.markdown("**PII Items Redacted**")
-                    # Note: PII_Detected column removed for speed
-                    # Using PII_Items_Redacted distribution instead
-                    pii_distribution = results_df['PII_Items_Redacted'].value_counts().sort_index()
-                    st.bar_chart(pii_distribution)
+                    st.markdown("**PII Detection Status**")
+                    # Note: PII data not in output, using internal results object
+                    pii_detected_count = sum(1 for r in results if r.pii_result.pii_detected)
+                    pii_clean_count = len(results) - pii_detected_count
+                    pii_stats = pd.Series({
+                        'With PII': pii_detected_count,
+                        'Clean': pii_clean_count
+                    })
+                    st.bar_chart(pii_stats)
                 
                 # Compliance report
                 if enable_pii:
