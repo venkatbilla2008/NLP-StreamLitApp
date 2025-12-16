@@ -933,13 +933,13 @@ def main():
     """Main Streamlit application - ULTRA-OPTIMIZED"""
     
     st.set_page_config(
-        page_title="NLP Pipeline - ULTRA-FAST",
+        page_title="Dynamic Domain-Agnostic NLP Text Analysis Pipeline",
         page_icon="⚡",
         layout="wide",
         initial_sidebar_state="expanded"
     )
     
-    st.title("⚡ NLP Pipeline v5.0 - ULTRA-FAST EDITION")
+    st.title("⚡ Dynamic Domain-Agnostic NLP Text Analysis Pipeline")
     st.markdown(f"""
     **ULTRA-FAST Performance Optimizations:**
     - 🚀 **Polars**: 10x faster data I/O than Pandas
@@ -948,15 +948,10 @@ def main():
     - 📦 **Chunking**: Process {CHUNK_SIZE:,} records per chunk
     - ⚡ **Parallel Processing**: {MAX_WORKERS} workers with threading
     
-    **TARGET: 50,000 records in 30-60 minutes (15-30 rec/sec)**
-    
     ---
     **Output Columns (6 essential only):**
     - Conversation_ID, Original_Text
     - L1_Category, L2_Subcategory, L3_Tertiary, L4_Quaternary
-    
-    **Removed columns** (commented in code):
-    - ~~Primary_Proximity~~, ~~Proximity_Group~~, ~~PII_Items_Redacted~~
     """)
     
     # Compliance badges
@@ -1207,7 +1202,6 @@ def main():
                 
                 # Results preview
                 st.subheader("📋 Results Preview (First 20 rows)")
-                st.info("📝 Output contains 6 essential columns only (Proximity and PII columns removed)")
                 st.dataframe(output_df.head(20), use_container_width=True)
                 
                 # Analytics using DuckDB
@@ -1261,7 +1255,7 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: gray;'>
-    <small>NLP Pipeline v5.0.0 - ULTRA-FAST | Powered by Polars + DuckDB + Vectorization | Output: 6 Essential Columns</small>
+    <small>Dynamic Domain-Agnostic NLP Text Analysis Pipeline | Powered by Polars + DuckDB + Vectorization</small>
     </div>
     """, unsafe_allow_html=True)
 
