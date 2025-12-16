@@ -13,6 +13,18 @@ ULTRA-FAST OPTIMIZATIONS:
 
 TARGET: 50,000 records in ~30-60 minutes (15-30 records/second)
 Version: 5.0.0 - ULTRA-OPTIMIZED
+
+OUTPUT COLUMNS (6 essential columns only):
+- Conversation_ID
+- Original_Text  
+- L1_Category
+- L2_Subcategory
+- L3_Tertiary
+- L4_Quaternary
+# COMMENTED OUT (not needed):
+# - Primary_Proximity
+# - Proximity_Group
+# - PII_Items_Redacted
 """
 
 import streamlit as st
@@ -288,7 +300,8 @@ class VectorizedPIIDetector:
         result_df = pl.DataFrame({
             'original_text': df['original_text'].to_list(),
             'redacted_text': redacted_texts,
-            'pii_total_items': [sum(1 for t in redacted_texts[i].split('[') if t.startswith(('EMAIL:', 'PHONE:', 'CARD:', 'SSN:', 'DOB:', 'MRN:', 'IP:', 'ADDRESS:'))) for i in range(len(redacted_texts))]
+            # COMMENTED OUT - Not needed in final output
+            # 'pii_total_items': [sum(1 for t in redacted_texts[i].split('[') if t.startswith(('EMAIL:', 'PHONE:', 'CARD:', 'SSN:', 'DOB:', 'MRN:', 'IP:', 'ADDRESS:'))) for i in range(len(redacted_texts))]
         })
         
         return result_df
@@ -559,7 +572,7 @@ class VectorizedRuleEngine:
 
 
 # ========================================================================================
-# VECTORIZED PROXIMITY ANALYZER
+# VECTORIZED PROXIMITY ANALYZER (Not used in output, but kept for internal processing)
 # ========================================================================================
 
 class VectorizedProximityAnalyzer:
@@ -580,14 +593,18 @@ class VectorizedProximityAnalyzer:
     
     @classmethod
     def analyze_batch(cls, texts: List[str]) -> pl.DataFrame:
-        """Vectorized proximity analysis"""
+        """
+        Vectorized proximity analysis
+        NOTE: Results are calculated but NOT included in final output
+        """
         results = []
         
         for text in texts:
             if not text or not isinstance(text, str):
                 results.append({
-                    'primary_proximity': "Uncategorized",
-                    'proximity_group': "Uncategorized",
+                    # COMMENTED OUT - Not included in final output
+                    # 'primary_proximity': "Uncategorized",
+                    # 'proximity_group': "Uncategorized",
                     'theme_count': 0
                 })
                 continue
@@ -603,8 +620,9 @@ class VectorizedProximityAnalyzer:
             
             if not matched_themes:
                 results.append({
-                    'primary_proximity': "Uncategorized",
-                    'proximity_group': "Uncategorized",
+                    # COMMENTED OUT - Not included in final output
+                    # 'primary_proximity': "Uncategorized",
+                    # 'proximity_group': "Uncategorized",
                     'theme_count': 0
                 })
                 continue
@@ -613,8 +631,9 @@ class VectorizedProximityAnalyzer:
             matched_list = sorted(list(matched_themes))
             
             results.append({
-                'primary_proximity': primary,
-                'proximity_group': ", ".join(matched_list),
+                # COMMENTED OUT - Not included in final output
+                # 'primary_proximity': primary,
+                # 'proximity_group': ", ".join(matched_list),
                 'theme_count': len(matched_themes)
             })
         
@@ -634,6 +653,14 @@ class UltraFastNLPPipeline:
     - Chunk-based parallel processing
     
     TARGET: 15-30 records/second for 50K dataset
+    
+    OUTPUT: 6 ESSENTIAL COLUMNS ONLY
+    - Conversation_ID
+    - Original_Text
+    - L1_Category
+    - L2_Subcategory
+    - L3_Tertiary
+    - L4_Quaternary
     """
     
     def __init__(
@@ -652,30 +679,36 @@ class UltraFastNLPPipeline:
         
         texts = chunk_df[text_column].to_list()
         
-        # 1. Vectorized PII Redaction
+        # 1. Vectorized PII Redaction (for compliance, but not in output)
         if self.enable_pii_redaction:
             pii_df = VectorizedPIIDetector.vectorized_redact_batch(texts, redaction_mode)
             redacted_texts = pii_df['redacted_text'].to_list()
-            pii_items = pii_df['pii_total_items'].to_list()
+            # COMMENTED OUT - PII items not needed in output
+            # pii_items = pii_df['pii_total_items'].to_list()
         else:
             redacted_texts = texts
-            pii_items = [0] * len(texts)
+            # COMMENTED OUT - PII items not needed in output
+            # pii_items = [0] * len(texts)
         
         # 2. Vectorized Classification
         classification_df = self.rule_engine.classify_batch(redacted_texts)
         
-        # 3. Vectorized Proximity Analysis
-        proximity_df = VectorizedProximityAnalyzer.analyze_batch(redacted_texts)
+        # 3. Vectorized Proximity Analysis (calculated but NOT in output)
+        # COMMENTED OUT - Proximity not needed in output
+        # proximity_df = VectorizedProximityAnalyzer.analyze_batch(redacted_texts)
         
         # Combine results using Polars (zero-copy where possible)
+        # ONLY INCLUDE ESSENTIAL COLUMNS
         result_df = pl.concat([
             chunk_df,
-            pl.DataFrame({
-                'redacted_text': redacted_texts,
-                'pii_items_redacted': pii_items
-            }),
+            # COMMENTED OUT - Not needed in output
+            # pl.DataFrame({
+            #     'redacted_text': redacted_texts,
+            #     'pii_items_redacted': pii_items
+            # }),
             classification_df,
-            proximity_df
+            # COMMENTED OUT - Proximity not needed in output
+            # proximity_df
         ], how='horizontal')
         
         return result_df
@@ -730,9 +763,22 @@ class UltraFastNLPPipeline:
     def results_to_dataframe(self, results_df: pl.DataFrame, id_column: str, text_column: str) -> pd.DataFrame:
         """
         Convert Polars DataFrame to Pandas for Streamlit compatibility
-        Optimized column selection
+        OPTIMIZED: Only 6 essential columns
+        
+        OUTPUT COLUMNS:
+        1. Conversation_ID
+        2. Original_Text
+        3. L1_Category
+        4. L2_Subcategory
+        5. L3_Tertiary
+        6. L4_Quaternary
+        
+        COMMENTED OUT (not needed):
+        # 7. Primary_Proximity
+        # 8. Proximity_Group
+        # 9. PII_Items_Redacted
         """
-        # Select essential columns only
+        # Select ONLY essential columns
         output_df = results_df.select([
             id_column,
             text_column,
@@ -740,9 +786,10 @@ class UltraFastNLPPipeline:
             'l2',
             'l3',
             'l4',
-            'primary_proximity',
-            'proximity_group',
-            'pii_items_redacted'
+            # COMMENTED OUT - Not needed in output
+            # 'primary_proximity',
+            # 'proximity_group',
+            # 'pii_items_redacted'
         ])
         
         # Rename columns
@@ -753,9 +800,10 @@ class UltraFastNLPPipeline:
             'l2': 'L2_Subcategory',
             'l3': 'L3_Tertiary',
             'l4': 'L4_Quaternary',
-            'primary_proximity': 'Primary_Proximity',
-            'proximity_group': 'Proximity_Group',
-            'pii_items_redacted': 'PII_Items_Redacted'
+            # COMMENTED OUT - Not needed in output
+            # 'primary_proximity': 'Primary_Proximity',
+            # 'proximity_group': 'Proximity_Group',
+            # 'pii_items_redacted': 'PII_Items_Redacted'
         })
         
         # Convert to Pandas
@@ -772,28 +820,30 @@ class UltraFastNLPPipeline:
                 ORDER BY count DESC
             """).fetchdf()
             
-            # Proximity distribution
-            proximity_dist = self.duckdb_conn.execute("""
-                SELECT primary_proximity, COUNT(*) as count
-                FROM results
-                GROUP BY primary_proximity
-                ORDER BY count DESC
-                LIMIT 10
-            """).fetchdf()
+            # COMMENTED OUT - Proximity not in output
+            # # Proximity distribution
+            # proximity_dist = self.duckdb_conn.execute("""
+            #     SELECT primary_proximity, COUNT(*) as count
+            #     FROM results
+            #     GROUP BY primary_proximity
+            #     ORDER BY count DESC
+            #     LIMIT 10
+            # """).fetchdf()
             
-            # PII statistics
-            pii_stats = self.duckdb_conn.execute("""
+            # Basic statistics
+            basic_stats = self.duckdb_conn.execute("""
                 SELECT 
                     COUNT(*) as total_records,
-                    SUM(CASE WHEN pii_items_redacted > 0 THEN 1 ELSE 0 END) as records_with_pii,
-                    SUM(pii_items_redacted) as total_pii_items
+                    COUNT(DISTINCT l1) as unique_l1_categories,
+                    COUNT(DISTINCT l2) as unique_l2_categories
                 FROM results
             """).fetchdf()
             
             return {
                 'category_distribution': category_dist.to_dict('records'),
-                'proximity_distribution': proximity_dist.to_dict('records'),
-                'pii_statistics': pii_stats.to_dict('records')[0]
+                # COMMENTED OUT - Proximity not in output
+                # 'proximity_distribution': proximity_dist.to_dict('records'),
+                'basic_statistics': basic_stats.to_dict('records')[0]
             }
         except Exception as e:
             logger.error(f"Analytics error: {e}")
@@ -901,11 +951,12 @@ def main():
     **TARGET: 50,000 records in 30-60 minutes (15-30 rec/sec)**
     
     ---
-    **Focus Areas:**
-    - 📊 Classification: L1 → L2 → L3 → L4 hierarchical categories
-    - 🎯 Proximity Analysis: Contextual theme grouping
-    - 🆔 ID Tracking: Conversation/record identification
-    - 🔐 PII Redaction: HIPAA/GDPR/PCI-DSS/CCPA compliant
+    **Output Columns (6 essential only):**
+    - Conversation_ID, Original_Text
+    - L1_Category, L2_Subcategory, L3_Tertiary, L4_Quaternary
+    
+    **Removed columns** (commented in code):
+    - ~~Primary_Proximity~~, ~~Proximity_Group~~, ~~PII_Items_Redacted~~
     """)
     
     # Compliance badges
@@ -961,7 +1012,7 @@ def main():
     
     # PII Settings
     st.sidebar.subheader("🔐 PII Redaction")
-    enable_pii = st.sidebar.checkbox("Enable PII Redaction", value=True)
+    enable_pii = st.sidebar.checkbox("Enable PII Redaction", value=True, help="PII is redacted for compliance but not shown in output")
     
     redaction_mode = st.sidebar.selectbox(
         "Redaction Mode",
@@ -977,6 +1028,7 @@ def main():
     st.sidebar.metric("Chunk Size", f"{CHUNK_SIZE:,}")
     st.sidebar.metric("Parallel Workers", f"{MAX_WORKERS}")
     st.sidebar.metric("Target Speed", "15-30 rec/s")
+    st.sidebar.metric("Output Columns", "6 (essential only)")
     
     with st.sidebar.expander("ℹ️ Optimizations", expanded=False):
         st.markdown(f"""
@@ -990,6 +1042,11 @@ def main():
         - ✅ Zero-copy operations
         - ✅ Reduced looping
         - ✅ Batch regex operations
+        
+        **Output Optimization:**
+        - ✅ Only 6 essential columns
+        - ✅ Removed: Proximity, PII counts
+        - ✅ Faster export
         
         **Expected Performance:**
         - 10K records: ~5-10 minutes
@@ -1142,14 +1199,15 @@ def main():
                 
                 with metric_cols[3]:
                     unique_l1 = output_df['L1_Category'].nunique()
-                    st.metric("Categories", unique_l1)
+                    st.metric("L1 Categories", unique_l1)
                 
                 with metric_cols[4]:
-                    pii_count = len(output_df[output_df['PII_Items_Redacted'] > 0])
-                    st.metric("Records with PII", pii_count)
+                    unique_l2 = output_df['L2_Subcategory'].nunique()
+                    st.metric("L2 Subcategories", unique_l2)
                 
                 # Results preview
-                st.subheader("📋 Results Preview")
+                st.subheader("📋 Results Preview (First 20 rows)")
+                st.info("📝 Output contains 6 essential columns only (Proximity and PII columns removed)")
                 st.dataframe(output_df.head(20), use_container_width=True)
                 
                 # Analytics using DuckDB
@@ -1157,27 +1215,19 @@ def main():
                 
                 analytics = pipeline.get_analytics_summary()
                 
-                chart_cols = st.columns(3)
+                chart_cols = st.columns(2)
                 
                 with chart_cols[0]:
-                    st.markdown("**L1 Categories**")
+                    st.markdown("**L1 Category Distribution**")
                     if 'category_distribution' in analytics:
                         cat_df = pd.DataFrame(analytics['category_distribution'])
                         if not cat_df.empty:
                             st.bar_chart(cat_df.set_index('l1')['count'])
                 
                 with chart_cols[1]:
-                    st.markdown("**Primary Proximity**")
-                    if 'proximity_distribution' in analytics:
-                        prox_df = pd.DataFrame(analytics['proximity_distribution'])
-                        if not prox_df.empty:
-                            st.bar_chart(prox_df.set_index('primary_proximity')['count'])
-                
-                with chart_cols[2]:
-                    st.markdown("**PII Statistics**")
-                    if 'pii_statistics' in analytics:
-                        pii_stats = analytics['pii_statistics']
-                        st.json(pii_stats)
+                    st.markdown("**Basic Statistics**")
+                    if 'basic_statistics' in analytics:
+                        st.json(analytics['basic_statistics'])
                 
                 # Downloads
                 st.subheader("💾 Downloads")
@@ -1211,7 +1261,7 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: gray;'>
-    <small>NLP Pipeline v5.0.0 - ULTRA-FAST | Powered by Polars + DuckDB + Vectorization</small>
+    <small>NLP Pipeline v5.0.0 - ULTRA-FAST | Powered by Polars + DuckDB + Vectorization | Output: 6 Essential Columns</small>
     </div>
     """, unsafe_allow_html=True)
 
