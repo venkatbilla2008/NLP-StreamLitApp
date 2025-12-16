@@ -9,9 +9,9 @@ pandas>=2.0.0
 #redactpii>=0.1.0
 
 # ULTRA-FAST ANALYTICS
-#polars>=0.19.0  # 10-50x faster than pandas
-pyarrow>=12.0.0  # Fast columnar format
-#duckdb>=0.9.0  # SQL analytics engine
+polars>=0.19.0  # 10-50x faster than pandas
+pyarrow>=13.0.0  # Fast columnar format
+duckdb>=0.9.0  # SQL analytics engine
 
 # CRITICAL: Pin numpy version for spaCy compatibility
 numpy==1.24.3
@@ -20,6 +20,14 @@ numpy==1.24.3
 openpyxl>=3.1.0
 pyarrow>=12.0.0
 python-dateutil>=2.8.0
+
+# File I/O
+openpyxl>=3.1.0         # Excel support
+pyarrow>=13.0.0         # Parquet support (required by Polars)
+fastparquet>=2023.8.0   # Alternative Parquet engine
+
+# Performance
+multiprocess>=0.70.0    # Better multiprocessing
 
 # Sentiment Analysis
 #vaderSentiment>=3.3.2
