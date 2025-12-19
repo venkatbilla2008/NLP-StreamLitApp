@@ -1429,12 +1429,76 @@ class AdvancedVisualizer:
             return None
 
     @staticmethod
-    def generate_network_graph(texts: List[str], top_n: int = 30) -> Optional[go.Figure]:
-        """Generate network graph of co-occurring terms"""
+    def _clean_text_for_graph(text: str) -> str:
+        """Helper to clean text for graph generation (remove 'br', etc)"""
+        if not text: return ""
+        text = text.lower()
+        # Remove HTML tags
+        text = re.sub(r'<[^>]+>', ' ', text)
+        # Remove specific noisy tokens like 'br'
+        text = re.sub(r'\bbr\b', ' ', text)
+        # Remove general terms
+        for term in GENERAL_TERMS:
+             if term in text:
+                 text = re.sub(rf'\b{term}\b', '', text)
+        return text
+
+    @staticmethod
+    def generate_sunburst(df: pd.DataFrame) -> Optional[go.Figure]:
+        """Generate interactive sunburst chart L1 > L2 > L3"""
         try:
+            # Group by hierarchy
+            # Filter out NA/Uncategorized for cleaner chart if desired, or keep them
+            viz_df = df[df['L1_Category'] != 'Uncategorized'].copy()
+            
+            if len(viz_df) == 0:
+                viz_df = df.copy() # Fallback
+                
+            # Aggregate
+            sunburst_df = viz_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary']).size().reset_index(name='count')
+            
+            # Limit to top categories to avoid clutter if too many
+            if len(sunburst_df) > 50:
+                 sunburst_df = sunburst_df.sort_values('count', ascending=False).head(50)
+            
+            fig = px.sunburst(
+                sunburst_df,
+                path=['L1_Category', 'L2_Subcategory', 'L3_Tertiary'],
+                values='count',
+                title='Hierarchical Category Distribution (Sunburst)',
+                color='count',
+                color_continuous_scale='RdBu',
+                template='plotly_white'
+            )
+            fig.update_layout(margin=dict(t=40, l=0, r=0, b=0))
+            return fig
+        except Exception as e:
+            logger.error(f"Sunburst error: {e}")
+            return None
+
+    @staticmethod
+    def generate_network_graph(texts: List[str], top_n: int = 50) -> Optional[go.Figure]:
+        """Generate network graph of co-occurring terms (cleaned)"""
+        try:
+            # Clean text specifically for graph
+            cleaned_texts = [AdvancedVisualizer._clean_text_for_graph(t) for t in texts if t]
+            
+            # Custom stop words including general terms
+            stop_words_list = list(STOPWORDS) + list(GENERAL_TERMS) + ['br', 'http', 'https', 'com']
+            
             # Tokenize and filter
-            vectorizer = CountVectorizer(stop_words='english', max_features=top_n)
-            X = vectorizer.fit_transform(texts)
+            vectorizer = CountVectorizer(
+                stop_words=stop_words_list, 
+                max_features=top_n,
+                ngram_range=(1, 1),
+                min_df=2  # Must appear in at least 2 docs
+            )
+            
+            try:
+                X = vectorizer.fit_transform(cleaned_texts)
+            except ValueError: # Empty vocabulary
+                return None
+                
             terms = vectorizer.get_feature_names_out()
             
             # Co-occurrence matrix
@@ -1448,14 +1512,30 @@ class AdvancedVisualizer:
             for term in terms:
                 G.add_node(term)
             
-            # Add edges
+            # Add edges with weights
             cx = co_occurrence.tocoo()
+            
+            # Normalize weights for clearer graph
+            if cx.data.size > 0:
+                max_weight = cx.data.max()
+                threshold = max_weight * 0.1 # Show edges with at least 10% of max strength
+            else:
+                threshold = 0
+                
             for i, j, v in zip(cx.row, cx.col, cx.data):
-                if i < j: # Upper triangle only
+                if i < j and v > threshold: # Upper triangle only and above threshold
                     G.add_edge(terms[i], terms[j], weight=v)
             
+            # Remove isolated nodes if too many
+            if G.number_of_nodes() > 20:
+                G.remove_nodes_from(list(nx.isolates(G)))
+            
+            if G.number_of_nodes() == 0:
+                return None
+            
             # Layout
-            pos = nx.spring_layout(G, k=0.5)
+            pos = nx.spring_layout(G, k=0.6, iterations=50) # Increased K and iterations
+
             
             # Create Plotly trace
             edge_x = []
@@ -2038,6 +2118,12 @@ def main():
                                 hole=0.4
                             )
                             st.plotly_chart(fig_pie, use_container_width=True)
+                            
+                            # Interactive Sunburst (Added)
+                            st.markdown("#### 🌞 Hierarchical View")
+                            sunburst_fig = AdvancedVisualizer.generate_sunburst(output_df)
+                            if sunburst_fig:
+                                st.plotly_chart(sunburst_fig, use_container_width=True)
                     
                     if 'basic_statistics' in analytics:
                         st.markdown("#### Key Metrics")
