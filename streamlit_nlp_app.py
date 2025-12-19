@@ -2079,8 +2079,11 @@ def main():
                     st.markdown("#### ❤️ Emotion Analysis")
                     with st.spinner("Detecting Emotions..."):
                         emotion_df = VectorizedEmotionDetector.detect_batch(sample_texts)
-                        emo_counts = emotion_df['emotion'].value_counts().reset_index()
+                        # Polars handling: value_counts() returns a DataFrame, no reset_index() needed
+                        emo_counts = emotion_df['emotion'].value_counts(sort=True)
                         emo_counts.columns = ['emotion', 'count']
+                        # Convert to Pandas for easy Plotly plotting
+                        emo_counts = emo_counts.to_pandas()
                         
                         fig_emo = px.bar(
                             emo_counts, 
