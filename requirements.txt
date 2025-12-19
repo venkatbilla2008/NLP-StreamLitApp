@@ -17,7 +17,6 @@ duckdb>=0.9.0  # SQL analytics engine
 numpy==1.24.3
 
 # File handling	
-openpyxl>=3.1.0
 pyarrow>=12.0.0
 python-dateutil>=2.8.0
 
@@ -33,6 +32,11 @@ multiprocess>=0.70.0    # Better multiprocessing
 #vaderSentiment>=3.3.2
 #textblob>=0.17.0
 #nltk>=3.8.0
+
+# Visualization
+plotly>=5.18.0
+wordcloud>=1.9.0
+matplotlib>=3.7.0  # Needed for wordcloud
 
 # spaCy for NER-based PII Detection
 # IMPORTANT: Install spaCy before the model

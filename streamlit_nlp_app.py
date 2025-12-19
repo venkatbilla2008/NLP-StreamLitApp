@@ -49,7 +49,15 @@ import multiprocessing
 import duckdb
 
 # NLP Libraries
+# NLP Libraries
 import spacy
+
+# Visualization Libraries
+import plotly.express as px
+import plotly.graph_objects as go
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+from collections import Counter
 
 # ========================================================================================
 # CONFIGURATION & CONSTANTS - ULTRA-OPTIMIZED
@@ -1070,6 +1078,124 @@ class VectorizedProximityAnalyzer:
         return pl.DataFrame(results)
 
 
+
+# ========================================================================================
+# ADVANCED VISUALIZATION MODULE
+# ========================================================================================
+
+class AdvancedVisualizer:
+    """Generates executive-level visualizations for the dashboard"""
+    
+    @staticmethod
+    def create_sunburst_chart(df: pd.DataFrame):
+        """Create hierarchical sunburst chart of categories"""
+        if df.empty:
+            return None
+            
+        # Prepare data: Count occurrences of hierarchy paths
+        # Handle missing values
+        df_clean = df.fillna("Uncategorized")
+        
+        # Aggregate data for speed
+        sunburst_data = df_clean.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().reset_index(name='count')
+        
+        # Filter out extremely small segments for better visibility
+        limit = len(df) * 0.005  # 0.5% threshold
+        sunburst_data = sunburst_data[sunburst_data['count'] > limit]
+        
+        fig = px.sunburst(
+            sunburst_data,
+            path=['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary'],
+            values='count',
+            title="<b>Hierarchical Category Breakdown</b><br><sup>Click to zoom in/out</sup>",
+            color='L1_Category',
+            color_discrete_sequence=px.colors.qualitative.Prism,
+            height=700
+        )
+        fig.update_traces(textinfo="label+percent entry")
+        fig.update_layout(margin=dict(t=50, l=0, r=0, b=0))
+        return fig
+
+    @staticmethod
+    def create_intent_donut(df: pd.DataFrame):
+        """Create donut chart of L1 intents"""
+        if df.empty:
+            return None
+            
+        l1_counts = df['L1_Category'].value_counts().reset_index()
+        l1_counts.columns = ['Category', 'Count']
+        
+        fig = px.pie(
+            l1_counts,
+            values='Count',
+            names='Category',
+            hole=0.4,
+            title="<b>Primary Intent Distribution</b>",
+            color_discrete_sequence=px.colors.qualitative.Bold
+        )
+        fig.update_traces(textposition='inside', textinfo='percent+label')
+        fig.update_layout(margin=dict(t=50, l=20, r=20, b=20))
+        return fig
+
+    @staticmethod
+    def create_resolution_gauge(df: pd.DataFrame):
+        """Create gauge chart for resolution rate"""
+        if df.empty:
+            return None
+            
+        # Calculate resolution stats
+        total = len(df)
+        resolved = len(df[df['L3_Tertiary'].astype(str).str.contains('Resolved', case=False, na=False)])
+        rate = (resolved / total * 100) if total > 0 else 0
+        
+        fig = go.Figure(go.Indicator(
+            mode = "gauge+number",
+            value = rate,
+            domain = {'x': [0, 1], 'y': [0, 1]},
+            title = {'text': "<b>Issue Resolution Rate</b>"},
+            gauge = {
+                'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "darkblue"},
+                'bar': {'color': "#00CC96"},
+                'bgcolor': "white",
+                'borderwidth': 2,
+                'bordercolor': "gray",
+                'steps': [
+                    {'range': [0, 50], 'color': '#FFE6E6'},
+                    {'range': [50, 80], 'color': '#EAFFEA'},
+                    {'range': [80, 100], 'color': '#CCFFCC'}],
+                'threshold': {
+                    'line': {'color': "red", 'width': 4},
+                    'thickness': 0.75,
+                    'value': 90}
+            }
+        ))
+        fig.update_layout(height=400, margin=dict(t=50, l=20, r=20, b=20))
+        return fig
+
+    @staticmethod
+    def create_wordcloud(df: pd.DataFrame, text_col: str):
+        """Create word cloud from text"""
+        if df.empty:
+            return None
+            
+        text = " ".join(df[text_col].astype(str).tolist())
+        
+        # Simple stopword removal
+        stopwords = set(['the', 'and', 'to', 'of', 'a', 'in', 'is', 'that', 'for', 'it', 'on', 'with', 'as', 'this', 'but', 'be', 'you', 'are', 'not', 'have', 'i', 'my', 'me', 'we', 'your', 'can', 'will'])
+        
+        wc = WordCloud(
+            width=800, 
+            height=400, 
+            background_color='white',
+            stopwords=stopwords,
+            min_font_size=10,
+            max_words=100,
+            colormap='viridis'
+        ).generate(text)
+        
+        return wc
+
+
 # ========================================================================================
 # ULTRA-FAST NLP PIPELINE WITH DUCKDB
 # ========================================================================================
@@ -1723,24 +1849,61 @@ def main():
                 st.subheader("📋 Results Preview (First 20 rows)")
                 st.dataframe(output_df.head(20), use_container_width=True)
                 
-                # Analytics using DuckDB
-                st.subheader("📊 Analytics Dashboard")
+                # Analytics using DuckDB & Plotly
+                st.subheader("📊 Executive Dashboard")
+
+                analytics_tabs = st.tabs(["Overview", "Deep Dive", "Text Analysis"])
                 
-                analytics = pipeline.get_analytics_summary()
-                
-                chart_cols = st.columns(2)
-                
-                with chart_cols[0]:
-                    st.markdown("**L1 Category Distribution**")
-                    if 'category_distribution' in analytics:
-                        cat_df = pd.DataFrame(analytics['category_distribution'])
-                        if not cat_df.empty:
-                            st.bar_chart(cat_df.set_index('l1')['count'])
-                
-                with chart_cols[1]:
-                    st.markdown("**Basic Statistics**")
+                with analytics_tabs[0]:
+                    col1, col2 = st.columns([2, 1])
+                    with col1:
+                        # Sunburst (The Wow Factor)
+                        st.markdown("##### 🌍 Hierarchical Category View")
+                        fig_sun = AdvancedVisualizer.create_sunburst_chart(output_df)
+                        if fig_sun:
+                            st.plotly_chart(fig_sun, use_container_width=True)
+                        else:
+                            st.info("Not enough data for hierarchical view.")
+                    
+                    with col2:
+                        # Donut of L1
+                        st.markdown("##### 🎯 Primary Intent Distribution")
+                        fig_donut = AdvancedVisualizer.create_intent_donut(output_df)
+                        if fig_donut:
+                            st.plotly_chart(fig_donut, use_container_width=True)
+                        
+                        st.markdown("---")
+                        
+                        # Resolution Gauge
+                        st.markdown("##### ✅ Resolution Rate")
+                        fig_gauge = AdvancedVisualizer.create_resolution_gauge(output_df)
+                        if fig_gauge:
+                            st.plotly_chart(fig_gauge, use_container_width=True)
+
+                with analytics_tabs[1]:
+                    # Raw stats
+                    st.markdown("### 🔢 Detailed Statistics")
+                    analytics = pipeline.get_analytics_summary()
                     if 'basic_statistics' in analytics:
-                        st.json(analytics['basic_statistics'])
+                        stats = analytics['basic_statistics']
+                        c1, c2, c3 = st.columns(3)
+                        c1.metric("Total Records", f"{stats['total_records']:,}")
+                        c2.metric("Unique L1 Categories", stats['unique_l1_categories'])
+                        c3.metric("Unique L2 Subcategories", stats['unique_l2_categories'])
+                    
+                    st.markdown("#### Category breakdown")
+                    if 'category_distribution' in analytics:
+                         st.dataframe(pd.DataFrame(analytics['category_distribution']), use_container_width=True)
+
+                with analytics_tabs[2]:
+                    st.markdown("### ☁️ Topic Cloud")
+                    st.info("Generating word cloud from original text...")
+                    wc = AdvancedVisualizer.create_wordcloud(output_df, 'Original_Text')
+                    if wc:
+                        fig, ax = plt.subplots(figsize=(10, 5))
+                        ax.imshow(wc, interpolation='bilinear')
+                        ax.axis('off')
+                        st.pyplot(fig)
                 
                 # Downloads
                 st.subheader("💾 Downloads")
