@@ -1,743 +1,634 @@
 [
     {
         "conditions": [
-            "login issue",
-            "login problem",
-            "can't login",
-            "can't log in",
-            "cannot login",
-            "unable to login",
-            "login failed",
-            "sign in issue",
-            "sign in problem",
-            "can't sign in",
-            "unable to sign in",
-            "forgot password",
-            "reset password",
-            "password reset",
-            "password issue",
-            "authentication failed",
-            "verification code",
-            "2fa not working",
-            "two factor issue",
-            "two-factor problem",
-            "unable to access account"
-        ],
-        "set": {
-            "category": "Account Access",
-            "subcategory": "Login Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "account issue",
-            "account problem",
-            "account disabled",
-            "account locked",
-            "account suspended",
-            "deactivate account",
-            "profile issue",
-            "profile problem",
-            "username issue",
-            "display name problem",
-            "linked account issue",
-            "merge account",
-            "multiple accounts",
-            "email change issue",
-            "update details problem",
-            "account not working"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Account Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "playback issue",
-            "playback error",
-            "playback problem",
-            "cant play",
-            "can't play",
-            "not playing",
-            "won't play",
-            "video won't load",
-            "video not loading",
-            "stream failed",
-            "streaming failed",
-            "music not playing",
-            "song not playing",
-            "track skipped",
-            "audio skipping",
-            "stops suddenly",
-            "keeps stopping",
-            "pauses randomly",
-            "audio issue",
-            "no sound",
-            "silence",
-            "volume problem",
-            "sound problem",
-            "playback stuck"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Playback Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "buffering",
-            "buffering issue",
-            "constant buffering",
-            "buffering problem",
-            "lag",
-            "lagging",
-            "laggy",
-            "stuttering",
-            "video stuttering",
-            "audio stuttering",
-            "freezing",
-            "video freezing",
-            "keeps freezing",
-            "slow loading",
-            "slow buffering",
-            "poor quality",
-            "low quality",
-            "quality issue",
-            "streaming quality"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Streaming Quality",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
+            "cancel spotify premium subscription",
+            "cancel netflix premium subscription",
+            "cancel my spotify premium",
+            "cancel my netflix account",
+            "end spotify subscription",
+            "stop netflix subscription",
             "cancel subscription",
             "cancel membership",
             "end subscription",
             "stop subscription",
-            "stop payment",
-            "cancel service",
-            "unsubscribe",
             "terminate subscription",
-            "close account",
-            "don't want subscription",
-            "no longer need",
+            "discontinue subscription",
+            "unsubscribe",
+            "cancel service",
             "cancel plan",
             "stop billing",
-            "discontinue service"
+            "end membership"
         ],
         "set": {
             "category": "Cancellation",
             "subcategory": "Cancel Membership",
+            "level_3": "Subscription Cancellation",
+            "level_4": "Cancel Request",
             "sentiment": "negative"
         }
     },
     {
         "conditions": [
-            "content not available",
-            "content unavailable",
-            "removed content",
-            "missing content",
-            "can't find",
-            "cannot find",
-            "missing episodes",
-            "episode missing",
-            "show removed",
-            "movie removed",
-            "song removed",
-            "track removed",
-            "song not available",
-            "track unavailable",
-            "region restriction",
-            "country restriction",
-            "not available in my region",
-            "not licensed",
-            "greyed out",
-            "grayed out",
-            "removed from library"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Content Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "device issue",
-            "device problem",
-            "device not working",
-            "bluetooth issue",
-            "bluetooth problem",
-            "bluetooth not connecting",
-            "speaker issue",
-            "speaker problem",
-            "carplay issue",
-            "carplay not working",
-            "android auto issue",
-            "android auto problem",
-            "smart tv issue",
-            "smart tv problem",
-            "echo issue",
-            "alexa issue",
-            "alexa not working",
-            "chromecast issue",
-            "chromecast problem",
-            "airplay issue",
-            "airplay not working",
-            "headphones issue",
-            "device not showing",
-            "device disconnected",
-            "device won't connect"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Device Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "ads issue",
-            "ad issue",
-            "ad problem",
-            "advertisement issue",
-            "too many ads",
-            "excessive ads",
-            "ad volume too loud",
-            "ad volume issue",
-            "ads keep playing",
-            "premium has ads",
-            "premium still ads",
-            "commercials issue",
-            "too many commercials",
-            "ad blocker",
-            "skip ads not working"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Advertisement Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "recommendation issue",
-            "recommendation problem",
-            "recommendations bad",
-            "poor recommendations",
-            "discover weekly bad",
-            "radio issue",
-            "algorithm bad",
-            "algorithm issue",
-            "curated playlist bad",
-            "autoplay issue",
-            "autoplay problem",
-            "song suggestions bad",
-            "not relevant suggestions",
-            "wrong recommendations",
-            "irrelevant content"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Recommendation Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "ui issue",
-            "ui problem",
-            "interface issue",
-            "interface problem",
-            "layout issue",
-            "layout problem",
-            "design issue",
-            "design problem",
-            "dark mode not working",
-            "dark mode issue",
-            "buttons not working",
-            "button not working",
-            "search not working",
-            "search broken",
-            "filter not working",
-            "filter issue",
-            "navigation issue",
-            "menu issue",
-            "confusing interface",
-            "hard to use"
-        ],
-        "set": {
-            "category": "User Experience",
-            "subcategory": "UI Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "network failure",
-            "network issue",
-            "network problem",
-            "connectivity issue",
-            "connectivity problem",
-            "internet issue",
-            "internet problem",
-            "server issue",
-            "server error",
-            "server down",
-            "connection failed",
-            "connection error",
-            "offline issue",
-            "not connecting",
-            "won't connect",
-            "app down",
-            "service down",
-            "timeout",
-            "timeout error",
-            "dns error",
-            "proxy issue",
-            "vpn issue"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Network Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "app crash",
-            "app crashed",
-            "app keeps crashing",
-            "crash issue",
-            "crash problem",
-            "app closed",
-            "app stopped",
-            "stopped working",
-            "app stopped working",
-            "freeze",
-            "app freezing",
-            "hang",
-            "hanging",
-            "app hanging",
-            "bug",
-            "bugs",
-            "error message",
-            "glitch",
-            "glitches",
-            "glitchy",
-            "unresponsive",
-            "app unresponsive",
-            "not responding"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "App Crash",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "performance issue",
-            "performance problem",
-            "slow app",
-            "app slow",
-            "very slow",
-            "extremely slow",
-            "sluggish",
-            "lag issue",
-            "delay issue",
-            "delayed response",
-            "poor performance",
-            "bad performance",
-            "loading slow",
-            "takes forever",
-            "loading forever"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Performance Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "data sync issue",
-            "sync issue",
-            "sync problem",
-            "not syncing",
-            "won't sync",
-            "sync failed",
-            "listening history issue",
-            "recently played missing",
-            "activity feed issue",
-            "connect issue",
-            "data lost",
-            "lost data",
-            "missing data",
-            "data missing",
-            "playlists not syncing",
-            "library not syncing"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Data Sync Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "subscription issue",
-            "subscription problem",
-            "plan issue",
-            "plan problem",
-            "premium issue",
-            "premium not working",
-            "billing issue",
-            "billing error",
-            "billing problem",
-            "charged wrong",
-            "charged twice",
-            "overcharged",
-            "incorrect charge",
-            "payment issue",
-            "payment failed",
-            "payment declined",
-            "refund issue",
-            "want refund",
-            "need refund",
-            "invoice issue",
-            "invoice error",
-            "upgrade issue",
-            "downgrade issue",
-            "family plan issue",
-            "student plan issue",
-            "gift card issue",
-            "promo code not working",
-            "promo code issue"
+            "switch to family plan",
+            "change to family plan",
+            "upgrade to family plan",
+            "move to family plan",
+            "switch to student plan",
+            "change to student plan",
+            "upgrade to premium plan",
+            "downgrade to free plan",
+            "switch plan",
+            "change plan",
+            "modify subscription",
+            "upgrade subscription",
+            "downgrade subscription",
+            "different plan"
         ],
         "set": {
             "category": "Billing & Subscription",
             "subcategory": "Subscription Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "love this",
-            "love it",
-            "loving it",
-            "great content",
-            "amazing content",
-            "excellent content",
-            "amazing shows",
-            "great shows",
-            "best streaming",
-            "best service",
-            "highly recommend",
-            "recommend this",
-            "wonderful service",
-            "fantastic",
-            "awesome",
-            "perfect",
-            "exactly what needed",
-            "worth the money",
-            "great value"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Content Appreciation",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "easy to use",
-            "user friendly",
-            "simple interface",
-            "smooth experience",
-            "seamless",
-            "works perfectly",
-            "no issues",
-            "flawless",
-            "reliable",
-            "stable",
-            "consistent quality",
-            "great experience",
-            "satisfied",
-            "happy with service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "User Experience",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "customer service excellent",
-            "great support",
-            "helpful support",
-            "support team great",
-            "quick response",
-            "fast resolution",
-            "resolved quickly",
-            "helpful agent",
-            "friendly support",
-            "professional support"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Customer Support",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "download issue",
-            "download problem",
-            "can't download",
-            "download failed",
-            "download not working",
-            "offline download issue",
-            "offline mode issue",
-            "downloaded content missing",
-            "download quality low"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Download Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "library issue",
-            "library problem",
-            "playlist issue",
-            "playlist problem",
-            "playlist deleted",
-            "playlist missing",
-            "songs missing from playlist",
-            "can't create playlist",
-            "can't edit playlist",
-            "library not loading",
-            "saved songs missing"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Library Management",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "subtitle issue",
-            "subtitle problem",
-            "subtitles not working",
-            "captions not working",
-            "subtitle sync issue",
-            "subtitle missing",
-            "wrong subtitles",
-            "audio sync issue",
-            "audio out of sync",
-            "audio video sync"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Subtitle/Audio Sync",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "video quality issue",
-            "video quality problem",
-            "poor video quality",
-            "low resolution",
-            "blurry video",
-            "pixelated",
-            "grainy video",
-            "quality drops",
-            "hd not working",
-            "4k not working",
-            "resolution issue"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Video Quality",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "search issue",
-            "search problem",
-            "can't find content",
-            "search results wrong",
-            "search results poor",
-            "browse issue",
-            "category issue",
-            "genre filter broken"
-        ],
-        "set": {
-            "category": "User Experience",
-            "subcategory": "Search Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "sharing issue",
-            "share not working",
-            "can't share",
-            "social media sharing issue",
-            "profile sharing issue",
-            "collaborative playlist issue"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Sharing Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "parental control issue",
-            "parental controls not working",
-            "kids profile issue",
-            "content filter issue",
-            "age restriction issue",
-            "mature content showing"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Parental Controls",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "watch history issue",
-            "history not saving",
-            "continue watching issue",
-            "resume not working",
-            "bookmark issue",
-            "watchlist issue",
-            "favorites issue"
-        ],
-        "set": {
-            "category": "User Experience",
-            "subcategory": "History/Watchlist",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "price too high",
-            "too expensive",
-            "overpriced",
-            "not worth the price",
-            "price increase",
-            "raised prices",
-            "charging more",
-            "subscription too expensive",
-            "cost too much"
-        ],
-        "set": {
-            "category": "Billing & Subscription",
-            "subcategory": "Pricing Complaint",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "limited content",
-            "not enough content",
-            "poor content library",
-            "small library",
-            "missing popular shows",
-            "missing movies",
-            "content selection poor",
-            "library too small"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Content Library",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "customer service bad",
-            "poor support",
-            "unhelpful support",
-            "support not responding",
-            "no response from support",
-            "support useless",
-            "terrible customer service",
-            "support slow",
-            "waited too long",
-            "no help received"
-        ],
-        "set": {
-            "category": "Customer Service",
-            "subcategory": "Poor Support",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "auto renewal issue",
-            "auto renew problem",
-            "charged without permission",
-            "unwanted charge",
-            "subscription renewed automatically",
-            "cancel auto renewal",
-            "stop auto renewal"
-        ],
-        "set": {
-            "category": "Billing & Subscription",
-            "subcategory": "Auto Renewal",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "feature request",
-            "request feature",
-            "suggest feature",
-            "would like feature",
-            "add feature",
-            "missing feature",
-            "need feature",
-            "want feature"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Feature Request",
+            "level_3": "Plan Change Request",
+            "level_4": "Switch Plan",
             "sentiment": "neutral"
         }
     },
     {
         "conditions": [
-            "suggestion",
-            "feedback",
-            "improvement suggestion",
-            "app improvement",
-            "could be better",
-            "recommend adding",
-            "would be nice if"
+            "charged twice this month",
+            "billed twice this month",
+            "double charged for subscription",
+            "charged two times",
+            "duplicate billing",
+            "charged twice",
+            "double charged",
+            "billed twice",
+            "charged multiple times",
+            "duplicate charge",
+            "double billing"
+        ],
+        "set": {
+            "category": "Billing & Subscription",
+            "subcategory": "Billing Issue",
+            "level_3": "Payment Error",
+            "level_4": "Charged Twice",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "wrong amount charged",
+            "incorrect billing amount",
+            "charged wrong amount",
+            "billing amount incorrect",
+            "overcharged for subscription",
+            "charged too much",
+            "billing error",
+            "payment error",
+            "incorrect charge",
+            "wrong charge",
+            "overcharged"
+        ],
+        "set": {
+            "category": "Billing & Subscription",
+            "subcategory": "Billing Issue",
+            "level_3": "Payment Error",
+            "level_4": "Incorrect Amount",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "need a refund for subscription",
+            "request refund for billing",
+            "refund my payment",
+            "want my money back",
+            "need refund",
+            "want refund",
+            "refund request",
+            "refund issue",
+            "get refund",
+            "money back"
+        ],
+        "set": {
+            "category": "Billing & Subscription",
+            "subcategory": "Billing Issue",
+            "level_3": "Refund Request",
+            "level_4": "Refund Needed",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "subscription too expensive",
+            "plan too expensive",
+            "cost too much money",
+            "price too high",
+            "can't afford subscription",
+            "cannot afford plan",
+            "too expensive",
+            "overpriced",
+            "too much money",
+            "price too high",
+            "too costly",
+            "not worth the price"
+        ],
+        "set": {
+            "category": "Billing & Subscription",
+            "subcategory": "Pricing Complaint",
+            "level_3": "Price Concern",
+            "level_4": "Too Expensive",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "video won't play on netflix",
+            "song won't play on spotify",
+            "video not playing",
+            "song not playing",
+            "music not playing",
+            "track not playing",
+            "won't play",
+            "can't play",
+            "cannot play",
+            "not playing",
+            "playback failed",
+            "won't start playing",
+            "fails to play"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Playback Issue",
+            "level_3": "Playback Error",
+            "level_4": "Won't Play",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "video keeps stopping",
+            "playback keeps stopping",
+            "music keeps stopping",
+            "audio keeps stopping",
+            "stops playing randomly",
+            "pauses randomly",
+            "keeps pausing",
+            "keeps stopping",
+            "stops suddenly",
+            "randomly stops"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Playback Issue",
+            "level_3": "Playback Error",
+            "level_4": "Keeps Stopping",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "constant buffering issue",
+            "video always buffering",
+            "keeps buffering constantly",
+            "won't stop buffering",
+            "buffering all the time",
+            "continuous buffering",
+            "constant buffering",
+            "always buffering",
+            "keeps buffering",
+            "buffering constantly",
+            "too much buffering"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Streaming Quality",
+            "level_3": "Quality Issue",
+            "level_4": "Constant Buffering",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "video keeps freezing",
+            "video frozen on screen",
+            "playback frozen",
+            "screen frozen",
+            "keeps freezing",
+            "video freezing",
+            "freezing issue",
+            "freezes constantly",
+            "frozen screen"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Streaming Quality",
+            "level_3": "Quality Issue",
+            "level_4": "Video Freezing",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "video lagging badly",
+            "audio lagging behind",
+            "playback very laggy",
+            "laggy video playback",
+            "stuttering video",
+            "choppy playback",
+            "laggy",
+            "lagging",
+            "lag issue",
+            "stuttering",
+            "choppy video",
+            "choppy audio"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Streaming Quality",
+            "level_3": "Quality Issue",
+            "level_4": "Lag/Stuttering",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "poor video quality",
+            "low video quality",
+            "bad video quality",
+            "blurry video",
+            "pixelated video",
+            "grainy video",
+            "low resolution",
+            "quality drops",
+            "poor quality",
+            "bad quality"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Video Quality",
+            "level_3": "Quality Issue",
+            "level_4": "Poor Video Quality",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "song removed from spotify",
+            "album removed from spotify",
+            "track unavailable on spotify",
+            "music missing from spotify",
+            "song removed",
+            "song missing",
+            "song unavailable",
+            "track removed",
+            "track missing",
+            "album removed",
+            "music removed",
+            "content removed"
+        ],
+        "set": {
+            "category": "Products and Services",
+            "subcategory": "Content Issue",
+            "level_3": "Content Availability",
+            "level_4": "Content Removed",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "show removed from netflix",
+            "movie removed from netflix",
+            "episode missing on netflix",
+            "series unavailable on netflix",
+            "show removed",
+            "movie removed",
+            "episode missing",
+            "series removed",
+            "show unavailable",
+            "movie unavailable"
+        ],
+        "set": {
+            "category": "Products and Services",
+            "subcategory": "Content Issue",
+            "level_3": "Content Availability",
+            "level_4": "Content Removed",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "can't find song on spotify",
+            "can't find show on netflix",
+            "cannot find movie",
+            "unable to find content",
+            "can't find content",
+            "cannot find",
+            "can't find",
+            "unable to find",
+            "missing content",
+            "content unavailable"
+        ],
+        "set": {
+            "category": "Products and Services",
+            "subcategory": "Content Issue",
+            "level_3": "Content Availability",
+            "level_4": "Can't Find Content",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "not available in my region",
+            "not available in my country",
+            "geo blocked content",
+            "region restriction issue",
+            "country restriction",
+            "geographic restriction",
+            "region blocked",
+            "country blocked",
+            "not licensed in region"
+        ],
+        "set": {
+            "category": "Products and Services",
+            "subcategory": "Content Issue",
+            "level_3": "Content Availability",
+            "level_4": "Region Restriction",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "bluetooth speaker not connecting",
+            "bluetooth device won't connect",
+            "bluetooth connection failed",
+            "speaker not connecting",
+            "bluetooth not working",
+            "bluetooth issue",
+            "bluetooth problem",
+            "bluetooth won't connect",
+            "can't connect bluetooth"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Device Issue",
+            "level_3": "Connectivity Problem",
+            "level_4": "Bluetooth Connection Failed",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "chromecast not working with netflix",
+            "chromecast not working with spotify",
+            "airplay not working",
+            "casting not working",
+            "can't cast to tv",
+            "chromecast issue",
+            "airplay issue",
+            "casting failed",
+            "cast not working"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Device Issue",
+            "level_3": "Connectivity Problem",
+            "level_4": "Casting Device Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "alexa not working with spotify",
+            "echo not playing spotify",
+            "smart speaker issue",
+            "alexa integration issue",
+            "echo issue",
+            "smart speaker not working"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Device Issue",
+            "level_3": "Connectivity Problem",
+            "level_4": "Smart Speaker Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "smart tv not working",
+            "tv app not working",
+            "netflix on tv not working",
+            "spotify on tv issue",
+            "tv app issue",
+            "smart tv issue",
+            "television issue"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Device Issue",
+            "level_3": "Device Compatibility",
+            "level_4": "Smart TV Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "download failed for offline",
+            "offline download not working",
+            "can't download for offline",
+            "unable to download songs",
+            "download not working",
+            "download failed",
+            "can't download",
+            "download error",
+            "offline mode issue"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Download Issue",
+            "level_3": "Download Problem",
+            "level_4": "Download Failed",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "downloaded content missing",
+            "offline downloads disappeared",
+            "downloads deleted",
+            "saved content missing",
+            "downloads missing"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Download Issue",
+            "level_3": "Download Problem",
+            "level_4": "Downloaded Content Missing",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "can't login to account",
+            "cannot login to spotify",
+            "unable to login to netflix",
+            "login not working",
+            "sign in failed",
+            "can't sign in",
+            "login failed",
+            "login error",
+            "unable to access account"
+        ],
+        "set": {
+            "category": "Account Access",
+            "subcategory": "Login Issue",
+            "level_3": "Access Problem",
+            "level_4": "Login Failed",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "forgot my password",
+            "can't remember password",
+            "need to reset password",
+            "password reset request",
+            "forgot password",
+            "reset password",
+            "password issue",
+            "lost password"
+        ],
+        "set": {
+            "category": "Account Access",
+            "subcategory": "Login Issue",
+            "level_3": "Password Problem",
+            "level_4": "Password Reset Request",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "account locked out",
+            "account suspended",
+            "account disabled",
+            "account deactivated",
+            "account blocked",
+            "account locked",
+            "locked out"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Account Issue",
+            "level_3": "Account Status",
+            "level_4": "Account Locked",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "thank you for your help",
+            "thanks for helping me",
+            "appreciate your help",
+            "thank you so much",
+            "thanks a lot",
+            "really appreciate it",
+            "grateful for help"
         ],
         "set": {
             "category": "Positive Feedback",
-            "subcategory": "General Feedback",
+            "subcategory": "Appreciating Agent",
+            "level_3": "Issue Resolved",
+            "level_4": "Professional Service",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "all set now",
+            "everything works now",
+            "working perfectly now",
+            "works great now",
+            "working fine now",
+            "all good",
+            "all set",
+            "works now",
+            "working now",
+            "fixed now"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Appreciating Product & Service",
+            "level_3": "Issue Resolved",
+            "level_4": "Professional Service",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "issue has been resolved",
+            "problem is solved",
+            "issue is fixed",
+            "problem fixed",
+            "issue resolved",
+            "problem solved",
+            "resolved successfully",
+            "successfully fixed"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Appreciating Product & Service",
+            "level_3": "Issue Resolved",
+            "level_4": "Professional Service",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "excellent customer service",
+            "great customer support",
+            "amazing support team",
+            "helpful agent",
+            "excellent service",
+            "great support",
+            "wonderful service"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Appreciating Agent",
+            "level_3": "Excellent Service",
+            "level_4": "Great Support",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "family plan request",
+            "want family plan",
+            "switch to family",
+            "family subscription",
+            "family plan"
+        ],
+        "set": {
+            "category": "Billing & Subscription",
+            "subcategory": "Subscription Issue",
+            "level_3": "Plan Type Request",
+            "level_4": "Family Plan",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "student plan request",
+            "student discount request",
+            "student subscription",
+            "verify student status",
+            "student plan"
+        ],
+        "set": {
+            "category": "Billing & Subscription",
+            "subcategory": "Subscription Issue",
+            "level_3": "Plan Type Request",
+            "level_4": "Student Plan",
             "sentiment": "neutral"
         }
     }
