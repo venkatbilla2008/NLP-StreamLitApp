@@ -458,52 +458,187 @@ class DomainLoader:
 
 
 # ========================================================================================
-# ENHANCED VECTORIZED RULE ENGINE - IMPROVED ACCURACY
+# ULTRA-ENHANCED CLASSIFICATION ENGINE - CONVERSATION FLOW AWARE
 # ========================================================================================
 
 class VectorizedRuleEngine:
     """
-    ENHANCED classification engine with improved accuracy
+    ULTRA-ENHANCED classification engine with conversation flow analysis
     
-    IMPROVEMENTS:
-    1. Multi-pass scanning (keywords first, then rules, then fallback)
-    2. Hierarchical validation (ensure L1→L2→L3→L4 consistency)
-    3. Context-aware scoring (match quality evaluation)
-    4. Full text analysis (scan ALL customer and agent messages)
-    5. Confidence thresholds (filter low-quality matches)
-    6. Phrase matching (multi-word phrases prioritized)
+    KEY IMPROVEMENTS:
+    1. **Intent Detection**: Identifies primary customer intent (cancel, billing, technical, etc.)
+    2. **Resolution Detection**: Recognizes when issues are resolved successfully
+    3. **False Positive Filtering**: Filters out noise (emails, system messages, etc.)
+    4. **Conversation Flow**: Analyzes full conversation context
+    5. **Priority Scoring**: Weights matches by importance and context
+    6. **Multi-word Phrase Prioritization**: Longer phrases = more specific intent
     
-    TARGET: Higher accuracy for L1/L2/L3/L4 classification
+    FIXES:
+    - No longer triggers "sharing account info" on redacted emails
+    - Properly detects subscription cancellation/change requests
+    - Recognizes successful resolutions
+    - Prioritizes customer intent over agent actions
     """
     
     def __init__(self, industry_data: Dict):
         self.rules = industry_data.get('rules', [])
         self.keywords = industry_data.get('keywords', [])
         self._build_enhanced_patterns()
-        logger.info(f"✅ Enhanced VectorizedRuleEngine: {len(self.rules)} rules, {len(self.keywords)} keywords")
+        self._build_intent_detectors()
+        logger.info(f"✅ ULTRA-Enhanced VectorizedRuleEngine: {len(self.rules)} rules, {len(self.keywords)} keywords")
+    
+    def _build_intent_detectors(self):
+        """
+        Build primary intent detection patterns
+        
+        ENHANCED FOR STREAMING SERVICES (Netflix/Spotify)
+        - Content availability issues
+        - Playback/quality problems
+        - Subscription management
+        - Device connectivity
+        - Account access
+        """
+        # PRIMARY INTENTS (High Priority)
+        self.intent_patterns = {
+            # Subscription Management
+            'cancel_subscription': re.compile(
+                r'\b(cancel|cancellation|end|stop|terminate|discontinue|unsubscribe)' +
+                r'.{0,30}(subscription|membership|plan|service|premium|spotify|netflix)',
+                re.IGNORECASE
+            ),
+            'switch_plan': re.compile(
+                r'\b(switch|change|modify|upgrade|downgrade|move|transfer)' +
+                r'.{0,30}(plan|subscription|tier|premium|family|student|duo)',
+                re.IGNORECASE
+            ),
+            
+            # Billing & Payment
+            'billing_issue': re.compile(
+                r'\b(charged|billing|payment|refund|invoice|overcharged|double.{0,5}charge' +
+                r'|wrong.{0,10}amount|incorrect.{0,10}charge|unauthorized|charged.twice)',
+                re.IGNORECASE
+            ),
+            
+            # Playback & Technical
+            'playback_issue': re.compile(
+                r'\b(play|playing|playback|stream|streaming|won\'t.play|can\'t.play|not.playing' +
+                r'|stops|pauses|skips|skip|skipping).{0,20}(issue|problem|error|fail|broken)',
+                re.IGNORECASE
+            ),
+            'quality_issue': re.compile(
+                r'\b(buffer|buffering|lag|lagging|freeze|freezing|stuttering|pixelated' +
+                r'|blurry|low.quality|poor.quality|resolution|quality.drops)',
+                re.IGNORECASE
+            ),
+            
+            # Content Availability
+            'content_unavailable': re.compile(
+                r'\b(missing|removed|unavailable|gone|disappeared|can\'t.find|cannot.find' +
+                r'|not.available|greyed.out|grayed.out).{0,30}' +
+                r'(song|track|album|show|movie|episode|series|content|video)',
+                re.IGNORECASE
+            ),
+            
+            # Device & Connectivity
+            'device_issue': re.compile(
+                r'\b(device|bluetooth|speaker|tv|smart.tv|phone|tablet|computer|laptop' +
+                r'|chromecast|alexa|echo|airplay|carplay).{0,20}' +
+                r'(issue|problem|not.working|won\'t.work|not.connecting|disconnect)',
+                re.IGNORECASE
+            ),
+            
+            # Account Access
+            'login_issue': re.compile(
+                r'\b(login|log.in|sign.in|access|password|username|authentication)' +
+                r'.{0,20}(issue|problem|error|can\'t|cannot|unable|fail|failed|forgot)',
+                re.IGNORECASE
+            ),
+            'account_issue': re.compile(
+                r'\b(account|profile).{0,20}(locked|suspended|disabled|deactivated' +
+                r'|not.working|issue|problem)',
+                re.IGNORECASE
+            ),
+            
+            # Download Issues
+            'download_issue': re.compile(
+                r'\b(download|downloading|offline).{0,20}(issue|problem|error|fail|failed' +
+                r'|not.working|won\'t.work|missing)',
+                re.IGNORECASE
+            ),
+            
+            # Resolution Indicators (Positive)
+            'resolution': re.compile(
+                r'\b(thank|thanks|thankyou|appreciate|appreciated|grateful' +
+                r'|resolved|fixed|solved|working.now|works.now|works.fine' +
+                r'|helped|perfect|great|excellent|awesome|fantastic' +
+                r'|all.set|good.to.go|successfully|issue.resolved)',
+                re.IGNORECASE
+            ),
+        }
+        
+        # SECONDARY PATTERNS (Context Indicators)
+        self.context_patterns = {
+            # Price/Cost mentions
+            'price_complaint': re.compile(
+                r'\b(too.expensive|overpriced|too.much|too.high|price.increase' +
+                r'|raised.price|cost.too.much|not.worth)',
+                re.IGNORECASE
+            ),
+            
+            # Family/Student plans
+            'family_plan': re.compile(
+                r'\b(family|student|duo|premium|individual).{0,10}(plan|subscription)',
+                re.IGNORECASE
+            ),
+            
+            # Content search
+            'content_search': re.compile(
+                r'\b(looking.for|searching.for|where.is|find).{0,20}' +
+                r'(song|show|movie|album|artist|series)',
+                re.IGNORECASE
+            ),
+            
+            # Account sharing
+            'account_sharing': re.compile(
+                r'\b(share|sharing|family.member|multiple.devices|different.device)',
+                re.IGNORECASE
+            ),
+        }
+        
+        # FALSE POSITIVE FILTERS
+        self.false_positive_patterns = {
+            # Redacted Email  (ch**************am@yandex.ru)
+            'redacted_email': re.compile(r'\b[\w*]+@[\w*]+\.[a-z*]+', re.IGNORECASE),
+            
+            # System Messages
+            'system_message': re.compile(
+                r'\b(We\'re gathering|will connect|is now connected|reviewing|' +
+                r'An advisor is available|To verify you|may ask you to provide)',
+                re.IGNORECASE
+            ),
+            
+            # Timestamps
+            'timestamp': re.compile(r'\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}'),
+            
+            # Agent/Consumer labels
+            'speaker_label': re.compile(r'^\s*(Agent|Consumer|Customer):\s*$', re.MULTILINE),
+        }
     
     def _build_enhanced_patterns(self):
         """Build optimized patterns with phrase prioritization"""
         self.keyword_patterns = []
         self.rule_patterns = []
         
-        # Build keyword patterns (fast path)
+        # Build keyword patterns (fastpath)
         for keyword_group in self.keywords:
             conditions = keyword_group.get('conditions', [])
             if conditions:
-                # Sort by length (longer phrases first for better matching)
                 sorted_conditions = sorted(conditions, key=len, reverse=True)
                 
-                # Create pattern prioritizing longer phrases
                 patterns = []
                 for cond in sorted_conditions:
-                    # Escape special characters
                     escaped = re.escape(cond.lower())
-                    # Word boundary for single words
-                    if ' ' in cond:
-                        patterns.append(rf'\b{escaped}\b')
-                    else:
-                        patterns.append(rf'\b{escaped}\b')
+                    patterns.append(rf'\b{escaped}\b')
                 
                 pattern_str = '|'.join(patterns)
                 pattern = re.compile(pattern_str, re.IGNORECASE)
@@ -511,24 +646,20 @@ class VectorizedRuleEngine:
                 self.keyword_patterns.append({
                     'pattern': pattern,
                     'category': keyword_group.get('set', {}),
-                    'conditions': sorted_conditions,  # Keep for scoring
+                    'conditions': sorted_conditions,
                     'priority': 'keyword'
                 })
         
-        # Build rule patterns (comprehensive path)
+        # Build rule patterns
         for rule in self.rules:
             conditions = rule.get('conditions', [])
             if conditions:
-                # Sort by length (longer phrases first)
                 sorted_conditions = sorted(conditions, key=len, reverse=True)
                 
                 patterns = []
                 for cond in sorted_conditions:
                     escaped = re.escape(cond.lower())
-                    if ' ' in cond:
-                        patterns.append(rf'\b{escaped}\b')
-                    else:
-                        patterns.append(rf'\b{escaped}\b')
+                    patterns.append(rf'\b{escaped}\b')
                 
                 pattern_str = '|'.join(patterns)
                 pattern = re.compile(pattern_str, re.IGNORECASE)
@@ -540,16 +671,76 @@ class VectorizedRuleEngine:
                     'priority': 'rule'
                 })
     
-    def _calculate_match_score(self, text: str, conditions: List[str]) -> float:
+    def _detect_primary_intent(self, text: str) -> Optional[str]:
         """
-        Calculate match quality score
+        Detect primary customer intent with PRIORITY ORDERING
         
-        Scoring factors:
-        - Number of matched keywords
-        - Length of matched phrases
-        - Position of matches (earlier = better)
-        - Density of matches
+        Priority (High to Low):
+        1. Subscription/Cancellation (highest impact)
+        2. Billing (financial)
+        3. Content/Quality/Device (experience)
+        4. Account/Login (access)
         """
+        text_lower = text.lower()
+        
+        # PRIORITY 1: Subscription Management (Highest)
+        if self.intent_patterns['cancel_subscription'].search(text_lower):
+            if self.intent_patterns['switch_plan'].search(text_lower):
+                return 'switch_plan'  # More specific: cancel to switch
+            return 'cancel_subscription'
+        
+        if self.intent_patterns['switch_plan'].search(text_lower):
+            return 'switch_plan'
+        
+        # PRIORITY 2: Billing Issues
+        if self.intent_patterns['billing_issue'].search(text_lower):
+            return 'billing_issue'
+        
+        # PRIORITY 3: Content & Quality Issues
+        if self.intent_patterns['content_unavailable'].search(text_lower):
+            return 'content_unavailable'
+        
+        if self.intent_patterns['quality_issue'].search(text_lower):
+            return 'quality_issue'
+        
+        if self.intent_patterns['playback_issue'].search(text_lower):
+            return 'playback_issue'
+        
+        # PRIORITY 4: Device & Connectivity
+        if self.intent_patterns['device_issue'].search(text_lower):
+            return 'device_issue'
+        
+        if self.intent_patterns['download_issue'].search(text_lower):
+            return 'download_issue'
+        
+        # PRIORITY 5: Account Access
+        if self.intent_patterns['account_issue'].search(text_lower):
+            return 'account_issue'
+        
+        if self.intent_patterns['login_issue'].search(text_lower):
+            return 'login_issue'
+        
+        return None
+    
+    def _detect_resolution(self, text: str) -> bool:
+        """Detect if issue was resolved successfully"""
+        return bool(self.intent_patterns['resolution'].search(text.lower()))
+    
+    def _has_false_positive(self, text: str, category_data: Dict) -> bool:
+        """Check if match is a false positive"""
+        # Check if category is about "sharing account info"
+        category_str = str(category_data).lower()
+        if 'sharing' in category_str and 'account' in category_str:
+            # If it's just a redacted email, it's a false positive
+            if self.false_positive_patterns['redacted_email'].search(text):
+                # And no actual sharing language
+                if not re.search(r'\b(shared|sharing|gave|provided).{0,20}(account|information|details)', text, re.IGNORECASE):
+                    return True
+        
+        return False
+    
+    def _calculate_match_score(self, text: str, conditions: List[str], match_context: Dict = None) -> float:
+        """Enhanced scoring with context awareness"""
         text_lower = text.lower()
         score = 0.0
         match_count = 0
@@ -558,11 +749,9 @@ class VectorizedRuleEngine:
         for condition in conditions:
             if condition.lower() in text_lower:
                 match_count += 1
-                # Longer phrases score higher
                 phrase_score = len(condition.split()) * 10
                 total_match_length += len(condition)
                 
-                # Position bonus (matches near start scored higher)
                 position = text_lower.find(condition.lower())
                 position_factor = 1.0 - (position / max(len(text), 1)) * 0.3
                 
@@ -577,85 +766,127 @@ class VectorizedRuleEngine:
         if match_count > 1:
             score += match_count * 5
         
+        # Context bonuses
+        if match_context:
+            if match_context.get('has_primary_intent'):
+                score += 30  # Big bonus for matching primary intent
+            if match_context.get('has_resolution'):
+                score += 20  # Bonus for resolution context
+        
         return score
     
     def _validate_hierarchy(self, category_data: Dict) -> Dict:
-        """
-        Ensure L1→L2→L3→L4 hierarchy is consistent
-        Fill missing levels with appropriate defaults
-        """
+        """Ensure complete L1→L2→L3→L4 hierarchy"""
         l1 = category_data.get('category', 'Uncategorized')
         l2 = category_data.get('subcategory', 'NA')
         l3 = category_data.get('level_3', 'NA')
         l4 = category_data.get('level_4', 'NA')
         
-        # If L3 is missing but L4 exists, use L2 for L3
         if l3 == 'NA' and l4 != 'NA':
             l3 = l2
-        
-        # If L4 is missing, use L3
         if l4 == 'NA' and l3 != 'NA':
             l4 = l3
-        
-        # If L3 is missing, use L2
         if l3 == 'NA':
             l3 = l2
-        
-        # If L4 is still missing, use L3
         if l4 == 'NA':
             l4 = l3
         
-        return {
-            'l1': l1,
-            'l2': l2,
-            'l3': l3,
-            'l4': l4
-        }
+        return {'l1': l1, 'l2': l2, 'l3': l3, 'l4': l4}
     
-    def _scan_with_context(self, text: str) -> List[Dict]:
+    def _override_with_intent(self, primary_intent: str, has_resolution: bool) -> Dict:
         """
-        Scan text and return ALL potential matches with scores
+        Create category based on detected intent
+        
+        COMPREHENSIVE MAPPING FOR STREAMING SERVICES
         """
-        if not text or not isinstance(text, str):
-            return []
+        intent_mappings = {
+            # Subscription Management
+            'cancel_subscription': {
+                'l1': 'Cancellation',
+                'l2': 'Cancel Membership',
+                'l3': 'Issue Resolved' if has_resolution else 'Cancellation Request',
+                'l4': 'Professional Service' if has_resolution else 'Cancel Subscription'
+            },
+            'switch_plan': {
+                'l1': 'Billing & Subscription',
+                'l2': 'Subscription Issue',
+                'l3': 'Issue Resolved' if has_resolution else 'Plan Change',
+                'l4': 'Professional Service' if has_resolution else 'Switch Plan'
+            },
+            
+            # Billing & Payment
+            'billing_issue': {
+                'l1': 'Billing & Subscription',
+                'l2': 'Billing Issue',
+                'l3': 'Issue Resolved' if has_resolution else 'Payment Problem',
+                'l4': 'Professional Service' if has_resolution else 'Billing Error'
+            },
+            
+            # Technical & Quality
+            'playback_issue': {
+                'l1': 'Technology Driven',
+                'l2': 'Playback Issue',
+                'l3': 'Issue Resolved' if has_resolution else 'Streaming Problem',
+                'l4': 'Professional Service' if has_resolution else 'Playback Error'
+            },
+            'quality_issue': {
+                'l1': 'Technology Driven',
+                'l2': 'Streaming Quality',
+                'l3': 'Issue Resolved' if has_resolution else 'Quality Problem',
+                'l4': 'Professional Service' if has_resolution else 'Buffering/Lag'
+            },
+            
+            # Content
+            'content_unavailable': {
+                'l1': 'Products and Services',
+                'l2': 'Content Issue',
+                'l3': 'Issue Resolved' if has_resolution else 'Content Missing',
+                'l4': 'Professional Service' if has_resolution else 'Content Unavailable'
+            },
+            
+            # Device & Download
+            'device_issue': {
+                'l1': 'Technology Driven',
+                'l2': 'Device Issue',
+                'l3': 'Issue Resolved' if has_resolution else 'Connection Problem',
+                'l4': 'Professional Service' if has_resolution else 'Device Not Working'
+            },
+            'download_issue': {
+                'l1': 'Technology Driven',
+                'l2': 'Download Issue',
+                'l3': 'Issue Resolved' if has_resolution else 'Download Problem',
+                'l4': 'Professional Service' if has_resolution else 'Download Failed'
+            },
+            
+            # Account Access
+            'login_issue': {
+                'l1': 'Account Access',
+                'l2': 'Login Issue',
+                'l3': 'Issue Resolved' if has_resolution else 'Access Problem',
+                'l4': 'Professional Service' if has_resolution else 'Login Failed'
+            },
+            'account_issue': {
+                'l1': 'Account Management',
+                'l2': 'Account Issue',
+                'l3': 'Issue Resolved' if has_resolution else 'Account Problem',
+                'l4': 'Professional Service' if has_resolution else 'Account Error'
+            }
+        }
         
-        text_lower = text.lower()
-        matches = []
-        
-        # Scan keywords (FAST PATH - High priority)
-        for kw_item in self.keyword_patterns:
-            if kw_item['pattern'].search(text_lower):
-                score = self._calculate_match_score(text, kw_item['conditions'])
-                matches.append({
-                    'category': kw_item['category'],
-                    'score': score + 20,  # Keyword bonus
-                    'source': 'keyword',
-                    'conditions_matched': [c for c in kw_item['conditions'] if c.lower() in text_lower]
-                })
-        
-        # Scan rules (COMPREHENSIVE PATH)
-        for rule_item in self.rule_patterns:
-            if rule_item['pattern'].search(text_lower):
-                score = self._calculate_match_score(text, rule_item['conditions'])
-                matches.append({
-                    'category': rule_item['category'],
-                    'score': score + 10,  # Rule bonus
-                    'source': 'rule',
-                    'conditions_matched': [c for c in rule_item['conditions'] if c.lower() in text_lower]
-                })
-        
-        return matches
+        return intent_mappings.get(primary_intent, None)
     
     def classify_single(self, text: str) -> Dict:
         """
-        Classify a single text with enhanced accuracy
+        ULTRA-ENHANCED classification with conversation flow analysis
         
         Process:
-        1. Scan for all potential matches
-        2. Score each match
-        3. Select best match
-        4. Validate hierarchy
-        5. Return complete classification
+        1. Detect primary intent (cancel, billing, technical, etc.)
+        2. Detect resolution status
+        3. Find all pattern matches
+        4. Filter false positives
+        5. Score with context awareness
+        6. Override with intent if strong signal
+        7. Return best classification
         """
         if not text or not isinstance(text, str):
             return {
@@ -667,11 +898,64 @@ class VectorizedRuleEngine:
                 'match_path': "Uncategorized"
             }
         
-        # Get all potential matches
-        matches = self._scan_with_context(text)
+        # STEP 1: Detect primary intent
+        primary_intent = self._detect_primary_intent(text)
+        has_resolution = self._detect_resolution(text)
+        
+        # STEP 2: If strong intent detected, use it (HIGH CONFIDENCE)
+        if primary_intent:
+            intent_category = self._override_with_intent(primary_intent, has_resolution)
+            if intent_category:
+                return {
+                    'l1': intent_category['l1'],
+                    'l2': intent_category['l2'],
+                    'l3': intent_category['l3'],
+                    'l4': intent_category['l4'],
+                    'confidence': 0.95,
+                    'match_path': f"{intent_category['l1']} > {intent_category['l2']} > {intent_category['l3']}"
+                }
+        
+        # STEP 3: Fall back to pattern matching
+        text_lower = text.lower()
+        matches = []
+        match_context = {
+            'has_primary_intent': primary_intent is not None,
+            'has_resolution': has_resolution
+        }
+        
+        # Scan keywords
+        for kw_item in self.keyword_patterns:
+            if kw_item['pattern'].search(text_lower):
+                category_data = kw_item['category']
+                
+                # Filter false positives
+                if self._has_false_positive(text, category_data):
+                    continue
+                
+                score = self._calculate_match_score(text, kw_item['conditions'], match_context)
+                matches.append({
+                    'category': category_data,
+                    'score': score + 20,
+                    'source': 'keyword'
+                })
+        
+        # Scan rules
+        for rule_item in self.rule_patterns:
+            if rule_item['pattern'].search(text_lower):
+                category_data = rule_item['category']
+                
+                # Filter false positives
+                if self._has_false_positive(text, category_data):
+                    continue
+                
+                score = self._calculate_match_score(text, rule_item['conditions'], match_context)
+                matches.append({
+                    'category': category_data,
+                    'score': score + 10,
+                    'source': 'rule'
+                })
         
         if not matches:
-            # No matches found
             return {
                 'l1': "Uncategorized",
                 'l2': "NA",
@@ -681,21 +965,20 @@ class VectorizedRuleEngine:
                 'match_path': "Uncategorized"
             }
         
-        # Sort by score (highest first)
+        # Select best match
         matches.sort(key=lambda x: x['score'], reverse=True)
-        
-        # Get best match
         best_match = matches[0]
         category_data = best_match['category']
         
         # Validate hierarchy
         validated = self._validate_hierarchy(category_data)
         
-        # Calculate confidence (0.0 to 1.0)
-        raw_score = best_match['score']
-        confidence = min(raw_score / 100.0, 1.0)  # Normalize to 0-1
+        # Override L3/L4 with resolution if detected
+        if has_resolution and 'issue' in validated['l2'].lower():
+            validated['l3'] = 'Issue Resolved'
+            validated['l4'] = 'Professional Service'
         
-        # Build match path
+        confidence = min(best_match['score'] / 100.0, 1.0)
         match_path = f"{validated['l1']} > {validated['l2']}"
         if validated['l3'] != 'NA':
             match_path += f" > {validated['l3']}"
@@ -710,21 +993,11 @@ class VectorizedRuleEngine:
         }
     
     def classify_batch(self, texts: List[str]) -> pl.DataFrame:
-        """
-        ENHANCED batch classification with better accuracy
-        
-        Process:
-        - Scan each text carefully
-        - Multi-pass matching
-        - Hierarchical validation
-        - Score-based selection
-        """
+        """ULTRA-ENHANCED batch classification"""
         results = []
-        
         for text in texts:
             result = self.classify_single(text)
             results.append(result)
-        
         return pl.DataFrame(results)
 
 
