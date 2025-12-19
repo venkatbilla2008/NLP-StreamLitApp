@@ -1491,7 +1491,7 @@ class AdvancedVisualizer:
                 stop_words=stop_words_list, 
                 max_features=top_n,
                 ngram_range=(1, 1),
-                min_df=2  # Must appear in at least 2 docs
+                min_df=1  # Allow words appearing even once for small datasets
             )
             
             try:
@@ -1518,7 +1518,8 @@ class AdvancedVisualizer:
             # Normalize weights for clearer graph
             if cx.data.size > 0:
                 max_weight = cx.data.max()
-                threshold = max_weight * 0.1 # Show edges with at least 10% of max strength
+                # Lower threshold to 5% or 0 if max is small
+                threshold = max_weight * 0.05 if max_weight > 5 else 0 
             else:
                 threshold = 0
                 
@@ -2157,6 +2158,8 @@ def main():
                             net_fig = AdvancedVisualizer.generate_network_graph(sample_texts)
                             if net_fig:
                                 st.plotly_chart(net_fig, use_container_width=True)
+                            else:
+                                st.info("ℹ️ Not enough recurring terms found to generate network graph.")
 
                 with tab3:
                     st.markdown("### 🧠 Deep Dive: Emotions & Clusters")
