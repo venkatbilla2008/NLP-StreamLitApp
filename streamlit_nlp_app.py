@@ -51,13 +51,17 @@ import duckdb
 # NLP Libraries
 # NLP Libraries
 import spacy
-
-# Visualization Libraries
+from textblob import TextBlob
+from wordcloud import WordCloud, STOPWORDS
 import plotly.express as px
 import plotly.graph_objects as go
-from wordcloud import WordCloud
+import networkx as nx
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.cluster import MiniBatchKMeans
+from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
-from collections import Counter
+from collections import Counter, defaultdict
+import itertools
 
 # ========================================================================================
 # CONFIGURATION & CONSTANTS - ULTRA-OPTIMIZED
@@ -76,6 +80,20 @@ CHUNK_SIZE = 5000  # Process 5000 records per chunk (optimal for vectorization)
 CACHE_SIZE = 200000  # 200K cache entries
 SUPPORTED_FORMATS = ['csv', 'xlsx', 'xls', 'parquet', 'json']
 COMPLIANCE_STANDARDS = ["HIPAA", "GDPR", "PCI-DSS", "CCPA"]
+
+# General terms to exclude from visuals (can be customized)
+GENERAL_TERMS = {
+    'issue', 'problem', 'customer', 'client', 'agent', 'please', 'help', 
+    'thank', 'thanks', 'contact', 'support', 'service', 'working', 'check',
+    'need', 'want', 'know', 'like', 'think', 'going', 'would', 'could',
+    'get', 'got', 'getting', 'see', 'saw', 'try', 'tried', 'trying',
+    'make', 'do', 'did', 'does', 'done', 'doing', 'can', 'cant', 'cannot',
+    'will', 'wont', 'just', 'now', 'today', 'tomorrow', 'yesterday',
+    'day', 'week', 'month', 'year', 'time', 'minute', 'hour', 'moment',
+    'hi', 'hello', 'hey', 'dear', 'ok', 'okay', 'yes', 'no', 'yeah',
+    'subject', 're', 'fw', 'fwd', 'message', 'conversation', 'chat',
+    'email', 'phone', 'number', 'address', 'name', 'account', 'id'
+}
 
 # File size limits (in MB)
 MAX_FILE_SIZE_MB = 1000  # Increased for large datasets
@@ -368,6 +386,89 @@ class VectorizedPIIDetector:
         
         return True
 
+
+
+# ========================================================================================
+# VECTORIZED EMOTION DETECTOR - ULTRA-FAST
+# ========================================================================================
+
+class VectorizedEmotionDetector:
+    """
+    Vectorized emotion detection using optimized keyword matching
+    Faster than TextBlob/NLTK for large datasets
+    """
+    
+    EMOTION_KEYWORDS = {
+        'anger': [
+            'angry', 'mad', 'furious', 'upset', 'hate', 'stupid', 'idiot', 'useless', 'terrible',
+            'horrible', 'worst', 'awful', 'disappointed', 'frustrated', 'annoyed', 'ridiculous',
+            'bullshit', 'crap', 'garbage', 'trash', 'waste', 'fail', 'broken'
+        ],
+        'joy': [
+            'happy', 'great', 'good', 'love', 'excellent', 'amazing', 'awesome', 'perfect',
+            'thank', 'thanks', 'cool', 'nice', 'wonderful', 'best', 'pleased', 'satisfied',
+            'helpful', 'appreciate', 'glad', 'works'
+        ],
+        'sadness': [
+            'sad', 'sorry', 'unfortunate', 'regret', 'miss', 'missing', 'lost', 'loss',
+            'bad', 'poor', 'wrong', 'fail', 'failed', 'issue', 'problem', 'trouble',
+            'worry', 'worried', 'afraid', 'fear', 'confused'
+        ],
+        'surprise': [
+            'wow', 'whoa', 'omg', 'surprise', 'surprised', 'shock', 'shocking', 'unbelievable',
+            'crazy', 'wild', 'weird', 'strange', 'unexpected'
+        ]
+    }
+    
+    @classmethod
+    def detect_batch(cls, texts: List[str]) -> pl.DataFrame:
+        """Detect emotions in batch"""
+        results = []
+        
+        for text in texts:
+            if not text or not isinstance(text, str):
+                results.append({'emotion': 'neutral', 'sentiment_score': 0.0})
+                continue
+            
+            text_lower = text.lower()
+            scores = {k: 0 for k in cls.EMOTION_KEYWORDS.keys()}
+            
+            # Simple keyword matching (fastest)
+            # For more accuracy but slower speed, use TextBlob
+            
+            # 1. Check Keywords
+            for emotion, keywords in cls.EMOTION_KEYWORDS.items():
+                for kw in keywords:
+                    if kw in text_lower:
+                        scores[emotion] += 1
+            
+            # 2. Determine Emotion
+            max_score = 0
+            detected_emotion = 'neutral'
+            
+            for emotion, score in scores.items():
+                if score > max_score:
+                    max_score = score
+                    detected_emotion = emotion
+            
+            # 3. Sentiment Fallback (using TextBlob if installed, else simple)
+            sentiment = 0.0
+            try:
+                sentiment = TextBlob(text).sentiment.polarity
+                if detected_emotion == 'neutral':
+                    if sentiment > 0.3:
+                        detected_emotion = 'joy'
+                    elif sentiment < -0.3:
+                        detected_emotion = 'anger' # Simplified
+            except:
+                pass
+                
+            results.append({
+                'emotion': detected_emotion,
+                'sentiment_score': sentiment
+            })
+            
+        return pl.DataFrame(results)
 
 # ========================================================================================
 # DOMAIN LOADER
@@ -1078,169 +1179,6 @@ class VectorizedProximityAnalyzer:
         return pl.DataFrame(results)
 
 
-
-# ========================================================================================
-# ADVANCED VISUALIZATION MODULE
-# ========================================================================================
-
-class AdvancedVisualizer:
-    """Generates executive-level visualizations for the dashboard"""
-    
-    # Pre-defined sentiment lists for "Realistic Meaning" in Word Cloud
-    NEGATIVE_TERMS = {
-        'issue', 'problem', 'error', 'fail', 'failed', 'failure', 'slow', 'lag', 'lagging', 
-        'buffer', 'buffering', 'terrible', 'bad', 'worst', 'broken', 'glitch', 'bug', 
-        'cancel', 'cancellation', 'charged', 'overcharged', 'refund', 'scam', 'cheat', 
-        'awful', 'useless', 'stupid', 'ridiculous', 'waiting', 'wait', 'delay', 'delayed', 
-        'rude', 'unprofessional', 'hang', 'froze', 'frozen', 'crash', 'crashed', 'deny', 
-        'denied', 'reject', 'rejected', 'dispute', 'fraud', 'unauthorized', 'stole', 
-        'missing', 'gone', 'lost', 'unable', 'cannot', 'cant', 'won', 'wont', 'freeze',
-        'pixelated', 'blurry', 'disconnect', 'disconnected', 'dropping', 'drops', 'stop',
-        'stopped', 'stuck', 'garbage', 'furious', 'upset', 'angry', 'hate', 'disappointed',
-        'annoying', 'incorrect', 'wrong', 'mistake', 'lie', 'lying', 'ignore', 'ignored'
-    }
-
-    @staticmethod
-    def create_sunburst_chart(df: pd.DataFrame):
-        """Create hierarchical sunburst chart of categories"""
-        if df.empty:
-            return None
-            
-        # Prepare data: Count occurrences of hierarchy paths
-        # Handle missing values
-        df_clean = df.fillna("Uncategorized")
-        
-        # Aggregate data for speed
-        sunburst_data = df_clean.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().reset_index(name='count')
-        
-        # Filter out extremely small segments for better visibility
-        limit = len(df) * 0.005  # 0.5% threshold
-        sunburst_data = sunburst_data[sunburst_data['count'] > limit]
-        
-        fig = px.sunburst(
-            sunburst_data,
-            path=['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary'],
-            values='count',
-            title="<b>Hierarchical Category Breakdown</b><br><sup>Click to zoom in/out</sup>",
-            color='L1_Category',
-            color_discrete_sequence=px.colors.qualitative.Prism,
-            height=700
-        )
-        fig.update_traces(textinfo="label+percent entry")
-        fig.update_layout(margin=dict(t=50, l=0, r=0, b=0))
-        return fig
-
-    @staticmethod
-    def create_intent_donut(df: pd.DataFrame):
-        """Create donut chart of L1 intents"""
-        if df.empty:
-            return None
-            
-        l1_counts = df['L1_Category'].value_counts().reset_index()
-        l1_counts.columns = ['Category', 'Count']
-        
-        fig = px.pie(
-            l1_counts,
-            values='Count',
-            names='Category',
-            hole=0.4,
-            title="<b>Primary Intent Distribution</b>",
-            color_discrete_sequence=px.colors.qualitative.Bold
-        )
-        fig.update_traces(textposition='inside', textinfo='percent+label')
-        fig.update_layout(margin=dict(t=50, l=20, r=20, b=20))
-        return fig
-
-    @staticmethod
-    def create_resolution_gauge(df: pd.DataFrame):
-        """Create gauge chart for resolution rate"""
-        if df.empty:
-            return None
-            
-        # Calculate resolution stats
-        total = len(df)
-        resolved = len(df[df['L3_Tertiary'].astype(str).str.contains('Resolved', case=False, na=False)])
-        rate = (resolved / total * 100) if total > 0 else 0
-        
-        fig = go.Figure(go.Indicator(
-            mode = "gauge+number",
-            value = rate,
-            domain = {'x': [0, 1], 'y': [0, 1]},
-            title = {'text': "<b>Issue Resolution Rate</b>"},
-            gauge = {
-                'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "darkblue"},
-                'bar': {'color': "#00CC96"},
-                'bgcolor': "white",
-                'borderwidth': 2,
-                'bordercolor': "gray",
-                'steps': [
-                    {'range': [0, 50], 'color': '#FFE6E6'},
-                    {'range': [50, 80], 'color': '#EAFFEA'},
-                    {'range': [80, 100], 'color': '#CCFFCC'}],
-                'threshold': {
-                    'line': {'color': "red", 'width': 4},
-                    'thickness': 0.75,
-                    'value': 90}
-            }
-        ))
-        fig.update_layout(height=400, margin=dict(t=50, l=20, r=20, b=20))
-        return fig
-
-    @classmethod
-    def create_wordcloud(cls, df: pd.DataFrame, text_col: str, mode: str = 'negative'):
-        """
-        Create a meaningful word cloud focusing on specific sentiments.
-        mode: 'negative' (Pain Points) or 'general' (All text)
-        """
-        if df.empty:
-            return None
-            
-        # 1. Concatenate all text
-        text_data = df[text_col].astype(str).str.lower().tolist()
-        text_joined = " ".join(text_data)
-        
-        # 2. Tokenize (simple split is faster for wordcloud)
-        # Remove punctuation for better matching
-        text_clean = re.sub(r'[^\w\s]', '', text_joined)
-        tokens = text_clean.split()
-        
-        # 3. Filter based on mode
-        final_counts = Counter()
-        
-        if mode == 'negative':
-            # Only keep words that match our negative list
-            relevant_tokens = [t for t in tokens if t in cls.NEGATIVE_TERMS]
-            if not relevant_tokens:
-                return None
-            final_counts.update(relevant_tokens)
-            colormap = 'Reds'
-            background = '#FFF0F0' # Light red background (optional, or white)
-            background = 'white'
-        else:
-            # General mode: Standardstopwords + Domain specific stopwords to remove noise
-            stopwords = set(['the', 'and', 'to', 'of', 'a', 'in', 'is', 'that', 'for', 'it', 'on', 'with', 'as', 'this', 'but', 'be', 'you', 'are', 'not', 'have', 'i', 'my', 'me', 'we', 'your', 'can', 'will', 'netflix', 'spotify', 'account', 'chat', 'hello', 'hi', 'thank', 'thanks', 'help', 'please', 'customer', 'service', 'agent', 'yes', 'no', 'ok', 'okay'])
-            relevant_tokens = [t for t in tokens if t not in stopwords and len(t) > 2]
-            final_counts.update(relevant_tokens)
-            colormap = 'viridis'
-            background = 'white'
-
-        # 4. Generate Cloud from Frequencies
-        if not final_counts:
-            return None
-            
-        wc = WordCloud(
-            width=800, 
-            height=400, 
-            background_color=background,
-            min_font_size=10,
-            max_words=100,
-            colormap=colormap,
-            prefer_horizontal=0.9
-        ).generate_from_frequencies(final_counts)
-        
-        return wc
-
-
 # ========================================================================================
 # ULTRA-FAST NLP PIPELINE WITH DUCKDB
 # ========================================================================================
@@ -1449,6 +1387,177 @@ class UltraFastNLPPipeline:
         except Exception as e:
             logger.error(f"Analytics error: {e}")
             return {}
+
+
+
+# ========================================================================================
+# ADVANCED VISUALIZER - WORD CLOUDS, GRAPHS & CLUSTERS
+# ========================================================================================
+
+class AdvancedVisualizer:
+    """Generates advanced visuals: Word Clouds, Network Graphs, Theme Clusters"""
+    
+    @staticmethod
+    def generate_wordcloud(texts: List[str], title: str = "Word Cloud") -> Optional[plt.Figure]:
+        """Generate Word Cloud removing general terms"""
+        try:
+            # Combine text
+            combined_text = " ".join([str(t) for t in texts if t])
+            
+            # Update stopwords
+            stopwords = set(STOPWORDS)
+            stopwords.update(GENERAL_TERMS)
+            
+            # Generate
+            wordcloud = WordCloud(
+                width=800, 
+                height=400, 
+                background_color='white',
+                stopwords=stopwords,
+                max_words=100,
+                colormap='viridis'
+            ).generate(combined_text)
+            
+            # Plot
+            fig, ax = plt.subplots(figsize=(10, 5))
+            ax.imshow(wordcloud, interpolation='bilinear')
+            ax.axis('off')
+            ax.set_title(title)
+            return fig
+        except Exception as e:
+            logger.error(f"Wordcloud error: {e}")
+            return None
+
+    @staticmethod
+    def generate_network_graph(texts: List[str], top_n: int = 30) -> Optional[go.Figure]:
+        """Generate network graph of co-occurring terms"""
+        try:
+            # Tokenize and filter
+            vectorizer = CountVectorizer(stop_words='english', max_features=top_n)
+            X = vectorizer.fit_transform(texts)
+            terms = vectorizer.get_feature_names_out()
+            
+            # Co-occurrence matrix
+            co_occurrence = (X.T * X)
+            co_occurrence.setdiag(0)
+            
+            # Create graph
+            G = nx.Graph()
+            
+            # Add nodes
+            for term in terms:
+                G.add_node(term)
+            
+            # Add edges
+            cx = co_occurrence.tocoo()
+            for i, j, v in zip(cx.row, cx.col, cx.data):
+                if i < j: # Upper triangle only
+                    G.add_edge(terms[i], terms[j], weight=v)
+            
+            # Layout
+            pos = nx.spring_layout(G, k=0.5)
+            
+            # Create Plotly trace
+            edge_x = []
+            edge_y = []
+            for edge in G.edges():
+                x0, y0 = pos[edge[0]]
+                x1, y1 = pos[edge[1]]
+                edge_x.append(x0)
+                edge_x.append(x1)
+                edge_x.append(None)
+                edge_y.append(y0)
+                edge_y.append(y1)
+                edge_y.append(None)
+
+            edge_trace = go.Scatter(
+                x=edge_x, y=edge_y,
+                line=dict(width=0.5, color='#888'),
+                hoverinfo='none',
+                mode='lines')
+
+            node_x = []
+            node_y = []
+            node_text = []
+            node_adjacencies = []
+            
+            for node in G.nodes():
+                x, y = pos[node]
+                node_x.append(x)
+                node_y.append(y)
+                node_text.append(node)
+                node_adjacencies.append(len(G[node]))
+
+            node_trace = go.Scatter(
+                x=node_x, y=node_y,
+                mode='markers+text',
+                hoverinfo='text',
+                text=node_text,
+                textposition="top center",
+                marker=dict(
+                    showscale=True,
+                    colorscale='YlGnBu',
+                    reversescale=True,
+                    color=node_adjacencies,
+                    size=10,
+                    colorbar=dict(
+                        thickness=15,
+                        title='Connections',
+                        xanchor='left',
+                        titleside='right'
+                    ),
+                    line_width=2))
+
+            fig = go.Figure(data=[edge_trace, node_trace],
+                         layout=go.Layout(
+                            title='Context Network Graph (Co-occurrences)',
+                            titlefont_size=16,
+                            showlegend=False,
+                            hovermode='closest',
+                            margin=dict(b=20,l=5,r=5,t=40),
+                            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
+                            )
+            return fig
+        except Exception as e:
+            logger.error(f"Network graph error: {e}")
+            return None
+
+    @staticmethod
+    def cluster_themes(texts: List[str], n_clusters: int = 5) -> Tuple[go.Figure, pd.DataFrame]:
+        """Cluster themes using TF-IDF and KMeans"""
+        try:
+            # Vectorize
+            tfidf = TfidfVectorizer(max_features=1000, stop_words='english')
+            X = tfidf.fit_transform(texts)
+            
+            # Cluster
+            kmeans = MiniBatchKMeans(n_clusters=n_clusters, random_state=42, n_init=10)
+            clusters = kmeans.fit_predict(X)
+            
+            # Reduce dim for visualization
+            pca = PCA(n_components=2)
+            coords = pca.fit_transform(X.toarray())
+            
+            df_cluster = pd.DataFrame({
+                'x': coords[:, 0],
+                'y': coords[:, 1],
+                'cluster': clusters,
+                'text': [t[:50] + "..." for t in texts]
+            })
+            
+            # Plot
+            fig = px.scatter(
+                df_cluster, x='x', y='y', color='cluster',
+                hover_data=['text'],
+                title=f'Theme Clusters ({n_clusters} groups)',
+                template='plotly_white'
+            )
+            
+            return fig, df_cluster
+        except Exception as e:
+            logger.error(f"Clustering error: {e}")
+            return None, pd.DataFrame()
 
 
 # ========================================================================================
@@ -1894,73 +2003,103 @@ def main():
                 st.subheader("📋 Results Preview (First 20 rows)")
                 st.dataframe(output_df.head(20), use_container_width=True)
                 
-                # Analytics using DuckDB & Plotly
-                st.subheader("📊 Executive Dashboard")
-
-                analytics_tabs = st.tabs(["Overview", "Deep Dive", "Text Analysis"])
+                # Analytics using DuckDB
+                st.subheader("📊 Analytics Dashboard")
                 
-                with analytics_tabs[0]:
-                    col1, col2 = st.columns([2, 1])
-                    with col1:
-                        # Sunburst (The Wow Factor)
-                        st.markdown("##### 🌍 Hierarchical Category View")
-                        fig_sun = AdvancedVisualizer.create_sunburst_chart(output_df)
-                        if fig_sun:
-                            st.plotly_chart(fig_sun, use_container_width=True)
-                        else:
-                            st.info("Not enough data for hierarchical view.")
-                    
-                    with col2:
-                        # Donut of L1
-                        st.markdown("##### 🎯 Primary Intent Distribution")
-                        fig_donut = AdvancedVisualizer.create_intent_donut(output_df)
-                        if fig_donut:
-                            st.plotly_chart(fig_donut, use_container_width=True)
-                        
-                        st.markdown("---")
-                        
-                        # Resolution Gauge
-                        st.markdown("##### ✅ Resolution Rate")
-                        fig_gauge = AdvancedVisualizer.create_resolution_gauge(output_df)
-                        if fig_gauge:
-                            st.plotly_chart(fig_gauge, use_container_width=True)
-
-                with analytics_tabs[1]:
-                    # Raw stats
-                    st.markdown("### 🔢 Detailed Statistics")
+                # Create Tabs
+                tab1, tab2, tab3 = st.tabs(["Overview & Trends", "Word Clouds & Network", "Deep Dive"])
+                
+                with tab1:
+                    st.markdown("### 📈 High-Level Overview")
                     analytics = pipeline.get_analytics_summary()
+                    
+                    if 'category_distribution' in analytics:
+                        cat_df = pd.DataFrame(analytics['category_distribution'])
+                        if not cat_df.empty:
+                            # Enhanced Bar Chart using Plotly
+                            fig_bar = px.bar(
+                                cat_df, 
+                                x='l1', 
+                                y='count', 
+                                title="L1 Category Distribution",
+                                text='count',
+                                color='l1',
+                                template='plotly_white'
+                            )
+                            fig_bar.update_traces(textposition='outside')
+                            st.plotly_chart(fig_bar, use_container_width=True)
+                            
+                            # Pie Chart (requested)
+                            fig_pie = px.pie(
+                                cat_df, 
+                                values='count', 
+                                names='l1', 
+                                title="Category Share",
+                                hole=0.4
+                            )
+                            st.plotly_chart(fig_pie, use_container_width=True)
+                    
                     if 'basic_statistics' in analytics:
+                        st.markdown("#### Key Metrics")
                         stats = analytics['basic_statistics']
                         c1, c2, c3 = st.columns(3)
-                        c1.metric("Total Records", f"{stats['total_records']:,}")
-                        c2.metric("Unique L1 Categories", stats['unique_l1_categories'])
-                        c3.metric("Unique L2 Subcategories", stats['unique_l2_categories'])
-                    
-                    st.markdown("#### Category breakdown")
-                    if 'category_distribution' in analytics:
-                         st.dataframe(pd.DataFrame(analytics['category_distribution']), use_container_width=True)
+                        c1.metric("Total Records", stats.get('total_records', 0))
+                        c2.metric("L1 Categories", stats.get('unique_l1_categories', 0))
+                        c3.metric("L2 Subcategories", stats.get('unique_l2_categories', 0))
 
-                with analytics_tabs[2]:
-                    st.markdown("### ☁️ Sentiment Topic Cloud")
+                with tab2:
+                    st.markdown("### ☁️ Word Cloud & Network")
+                    col_wc, col_net = st.columns(2)
                     
-                    cloud_mode = st.radio(
-                        "Visualize:",
-                        ["Pain Points (Negative)", "General Terms"],
-                        horizontal=True
-                    )
+                    # Sample for heavy visuals (max 2000 records)
+                    sample_texts = output_df['Original_Text'].head(2000).tolist()
                     
-                    mode_key = 'negative' if 'Negative' in cloud_mode else 'general'
+                    with col_wc:
+                        st.markdown("**Word Cloud (Significantly Phrases)**")
+                        with st.spinner("Generating Word Cloud..."):
+                            wc_fig = AdvancedVisualizer.generate_wordcloud(
+                                sample_texts, 
+                                title="Most Frequent Terms (Excluding General)"
+                            )
+                            if wc_fig:
+                                st.pyplot(wc_fig)
+                                plt.clf() # Clear memory
                     
-                    with st.spinner("Generating sentiment cloud..."):
-                        wc = AdvancedVisualizer.create_wordcloud(output_df, 'Original_Text', mode=mode_key)
+                    with col_net:
+                        st.markdown("**Network Graph (Co-occurrences)**")
+                        with st.spinner("Building Network Graph..."):
+                            net_fig = AdvancedVisualizer.generate_network_graph(sample_texts)
+                            if net_fig:
+                                st.plotly_chart(net_fig, use_container_width=True)
+
+                with tab3:
+                    st.markdown("### 🧠 Deep Dive: Emotions & Clusters")
+                    
+                    # Emotion Detection on Sample
+                    st.markdown("#### ❤️ Emotion Analysis")
+                    with st.spinner("Detecting Emotions..."):
+                        emotion_df = VectorizedEmotionDetector.detect_batch(sample_texts)
+                        emo_counts = emotion_df['emotion'].value_counts().reset_index()
+                        emo_counts.columns = ['emotion', 'count']
                         
-                        if wc:
-                            fig, ax = plt.subplots(figsize=(10, 5))
-                            ax.imshow(wc, interpolation='bilinear')
-                            ax.axis('off')
-                            st.pyplot(fig)
-                        else:
-                            st.info(f"No significant {mode_key} terms found in the text.")
+                        fig_emo = px.bar(
+                            emo_counts, 
+                            x='emotion', 
+                            y='count', 
+                            color='emotion', 
+                            title="Emotion Distribution (Sample)",
+                            template='plotly_white'
+                        )
+                        st.plotly_chart(fig_emo, use_container_width=True)
+                    
+                    # Theme Clustering
+                    st.markdown("#### 🧩 Theme Clustering (Unsupervised)")
+                    with st.spinner("Clustering Themes..."):
+                        cluster_fig, cluster_df = AdvancedVisualizer.cluster_themes(sample_texts)
+                        if cluster_fig:
+                            st.plotly_chart(cluster_fig, use_container_width=True)
+                            with st.expander("View Cluster Data"):
+                                st.dataframe(cluster_df[['cluster', 'text']].head(50))
                 
                 # Downloads
                 st.subheader("💾 Downloads")

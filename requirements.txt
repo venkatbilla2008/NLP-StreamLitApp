@@ -37,6 +37,10 @@ multiprocess>=0.70.0    # Better multiprocessing
 plotly>=5.18.0
 wordcloud>=1.9.0
 matplotlib>=3.7.0  # Needed for wordcloud
+networkx
+scikit-learn
+textblob
+
 
 # spaCy for NER-based PII Detection
 # IMPORTANT: Install spaCy before the model
