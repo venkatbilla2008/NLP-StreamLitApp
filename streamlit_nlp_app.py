@@ -1086,6 +1086,20 @@ class VectorizedProximityAnalyzer:
 class AdvancedVisualizer:
     """Generates executive-level visualizations for the dashboard"""
     
+    # Pre-defined sentiment lists for "Realistic Meaning" in Word Cloud
+    NEGATIVE_TERMS = {
+        'issue', 'problem', 'error', 'fail', 'failed', 'failure', 'slow', 'lag', 'lagging', 
+        'buffer', 'buffering', 'terrible', 'bad', 'worst', 'broken', 'glitch', 'bug', 
+        'cancel', 'cancellation', 'charged', 'overcharged', 'refund', 'scam', 'cheat', 
+        'awful', 'useless', 'stupid', 'ridiculous', 'waiting', 'wait', 'delay', 'delayed', 
+        'rude', 'unprofessional', 'hang', 'froze', 'frozen', 'crash', 'crashed', 'deny', 
+        'denied', 'reject', 'rejected', 'dispute', 'fraud', 'unauthorized', 'stole', 
+        'missing', 'gone', 'lost', 'unable', 'cannot', 'cant', 'won', 'wont', 'freeze',
+        'pixelated', 'blurry', 'disconnect', 'disconnected', 'dropping', 'drops', 'stop',
+        'stopped', 'stuck', 'garbage', 'furious', 'upset', 'angry', 'hate', 'disappointed',
+        'annoying', 'incorrect', 'wrong', 'mistake', 'lie', 'lying', 'ignore', 'ignored'
+    }
+
     @staticmethod
     def create_sunburst_chart(df: pd.DataFrame):
         """Create hierarchical sunburst chart of categories"""
@@ -1172,26 +1186,57 @@ class AdvancedVisualizer:
         fig.update_layout(height=400, margin=dict(t=50, l=20, r=20, b=20))
         return fig
 
-    @staticmethod
-    def create_wordcloud(df: pd.DataFrame, text_col: str):
-        """Create word cloud from text"""
+    @classmethod
+    def create_wordcloud(cls, df: pd.DataFrame, text_col: str, mode: str = 'negative'):
+        """
+        Create a meaningful word cloud focusing on specific sentiments.
+        mode: 'negative' (Pain Points) or 'general' (All text)
+        """
         if df.empty:
             return None
             
-        text = " ".join(df[text_col].astype(str).tolist())
+        # 1. Concatenate all text
+        text_data = df[text_col].astype(str).str.lower().tolist()
+        text_joined = " ".join(text_data)
         
-        # Simple stopword removal
-        stopwords = set(['the', 'and', 'to', 'of', 'a', 'in', 'is', 'that', 'for', 'it', 'on', 'with', 'as', 'this', 'but', 'be', 'you', 'are', 'not', 'have', 'i', 'my', 'me', 'we', 'your', 'can', 'will'])
+        # 2. Tokenize (simple split is faster for wordcloud)
+        # Remove punctuation for better matching
+        text_clean = re.sub(r'[^\w\s]', '', text_joined)
+        tokens = text_clean.split()
         
+        # 3. Filter based on mode
+        final_counts = Counter()
+        
+        if mode == 'negative':
+            # Only keep words that match our negative list
+            relevant_tokens = [t for t in tokens if t in cls.NEGATIVE_TERMS]
+            if not relevant_tokens:
+                return None
+            final_counts.update(relevant_tokens)
+            colormap = 'Reds'
+            background = '#FFF0F0' # Light red background (optional, or white)
+            background = 'white'
+        else:
+            # General mode: Standardstopwords + Domain specific stopwords to remove noise
+            stopwords = set(['the', 'and', 'to', 'of', 'a', 'in', 'is', 'that', 'for', 'it', 'on', 'with', 'as', 'this', 'but', 'be', 'you', 'are', 'not', 'have', 'i', 'my', 'me', 'we', 'your', 'can', 'will', 'netflix', 'spotify', 'account', 'chat', 'hello', 'hi', 'thank', 'thanks', 'help', 'please', 'customer', 'service', 'agent', 'yes', 'no', 'ok', 'okay'])
+            relevant_tokens = [t for t in tokens if t not in stopwords and len(t) > 2]
+            final_counts.update(relevant_tokens)
+            colormap = 'viridis'
+            background = 'white'
+
+        # 4. Generate Cloud from Frequencies
+        if not final_counts:
+            return None
+            
         wc = WordCloud(
             width=800, 
             height=400, 
-            background_color='white',
-            stopwords=stopwords,
+            background_color=background,
             min_font_size=10,
             max_words=100,
-            colormap='viridis'
-        ).generate(text)
+            colormap=colormap,
+            prefer_horizontal=0.9
+        ).generate_from_frequencies(final_counts)
         
         return wc
 
@@ -1896,14 +1941,26 @@ def main():
                          st.dataframe(pd.DataFrame(analytics['category_distribution']), use_container_width=True)
 
                 with analytics_tabs[2]:
-                    st.markdown("### ☁️ Topic Cloud")
-                    st.info("Generating word cloud from original text...")
-                    wc = AdvancedVisualizer.create_wordcloud(output_df, 'Original_Text')
-                    if wc:
-                        fig, ax = plt.subplots(figsize=(10, 5))
-                        ax.imshow(wc, interpolation='bilinear')
-                        ax.axis('off')
-                        st.pyplot(fig)
+                    st.markdown("### ☁️ Sentiment Topic Cloud")
+                    
+                    cloud_mode = st.radio(
+                        "Visualize:",
+                        ["Pain Points (Negative)", "General Terms"],
+                        horizontal=True
+                    )
+                    
+                    mode_key = 'negative' if 'Negative' in cloud_mode else 'general'
+                    
+                    with st.spinner("Generating sentiment cloud..."):
+                        wc = AdvancedVisualizer.create_wordcloud(output_df, 'Original_Text', mode=mode_key)
+                        
+                        if wc:
+                            fig, ax = plt.subplots(figsize=(10, 5))
+                            ax.imshow(wc, interpolation='bilinear')
+                            ax.axis('off')
+                            st.pyplot(fig)
+                        else:
+                            st.info(f"No significant {mode_key} terms found in the text.")
                 
                 # Downloads
                 st.subheader("💾 Downloads")
