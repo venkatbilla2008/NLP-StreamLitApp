@@ -92,7 +92,13 @@ GENERAL_TERMS = {
     'day', 'week', 'month', 'year', 'time', 'minute', 'hour', 'moment',
     'hi', 'hello', 'hey', 'dear', 'ok', 'okay', 'yes', 'no', 'yeah',
     'subject', 're', 'fw', 'fwd', 'message', 'conversation', 'chat',
-    'email', 'phone', 'number', 'address', 'name', 'account', 'id'
+    'email', 'phone', 'number', 'address', 'name', 'account', 'id',
+    'date', 'timestamp', 'transcript', 'visitor', 'browser', 'os', 'ip',
+    'consumer', 'question', 'select', 'option', 'note', 'verify', 'allow', 
+    'br', 'spotify', 'netflix', 'premium', 'start', 'end', 'session',
+    'user', 'logged', 'logging', 'log', 'thing', 'way', 'look', 'looking',
+    'ask', 'asking', 'tell', 'telling', 'say', 'saying', 'provide', 'providing',
+    'give', 'giving', 'use', 'using', 'able', 'unable', 'link', 'click'
 }
 
 # File size limits (in MB)
@@ -1429,19 +1435,107 @@ class AdvancedVisualizer:
             return None
 
     @staticmethod
-    def _clean_text_for_graph(text: str) -> str:
-        """Helper to clean text for graph generation (remove 'br', etc)"""
-        if not text: return ""
-        text = text.lower()
-        # Remove HTML tags
-        text = re.sub(r'<[^>]+>', ' ', text)
-        # Remove specific noisy tokens like 'br'
-        text = re.sub(r'\bbr\b', ' ', text)
-        # Remove general terms
-        for term in GENERAL_TERMS:
-             if term in text:
-                 text = re.sub(rf'\b{term}\b', '', text)
-        return text
+    def _advanced_clean(texts: List[str]) -> List[str]:
+        """
+        Deep cleaning using spaCy & Regex:
+        - Removes timestamps, numbers, emails
+        - Filters stopwords & GENERAL_TERMS
+        - Keeps only Nouns, Verbs, Adjectives
+        - Lemmatizes tokens
+        """
+        cleaned_docs = []
+        pre_cleaned = []
+        
+        # 1. Regex Pre-processing (Masking noise)
+        for t in texts:
+            if not t or not isinstance(t, str): continue
+            
+            # Remove speaker labels (Consumer:, Agent:)
+            t = re.sub(r'^(Consumer|Agent|System|Bot)\s*:', '', t, flags=re.MULTILINE | re.IGNORECASE)
+            
+            # Remove HTML & BR
+            t = re.sub(r'<[^>]+>|&nbsp;|\bbr\b', ' ', t, flags=re.IGNORECASE)
+            
+            # Remove Timestamps & Dates (06:30:00, 2023-01-01)
+            t = re.sub(r'\b\d{1,2}:\d{2}(:\d{2})?\b', '', t)
+            t = re.sub(r'\b\d{4}-\d{2}-\d{2}\b', '', t)
+            
+            # Remove isolated numbers
+            t = re.sub(r'\b\d+\b', '', t)
+            
+            pre_cleaned.append(t)
+
+        # 2. Advanced NLP Processing with spaCy
+        # Batch process for speed
+        if not pre_cleaned: return []
+        
+        # Increase limit if needed, but 2000 is fine for visualisation
+        docs = list(nlp.pipe(pre_cleaned, disable=['ner', 'parser'], batch_size=50))
+        
+        for doc in docs:
+            valid_tokens = []
+            for token in doc:
+                # Basic filters
+                if (token.is_stop or 
+                    token.is_punct or 
+                    token.is_space or 
+                    token.like_num or 
+                    token.like_email or 
+                    token.like_url or
+                    len(token.text) < 3):
+                    continue
+                
+                # Lemmatize & Lowercase
+                lemma = token.lemma_.lower()
+                
+                # Check General Terms
+                if lemma in GENERAL_TERMS:
+                    continue
+                
+                # POS Filtering: Keep Nouns, Verbs, Adjectives, Proper Nouns
+                if token.pos_ not in ['NOUN', 'VERB', 'ADJ', 'PROPN']:
+                    continue
+                    
+                valid_tokens.append(lemma)
+            
+            if valid_tokens:
+                cleaned_docs.append(" ".join(valid_tokens))
+                
+        return cleaned_docs
+
+    @staticmethod
+    def generate_wordcloud(texts: List[str], title: str = "Word Cloud") -> Optional[plt.Figure]:
+        """Generate Word Cloud with advanced cleaning"""
+        try:
+            # Clean text
+            cleaned_docs = AdvancedVisualizer._advanced_clean(texts)
+            combined_text = " ".join(cleaned_docs)
+            
+            if not combined_text.strip():
+                return None
+            
+            # Generate
+            wordcloud = WordCloud(
+                width=800, 
+                height=400, 
+                background_color='white',
+                # Stopwords likely handled by _advanced_clean, but keep safety
+                stopwords=STOPWORDS,
+                max_words=100,
+                colormap='viridis',
+                collocations=True, # Allow bigrams in word cloud too
+                min_word_length=3
+            ).generate(combined_text)
+            
+            # Plot
+            fig, ax = plt.subplots(figsize=(10, 5))
+            ax.imshow(wordcloud, interpolation='bilinear')
+            ax.axis('off')
+            ax.set_title(title)
+            return fig
+        except Exception as e:
+            logger.error(f"Wordcloud error: {e}")
+            return None
 
     @staticmethod
     def generate_sunburst(df: pd.DataFrame) -> Optional[go.Figure]:
@@ -1478,44 +1572,77 @@ class AdvancedVisualizer:
 
     @staticmethod
     def generate_ngram_chart(texts: List[str], n: int = 2, top_k: int = 15) -> Optional[go.Figure]:
-        """Generate horizontal bar chart for top N-grams"""
+        """Generate horizontal bar chart for top N-grams with Grouping"""
         try:
-             # Clean text
-            cleaned_texts = [AdvancedVisualizer._clean_text_for_graph(t) for t in texts if t]
+             # Deep clean text
+            cleaned_docs = AdvancedVisualizer._advanced_clean(texts)
             
-            # Custom stop words
-            stop_words_list = list(STOPWORDS) + list(GENERAL_TERMS) + ['br', 'http', 'https', 'com']
+            if not cleaned_docs:
+                return None
             
             # Vectorize for N-grams
             vectorizer = CountVectorizer(
-                stop_words=stop_words_list,
                 ngram_range=(n, n),
-                max_features=top_k
+                max_features=top_k * 3, # Get more candiates to group
+                min_df=2
             )
             
-            X = vectorizer.fit_transform(cleaned_texts)
+            try:
+                X = vectorizer.fit_transform(cleaned_docs)
+            except ValueError:
+                return None
             
             # Sum counts
             counts = X.sum(axis=0).A1
-            freq_distribution = Counter(dict(zip(vectorizer.get_feature_names_out(), counts)))
+            freq_distribution = dict(zip(vectorizer.get_feature_names_out(), counts))
             
-            if not freq_distribution:
-                return None
+            # Grouping Logic: Merge "connect advisor" and "advisor connect"
+            grouped_freq = defaultdict(int)
+            canonical_forms = {} # frozen_set -> canonical representation
+            
+            for phrase, count in freq_distribution.items():
+                words = phrase.split()
+                # Create signature (sorted words)
+                signature = frozenset(words)
                 
-            # Create DataFrame
-            df_ngram = pd.DataFrame(freq_distribution.most_common(top_k), columns=['phrase', 'count'])
-            df_ngram = df_ngram.sort_values(by='count', ascending=True) # Sort for horiz bar
+                # Add to grouped count
+                grouped_freq[signature] += count
+                
+                # Update canonical form (keep the one with highest individual count or lexicographically first)
+                if signature not in canonical_forms:
+                    canonical_forms[signature] = phrase
+                else:
+                    # Logic: If this variation is more frequent than current canonical?
+                    # Here we only have total grouped freq. 
+                    # Simple heuristic: Keep the one that appeared first or alphabetical
+                    # Better: Vectorizer gave us the exact phrase. 
+                    # We can stick to the most legible one. 
+                    pass
+            
+            # Convert back to list
+            final_items = []
+            for signature, count in grouped_freq.items():
+                phrase = canonical_forms[signature]
+                final_items.append({'phrase': phrase, 'count': count})
+            
+            # Sort and Top K
+            df_ngram = pd.DataFrame(final_items)
+            df_ngram = df_ngram.sort_values(by='count', ascending=False).head(top_k)
+            
+            # Sort for display (Highest at top)
+            df_ngram = df_ngram.sort_values(by='count', ascending=True) 
             
             fig = px.bar(
                 df_ngram,
                 x='count',
                 y='phrase',
                 orientation='h',
-                title=f'Top {top_k} {"Bigrams" if n==2 else "Trigrams"} (Common Phrases)',
+                title=f'Top {top_k} {"Bigrams" if n==2 else "Trigrams"} (Grouped & Contextual)',
                 text='count',
                 template='plotly_white',
                 color='count',
-                color_continuous_scale='Viridis'
+                color_continuous_scale='Viridis',
+                hover_data=['phrase']
             )
             fig.update_traces(textposition='outside')
             return fig
