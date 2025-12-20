@@ -1437,6 +1437,21 @@ class AdvancedVisualizer:
             return None
 
     @staticmethod
+    def _clean_text_for_graph(text: str) -> str:
+        """Helper to clean text for graph generation (remove 'br', etc)"""
+        if not text: return ""
+        text = text.lower()
+        # Remove HTML tags
+        text = re.sub(r'<[^>]+>', ' ', text)
+        # Remove specific noisy tokens like 'br'
+        text = re.sub(r'\bbr\b', ' ', text)
+        # Remove general terms
+        for term in GENERAL_TERMS:
+             if term in text:
+                 text = re.sub(rf'\b{term}\b', '', text)
+        return text
+
+    @staticmethod
     def _advanced_clean(texts: List[str]) -> List[str]:
         """
         Deep cleaning using spaCy & Regex:
