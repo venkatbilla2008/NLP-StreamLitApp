@@ -58,7 +58,7 @@ import plotly.graph_objects as go
 import networkx as nx
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.cluster import MiniBatchKMeans
-from sklearn.decomposition import PCA
+from sklearn.decomposition import PCA, TruncatedSVD
 import matplotlib.pyplot as plt
 from collections import Counter, defaultdict
 import itertools
@@ -1679,8 +1679,6 @@ class AdvancedVisualizer:
             cluster_keywords[i] = ", ".join(keywords)
             
         return cluster_keywords
-
-from sklearn.decomposition import TruncatedSVD
 
     @staticmethod
     def cluster_themes(texts: List[str], n_clusters: int = 5) -> Tuple[Optional[go.Figure], pd.DataFrame, pd.DataFrame]:
