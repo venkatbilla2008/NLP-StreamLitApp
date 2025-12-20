@@ -1477,129 +1477,52 @@ class AdvancedVisualizer:
             return None
 
     @staticmethod
-    def generate_network_graph(texts: List[str], top_n: int = 50) -> Optional[go.Figure]:
-        """Generate network graph of co-occurring terms (cleaned)"""
+    def generate_ngram_chart(texts: List[str], n: int = 2, top_k: int = 15) -> Optional[go.Figure]:
+        """Generate horizontal bar chart for top N-grams"""
         try:
-            # Clean text specifically for graph
+             # Clean text
             cleaned_texts = [AdvancedVisualizer._clean_text_for_graph(t) for t in texts if t]
             
-            # Custom stop words including general terms
+            # Custom stop words
             stop_words_list = list(STOPWORDS) + list(GENERAL_TERMS) + ['br', 'http', 'https', 'com']
             
-            # Tokenize and filter
+            # Vectorize for N-grams
             vectorizer = CountVectorizer(
-                stop_words=stop_words_list, 
-                max_features=top_n,
-                ngram_range=(1, 1),
-                min_df=1  # Allow words appearing even once for small datasets
+                stop_words=stop_words_list,
+                ngram_range=(n, n),
+                max_features=top_k
             )
             
-            try:
-                X = vectorizer.fit_transform(cleaned_texts)
-            except ValueError: # Empty vocabulary
+            X = vectorizer.fit_transform(cleaned_texts)
+            
+            # Sum counts
+            counts = X.sum(axis=0).A1
+            freq_distribution = Counter(dict(zip(vectorizer.get_feature_names_out(), counts)))
+            
+            if not freq_distribution:
                 return None
                 
-            terms = vectorizer.get_feature_names_out()
+            # Create DataFrame
+            df_ngram = pd.DataFrame(freq_distribution.most_common(top_k), columns=['phrase', 'count'])
+            df_ngram = df_ngram.sort_values(by='count', ascending=True) # Sort for horiz bar
             
-            # Co-occurrence matrix
-            co_occurrence = (X.T * X)
-            co_occurrence.setdiag(0)
-            
-            # Create graph
-            G = nx.Graph()
-            
-            # Add nodes
-            for term in terms:
-                G.add_node(term)
-            
-            # Add edges with weights
-            cx = co_occurrence.tocoo()
-            
-            # Normalize weights for clearer graph
-            if cx.data.size > 0:
-                max_weight = cx.data.max()
-                # Lower threshold to 5% or 0 if max is small
-                threshold = max_weight * 0.05 if max_weight > 5 else 0 
-            else:
-                threshold = 0
-                
-            for i, j, v in zip(cx.row, cx.col, cx.data):
-                if i < j and v > threshold: # Upper triangle only and above threshold
-                    G.add_edge(terms[i], terms[j], weight=v)
-            
-            # Remove isolated nodes if too many
-            if G.number_of_nodes() > 20:
-                G.remove_nodes_from(list(nx.isolates(G)))
-            
-            if G.number_of_nodes() == 0:
-                return None
-            
-            # Layout
-            pos = nx.spring_layout(G, k=0.6, iterations=50) # Increased K and iterations
-
-            
-            # Create Plotly trace
-            edge_x = []
-            edge_y = []
-            for edge in G.edges():
-                x0, y0 = pos[edge[0]]
-                x1, y1 = pos[edge[1]]
-                edge_x.append(x0)
-                edge_x.append(x1)
-                edge_x.append(None)
-                edge_y.append(y0)
-                edge_y.append(y1)
-                edge_y.append(None)
-
-            edge_trace = go.Scatter(
-                x=edge_x, y=edge_y,
-                line=dict(width=0.5, color='#888'),
-                hoverinfo='none',
-                mode='lines')
-
-            node_x = []
-            node_y = []
-            node_text = []
-            node_adjacencies = []
-            
-            for node in G.nodes():
-                x, y = pos[node]
-                node_x.append(x)
-                node_y.append(y)
-                node_text.append(node)
-                node_adjacencies.append(len(G[node]))
-
-            node_trace = go.Scatter(
-                x=node_x, y=node_y,
-                mode='markers+text',
-                hoverinfo='text',
-                text=node_text,
-                textposition="top center",
-                marker=dict(
-                    showscale=True,
-                    colorscale='YlGnBu',
-                    reversescale=True,
-                    color=node_adjacencies,
-                    size=10,
-                    colorbar=dict(
-                        thickness=15,
-                        title='Connections',
-                        xanchor='left',
-                        titleside='right'
-                    ),
-                    line_width=2))
-
-            fig = go.Figure(data=[edge_trace, node_trace],
-                         layout=go.Layout(
-                            title='Context Network Graph (Co-occurrences)',
-                            titlefont_size=16,
-                            showlegend=False,
-                            hovermode='closest',
-                            margin=dict(b=20,l=5,r=5,t=40),
-                            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
-                            )
+            fig = px.bar(
+                df_ngram,
+                x='count',
+                y='phrase',
+                orientation='h',
+                title=f'Top {top_k} {"Bigrams" if n==2 else "Trigrams"} (Common Phrases)',
+                text='count',
+                template='plotly_white',
+                color='count',
+                color_continuous_scale='Viridis'
+            )
+            fig.update_traces(textposition='outside')
             return fig
+            
+        except Exception as e:
+            logger.error(f"N-gram chart error: {e}")
+            return None
         except Exception as e:
             logger.error(f"Network graph error: {e}")
             return None
@@ -2153,13 +2076,13 @@ def main():
                                 plt.clf() # Clear memory
                     
                     with col_net:
-                        st.markdown("**Network Graph (Co-occurrences)**")
-                        with st.spinner("Building Network Graph..."):
-                            net_fig = AdvancedVisualizer.generate_network_graph(sample_texts)
-                            if net_fig:
-                                st.plotly_chart(net_fig, use_container_width=True)
+                        st.markdown("**Top Phrases (Context)**")
+                        with st.spinner("Analyzing phrases..."):
+                            ngram_fig = AdvancedVisualizer.generate_ngram_chart(sample_texts, n=2, top_k=20)
+                            if ngram_fig:
+                                st.plotly_chart(ngram_fig, use_container_width=True)
                             else:
-                                st.info("ℹ️ Not enough recurring terms found to generate network graph.")
+                                st.info("ℹ️ Not enough data for phrase analysis.")
 
                 with tab3:
                     st.markdown("### 🧠 Deep Dive: Emotions & Clusters")
