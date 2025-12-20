@@ -2145,7 +2145,8 @@ def main():
             # Preview with Polars
             with st.expander("👀 Preview (first 10 rows)", expanded=True):
                 preview_df = data_df.select([id_column, text_column]).head(10)
-                st.dataframe(preview_df.to_pandas(), use_container_width=True)
+                st.dataframe(preview_df.to_pandas(), width="stretch") 
+
             
             st.markdown("---")
             
@@ -2222,7 +2223,7 @@ def main():
                 
                 # Results preview
                 st.subheader("📋 Results Preview (First 20 rows)")
-                st.dataframe(output_df.head(20), use_container_width=True)
+                st.dataframe(output_df.head(20), width="stretch")
                 
                 # Analytics using DuckDB
                 st.subheader("📊 Analytics Dashboard")
