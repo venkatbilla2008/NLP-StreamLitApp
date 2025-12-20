@@ -1689,25 +1689,46 @@ class AdvancedVisualizer:
         try:
             # 1. Clean Text
             cleaned = AdvancedVisualizer._advanced_clean(texts)
-            if not cleaned: return None, pd.DataFrame(), pd.DataFrame()
+            
+            # SAFEGUARD: Need enough data for clustering
+            if not cleaned or len(cleaned) < 5: 
+                logger.warning("Not enough data for clustering")
+                return None, pd.DataFrame(), pd.DataFrame()
+            
+            # Adjust n_clusters if data is small
+            n_clusters = min(n_clusters, len(cleaned) // 2)
+            if n_clusters < 2: n_clusters = 2
             
             # 2. Vectorize
-            tfidf = TfidfVectorizer(max_features=2000, min_df=2)
-            X = tfidf.fit_transform(cleaned)
+            tfidf = TfidfVectorizer(max_features=2000, min_df=1) # Allow 1 for small samples
+            try:
+                X = tfidf.fit_transform(cleaned)
+            except ValueError:
+                return None, pd.DataFrame(), pd.DataFrame()
             
             # 3. Cluster (KMeans)
+            # Ensure n_clusters is valid
+            if X.shape[0] < n_clusters:
+                n_clusters = X.shape[0]
+            
             kmeans = MiniBatchKMeans(n_clusters=n_clusters, random_state=42, n_init=10)
             clusters = kmeans.fit_predict(X)
             
             # 4. Dimensionality Reduction (TSNE for better separation)
             # Use PCA first if dimensions are huge to speed up TSNE
-            if X.shape[1] > 50:
+            if X.shape[1] > 50 and X.shape[0] > 50:
                  pca_50 = PCA(n_components=50)
                  X_reduced = pca_50.fit_transform(X.toarray())
             else:
                  X_reduced = X.toarray()
             
-            tsne = TSNE(n_components=2, random_state=42, perplexity=min(30, len(texts)-1))
+            # Safe perplexity
+            n_samples = X_reduced.shape[0]
+            perplexity = min(30, max(1, n_samples - 1))
+            if n_samples < 5:
+                perplexity = 1
+            
+            tsne = TSNE(n_components=2, random_state=42, perplexity=perplexity, init='random') # explicit init
             coords = tsne.fit_transform(X_reduced)
             
             # 5. Get Cluster Labels (Keywords)
@@ -2327,7 +2348,7 @@ def main():
                                 
                             with col_data:
                                 st.markdown("**Cluster Summary**")
-                                st.dataframe(cluster_summary, hide_index=True, use_container_width=True)
+                                st.dataframe(cluster_summary, hide_index=True) # Removed use_container_width to fix warning
                             
                             # Drill down view
                             with st.expander("🔍 Drill Down into Clusters"):
