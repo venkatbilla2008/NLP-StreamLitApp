@@ -67,6 +67,8 @@ import itertools
 # CONFIGURATION & CONSTANTS - ULTRA-OPTIMIZED
 # ========================================================================================
 
+import seaborn as sns
+from sklearn.manifold import TSNE
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -1655,40 +1657,113 @@ class AdvancedVisualizer:
             return None
 
     @staticmethod
-    def cluster_themes(texts: List[str], n_clusters: int = 5) -> Tuple[go.Figure, pd.DataFrame]:
-        """Cluster themes using TF-IDF and KMeans"""
-        try:
-            # Vectorize
-            tfidf = TfidfVectorizer(max_features=1000, stop_words='english')
-            X = tfidf.fit_transform(texts)
+    def _get_cluster_keywords(tfidf: TfidfVectorizer, X, clusters: np.ndarray, n_clusters: int, top_n: int = 3) -> Dict[int, str]:
+        """Extract top keywords for each cluster using TF-IDF centroids"""
+        cluster_keywords = {}
+        feature_names = tfidf.get_feature_names_out()
+        
+        # Calculate centroids manually (as X is sparse)
+        for i in range(n_clusters):
+            # Get indices of documents in this cluster
+            indices = np.where(clusters == i)[0]
+            if len(indices) == 0:
+                cluster_keywords[i] = f"Cluster {i}"
+                continue
+                
+            # Mean of TF-IDF vectors for this cluster (centroid)
+            centroid = X[indices].mean(axis=0).A1
             
-            # Cluster
+            # Get top indices
+            top_indices = centroid.argsort()[-top_n:][::-1]
+            keywords = [feature_names[ind] for ind in top_indices]
+            cluster_keywords[i] = ", ".join(keywords)
+            
+        return cluster_keywords
+
+    @staticmethod
+    def cluster_themes(texts: List[str], n_clusters: int = 6) -> Tuple[Optional[go.Figure], pd.DataFrame, pd.DataFrame]:
+        """
+        Cluster themes using TF-IDF, KMeans, and TSNE
+        Returns: Figure, Scatter Data, Summary Data
+        """
+        try:
+            # 1. Clean Text
+            cleaned = AdvancedVisualizer._advanced_clean(texts)
+            if not cleaned: return None, pd.DataFrame(), pd.DataFrame()
+            
+            # 2. Vectorize
+            tfidf = TfidfVectorizer(max_features=2000, min_df=2)
+            X = tfidf.fit_transform(cleaned)
+            
+            # 3. Cluster (KMeans)
             kmeans = MiniBatchKMeans(n_clusters=n_clusters, random_state=42, n_init=10)
             clusters = kmeans.fit_predict(X)
             
-            # Reduce dim for visualization
-            pca = PCA(n_components=2)
-            coords = pca.fit_transform(X.toarray())
+            # 4. Dimensionality Reduction (TSNE for better separation)
+            # Use PCA first if dimensions are huge to speed up TSNE
+            if X.shape[1] > 50:
+                 pca_50 = PCA(n_components=50)
+                 X_reduced = pca_50.fit_transform(X.toarray())
+            else:
+                 X_reduced = X.toarray()
             
+            tsne = TSNE(n_components=2, random_state=42, perplexity=min(30, len(texts)-1))
+            coords = tsne.fit_transform(X_reduced)
+            
+            # 5. Get Cluster Labels (Keywords)
+            labels_map = AdvancedVisualizer._get_cluster_keywords(tfidf, X, clusters, n_clusters)
+            
+            # 6. Prepare DataFrames
             df_cluster = pd.DataFrame({
                 'x': coords[:, 0],
                 'y': coords[:, 1],
-                'cluster': clusters,
-                'text': [t[:50] + "..." for t in texts]
+                'cluster_id': clusters,
+                'cluster_label': [f"Cluster {c}: {labels_map[c]}" for c in clusters],
+                'text_snippet': [t[:100] + "..." for t in texts],
+                'full_text': texts
             })
             
-            # Plot
+            # Summary Table
+            summary_data = []
+            for i in range(n_clusters):
+                count = len(df_cluster[df_cluster['cluster_id'] == i])
+                summary_data.append({
+                    'Cluster ID': i,
+                    'Dominant Topics': labels_map[i],
+                    'Size': count,
+                    'Share': f"{count/len(texts):.1%}"
+                })
+            df_summary = pd.DataFrame(summary_data).sort_values('Size', ascending=False)
+            
+            # 7. Plot using Plotly
             fig = px.scatter(
-                df_cluster, x='x', y='y', color='cluster',
-                hover_data=['text'],
-                title=f'Theme Clusters ({n_clusters} groups)',
-                template='plotly_white'
+                df_cluster, 
+                x='x', 
+                y='y', 
+                color='cluster_label',
+                hover_data=['text_snippet'],
+                title='Semantic Cluster Map (t-SNE)',
+                template='plotly_white',
+                color_discrete_sequence=px.colors.qualitative.Bold
             )
             
-            return fig, df_cluster
+            fig.update_layout(
+                legend=dict(
+                    orientation="h",
+                    yanchor="bottom",
+                    y=1.02,
+                    xanchor="right",
+                    x=1
+                ),
+                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)
+            )
+            
+            return fig, df_cluster, df_summary
+            
         except Exception as e:
             logger.error(f"Clustering error: {e}")
-            return None, pd.DataFrame()
+            return None, pd.DataFrame(), pd.DataFrame()
 
 
 # ========================================================================================
@@ -2235,13 +2310,34 @@ def main():
                         st.plotly_chart(fig_emo, use_container_width=True)
                     
                     # Theme Clustering
-                    st.markdown("#### 🧩 Theme Clustering (Unsupervised)")
+                    st.markdown("#### 🧩 Semantic Theme Clusters")
+                    st.info("💡 Clusters grouped by semantic similarity using TF-IDF & t-SNE. Labels are dominant keywords.")
+                    
                     with st.spinner("Clustering Themes..."):
-                        cluster_fig, cluster_df = AdvancedVisualizer.cluster_themes(sample_texts)
+                        # Increase sample size for clustering if possible, but keep it interactive
+                        cluster_sample = output_df['Original_Text'].head(3000).tolist()
+                        cluster_fig, cluster_df, cluster_summary = AdvancedVisualizer.cluster_themes(cluster_sample, n_clusters=6)
+                        
                         if cluster_fig:
-                            st.plotly_chart(cluster_fig, use_container_width=True)
-                            with st.expander("View Cluster Data"):
-                                st.dataframe(cluster_df[['cluster', 'text']].head(50))
+                            # Layout: Chart + Summary
+                            col_chart, col_data = st.columns([2, 1])
+                            
+                            with col_chart:
+                                st.plotly_chart(cluster_fig, use_container_width=True)
+                                
+                            with col_data:
+                                st.markdown("**Cluster Summary**")
+                                st.dataframe(cluster_summary, hide_index=True, use_container_width=True)
+                            
+                            # Drill down view
+                            with st.expander("🔍 Drill Down into Clusters"):
+                                selected_cluster_id = st.selectbox("Select Cluster to View Texts", cluster_summary['Cluster ID'].tolist())
+                                filtered_texts = cluster_df[cluster_df['cluster_id'] == selected_cluster_id]['full_text'].tolist()
+                                st.write(f"**Sample Texts from Cluster {selected_cluster_id}:**")
+                                for txt in filtered_texts[:5]:
+                                    st.text(f"• {txt}")
+                        else:
+                             st.warning("⚠️ Could not generate clusters (possibly insufficient data).")
                 
                 # Downloads
                 st.subheader("💾 Downloads")
