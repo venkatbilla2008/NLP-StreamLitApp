@@ -1406,45 +1406,95 @@ class AdvancedVisualizer:
     """Generates advanced visuals: Word Clouds, Network Graphs, Theme Clusters"""
     
     @staticmethod
-    def generate_wordcloud(texts: List[str], title: str = "Word Cloud") -> Optional[go.Figure]:
+    def generate_wordcloud(texts: List[str], title: str = "Word Cloud") -> Optional[plt.Figure]:
         """
-        Generate a 'Word TreeMap' (Interactive Word Cloud alternative).
-        Uses Plotly Treemap to avoid PIL/NumPy incompatibility issues.
+        Generate Word Cloud (RESTORED ORIGINAL VERSION).
+        FIX: Uses to_array() to avoid NumPy 2.0 asarray(copy=...) error in Matplotlib.
         """
         try:
-            # FAST Clean text
+            # FAST Clean text (Use Regex for speed)
             cleaned_texts = [AdvancedVisualizer._clean_text_for_graph(t) for t in texts if t]
+            combined_text = " ".join(cleaned_texts)
             
-            # Count frequencies
-            all_text = " ".join(cleaned_texts)
-            tokens = [w for w in all_text.split() if w and len(w) > 2 and w not in STOPWORDS]
+            if not combined_text.strip(): return None
             
-            if not tokens: return None
+            # Generate
+            wordcloud = WordCloud(
+                width=800, 
+                height=400, 
+                background_color='white',
+                max_words=100,
+                colormap='viridis'
+            ).generate(combined_text)
             
-            # Get top 50 words
-            counts = Counter(tokens).most_common(50)
-            
-            # Create DataFrame
-            df_wc = pd.DataFrame(counts, columns=['word', 'count'])
-            df_wc['parent'] = title # Root node for treemap
-            
-            # Treemap
-            fig = px.treemap(
-                df_wc,
-                path=['parent', 'word'],
-                values='count',
-                color='count',
-                color_continuous_scale='Viridis',
-                title=title,
-                template='plotly_white'
-            )
-            
-            fig.update_layout(margin=dict(t=30, l=0, r=0, b=0))
+            # Plot
+            fig, ax = plt.subplots(figsize=(10, 5))
+            # CRITICAL FIX: Explicitly convert to array to avoid asarray() keyword issues
+            ax.imshow(wordcloud.to_array(), interpolation='bilinear')
+            ax.axis('off')
+            ax.set_title(title)
             return fig
-            
         except Exception as e:
-            logger.error(f"Word treemap error: {e}")
+            logger.error(f"Wordcloud error: {e}")
             return None
+
+    @staticmethod
+    def generate_pdf_report(analytics: Dict, industry: str) -> bytes:
+        """
+        Generate a simple PDF report using Matplotlib's PDF backend.
+        No external dependencies like FPDF or ReportLab required (Production-Friendly).
+        """
+        try:
+            from matplotlib.backends.backend_pdf import PdfPages
+            
+            buffer = io.BytesIO()
+            with PdfPages(buffer) as pdf:
+                # Create a layout for the report
+                fig, ax = plt.subplots(figsize=(8.5, 11))
+                ax.axis('off')
+                
+                # Header
+                ax.text(0.5, 0.96, "📊 NLP ANALYTICS INSIGHTS REPORT", ha='center', va='top', fontsize=18, fontweight='bold', color='#1f77b4')
+                ax.text(0.5, 0.93, f"Industry Domain: {industry}", ha='center', va='top', fontsize=12, color='gray')
+                ax.text(0.5, 0.91, f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ha='center', va='top', fontsize=10, color='gray')
+                
+                y = 0.85
+                
+                # Section 1: Basic Stats
+                if 'basic_statistics' in analytics:
+                    ax.text(0.1, y, "1. EXECUTIVE SUMMARY", fontweight='bold', fontsize=13)
+                    y -= 0.04
+                    stats = analytics['basic_statistics']
+                    for key, val in stats.items():
+                        label = key.replace('_', ' ').upper()
+                        ax.text(0.15, y, f"• {label}: {val}", fontsize=10)
+                        y -= 0.03
+                
+                y -= 0.04
+                # Section 2: Top Categories
+                if 'category_distribution' in analytics:
+                    ax.text(0.1, y, "2. TOP CATEGORY DISTRIBUTION", fontweight='bold', fontsize=13)
+                    y -= 0.04
+                    for item in analytics['category_distribution'][:15]:
+                        cat_name = item.get('l1', 'Unknown')
+                        count = item.get('count', 0)
+                        perc = item.get('percentage', '0%')
+                        ax.text(0.15, y, f"• {cat_name}: {count} records ({perc})", fontsize=10)
+                        y -= 0.025
+                        if y < 0.15: # Simple page break logic placeholder
+                            break
+                            
+                # Footer
+                ax.text(0.5, 0.05, "Confidential NLP Pipeline Report © 2025 | Ultra-Fast Vectorized Edition", ha='center', fontsize=8, color='gray')
+                
+                pdf.savefig(fig, bbox_inches='tight')
+                plt.close(fig)
+                
+            buffer.seek(0)
+            return buffer.getvalue()
+        except Exception as e:
+            logger.error(f"PDF generation error: {e}")
+            return b""
 
     @staticmethod
     def _clean_text_for_graph(text: str) -> str:
@@ -2308,16 +2358,17 @@ def main():
                     sample_texts = output_df['Original_Text'].head(2000).tolist()
                     
                     with col_wc:
-                        st.markdown("**Top Key Terms (Treemap)**")
-                        with st.spinner("Generating Term Map..."):
+                        st.markdown("**Word Cloud (Key Phrases)**")
+                        with st.spinner("Generating Word Cloud..."):
                             wc_fig = AdvancedVisualizer.generate_wordcloud(
                                 sample_texts, 
-                                title="Most Frequent Terms"
+                                title="Conversation Themes"
                             )
                             if wc_fig:
-                                st.plotly_chart(wc_fig, use_container_width=True)
+                                st.pyplot(wc_fig)
+                                plt.clf()
                             else:
-                                st.info("ℹ️ Not enough data for word map.")
+                                st.info("ℹ️ Not enough data for word cloud.")
                     
                     with col_net:
                         st.markdown("**Top Phrases (Context)**")
@@ -2405,14 +2456,27 @@ def main():
                 
                 with download_cols[1]:
                     if analytics:
-                        analytics_bytes = json.dumps(analytics, indent=2).encode()
-                        st.download_button(
-                            label="📥 Download Analytics Report",
-                            data=analytics_bytes,
-                            file_name=f"analytics_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
-                            mime="application/json",
-                            use_container_width=True
-                        )
+                        with st.spinner("Preparing PDF Report..."):
+                            pdf_report = AdvancedVisualizer.generate_pdf_report(analytics, selected_industry)
+                        
+                        if pdf_report:
+                            st.download_button(
+                                label="📥 Download PDF Analytics Report",
+                                data=pdf_report,
+                                file_name=f"Analytics_Report_{selected_industry}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf",
+                                mime="application/pdf",
+                                use_container_width=True
+                            )
+                        else:
+                            # Fallback to JSON if PDF fails
+                            analytics_bytes = json.dumps(analytics, indent=2).encode()
+                            st.download_button(
+                                label="📥 Download Analytics Report (JSON Fallback)",
+                                data=analytics_bytes,
+                                file_name=f"analytics_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
+                                mime="application/json",
+                                use_container_width=True
+                            )
     
     # Footer
     st.markdown("---")
