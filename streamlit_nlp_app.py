@@ -1407,24 +1407,31 @@ class AdvancedVisualizer:
     
     @staticmethod
     def generate_wordcloud(texts: List[str], title: str = "Word Cloud") -> Optional[plt.Figure]:
-        """Generate Word Cloud removing general terms"""
+        """Generate Word Cloud with advanced cleaning (Optimized & Robust)"""
         try:
-            # Combine text
-            combined_text = " ".join([str(t) for t in texts if t])
+            # FAST Clean text (Use Regex for speed on 50k dataset)
+            # Use _clean_text_for_graph which strips noise/numbers
+            cleaned_texts = [AdvancedVisualizer._clean_text_for_graph(t) for t in texts if t]
             
-            # Update stopwords
-            stopwords = set(STOPWORDS)
-            stopwords.update(GENERAL_TERMS)
+            # Count frequencies manually to avoid WordCloud internal tokenization/array issues
+            # and to bypass 'copy' argument error in some environments
+            all_text = " ".join(cleaned_texts)
+            # Basic split is enough after cleaning
+            tokens = [w for w in all_text.split() if w and len(w) > 2 and w not in STOPWORDS]
             
-            # Generate
+            if not tokens: return None
+            
+            counts = Counter(tokens)
+            
+            # Generate from frequencies
             wordcloud = WordCloud(
                 width=800, 
                 height=400, 
                 background_color='white',
-                stopwords=stopwords,
+                # stopwords handled manually above
                 max_words=100,
                 colormap='viridis'
-            ).generate(combined_text)
+            ).generate_from_frequencies(counts)
             
             # Plot
             fig, ax = plt.subplots(figsize=(10, 5))
