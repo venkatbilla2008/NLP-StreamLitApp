@@ -14,7 +14,8 @@ pyarrow>=13.0.0  # Fast columnar format
 duckdb>=0.9.0  # SQL analytics engine
 
 # CRITICAL: Pin numpy version for spaCy compatibility
-numpy==1.24.3
+#numpy==1.24.3
+numpy>=1.26.0,<2.1.0
 
 # File handling	
 pyarrow>=12.0.0
