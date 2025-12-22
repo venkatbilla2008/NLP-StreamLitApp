@@ -1406,34 +1406,37 @@ class AdvancedVisualizer:
     """Generates advanced visuals: Word Clouds, Network Graphs, Theme Clusters"""
     
     @staticmethod
-    def generate_wordcloud(texts: List[str], title: str = "Word Cloud") -> Optional[plt.Figure]:
+    def generate_wordcloud(texts: List[str], title: str = "Word Cloud") -> Optional[Any]:
         """
-        Generate Word Cloud (RESTORED ORIGINAL VERSION).
-        FIX: Uses to_array() to avoid NumPy 2.0 asarray(copy=...) error in Matplotlib.
+        Generate Word Cloud (FIXED VERSION).
+        Avoids Matplotlib's imshow to bypass NumPy 2.0 asarray(copy=...) compatibility issues.
+        Returns a PIL Image for direct st.image display.
         """
         try:
-            # FAST Clean text (Use Regex for speed)
-            cleaned_texts = [AdvancedVisualizer._clean_text_for_graph(t) for t in texts if t]
-            combined_text = " ".join(cleaned_texts)
+            # 1. Advanced Cleaning (Sample size is only 2000, so this is fast)
+            cleaned_docs = AdvancedVisualizer._advanced_clean(texts)
+            combined_text = " ".join(cleaned_docs)
             
-            if not combined_text.strip(): return None
+            if not combined_text.strip():
+                logger.warning("WordCloud: No meaningful text found after cleaning.")
+                return None
             
-            # Generate
-            wordcloud = WordCloud(
-                width=800, 
-                height=400, 
+            # 2. Count frequencies manually to avoid internal tokenization bugs in some environments
+            words = [w for w in combined_text.split() if len(w) > 2]
+            if not words: return None
+            counts = Counter(words)
+            
+            # 3. Generate from frequencies (more robust than .generate())
+            wc = WordCloud(
+                width=1000, 
+                height=500, 
                 background_color='white',
                 max_words=100,
                 colormap='viridis'
-            ).generate(combined_text)
+            ).generate_from_frequencies(counts)
             
-            # Plot
-            fig, ax = plt.subplots(figsize=(10, 5))
-            # CRITICAL FIX: Explicitly convert to array to avoid asarray() keyword issues
-            ax.imshow(wordcloud.to_array(), interpolation='bilinear')
-            ax.axis('off')
-            ax.set_title(title)
-            return fig
+            # 4. Return PIL image
+            return wc.to_image()
         except Exception as e:
             logger.error(f"Wordcloud error: {e}")
             return None
@@ -1441,53 +1444,52 @@ class AdvancedVisualizer:
     @staticmethod
     def generate_pdf_report(analytics: Dict, industry: str) -> bytes:
         """
-        Generate a simple PDF report using Matplotlib's PDF backend.
-        No external dependencies like FPDF or ReportLab required (Production-Friendly).
+        Generate a comprehensive PDF analytics report.
+        Uses Matplotlib's PDF backend for stability and no extra dependencies.
         """
         try:
             from matplotlib.backends.backend_pdf import PdfPages
             
             buffer = io.BytesIO()
             with PdfPages(buffer) as pdf:
-                # Create a layout for the report
+                # Page 1: Executive Summary
                 fig, ax = plt.subplots(figsize=(8.5, 11))
                 ax.axis('off')
                 
                 # Header
-                ax.text(0.5, 0.96, "📊 NLP ANALYTICS INSIGHTS REPORT", ha='center', va='top', fontsize=18, fontweight='bold', color='#1f77b4')
-                ax.text(0.5, 0.93, f"Industry Domain: {industry}", ha='center', va='top', fontsize=12, color='gray')
-                ax.text(0.5, 0.91, f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ha='center', va='top', fontsize=10, color='gray')
+                ax.text(0.5, 0.96, "📊 NLP ANALYTICS INSIGHTS REPORT", ha='center', va='top', fontsize=20, fontweight='bold', color='#2c3e50')
+                ax.text(0.5, 0.92, f"Industry: {industry}", ha='center', va='top', fontsize=14, color='#34495e')
+                ax.text(0.5, 0.89, f"Report Date: {datetime.now().strftime('%B %d, %Y %H:%M')}", ha='center', va='top', fontsize=10, color='gray')
                 
-                y = 0.85
-                
-                # Section 1: Basic Stats
+                # Execution Stats
+                y = 0.82
+                ax.text(0.1, y, "1. PERFORMANCE SUMMARY", fontweight='bold', fontsize=14, color='#2980b9')
+                y -= 0.04
                 if 'basic_statistics' in analytics:
-                    ax.text(0.1, y, "1. EXECUTIVE SUMMARY", fontweight='bold', fontsize=13)
-                    y -= 0.04
                     stats = analytics['basic_statistics']
                     for key, val in stats.items():
-                        label = key.replace('_', ' ').upper()
-                        ax.text(0.15, y, f"• {label}: {val}", fontsize=10)
+                        label = key.replace('_', ' ').title()
+                        ax.text(0.15, y, f"• {label}: {val:,}" if isinstance(val, int) else f"• {label}: {val}", fontsize=11)
                         y -= 0.03
                 
+                # Category Insights
                 y -= 0.04
-                # Section 2: Top Categories
+                ax.text(0.1, y, "2. TOP TRENDING CATEGORIES (L1)", fontweight='bold', fontsize=14, color='#2980b9')
+                y -= 0.04
                 if 'category_distribution' in analytics:
-                    ax.text(0.1, y, "2. TOP CATEGORY DISTRIBUTION", fontweight='bold', fontsize=13)
-                    y -= 0.04
-                    for item in analytics['category_distribution'][:15]:
-                        cat_name = item.get('l1', 'Unknown')
+                    cats = analytics['category_distribution'][:15]
+                    for item in cats:
+                        cat_path = item.get('l1', 'Unknown')
                         count = item.get('count', 0)
                         perc = item.get('percentage', '0%')
-                        ax.text(0.15, y, f"• {cat_name}: {count} records ({perc})", fontsize=10)
+                        ax.text(0.15, y, f"• {cat_path}: {count:,} records ({perc})", fontsize=11)
                         y -= 0.025
-                        if y < 0.15: # Simple page break logic placeholder
-                            break
-                            
-                # Footer
-                ax.text(0.5, 0.05, "Confidential NLP Pipeline Report © 2025 | Ultra-Fast Vectorized Edition", ha='center', fontsize=8, color='gray')
+                        if y < 0.15: break
                 
-                pdf.savefig(fig, bbox_inches='tight')
+                # Footer
+                ax.text(0.5, 0.05, "Generated by Ultra-Fast NLP Pipeline | Performance Optimized Edition", ha='center', fontsize=9, color='gray', style='italic')
+                
+                pdf.savefig(fig)
                 plt.close(fig)
                 
             buffer.seek(0)
@@ -2360,13 +2362,12 @@ def main():
                     with col_wc:
                         st.markdown("**Word Cloud (Key Phrases)**")
                         with st.spinner("Generating Word Cloud..."):
-                            wc_fig = AdvancedVisualizer.generate_wordcloud(
+                            wc_img = AdvancedVisualizer.generate_wordcloud(
                                 sample_texts, 
                                 title="Conversation Themes"
                             )
-                            if wc_fig:
-                                st.pyplot(wc_fig)
-                                plt.clf()
+                            if wc_img:
+                                st.image(wc_img, use_container_width=True)
                             else:
                                 st.info("ℹ️ Not enough data for word cloud.")
                     
