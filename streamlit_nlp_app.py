@@ -1406,41 +1406,44 @@ class AdvancedVisualizer:
     """Generates advanced visuals: Word Clouds, Network Graphs, Theme Clusters"""
     
     @staticmethod
-    def generate_wordcloud(texts: List[str], title: str = "Word Cloud") -> Optional[plt.Figure]:
-        """Generate Word Cloud with advanced cleaning (Optimized & Robust)"""
+    def generate_wordcloud(texts: List[str], title: str = "Word Cloud") -> Optional[go.Figure]:
+        """
+        Generate a 'Word TreeMap' (Interactive Word Cloud alternative).
+        Uses Plotly Treemap to avoid PIL/NumPy incompatibility issues.
+        """
         try:
-            # FAST Clean text (Use Regex for speed on 50k dataset)
-            # Use _clean_text_for_graph which strips noise/numbers
+            # FAST Clean text
             cleaned_texts = [AdvancedVisualizer._clean_text_for_graph(t) for t in texts if t]
             
-            # Count frequencies manually to avoid WordCloud internal tokenization/array issues
-            # and to bypass 'copy' argument error in some environments
+            # Count frequencies
             all_text = " ".join(cleaned_texts)
-            # Basic split is enough after cleaning
             tokens = [w for w in all_text.split() if w and len(w) > 2 and w not in STOPWORDS]
             
             if not tokens: return None
             
-            counts = Counter(tokens)
+            # Get top 50 words
+            counts = Counter(tokens).most_common(50)
             
-            # Generate from frequencies
-            wordcloud = WordCloud(
-                width=800, 
-                height=400, 
-                background_color='white',
-                # stopwords handled manually above
-                max_words=100,
-                colormap='viridis'
-            ).generate_from_frequencies(counts)
+            # Create DataFrame
+            df_wc = pd.DataFrame(counts, columns=['word', 'count'])
+            df_wc['parent'] = title # Root node for treemap
             
-            # Plot
-            fig, ax = plt.subplots(figsize=(10, 5))
-            ax.imshow(wordcloud, interpolation='bilinear')
-            ax.axis('off')
-            ax.set_title(title)
+            # Treemap
+            fig = px.treemap(
+                df_wc,
+                path=['parent', 'word'],
+                values='count',
+                color='count',
+                color_continuous_scale='Viridis',
+                title=title,
+                template='plotly_white'
+            )
+            
+            fig.update_layout(margin=dict(t=30, l=0, r=0, b=0))
             return fig
+            
         except Exception as e:
-            logger.error(f"Wordcloud error: {e}")
+            logger.error(f"Word treemap error: {e}")
             return None
 
     @staticmethod
@@ -2305,15 +2308,16 @@ def main():
                     sample_texts = output_df['Original_Text'].head(2000).tolist()
                     
                     with col_wc:
-                        st.markdown("**Word Cloud (Significantly Phrases)**")
-                        with st.spinner("Generating Word Cloud..."):
+                        st.markdown("**Top Key Terms (Treemap)**")
+                        with st.spinner("Generating Term Map..."):
                             wc_fig = AdvancedVisualizer.generate_wordcloud(
                                 sample_texts, 
-                                title="Most Frequent Terms (Excluding General)"
+                                title="Most Frequent Terms"
                             )
                             if wc_fig:
-                                st.pyplot(wc_fig)
-                                plt.clf() # Clear memory
+                                st.plotly_chart(wc_fig, use_container_width=True)
+                            else:
+                                st.info("ℹ️ Not enough data for word map.")
                     
                     with col_net:
                         st.markdown("**Top Phrases (Context)**")
