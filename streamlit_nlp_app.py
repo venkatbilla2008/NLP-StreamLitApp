@@ -2306,7 +2306,8 @@ def main():
                 st.subheader("📊 Analytics Dashboard")
                 
                 # Create Tabs
-                tab1, tab2, tab3 = st.tabs(["Overview & Trends", "Word Clouds & Network", "Deep Dive"])
+                # Create Tabs
+                tab1, tab2 = st.tabs(["Overview & Trends", "Deep Dive: Emotions"])
                 
                 with tab1:
                     st.markdown("### 📈 High-Level Overview")
@@ -2353,35 +2354,10 @@ def main():
                         c3.metric("L2 Subcategories", stats.get('unique_l2_categories', 0))
 
                 with tab2:
-                    st.markdown("### ☁️ Word Cloud & Network")
-                    col_wc, col_net = st.columns(2)
+                    st.markdown("### 🧠 Deep Dive: Emotions")
                     
                     # Sample for heavy visuals (max 2000 records)
                     sample_texts = output_df['Original_Text'].head(2000).tolist()
-                    
-                    with col_wc:
-                        st.markdown("**Word Cloud (Key Phrases)**")
-                        with st.spinner("Generating Word Cloud..."):
-                            wc_img = AdvancedVisualizer.generate_wordcloud(
-                                sample_texts, 
-                                title="Conversation Themes"
-                            )
-                            if wc_img:
-                                st.image(wc_img, use_container_width=True)
-                            else:
-                                st.info("ℹ️ Not enough data for word cloud.")
-                    
-                    with col_net:
-                        st.markdown("**Top Phrases (Context)**")
-                        with st.spinner("Analyzing phrases..."):
-                            ngram_fig = AdvancedVisualizer.generate_ngram_chart(sample_texts, n=2, top_k=20)
-                            if ngram_fig:
-                                st.plotly_chart(ngram_fig, use_container_width=True)
-                            else:
-                                st.info("ℹ️ Not enough data for phrase analysis.")
-
-                with tab3:
-                    st.markdown("### 🧠 Deep Dive: Emotions & Clusters")
                     
                     # Emotion Detection on Sample
                     st.markdown("#### ❤️ Emotion Analysis")
@@ -2402,41 +2378,6 @@ def main():
                             template='plotly_white'
                         )
                         st.plotly_chart(fig_emo, use_container_width=True)
-                    
-                    # Theme Clustering
-                    st.markdown("#### 🧩 Semantic Theme Clusters")
-                    st.info("💡 Clusters grouped by semantic similarity. Labels are dominant keywords.")
-                    
-                    with st.spinner("Clustering Themes..."):
-                        # Reduce sample size for stability on large datasets
-                        cluster_sample = output_df['Original_Text'].head(1500).tolist()
-                        cluster_fig, cluster_df, cluster_summary = AdvancedVisualizer.cluster_themes(cluster_sample, n_clusters=6)
-                        
-                        if cluster_fig:
-                            # Layout: Chart + Summary
-                            col_chart, col_data = st.columns([2, 1])
-                            
-                            with col_chart:
-                                st.plotly_chart(cluster_fig, use_container_width=True)
-                                
-                            with col_data:
-                                st.markdown("**Cluster Summary**")
-                                st.dataframe(cluster_summary, hide_index=True)
-                            
-                            # Drill down view
-                            with st.expander("🔍 Drill Down into Clusters"):
-                                # Map friendly name back to ID
-                                cluster_options = cluster_summary['Cluster'].tolist()
-                                selected_cluster_num = st.selectbox("Select Cluster to View Texts", cluster_options)
-                                
-                                # Find internal ID (num - 1)
-                                selected_id = selected_cluster_num - 1
-                                filtered_texts = cluster_df[cluster_df['cluster_id'] == selected_id]['full_text'].tolist()
-                                st.write(f"**Sample Texts from Cluster {selected_cluster_num}:**")
-                                for txt in filtered_texts[:5]:
-                                    st.text(f"• {txt}")
-                        else:
-                             st.warning("⚠️ Could not generate clusters (possibly insufficient data).")
                 
                 # Downloads
                 st.subheader("💾 Downloads")
