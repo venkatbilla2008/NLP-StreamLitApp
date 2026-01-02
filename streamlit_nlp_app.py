@@ -614,9 +614,39 @@ class VectorizedRuleEngine:
         - Subscription management
         - Device connectivity
         - Account access
+        - Communication issues (delays, disconnects, timeouts)
         """
         # PRIMARY INTENTS (High Priority)
         self.intent_patterns = {
+            # Communication Issues (HIGHEST PRIORITY - Check First)
+            'communication_disconnect': re.compile(
+                r'\b(chat.{0,10}(closed|ended|terminated|disconnected)|' +
+                r'conversation.{0,10}(ended|closed|terminated)|' +
+                r'session.{0,10}(ended|closed|expired|timeout)|' +
+                r'automatically.{0,10}close|' +
+                r'system.{0,10}(closed|ended)|' +
+                r'inactivity|' +
+                r'no.{0,10}(response|reply|answer)|' +
+                r'did.not.receive.{0,10}message|' +
+                r'have.not.heard.from.you|' +
+                r'not.heard.from.you|' +
+                r'please.start.a.new.chat|' +
+                r'start.new.chat)',
+                re.IGNORECASE
+            ),
+            'delayed_communication': re.compile(
+                r'\b(have.not.heard|not.heard.from.you|' +
+                r'did.not.receive.{0,20}message|' +
+                r'no.{0,10}response.{0,10}(in|for)|' +
+                r'waiting.{0,10}for.{0,10}(response|reply)|' +
+                r'delayed.{0,10}(response|reply)|' +
+                r'slow.{0,10}(response|reply)|' +
+                r'taking.{0,10}(long|while)|' +
+                r'still.waiting|' +
+                r'next.{0,10}\d+.{0,10}(minute|min|second|sec)|' +
+                r'in.a.while)',
+                re.IGNORECASE
+            ),
             # Subscription Management
             'cancel_subscription': re.compile(
                 r'\b(cancel|cancellation|end|stop|terminate|discontinue|unsubscribe)' +
@@ -683,12 +713,24 @@ class VectorizedRuleEngine:
                 re.IGNORECASE
             ),
             
-            # Resolution Indicators (Positive)
+            # Resolution Indicators (Positive) - BUT ONLY FROM CUSTOMER
             'resolution': re.compile(
                 r'\b(thank|thanks|thankyou|appreciate|appreciated|grateful' +
                 r'|resolved|fixed|solved|working.now|works.now|works.fine' +
                 r'|helped|perfect|great|excellent|awesome|fantastic' +
                 r'|all.set|good.to.go|successfully|issue.resolved)',
+                re.IGNORECASE
+            ),
+            
+            # Agent Appreciation (NOT customer satisfaction)
+            'agent_appreciation': re.compile(
+                r'\b(thank.you.for.{0,20}(contacting|reaching|chatting)|' +
+                r'my.name.is|' +
+                r'how.can.i.{0,10}(help|assist)|' +
+                r'happy.to.{0,10}(help|assist)|' +
+                r'glad.to.{0,10}(help|assist)|' +
+                r'you.are.now.chatting.with|' +
+                r'these.articles.might)',
                 re.IGNORECASE
             ),
         }
@@ -788,6 +830,113 @@ class VectorizedRuleEngine:
                     'priority': 'rule'
                 })
     
+    def _parse_timestamps(self, text: str) -> List[Tuple[int, str, str]]:
+        """
+        Parse timestamps from conversation to detect delays
+        Returns: List of (timestamp_seconds, speaker, message)
+        """
+        import re
+        from datetime import datetime, timedelta
+        
+        # Pattern: [HH:MM:SS SPEAKER]: message
+        pattern = r'\[(\d{2}):(\d{2}):(\d{2})\s+(CUSTOMER|AGENT|CONSUMER)\]:\s*(.*)'
+        matches = re.findall(pattern, text, re.MULTILINE | re.IGNORECASE)
+        
+        parsed = []
+        for hour, minute, second, speaker, message in matches:
+            total_seconds = int(hour) * 3600 + int(minute) * 60 + int(second)
+            parsed.append((total_seconds, speaker.upper(), message.strip()))
+        
+        return parsed
+    
+    def _detect_communication_issues(self, text: str) -> Optional[Dict]:
+        """
+        Detect communication issues: disconnects, delays, timeouts
+        Returns: Dict with issue type and details, or None
+        """
+        text_lower = text.lower()
+        
+        # 1. Check for explicit disconnect/timeout messages
+        if self.intent_patterns['communication_disconnect'].search(text_lower):
+            # Determine if it's a timeout or general disconnect
+            if any(keyword in text_lower for keyword in ['inactivity', 'not heard', 'did not receive', 'no message']):
+                return {
+                    'type': 'timeout_disconnect',
+                    'l1': 'People Driven',
+                    'l2': 'Communication Issues',
+                    'l3': 'Failed to respond in a timely manner',
+                    'l4': 'Delayed Communication'
+                }
+            else:
+                return {
+                    'type': 'general_disconnect',
+                    'l1': 'People Driven',
+                    'l2': 'Communication Disconnect',
+                    'l3': 'Session Ended',
+                    'l4': 'Chat Closed'
+                }
+        
+        # 2. Check for delayed communication patterns
+        if self.intent_patterns['delayed_communication'].search(text_lower):
+            return {
+                'type': 'delayed_response',
+                'l1': 'People Driven',
+                'l2': 'Communication Issues',
+                'l3': 'Failed to respond in a timely manner',
+                'l4': 'Delayed Communication'
+            }
+        
+        # 3. Parse timestamps to detect actual delays
+        parsed_messages = self._parse_timestamps(text)
+        if len(parsed_messages) >= 2:
+            # Check for gaps between messages
+            for i in range(1, len(parsed_messages)):
+                prev_time, prev_speaker, prev_msg = parsed_messages[i-1]
+                curr_time, curr_speaker, curr_msg = parsed_messages[i]
+                
+                time_gap = curr_time - prev_time
+                
+                # If gap > 2 minutes (120 seconds) between customer and agent
+                if time_gap > 120:
+                    # Check if it's followed by a timeout message
+                    remaining_text = ' '.join([msg for _, _, msg in parsed_messages[i:]])
+                    if any(keyword in remaining_text.lower() for keyword in 
+                           ['not heard', 'inactivity', 'did not receive', 'start a new chat']):
+                        return {
+                            'type': 'timeout_after_delay',
+                            'l1': 'People Driven',
+                            'l2': 'Communication Issues',
+                            'l3': 'Failed to respond in a timely manner',
+                            'l4': 'Delayed Communication',
+                            'delay_seconds': time_gap
+                        }
+        
+        return None
+    
+    def _is_agent_message_only(self, text: str) -> bool:
+        """
+        Check if the conversation is primarily agent messages (greetings, auto-responses)
+        This helps avoid false positives for "appreciation"
+        """
+        text_lower = text.lower()
+        
+        # Count agent-specific phrases
+        agent_phrases = [
+            'thank you for contacting',
+            'thank you for reaching',
+            'you are now chatting with',
+            'my name is',
+            'how can i help',
+            'how can i assist',
+            'these articles might',
+            'to protect the security'
+        ]
+        
+        agent_phrase_count = sum(1 for phrase in agent_phrases if phrase in text_lower)
+        
+        # If 2+ agent phrases, it's likely just agent messages
+        return agent_phrase_count >= 2
+    
     def _detect_primary_intent(self, text: str) -> Optional[str]:
         """
         Detect primary customer intent with PRIORITY ORDERING
@@ -800,7 +949,12 @@ class VectorizedRuleEngine:
         """
         text_lower = text.lower()
         
-        # PRIORITY 1: Subscription Management (Highest)
+        # PRIORITY 0: Communication Issues (HIGHEST - Check First)
+        comm_issue = self._detect_communication_issues(text)
+        if comm_issue:
+            return comm_issue['type']
+        
+        # PRIORITY 1: Subscription Management
         if self.intent_patterns['cancel_subscription'].search(text_lower):
             if self.intent_patterns['switch_plan'].search(text_lower):
                 return 'switch_plan'  # More specific: cancel to switch
@@ -840,8 +994,24 @@ class VectorizedRuleEngine:
         return None
     
     def _detect_resolution(self, text: str) -> bool:
-        """Detect if issue was resolved successfully"""
-        return bool(self.intent_patterns['resolution'].search(text.lower()))
+        """
+        Detect if issue was resolved successfully
+        BUT: Filter out agent appreciation messages (false positives)
+        """
+        text_lower = text.lower()
+        
+        # First check if it's just agent messages
+        if self._is_agent_message_only(text):
+            return False
+        
+        # Check for resolution keywords
+        has_resolution = bool(self.intent_patterns['resolution'].search(text_lower))
+        
+        # But NOT if it's agent appreciation
+        has_agent_appreciation = bool(self.intent_patterns['agent_appreciation'].search(text_lower))
+        
+        # Only return True if resolution found AND NOT agent appreciation
+        return has_resolution and not has_agent_appreciation
     
     def _has_false_positive(self, text: str, category_data: Dict) -> bool:
         """Check if match is a false positive"""
@@ -910,13 +1080,42 @@ class VectorizedRuleEngine:
         
         return {'l1': l1, 'l2': l2, 'l3': l3, 'l4': l4}
     
-    def _override_with_intent(self, primary_intent: str, has_resolution: bool) -> Dict:
+    def _override_with_intent(self, primary_intent: str, has_resolution: bool, comm_issue: Optional[Dict] = None) -> Dict:
         """
         Create category based on detected intent
         
         COMPREHENSIVE MAPPING FOR STREAMING SERVICES
         """
+        # If communication issue detected, return it directly
+        if comm_issue:
+            return comm_issue
+        
         intent_mappings = {
+            # Communication Issues
+            'communication_disconnect': {
+                'l1': 'People Driven',
+                'l2': 'Communication Disconnect',
+                'l3': 'Session Ended',
+                'l4': 'Chat Closed'
+            },
+            'delayed_communication': {
+                'l1': 'People Driven',
+                'l2': 'Communication Issues',
+                'l3': 'Failed to respond in a timely manner',
+                'l4': 'Delayed Communication'
+            },
+            'timeout_disconnect': {
+                'l1': 'People Driven',
+                'l2': 'Communication Issues',
+                'l3': 'Failed to respond in a timely manner',
+                'l4': 'Delayed Communication'
+            },
+            'timeout_after_delay': {
+                'l1': 'People Driven',
+                'l2': 'Communication Issues',
+                'l3': 'Failed to respond in a timely manner',
+                'l4': 'Delayed Communication'
+            },
             # Subscription Management
             'cancel_subscription': {
                 'l1': 'Cancellation',
@@ -1015,13 +1214,27 @@ class VectorizedRuleEngine:
                 'match_path': "Uncategorized"
             }
         
-        # STEP 1: Detect primary intent
+        # STEP 1: Detect communication issues FIRST
+        comm_issue = self._detect_communication_issues(text)
+        
+        # STEP 2: Detect primary intent
         primary_intent = self._detect_primary_intent(text)
         has_resolution = self._detect_resolution(text)
         
-        # STEP 2: If strong intent detected, use it (HIGH CONFIDENCE)
+        # STEP 3: If communication issue detected, prioritize it
+        if comm_issue:
+            return {
+                'l1': comm_issue['l1'],
+                'l2': comm_issue['l2'],
+                'l3': comm_issue['l3'],
+                'l4': comm_issue['l4'],
+                'confidence': 0.98,
+                'match_path': f"{comm_issue['l1']} > {comm_issue['l2']} > {comm_issue['l3']}"
+            }
+        
+        # STEP 4: If strong intent detected, use it (HIGH CONFIDENCE)
         if primary_intent:
-            intent_category = self._override_with_intent(primary_intent, has_resolution)
+            intent_category = self._override_with_intent(primary_intent, has_resolution, comm_issue)
             if intent_category:
                 return {
                     'l1': intent_category['l1'],
