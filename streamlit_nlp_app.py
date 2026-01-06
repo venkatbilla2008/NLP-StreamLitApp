@@ -713,6 +713,78 @@ class VectorizedRuleEngine:
                 re.IGNORECASE
             ),
             
+            # Refund Requests (NEW)
+            'refund_request': re.compile(
+                r'\b(refund|money.back|reimburse|reimbursement|get.my.money|return.money' +
+                r'|want.refund|request.refund|charge.back|chargeback)',
+                re.IGNORECASE
+            ),
+            
+            # Verification Issues (NEW)
+            'verification_issue': re.compile(
+                r'\b(verify|verification|confirm|authenticate|identity|prove.identity' +
+                r'|verify.account|verify.email|verify.payment|verification.code' +
+                r'|verification.failed|cannot.verify|can\'t.verify)',
+                re.IGNORECASE
+            ),
+            
+            # Free Trial (NEW)
+            'free_trial': re.compile(
+                r'\b(free.trial|trial.period|trial.end|trial.expire|start.trial' +
+                r'|trial.subscription|trial.version|trial.account)',
+                re.IGNORECASE
+            ),
+            
+            # Family Plan Issues (NEW)
+            'family_plan_issue': re.compile(
+                r'\b(family.plan|family.subscription|family.premium|add.family.member' +
+                r'|remove.family.member|family.account|share.with.family' +
+                r'|family.sharing)',
+                re.IGNORECASE
+            ),
+            
+            # Student Discount (NEW)
+            'student_discount': re.compile(
+                r'\b(student.discount|student.plan|student.subscription|student.premium' +
+                r'|student.verification|student.rate|student.pricing)',
+                re.IGNORECASE
+            ),
+            
+            # Playlist/Library Issues (NEW)
+            'playlist_issue': re.compile(
+                r'\b(playlist|library|saved.songs|liked.songs|favorites|collection' +
+                r'|my.music).{0,20}(missing|lost|deleted|disappeared|gone|not.showing)',
+                re.IGNORECASE
+            ),
+            
+            # Audio Quality (NEW - More specific than general quality)
+            'audio_quality': re.compile(
+                r'\b(sound.quality|audio.quality|sound.bad|audio.bad|distorted.sound' +
+                r'|crackling|static|poor.audio|low.volume|no.sound|muted)',
+                re.IGNORECASE
+            ),
+            
+            # Connection/Sync Issues (NEW)
+            'sync_issue': re.compile(
+                r'\b(sync|syncing|synchronize|not.syncing|sync.failed|sync.error' +
+                r'|connection.lost|keeps.disconnecting|constantly.disconnecting)',
+                re.IGNORECASE
+            ),
+            
+            # Email/Contact Update (NEW)
+            'contact_update': re.compile(
+                r'\b(update.email|change.email|update.phone|change.phone|update.contact' +
+                r'|change.contact|update.address|change.address)',
+                re.IGNORECASE
+            ),
+            
+            # Promotional/Offer Issues (NEW)
+            'promo_issue': re.compile(
+                r'\b(promo.code|promotional.code|discount.code|coupon|offer|deal' +
+                r'|promotion|special.offer).{0,20}(not.working|invalid|expired|failed)',
+                re.IGNORECASE
+            ),
+            
             # Resolution Indicators (Positive) - BUT ONLY FROM CUSTOMER
             'resolution': re.compile(
                 r'\b(thank|thanks|thankyou|appreciate|appreciated|grateful' +
@@ -963,13 +1035,39 @@ class VectorizedRuleEngine:
         if self.intent_patterns['switch_plan'].search(text_lower):
             return 'switch_plan'
         
-        # PRIORITY 2: Billing Issues
+        # PRIORITY 2: Billing & Financial Issues
+        if self.intent_patterns['refund_request'].search(text_lower):
+            return 'refund_request'
+        
         if self.intent_patterns['billing_issue'].search(text_lower):
             return 'billing_issue'
         
-        # PRIORITY 3: Content & Quality Issues
+        # PRIORITY 3: Verification & Authentication
+        if self.intent_patterns['verification_issue'].search(text_lower):
+            return 'verification_issue'
+        
+        # PRIORITY 4: Plan-Specific Issues
+        if self.intent_patterns['free_trial'].search(text_lower):
+            return 'free_trial'
+        
+        if self.intent_patterns['family_plan_issue'].search(text_lower):
+            return 'family_plan_issue'
+        
+        if self.intent_patterns['student_discount'].search(text_lower):
+            return 'student_discount'
+        
+        if self.intent_patterns['promo_issue'].search(text_lower):
+            return 'promo_issue'
+        
+        # PRIORITY 5: Content & Quality Issues
         if self.intent_patterns['content_unavailable'].search(text_lower):
             return 'content_unavailable'
+        
+        if self.intent_patterns['playlist_issue'].search(text_lower):
+            return 'playlist_issue'
+        
+        if self.intent_patterns['audio_quality'].search(text_lower):
+            return 'audio_quality'
         
         if self.intent_patterns['quality_issue'].search(text_lower):
             return 'quality_issue'
@@ -977,14 +1075,20 @@ class VectorizedRuleEngine:
         if self.intent_patterns['playback_issue'].search(text_lower):
             return 'playback_issue'
         
-        # PRIORITY 4: Device & Connectivity
+        # PRIORITY 6: Device & Connectivity
         if self.intent_patterns['device_issue'].search(text_lower):
             return 'device_issue'
+        
+        if self.intent_patterns['sync_issue'].search(text_lower):
+            return 'sync_issue'
         
         if self.intent_patterns['download_issue'].search(text_lower):
             return 'download_issue'
         
-        # PRIORITY 5: Account Access
+        # PRIORITY 7: Account Management
+        if self.intent_patterns['contact_update'].search(text_lower):
+            return 'contact_update'
+        
         if self.intent_patterns['account_issue'].search(text_lower):
             return 'account_issue'
         
@@ -1137,6 +1241,46 @@ class VectorizedRuleEngine:
                 'l3': 'Issue Resolved' if has_resolution else 'Payment Problem',
                 'l4': 'Professional Service' if has_resolution else 'Billing Error'
             },
+            'refund_request': {
+                'l1': 'Billing & Subscription',
+                'l2': 'Refund Request',
+                'l3': 'Issue Resolved' if has_resolution else 'Refund Requested',
+                'l4': 'Professional Service' if has_resolution else 'Money Back Request'
+            },
+            
+            # Verification & Authentication
+            'verification_issue': {
+                'l1': 'Account Management',
+                'l2': 'Verification Issue',
+                'l3': 'Issue Resolved' if has_resolution else 'Verification Failed',
+                'l4': 'Professional Service' if has_resolution else 'Cannot Verify'
+            },
+            
+            # Plan-Specific Issues
+            'free_trial': {
+                'l1': 'Billing & Subscription',
+                'l2': 'Free Trial',
+                'l3': 'Issue Resolved' if has_resolution else 'Trial Inquiry',
+                'l4': 'Professional Service' if has_resolution else 'Trial Management'
+            },
+            'family_plan_issue': {
+                'l1': 'Billing & Subscription',
+                'l2': 'Family Plan',
+                'l3': 'Issue Resolved' if has_resolution else 'Family Plan Issue',
+                'l4': 'Professional Service' if has_resolution else 'Family Management'
+            },
+            'student_discount': {
+                'l1': 'Billing & Subscription',
+                'l2': 'Student Discount',
+                'l3': 'Issue Resolved' if has_resolution else 'Student Verification',
+                'l4': 'Professional Service' if has_resolution else 'Student Plan'
+            },
+            'promo_issue': {
+                'l1': 'Billing & Subscription',
+                'l2': 'Promotional Code',
+                'l3': 'Issue Resolved' if has_resolution else 'Promo Code Failed',
+                'l4': 'Professional Service' if has_resolution else 'Invalid Code'
+            },
             
             # Technical & Quality
             'playback_issue': {
@@ -1159,6 +1303,18 @@ class VectorizedRuleEngine:
                 'l3': 'Issue Resolved' if has_resolution else 'Content Missing',
                 'l4': 'Professional Service' if has_resolution else 'Content Unavailable'
             },
+            'playlist_issue': {
+                'l1': 'Products and Services',
+                'l2': 'Playlist/Library Issue',
+                'l3': 'Issue Resolved' if has_resolution else 'Content Lost',
+                'l4': 'Professional Service' if has_resolution else 'Playlist Missing'
+            },
+            'audio_quality': {
+                'l1': 'Technology Driven',
+                'l2': 'Audio Quality',
+                'l3': 'Issue Resolved' if has_resolution else 'Sound Problem',
+                'l4': 'Professional Service' if has_resolution else 'Poor Audio'
+            },
             
             # Device & Download
             'device_issue': {
@@ -1173,6 +1329,12 @@ class VectorizedRuleEngine:
                 'l3': 'Issue Resolved' if has_resolution else 'Download Problem',
                 'l4': 'Professional Service' if has_resolution else 'Download Failed'
             },
+            'sync_issue': {
+                'l1': 'Technology Driven',
+                'l2': 'Sync/Connection Issue',
+                'l3': 'Issue Resolved' if has_resolution else 'Sync Failed',
+                'l4': 'Professional Service' if has_resolution else 'Not Syncing'
+            },
             
             # Account Access
             'login_issue': {
@@ -1186,6 +1348,12 @@ class VectorizedRuleEngine:
                 'l2': 'Account Issue',
                 'l3': 'Issue Resolved' if has_resolution else 'Account Problem',
                 'l4': 'Professional Service' if has_resolution else 'Account Error'
+            },
+            'contact_update': {
+                'l1': 'Account Management',
+                'l2': 'Contact Update',
+                'l3': 'Issue Resolved' if has_resolution else 'Update Request',
+                'l4': 'Professional Service' if has_resolution else 'Email/Phone Change'
             }
         }
         
@@ -2518,9 +2686,8 @@ def main():
                 # Analytics using DuckDB
                 st.subheader("📊 Analytics Dashboard")
                 
-                # Create Tabs
-                # Create Tabs
-                tab1, tab2 = st.tabs(["Overview & Trends", "Deep Dive: Emotions"])
+                # Create Tabs - Single tab now
+                tab1 = st.container()
                 
                 with tab1:
                     st.markdown("### 📈 High-Level Overview")
@@ -2565,32 +2732,49 @@ def main():
                         c1.metric("Total Records", stats.get('total_records', 0))
                         c2.metric("L1 Categories", stats.get('unique_l1_categories', 0))
                         c3.metric("L2 Subcategories", stats.get('unique_l2_categories', 0))
+                    
+                    # Category Distribution Tables (NEW)
+                    st.markdown("---")
+                    st.markdown("### 📊 Category Distribution Tables")
+                    st.info("💡 Detailed breakdown of all category levels with counts and percentages")
+                    
+                    # Create 2x2 grid for L1, L2, L3, L4 tables
+                    col_l1, col_l2 = st.columns(2)
+                    
+                    with col_l1:
+                        st.markdown("#### L1 Categories")
+                        l1_dist = output_df.groupby('L1_Category').size().reset_index(name='Count')
+                        l1_dist['Percentage'] = (l1_dist['Count'] / len(output_df) * 100).round(2)
+                        l1_dist['Percentage'] = l1_dist['Percentage'].astype(str) + '%'
+                        l1_dist = l1_dist.sort_values('Count', ascending=False)
+                        st.dataframe(l1_dist, hide_index=True, use_container_width=True)
+                    
+                    with col_l2:
+                        st.markdown("#### L2 Subcategories")
+                        l2_dist = output_df.groupby('L2_Subcategory').size().reset_index(name='Count')
+                        l2_dist['Percentage'] = (l2_dist['Count'] / len(output_df) * 100).round(2)
+                        l2_dist['Percentage'] = l2_dist['Percentage'].astype(str) + '%'
+                        l2_dist = l2_dist.sort_values('Count', ascending=False).head(20)  # Top 20
+                        st.dataframe(l2_dist, hide_index=True, use_container_width=True)
+                    
+                    col_l3, col_l4 = st.columns(2)
+                    
+                    with col_l3:
+                        st.markdown("#### L3 Tertiary (Top 20)")
+                        l3_dist = output_df.groupby('L3_Tertiary').size().reset_index(name='Count')
+                        l3_dist['Percentage'] = (l3_dist['Count'] / len(output_df) * 100).round(2)
+                        l3_dist['Percentage'] = l3_dist['Percentage'].astype(str) + '%'
+                        l3_dist = l3_dist.sort_values('Count', ascending=False).head(20)
+                        st.dataframe(l3_dist, hide_index=True, use_container_width=True)
+                    
+                    with col_l4:
+                        st.markdown("#### L4 Quaternary (Top 20)")
+                        l4_dist = output_df.groupby('L4_Quaternary').size().reset_index(name='Count')
+                        l4_dist['Percentage'] = (l4_dist['Count'] / len(output_df) * 100).round(2)
+                        l4_dist['Percentage'] = l4_dist['Percentage'].astype(str) + '%'
+                        l4_dist = l4_dist.sort_values('Count', ascending=False).head(20)
+                        st.dataframe(l4_dist, hide_index=True, use_container_width=True)
 
-                with tab2:
-                    st.markdown("### 🧠 Deep Dive: Emotions")
-                    
-                    # Sample for heavy visuals (max 2000 records)
-                    sample_texts = output_df['Original_Text'].head(2000).tolist()
-                    
-                    # Emotion Detection on Sample
-                    st.markdown("#### ❤️ Emotion Analysis")
-                    with st.spinner("Detecting Emotions..."):
-                        emotion_df = VectorizedEmotionDetector.detect_batch(sample_texts)
-                        # Polars handling: value_counts() returns a DataFrame, no reset_index() needed
-                        emo_counts = emotion_df['emotion'].value_counts(sort=True)
-                        emo_counts.columns = ['emotion', 'count']
-                        # Convert to Pandas for easy Plotly plotting
-                        emo_counts = emo_counts.to_pandas()
-                        
-                        fig_emo = px.bar(
-                            emo_counts, 
-                            x='emotion', 
-                            y='count', 
-                            color='emotion', 
-                            title="Emotion Distribution (Sample)",
-                            template='plotly_white'
-                        )
-                        st.plotly_chart(fig_emo, use_container_width=True)
                 
                 # Downloads
                 st.subheader("💾 Downloads")
