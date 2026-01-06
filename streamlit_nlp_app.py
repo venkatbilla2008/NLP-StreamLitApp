@@ -1009,6 +1009,94 @@ class VectorizedRuleEngine:
         # If 2+ agent phrases, it's likely just agent messages
         return agent_phrase_count >= 2
     
+    def _detect_refund_reason(self, text: str) -> str:
+        """
+        Detect the reason for refund request for granular L3/L4
+        """
+        text_lower = text.lower()
+        
+        # Check for specific refund reasons
+        if any(kw in text_lower for kw in ['unauthorized', 'not authorized', 'did not authorize', 'fraudulent']):
+            return 'unauthorized_charge'
+        elif any(kw in text_lower for kw in ['double charge', 'charged twice', 'duplicate charge', 'charged multiple']):
+            return 'duplicate_charge'
+        elif any(kw in text_lower for kw in ['wrong amount', 'incorrect amount', 'overcharged', 'charged too much']):
+            return 'incorrect_amount'
+        elif any(kw in text_lower for kw in ['cancel', 'cancelled', 'canceled', 'after cancel']):
+            return 'post_cancellation'
+        elif any(kw in text_lower for kw in ['not working', 'service not working', 'app not working', 'broken']):
+            return 'service_not_working'
+        elif any(kw in text_lower for kw in ['dissatisfied', 'not satisfied', 'unhappy', 'disappointed']):
+            return 'dissatisfaction'
+        else:
+            return 'general_refund'
+    
+    def _get_refund_l3(self, text: str) -> str:
+        """
+        Get granular L3 category for refund based on reason
+        """
+        reason = self._detect_refund_reason(text)
+        
+        refund_l3_mapping = {
+            'unauthorized_charge': 'Unauthorized Charge',
+            'duplicate_charge': 'Duplicate Charge',
+            'incorrect_amount': 'Incorrect Amount',
+            'post_cancellation': 'Post-Cancellation Charge',
+            'service_not_working': 'Service Not Working',
+            'dissatisfaction': 'Customer Dissatisfaction',
+            'general_refund': 'Refund Requested'
+        }
+        
+        return refund_l3_mapping.get(reason, 'Refund Requested')
+    
+    def _get_refund_l4(self, text: str) -> str:
+        """
+        Get granular L4 category for refund based on reason
+        """
+        reason = self._detect_refund_reason(text)
+        
+        refund_l4_mapping = {
+            'unauthorized_charge': 'Fraud Investigation',
+            'duplicate_charge': 'Duplicate Payment',
+            'incorrect_amount': 'Billing Correction',
+            'post_cancellation': 'Cancellation Refund',
+            'service_not_working': 'Service Failure',
+            'dissatisfaction': 'Quality Issue',
+            'general_refund': 'Money Back Request'
+        }
+        
+        return refund_l4_mapping.get(reason, 'Money Back Request')
+    
+    def _is_billing_context(self, text: str) -> bool:
+        """
+        Determine if context is billing-related vs subscription-related
+        Returns True for Billing, False for Subscription
+        """
+        text_lower = text.lower()
+        
+        # Billing keywords (payment, charges, invoices)
+        billing_keywords = [
+            'payment', 'charge', 'charged', 'billing', 'invoice', 'receipt',
+            'credit card', 'debit card', 'bank', 'transaction', 'refund',
+            'money', 'amount', 'cost', 'price', 'fee', 'pay', 'paid'
+        ]
+        
+        # Subscription keywords (plan, membership, access)
+        subscription_keywords = [
+            'subscription', 'plan', 'membership', 'premium', 'tier',
+            'upgrade', 'downgrade', 'switch', 'change plan', 'cancel',
+            'renew', 'renewal', 'expire', 'trial', 'family', 'student',
+            'individual', 'duo'
+        ]
+        
+        billing_count = sum(1 for kw in billing_keywords if kw in text_lower)
+        subscription_count = sum(1 for kw in subscription_keywords if kw in text_lower)
+        
+        # If billing keywords dominate, it's billing
+        # If subscription keywords dominate, it's subscription
+        # Default to billing if equal or unclear
+        return billing_count >= subscription_count
+    
     def _detect_primary_intent(self, text: str) -> Optional[str]:
         """
         Detect primary customer intent with PRIORITY ORDERING
@@ -1184,7 +1272,7 @@ class VectorizedRuleEngine:
         
         return {'l1': l1, 'l2': l2, 'l3': l3, 'l4': l4}
     
-    def _override_with_intent(self, primary_intent: str, has_resolution: bool, comm_issue: Optional[Dict] = None) -> Dict:
+    def _override_with_intent(self, primary_intent: str, has_resolution: bool, text: str = '', comm_issue: Optional[Dict] = None) -> Dict:
         """
         Create category based on detected intent
         
@@ -1222,30 +1310,30 @@ class VectorizedRuleEngine:
             },
             # Subscription Management
             'cancel_subscription': {
-                'l1': 'Cancellation',
+                'l1': 'Subscription Management',
                 'l2': 'Cancel Membership',
                 'l3': 'Issue Resolved' if has_resolution else 'Cancellation Request',
                 'l4': 'Professional Service' if has_resolution else 'Cancel Subscription'
             },
             'switch_plan': {
-                'l1': 'Billing & Subscription',
-                'l2': 'Subscription Issue',
-                'l3': 'Issue Resolved' if has_resolution else 'Plan Change',
+                'l1': 'Subscription Management',
+                'l2': 'Plan Change',
+                'l3': 'Issue Resolved' if has_resolution else 'Plan Modification',
                 'l4': 'Professional Service' if has_resolution else 'Switch Plan'
             },
             
             # Billing & Payment
             'billing_issue': {
-                'l1': 'Billing & Subscription',
-                'l2': 'Billing Issue',
+                'l1': 'Billing',
+                'l2': 'Payment Issue',
                 'l3': 'Issue Resolved' if has_resolution else 'Payment Problem',
                 'l4': 'Professional Service' if has_resolution else 'Billing Error'
             },
             'refund_request': {
-                'l1': 'Billing & Subscription',
+                'l1': 'Billing',
                 'l2': 'Refund Request',
-                'l3': 'Issue Resolved' if has_resolution else 'Refund Requested',
-                'l4': 'Professional Service' if has_resolution else 'Money Back Request'
+                'l3': 'Refund Approved' if has_resolution else self._get_refund_l3(text),
+                'l4': 'Refund Processed' if has_resolution else self._get_refund_l4(text)
             },
             
             # Verification & Authentication
@@ -1258,28 +1346,28 @@ class VectorizedRuleEngine:
             
             # Plan-Specific Issues
             'free_trial': {
-                'l1': 'Billing & Subscription',
+                'l1': 'Subscription Management',
                 'l2': 'Free Trial',
-                'l3': 'Issue Resolved' if has_resolution else 'Trial Inquiry',
-                'l4': 'Professional Service' if has_resolution else 'Trial Management'
+                'l3': 'Trial Activated' if has_resolution else 'Trial Inquiry',
+                'l4': 'Trial Started' if has_resolution else 'Trial Questions'
             },
             'family_plan_issue': {
-                'l1': 'Billing & Subscription',
+                'l1': 'Subscription Management',
                 'l2': 'Family Plan',
-                'l3': 'Issue Resolved' if has_resolution else 'Family Plan Issue',
-                'l4': 'Professional Service' if has_resolution else 'Family Management'
+                'l3': 'Member Added/Removed' if has_resolution else 'Family Plan Issue',
+                'l4': 'Family Updated' if has_resolution else 'Family Management'
             },
             'student_discount': {
-                'l1': 'Billing & Subscription',
+                'l1': 'Subscription Management',
                 'l2': 'Student Discount',
-                'l3': 'Issue Resolved' if has_resolution else 'Student Verification',
-                'l4': 'Professional Service' if has_resolution else 'Student Plan'
+                'l3': 'Student Verified' if has_resolution else 'Student Verification',
+                'l4': 'Discount Applied' if has_resolution else 'Verification Pending'
             },
             'promo_issue': {
-                'l1': 'Billing & Subscription',
+                'l1': 'Billing',
                 'l2': 'Promotional Code',
-                'l3': 'Issue Resolved' if has_resolution else 'Promo Code Failed',
-                'l4': 'Professional Service' if has_resolution else 'Invalid Code'
+                'l3': 'Code Applied' if has_resolution else 'Promo Code Failed',
+                'l4': 'Discount Activated' if has_resolution else 'Invalid Code'
             },
             
             # Technical & Quality
@@ -1402,7 +1490,7 @@ class VectorizedRuleEngine:
         
         # STEP 4: If strong intent detected, use it (HIGH CONFIDENCE)
         if primary_intent:
-            intent_category = self._override_with_intent(primary_intent, has_resolution, comm_issue)
+            intent_category = self._override_with_intent(primary_intent, has_resolution, text, comm_issue)
             if intent_category:
                 return {
                     'l1': intent_category['l1'],
