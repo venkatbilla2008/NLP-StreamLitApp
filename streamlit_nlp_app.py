@@ -659,6 +659,45 @@ class VectorizedRuleEngine:
                 re.IGNORECASE
             ),
             
+            # Account Hacking & Fraud (HIGHEST PRIORITY - Check before billing/restrictions)
+            'account_hacked': re.compile(
+                r'\b(account.{0,10}(hacked|hack|compromised|hijacked|stolen)|'
+                r'hacked.{0,10}account|compromised.{0,10}account|'
+                r'fraudulent.{0,10}activity|fraud.{0,10}(detected|detection|activity)|'
+                r'account.{0,10}closed.{0,10}(due.to|because.of).{0,10}fraud|'
+                r'closed.{0,10}(due.to|because.of).{0,10}(fraud|hacked|hack)|'
+                r'restore.{0,10}account|account.{0,10}(restoration|recovery)|'
+                r'recover.{0,10}account|listening.{0,10}history.{0,10}lost|'
+                r'data.{0,10}lost|lost.{0,10}(playlists|history|data)|'
+                r'wants.{0,10}(restoration|recovery)|full.{0,10}restoration)',
+                re.IGNORECASE
+            ),
+            
+            # Login Failure due to Account Restriction/Policy (HIGHEST PRIORITY)
+            'login_restricted': re.compile(
+                r'\b(login.{0,10}(failure|failed|blocked|restricted|denied)|'
+                r'cannot.{0,10}login|can\'t.{0,10}login|unable.{0,10}(to.{0,10})?login|'
+                r'login.{0,10}(issue|problem|error).{0,10}(due.to|because.of).{0,10}(restriction|flag|block)|'
+                r'account.{0,10}(flagged|flag|restricted|limited|blocked).{0,10}(for|due.to)|'
+                r'suspicious.{0,10}activity.{0,10}(detected|flag)|'
+                r'unauthorized.{0,10}usage.{0,10}(flag|detected|suspected)|'
+                r'policy.{0,10}(flag|violation).{0,10}(login|access)|'
+                r'access.{0,10}(restoration|restore|reactivation|reactivate)|'
+                r'service.{0,10}violation|account.{0,10}(disabled|limited).{0,10}login)',
+                re.IGNORECASE
+            ),
+            
+            # Account Restrictions & Policy Violations (HIGH PRIORITY - Check before billing)
+            'account_restriction': re.compile(
+                r'\b(account.{0,10}(blocked|suspended|disabled|restricted|locked|banned|terminated)|'
+                r'blocked.{0,10}account|suspended.{0,10}account|disabled.{0,10}account|'
+                r'account.{0,10}(violation|breach)|policy.{0,10}violation|'
+                r'tos.{0,10}violation|terms.{0,10}(of.{0,10}service|violation)|'
+                r'unauthorized.{0,10}(content|copy|usage|access)|'
+                r'copyright.{0,10}violation|piracy|pirated)',
+                re.IGNORECASE
+            ),
+            
             # Billing & Payment
             'billing_issue': re.compile(
                 r'\b(charged|billing|payment|refund|invoice|overcharged|double.{0,5}charge' +
@@ -1144,6 +1183,148 @@ class VectorizedRuleEngine:
         
         return refund_l4_mapping.get(reason, 'Money Back Request')
     
+    def _get_restriction_l3(self, text: str) -> str:
+        """
+        Get granular L3 category for account restriction based on reason
+        """
+        text_lower = text.lower()
+        
+        # Check for specific restriction reasons
+        if any(kw in text_lower for kw in ['tos violation', 'terms of service', 'terms violation', 'violated terms']):
+            return 'Terms of Service Violation'
+        elif any(kw in text_lower for kw in ['policy violation', 'policy enforcement', 'against policy', 'breach of policy']):
+            return 'Policy Enforcement'
+        elif any(kw in text_lower for kw in ['account blocked', 'blocked account']):
+            return 'Account Blocked'
+        elif any(kw in text_lower for kw in ['account suspended', 'suspended account']):
+            return 'Account Suspended'
+        elif any(kw in text_lower for kw in ['account disabled', 'disabled account']):
+            return 'Account Disabled'
+        elif any(kw in text_lower for kw in ['account banned', 'banned account']):
+            return 'Account Banned'
+        elif any(kw in text_lower for kw in ['unauthorized content', 'unauthorized copy', 'copyright violation', 'piracy', 'pirated']):
+            return 'Unauthorized Content Usage'
+        else:
+            return 'Account Restricted'
+    
+    def _get_restriction_l4(self, text: str) -> str:
+        """
+        Get granular L4 category for account restriction based on reason
+        """
+        text_lower = text.lower()
+        
+        # Check for specific restriction types
+        if any(kw in text_lower for kw in ['tos violation', 'terms of service', 'terms violation']):
+            return 'Terms of Service Violation'
+        elif any(kw in text_lower for kw in ['policy violation', 'policy enforcement']):
+            return 'Policy Violation'
+        elif any(kw in text_lower for kw in ['unauthorized content', 'unauthorized copy']):
+            return 'Unauthorized Content Usage'
+        elif any(kw in text_lower for kw in ['copyright violation', 'piracy', 'pirated']):
+            return 'Copyright Infringement'
+        elif any(kw in text_lower for kw in ['account blocked', 'blocked']):
+            return 'Access Blocked'
+        elif any(kw in text_lower for kw in ['account suspended', 'suspended']):
+            return 'Access Suspended'
+        elif any(kw in text_lower for kw in ['account disabled', 'disabled']):
+            return 'Access Disabled'
+        elif any(kw in text_lower for kw in ['account banned', 'banned']):
+            return 'Permanently Banned'
+        else:
+            return 'Access Restricted'
+    
+    def _get_hacked_l3(self, text: str) -> str:
+        """
+        Get granular L3 category for account hacking/fraud based on context
+        """
+        text_lower = text.lower()
+        
+        # Check for specific hacking/fraud scenarios
+        if any(kw in text_lower for kw in ['fraud detected', 'fraudulent activity', 'fraud detection']):
+            return 'Fraud Detection'
+        elif any(kw in text_lower for kw in ['account closed', 'account deactivated', 'closed due to']):
+            return 'Account Deactivated'
+        elif any(kw in text_lower for kw in ['restore', 'restoration', 'recovery', 'recover']):
+            return 'Recovery Request'
+        elif any(kw in text_lower for kw in ['hacked', 'hack', 'compromised', 'hijacked']):
+            return 'Account Compromised'
+        elif any(kw in text_lower for kw in ['data lost', 'history lost', 'playlists lost', 'lost data']):
+            return 'Data Loss'
+        else:
+            return 'Security Incident'
+    
+    def _get_hacked_l4(self, text: str) -> str:
+        """
+        Get granular L4 category for account hacking/fraud based on context
+        """
+        text_lower = text.lower()
+        
+        # Check for specific outcomes/requests
+        if any(kw in text_lower for kw in ['wants restoration', 'full restoration', 'restore account']):
+            return 'Restoration Request'
+        elif any(kw in text_lower for kw in ['wants recovery', 'recover account', 'account recovery']):
+            return 'Recovery Request'
+        elif any(kw in text_lower for kw in ['disputes closure', 'dispute', 'disagrees']):
+            return 'Customer Disputes Closure'
+        elif any(kw in text_lower for kw in ['listening history', 'playlists', 'data lost']):
+            return 'Data Recovery Needed'
+        elif any(kw in text_lower for kw in ['fraud detected', 'fraudulent activity']):
+            return 'Fraud Investigation'
+        elif any(kw in text_lower for kw in ['account closed', 'account deactivated']):
+            return 'Account Closure'
+        elif any(kw in text_lower for kw in ['hacked', 'compromised', 'hijacked']):
+            return 'Security Breach'
+        else:
+            return 'Security Issue'
+    
+    def _get_login_restricted_l3(self, text: str) -> str:
+        """
+        Get granular L3 category for login restriction based on reason
+        """
+        text_lower = text.lower()
+        
+        # Check for specific restriction reasons
+        if any(kw in text_lower for kw in ['suspicious activity', 'suspicious login', 'unusual activity']):
+            return 'Suspicious Activity Detected'
+        elif any(kw in text_lower for kw in ['unauthorized usage', 'unauthorized use', 'usage flag']):
+            return 'Unauthorized Usage Flag'
+        elif any(kw in text_lower for kw in ['service violation', 'policy violation', 'terms violation']):
+            return 'Service Violation'
+        elif any(kw in text_lower for kw in ['account disabled', 'account limited', 'account restricted']):
+            return 'Account Disabled'
+        elif any(kw in text_lower for kw in ['account flagged', 'account flag', 'flagged for']):
+            return 'Account Flagged'
+        elif any(kw in text_lower for kw in ['access restoration', 'access restore', 'reactivation']):
+            return 'Access Restoration'
+        else:
+            return 'Account Limited'
+    
+    def _get_login_restricted_l4(self, text: str) -> str:
+        """
+        Get granular L4 category for login restriction based on outcome
+        """
+        text_lower = text.lower()
+        
+        # Check for specific outcomes/requests
+        if any(kw in text_lower for kw in ['access restored', 'reactivated', 'restored access']):
+            return 'Access Restored'
+        elif any(kw in text_lower for kw in ['reactivation request', 'wants reactivation', 'restore access']):
+            return 'Reactivation Request'
+        elif any(kw in text_lower for kw in ['access restoration', 'restoration request']):
+            return 'Access Restoration'
+        elif any(kw in text_lower for kw in ['unauthorized usage', 'unauthorized use']):
+            return 'Unauthorized Usage'
+        elif any(kw in text_lower for kw in ['suspicious activity', 'suspicious login']):
+            return 'Suspicious Activity'
+        elif any(kw in text_lower for kw in ['policy violation', 'service violation']):
+            return 'Policy Violation'
+        elif any(kw in text_lower for kw in ['account flagged', 'flagged']):
+            return 'Account Flagged'
+        elif any(kw in text_lower for kw in ['account disabled', 'disabled']):
+            return 'Account Disabled'
+        else:
+            return 'Access Denied'
+    
     def _is_billing_context(self, text: str) -> bool:
         """
         Determine if context is billing-related vs subscription-related
@@ -1174,6 +1355,46 @@ class VectorizedRuleEngine:
         # Default to billing if equal or unclear
         return billing_count >= subscription_count
     
+    def _is_account_restriction(self, text: str) -> bool:
+        """
+        Determine if the issue is account restriction/suspension vs billing
+        Returns True if it's account restriction (NOT billing)
+        """
+        text_lower = text.lower()
+        
+        # Strong indicators of account restriction (NOT billing)
+        restriction_indicators = [
+            'tos violation', 'terms of service', 'policy violation',
+            'account blocked', 'account suspended', 'account disabled',
+            'account banned', 'account terminated', 'account restricted',
+            'unauthorized content', 'unauthorized copy', 'copyright violation',
+            'piracy', 'pirated', 'policy enforcement', 'terms violation',
+            'breach of terms', 'violated terms', 'against policy'
+        ]
+        
+        # Billing-specific indicators
+        billing_indicators = [
+            'payment', 'charged', 'billing', 'invoice', 'credit card',
+            'debit card', 'refund', 'money', 'price', 'cost'
+        ]
+        
+        # Check for restriction indicators
+        has_restriction = any(indicator in text_lower for indicator in restriction_indicators)
+        has_billing = any(indicator in text_lower for indicator in billing_indicators)
+        
+        # If has restriction indicators and NO billing indicators, it's restriction
+        if has_restriction and not has_billing:
+            return True
+        
+        # If has both, check which is more prominent
+        if has_restriction and has_billing:
+            # Count occurrences
+            restriction_count = sum(text_lower.count(ind) for ind in restriction_indicators)
+            billing_count = sum(text_lower.count(ind) for ind in billing_indicators)
+            return restriction_count > billing_count
+        
+        return False
+    
     def _detect_primary_intent(self, text: str) -> Optional[str]:
         """
         Detect primary customer intent with PRIORITY ORDERING
@@ -1200,11 +1421,31 @@ class VectorizedRuleEngine:
         if self.intent_patterns['switch_plan'].search(text_lower):
             return 'switch_plan'
         
+        # PRIORITY 1.2: Login Failure due to Restriction/Policy (HIGHEST - Check BEFORE hacking/billing)
+        if self.intent_patterns['login_restricted'].search(text_lower):
+            return 'login_restricted'
+        
+        # PRIORITY 1.3: Account Hacking & Fraud (HIGHEST - Check BEFORE restrictions/billing)
+        if self.intent_patterns['account_hacked'].search(text_lower):
+            return 'account_hacked'
+        
+        # PRIORITY 1.5: Account Restrictions (Check BEFORE billing to prevent misclassification)
+        if self.intent_patterns['account_restriction'].search(text_lower):
+            # Double-check it's not actually a billing issue
+            if not self._is_account_restriction(text):
+                # If context suggests billing, continue to billing check
+                pass
+            else:
+                return 'account_restriction'
+        
         # PRIORITY 2: Billing & Financial Issues
         if self.intent_patterns['refund_request'].search(text_lower):
             return 'refund_request'
         
         if self.intent_patterns['billing_issue'].search(text_lower):
+            # Double-check it's not account restriction misclassified as billing
+            if self._is_account_restriction(text):
+                return 'account_restriction'
             return 'billing_issue'
         
         # PRIORITY 3: Verification & Authentication
@@ -1469,6 +1710,14 @@ class VectorizedRuleEngine:
                 'l4': 'Professional Service' if has_resolution else 'Switch Plan'
             },
             
+            # Account Restrictions (HIGH PRIORITY - Before Billing)
+            'account_restriction': {
+                'l1': 'Account Management',
+                'l2': 'Account Restrictions',
+                'l3': 'Access Restored' if has_resolution else self._get_restriction_l3(text),
+                'l4': 'Account Reactivated' if has_resolution else self._get_restriction_l4(text)
+            },
+            
             # Billing & Payment
             'billing_issue': {
                 'l1': 'Billing',
@@ -1524,6 +1773,18 @@ class VectorizedRuleEngine:
             },
             
             # Security Issues (NEW L1 CATEGORY)
+            'account_hacked': {
+                'l1': 'Account Management',
+                'l2': 'Account Hacked',
+                'l3': 'Account Recovered' if has_resolution else self._get_hacked_l3(text),
+                'l4': 'Access Restored' if has_resolution else self._get_hacked_l4(text)
+            },
+            'login_restricted': {
+                'l1': 'Account Access',
+                'l2': 'Account Blocked',
+                'l3': 'Access Restored' if has_resolution else self._get_login_restricted_l3(text),
+                'l4': 'Access Reactivated' if has_resolution else self._get_login_restricted_l4(text)
+            },
             'unauthorized_access': {
                 'l1': 'Security',
                 'l2': 'Unauthorized Access',
