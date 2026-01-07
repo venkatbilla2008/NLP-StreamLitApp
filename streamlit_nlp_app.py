@@ -785,6 +785,83 @@ class VectorizedRuleEngine:
                 re.IGNORECASE
             ),
             
+            # NETFLIX-SPECIFIC CATEGORIES
+            
+            # Subtitle/Caption Issues (NETFLIX)
+            'subtitle_issue': re.compile(
+                r'\b(subtitle|subtitles|caption|captions|closed.caption|cc)' +
+                r'.{0,20}(not.working|missing|unavailable|not.showing|sync|out.of.sync' +
+                r'|wrong|incorrect|error|broken)',
+                re.IGNORECASE
+            ),
+            
+            # Profile Management (NETFLIX)
+            'profile_issue': re.compile(
+                r'\b(profile|user.profile|kids.profile).{0,20}' +
+                r'(create|delete|remove|add|issue|problem|not.working|error|limit|settings)',
+                re.IGNORECASE
+            ),
+            
+            # Watchlist/Continue Watching (NETFLIX)
+            'watchlist_issue': re.compile(
+                r'\b(watchlist|my.list|continue.watching|watch.history|viewing.history' +
+                r'|saved|favorites).{0,20}(missing|disappeared|gone|not.showing|not.working' +
+                r'|cannot.add|can\'t.add|error)',
+                re.IGNORECASE
+            ),
+            
+            # Search Issues (NETFLIX)
+            'search_issue': re.compile(
+                r'\b(search|searching|find|looking.for).{0,20}' +
+                r'(not.working|broken|error|cannot|can\'t|won\'t.work|results.wrong)',
+                re.IGNORECASE
+            ),
+            
+            # Language/Audio Track (NETFLIX)
+            'language_issue': re.compile(
+                r'\b(language|audio.language|subtitle.language|dubbed|dubbing' +
+                r'|original.language|audio.track).{0,20}' +
+                r'(not.available|unavailable|missing|cannot.change|can\'t.change|wrong)',
+                re.IGNORECASE
+            ),
+            
+            # Gift Card/Redemption (NETFLIX)
+            'gift_card_issue': re.compile(
+                r'\b(gift.card|gift.subscription|redeem|redemption|gift.code|prepaid)' +
+                r'.{0,20}(not.working|invalid|expired|error|cannot|can\'t|failed)',
+                re.IGNORECASE
+            ),
+            
+            # Unauthorized Access/Security (NETFLIX)
+            'unauthorized_access': re.compile(
+                r'\b(hacked|hack|unauthorized|someone.else|not.me|didn\'t.do' +
+                r'|security.breach|compromised|suspicious|strange|unusual.activity' +
+                r'|unknown.device|someone.watching)',
+                re.IGNORECASE
+            ),
+            
+            # App-Specific Issues (NETFLIX)
+            'app_issue': re.compile(
+                r'\b(app|application).{0,20}(crash|crashing|not.working|error|freeze' +
+                r'|freezing|slow|loading|won\'t.open|keeps.closing|not.loading)',
+                re.IGNORECASE
+            ),
+            
+            # Connection/Network Issues (NETFLIX)
+            'connection_issue': re.compile(
+                r'\b(connection|connect|disconnect|internet|wifi|network).{0,20}' +
+                r'(lost|issue|problem|error|keeps.disconnecting|won\'t.connect' +
+                r'|cannot.connect|can\'t.connect|no.connection)',
+                re.IGNORECASE
+            ),
+            
+            # Recommendations (NETFLIX)
+            'recommendation_issue': re.compile(
+                r'\b(recommend|recommendation|suggest|suggestion|what.to.watch' +
+                r'|similar.to).{0,20}(not.working|poor|bad|wrong|not.relevant|issue)',
+                re.IGNORECASE
+            ),
+            
             # Resolution Indicators (Positive) - BUT ONLY FROM CUSTOMER
             'resolution': re.compile(
                 r'\b(thank|thanks|thankyou|appreciate|appreciated|grateful' +
@@ -1147,6 +1224,13 @@ class VectorizedRuleEngine:
         if self.intent_patterns['promo_issue'].search(text_lower):
             return 'promo_issue'
         
+        if self.intent_patterns['gift_card_issue'].search(text_lower):
+            return 'gift_card_issue'
+        
+        # PRIORITY 4.5: Security Issues (HIGH PRIORITY)
+        if self.intent_patterns['unauthorized_access'].search(text_lower):
+            return 'unauthorized_access'
+        
         # PRIORITY 5: Content & Quality Issues
         if self.intent_patterns['content_unavailable'].search(text_lower):
             return 'content_unavailable'
@@ -1163,6 +1247,22 @@ class VectorizedRuleEngine:
         if self.intent_patterns['playback_issue'].search(text_lower):
             return 'playback_issue'
         
+        # PRIORITY 5.5: Netflix Content Features
+        if self.intent_patterns['subtitle_issue'].search(text_lower):
+            return 'subtitle_issue'
+        
+        if self.intent_patterns['language_issue'].search(text_lower):
+            return 'language_issue'
+        
+        if self.intent_patterns['watchlist_issue'].search(text_lower):
+            return 'watchlist_issue'
+        
+        if self.intent_patterns['search_issue'].search(text_lower):
+            return 'search_issue'
+        
+        if self.intent_patterns['recommendation_issue'].search(text_lower):
+            return 'recommendation_issue'
+        
         # PRIORITY 6: Device & Connectivity
         if self.intent_patterns['device_issue'].search(text_lower):
             return 'device_issue'
@@ -1173,7 +1273,16 @@ class VectorizedRuleEngine:
         if self.intent_patterns['download_issue'].search(text_lower):
             return 'download_issue'
         
+        if self.intent_patterns['app_issue'].search(text_lower):
+            return 'app_issue'
+        
+        if self.intent_patterns['connection_issue'].search(text_lower):
+            return 'connection_issue'
+        
         # PRIORITY 7: Account Management
+        if self.intent_patterns['profile_issue'].search(text_lower):
+            return 'profile_issue'
+        
         if self.intent_patterns['contact_update'].search(text_lower):
             return 'contact_update'
         
@@ -1407,6 +1516,20 @@ class VectorizedRuleEngine:
                 'l3': 'Code Applied' if has_resolution else 'Promo Code Failed',
                 'l4': 'Discount Activated' if has_resolution else 'Invalid Code'
             },
+            'gift_card_issue': {
+                'l1': 'Billing',
+                'l2': 'Gift Card',
+                'l3': 'Code Redeemed' if has_resolution else 'Redemption Issue',
+                'l4': 'Gift Card Activated' if has_resolution else 'Invalid Gift Code'
+            },
+            
+            # Security Issues (NEW L1 CATEGORY)
+            'unauthorized_access': {
+                'l1': 'Security',
+                'l2': 'Unauthorized Access',
+                'l3': 'Account Secured' if has_resolution else 'Security Breach',
+                'l4': 'Access Restored' if has_resolution else 'Compromised Account'
+            },
             
             # Technical & Quality
             'playback_issue': {
@@ -1442,6 +1565,38 @@ class VectorizedRuleEngine:
                 'l4': 'Professional Service' if has_resolution else 'Poor Audio'
             },
             
+            # Netflix Content Features
+            'subtitle_issue': {
+                'l1': 'Content',
+                'l2': 'Subtitle/Caption Issue',
+                'l3': 'Subtitle Fixed' if has_resolution else 'Subtitle Not Working',
+                'l4': 'Subtitle Restored' if has_resolution else 'Subtitle Missing'
+            },
+            'language_issue': {
+                'l1': 'Content',
+                'l2': 'Language/Audio Issue',
+                'l3': 'Language Added' if has_resolution else 'Language Not Available',
+                'l4': 'Audio Track Available' if has_resolution else 'Language Unavailable'
+            },
+            'watchlist_issue': {
+                'l1': 'Content',
+                'l2': 'Watchlist Issue',
+                'l3': 'List Restored' if has_resolution else 'Content Missing from List',
+                'l4': 'Watchlist Fixed' if has_resolution else 'My List Problem'
+            },
+            'search_issue': {
+                'l1': 'Content',
+                'l2': 'Search Issue',
+                'l3': 'Search Working' if has_resolution else 'Search Not Working',
+                'l4': 'Search Fixed' if has_resolution else 'Cannot Find Content'
+            },
+            'recommendation_issue': {
+                'l1': 'Content',
+                'l2': 'Recommendations',
+                'l3': 'Recommendations Improved' if has_resolution else 'Poor Recommendations',
+                'l4': 'Algorithm Updated' if has_resolution else 'Recommendation Error'
+            },
+            
             # Device & Download
             'device_issue': {
                 'l1': 'Technology Driven',
@@ -1460,6 +1615,18 @@ class VectorizedRuleEngine:
                 'l2': 'Sync/Connection Issue',
                 'l3': 'Issue Resolved' if has_resolution else 'Sync Failed',
                 'l4': 'Professional Service' if has_resolution else 'Not Syncing'
+            },
+            'app_issue': {
+                'l1': 'Technology Driven',
+                'l2': 'App Issue',
+                'l3': 'App Fixed' if has_resolution else 'App Crash',
+                'l4': 'App Working' if has_resolution else 'App Not Working'
+            },
+            'connection_issue': {
+                'l1': 'Technology Driven',
+                'l2': 'Connection Issue',
+                'l3': 'Connection Restored' if has_resolution else 'Connection Lost',
+                'l4': 'Network Fixed' if has_resolution else 'Network Error'
             },
             
             # Account Access
@@ -1480,6 +1647,12 @@ class VectorizedRuleEngine:
                 'l2': 'Contact Update',
                 'l3': 'Issue Resolved' if has_resolution else 'Update Request',
                 'l4': 'Professional Service' if has_resolution else 'Email/Phone Change'
+            },
+            'profile_issue': {
+                'l1': 'Account Management',
+                'l2': 'Profile Issue',
+                'l3': 'Profile Created/Updated' if has_resolution else 'Profile Problem',
+                'l4': 'Profile Fixed' if has_resolution else 'Cannot Manage Profile'
             }
         }
         
