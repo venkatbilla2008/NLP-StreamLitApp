@@ -1272,6 +1272,44 @@ class VectorizedRuleEngine:
         
         return {'l1': l1, 'l2': l2, 'l3': l3, 'l4': l4}
     
+    def _remap_legacy_categories(self, result: Dict, text: str) -> Dict:
+        """
+        Remap legacy 'Billing & Subscription' to new separated categories
+        based on context analysis
+        """
+        if result['l1'] == 'Billing & Subscription' or result['l1'] == 'Billing &amp; Subscription':
+            # Determine if it's billing or subscription based on L2 and context
+            l2_lower = result['l2'].lower()
+            
+            # Subscription-related L2 categories
+            subscription_l2 = [
+                'subscription', 'plan', 'membership', 'cancel', 'upgrade',
+                'downgrade', 'switch', 'trial', 'family', 'student'
+            ]
+            
+            # Billing-related L2 categories
+            billing_l2 = [
+                'billing', 'payment', 'charge', 'refund', 'invoice',
+                'promo', 'discount code', 'promotional'
+            ]
+            
+            # Check L2 first
+            is_subscription = any(keyword in l2_lower for keyword in subscription_l2)
+            is_billing = any(keyword in l2_lower for keyword in billing_l2)
+            
+            if is_subscription and not is_billing:
+                result['l1'] = 'Subscription Management'
+            elif is_billing and not is_subscription:
+                result['l1'] = 'Billing'
+            else:
+                # Use context analysis as fallback
+                if self._is_billing_context(text):
+                    result['l1'] = 'Billing'
+                else:
+                    result['l1'] = 'Subscription Management'
+        
+        return result
+    
     def _override_with_intent(self, primary_intent: str, has_resolution: bool, text: str = '', comm_issue: Optional[Dict] = None) -> Dict:
         """
         Create category based on detected intent
@@ -1569,7 +1607,9 @@ class VectorizedRuleEngine:
         if validated['l3'] != 'NA':
             match_path += f" > {validated['l3']}"
         
-        return {
+        
+        # Remap legacy categories
+        result = {
             'l1': validated['l1'],
             'l2': validated['l2'],
             'l3': validated['l3'],
@@ -1577,6 +1617,14 @@ class VectorizedRuleEngine:
             'confidence': confidence,
             'match_path': match_path
         }
+        result = self._remap_legacy_categories(result, text)
+        
+        # Update match_path if L1 was remapped
+        result['match_path'] = f"{result['l1']} > {result['l2']}"
+        if result['l3'] != 'NA':
+            result['match_path'] += f" > {result['l3']}"
+        
+        return result
     
     def classify_batch(self, texts: List[str]) -> pl.DataFrame:
         """ULTRA-ENHANCED batch classification"""
@@ -2748,7 +2796,7 @@ def main():
                 # Metrics
                 st.subheader("📈 Performance Metrics")
                 
-                metric_cols = st.columns(5)
+                metric_cols = st.columns(7)
                 
                 with metric_cols[0]:
                     st.metric("Total Records", f"{len(output_df):,}")
@@ -2766,6 +2814,14 @@ def main():
                 with metric_cols[4]:
                     unique_l2 = output_df['L2_Subcategory'].nunique()
                     st.metric("L2 Subcategories", unique_l2)
+                
+                with metric_cols[5]:
+                    unique_l3 = output_df['L3_Tertiary'].nunique()
+                    st.metric("L3 Tertiary", unique_l3)
+                
+                with metric_cols[6]:
+                    unique_l4 = output_df['L4_Quaternary'].nunique()
+                    st.metric("L4 Quaternary", unique_l4)
                 
                 # Results preview
                 st.subheader("📋 Results Preview (First 20 rows)")
@@ -2816,10 +2872,12 @@ def main():
                     if 'basic_statistics' in analytics:
                         st.markdown("#### Key Metrics")
                         stats = analytics['basic_statistics']
-                        c1, c2, c3 = st.columns(3)
+                        c1, c2, c3, c4, c5 = st.columns(5)
                         c1.metric("Total Records", stats.get('total_records', 0))
                         c2.metric("L1 Categories", stats.get('unique_l1_categories', 0))
                         c3.metric("L2 Subcategories", stats.get('unique_l2_categories', 0))
+                        c4.metric("L3 Tertiary", output_df['L3_Tertiary'].nunique())
+                        c5.metric("L4 Quaternary", output_df['L4_Quaternary'].nunique())
                     
                     # Category Distribution Tables (NEW)
                     st.markdown("---")
