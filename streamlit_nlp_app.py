@@ -1325,6 +1325,52 @@ class VectorizedRuleEngine:
         else:
             return 'Access Denied'
     
+    def _get_cancellation_l3(self, text: str) -> str:
+        """
+        Get granular L3 category for cancellation based on reason
+        """
+        text_lower = text.lower()
+        
+        # Check for specific cancellation reasons
+        if any(kw in text_lower for kw in ['no longer need', 'don\'t need', 'not using', 'don\'t use']):
+            return 'Service No Longer Needed'
+        elif any(kw in text_lower for kw in ['too expensive', 'too much', 'can\'t afford', 'price', 'cost']):
+            return 'Price/Cost Concern'
+        elif any(kw in text_lower for kw in ['not satisfied', 'dissatisfied', 'unhappy', 'disappointed']):
+            return 'Customer Dissatisfaction'
+        elif any(kw in text_lower for kw in ['not working', 'technical issue', 'problem', 'broken']):
+            return 'Technical Issues'
+        elif any(kw in text_lower for kw in ['found alternative', 'switching to', 'competitor']):
+            return 'Switching to Competitor'
+        elif any(kw in text_lower for kw in ['trial end', 'trial over', 'trial expire']):
+            return 'Trial Ended'
+        else:
+            return 'Subscription Cancellation'
+    
+    def _get_cancellation_l4(self, text: str) -> str:
+        """
+        Get granular L4 category for cancellation based on type
+        """
+        text_lower = text.lower()
+        
+        # Check for specific cancellation types
+        if any(kw in text_lower for kw in ['i want to cancel', 'want to cancel', 'please cancel', 'cancel my']):
+            return 'User Initiated Cancellation'
+        elif any(kw in text_lower for kw in ['voluntary', 'my choice', 'my decision']):
+            return 'Voluntary Cancel'
+        elif any(kw in text_lower for kw in ['no longer need', 'don\'t need']):
+            return 'Service Not Needed'
+        elif any(kw in text_lower for kw in ['too expensive', 'can\'t afford']):
+            return 'Cost Related'
+        elif any(kw in text_lower for kw in ['not satisfied', 'dissatisfied']):
+            return 'Dissatisfaction'
+        elif any(kw in text_lower for kw in ['not working', 'technical']):
+            return 'Technical Problem'
+        elif any(kw in text_lower for kw in ['switching', 'competitor']):
+            return 'Competitor Switch'
+        else:
+            return 'Standard Cancellation Request'
+    
     def _is_billing_context(self, text: str) -> bool:
         """
         Determine if context is billing-related vs subscription-related
@@ -1699,9 +1745,9 @@ class VectorizedRuleEngine:
             # Subscription Management
             'cancel_subscription': {
                 'l1': 'Subscription Management',
-                'l2': 'Cancel Membership',
-                'l3': 'Issue Resolved' if has_resolution else 'Cancellation Request',
-                'l4': 'Professional Service' if has_resolution else 'Cancel Subscription'
+                'l2': 'Cancellation/Account Closure',
+                'l3': 'Cancellation Completed' if has_resolution else self._get_cancellation_l3(text),
+                'l4': 'Account Closed' if has_resolution else self._get_cancellation_l4(text)
             },
             'switch_plan': {
                 'l1': 'Subscription Management',
