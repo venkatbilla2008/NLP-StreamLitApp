@@ -1,33 +1,236 @@
 [
     {
         "conditions": [
-            "cancel my spotify premium subscription",
-            "cancel my netflix subscription",
-            "cancel spotify",
-            "cancel netflix",
-            "cancel subscription",
-            "cancel",
-            "subscription",
-            "cancellation"
+            "chat closed",
+            "chat ended",
+            "conversation ended",
+            "session ended",
+            "automatically",
+            "inactivity",
+            "timeout"
         ],
         "set": {
-            "category": "Cancellation",
-            "subcategory": "Cancel Membership",
-            "level_3": "Subscription Cancellation",
-            "level_4": "Cancel Request",
+            "category": "Communication",
+            "subcategory": "Communication Disconnect",
+            "level_3": "Session Ended",
+            "level_4": "Auto Disconnect",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "have not heard",
+            "not heard from you",
+            "no response",
+            "delayed",
+            "slow",
+            "waiting",
+            "still waiting"
+        ],
+        "set": {
+            "category": "Communication",
+            "subcategory": "Delayed Communication",
+            "level_3": "Slow Response",
+            "level_4": "Agent Delay",
             "sentiment": "negative"
         }
     },
     {
         "conditions": [
-            "switch to family plan",
-            "change to different plan",
-            "upgrade plan",
-            "downgrade plan",
-            "switch",
-            "change",
-            "plan",
-            "different"
+            "account hacked",
+            "compromised",
+            "fraud",
+            "fraudulent",
+            "restore",
+            "restoration",
+            "recovery",
+            "data lost",
+            "history lost"
+        ],
+        "set": {
+            "category": "Account Hacking & Fraud",
+            "subcategory": "Account Compromised",
+            "level_3": "Security Incident",
+            "level_4": "Account Hacked",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "login failure",
+            "login restricted",
+            "account flagged",
+            "suspicious activity",
+            "unauthorized usage",
+            "access restoration",
+            "reactivation"
+        ],
+        "set": {
+            "category": "Account Restriction",
+            "subcategory": "Login Failure",
+            "level_3": "Account Flagged",
+            "level_4": "Login Restricted",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "password reset",
+            "reset link",
+            "error",
+            "not working",
+            "failed",
+            "system error",
+            "technical error"
+        ],
+        "set": {
+            "category": "Account Access",
+            "subcategory": "Password Reset",
+            "level_3": "System Error",
+            "level_4": "Password Reset Failure",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "account blocked",
+            "account suspended",
+            "account disabled",
+            "account restricted",
+            "policy violation",
+            "tos violation",
+            "terms violation",
+            "unauthorized content",
+            "copyright",
+            "piracy"
+        ],
+        "set": {
+            "category": "Account Restriction",
+            "subcategory": "Policy Violation",
+            "level_3": "Account Restricted",
+            "level_4": "Policy Enforcement",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "cancel subscription",
+            "cancel",
+            "end subscription",
+            "stop subscription",
+            "terminate",
+            "discontinue",
+            "unsubscribe"
+        ],
+        "set": {
+            "category": "Cancellation",
+            "subcategory": "Cancel Membership",
+            "level_3": "Subscription Cancellation",
+            "level_4": "User Initiated Cancellation",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "no longer need",
+            "don't need",
+            "not using",
+            "don't use"
+        ],
+        "set": {
+            "category": "Cancellation",
+            "subcategory": "Cancel Membership",
+            "level_3": "Service No Longer Needed",
+            "level_4": "Service Not Needed",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "too expensive",
+            "can't afford",
+            "price",
+            "cost",
+            "cancel"
+        ],
+        "set": {
+            "category": "Cancellation",
+            "subcategory": "Cancel Membership",
+            "level_3": "Price/Cost Concern",
+            "level_4": "Cost Related",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "not satisfied",
+            "dissatisfied",
+            "unhappy",
+            "disappointed",
+            "cancel"
+        ],
+        "set": {
+            "category": "Cancellation",
+            "subcategory": "Cancel Membership",
+            "level_3": "Customer Dissatisfaction",
+            "level_4": "Dissatisfaction",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "not working",
+            "technical issue",
+            "problem",
+            "broken",
+            "cancel"
+        ],
+        "set": {
+            "category": "Cancellation",
+            "subcategory": "Cancel Membership",
+            "level_3": "Technical Issues",
+            "level_4": "Technical Problem",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "found alternative",
+            "switching to",
+            "competitor",
+            "cancel"
+        ],
+        "set": {
+            "category": "Cancellation",
+            "subcategory": "Cancel Membership",
+            "level_3": "Switching to Competitor",
+            "level_4": "Competitor Switch",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "trial end",
+            "trial over",
+            "trial expire",
+            "cancel"
+        ],
+        "set": {
+            "category": "Cancellation",
+            "subcategory": "Cancel Membership",
+            "level_3": "Trial Ended",
+            "level_4": "Trial Period Ended",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "switch plan",
+            "change plan",
+            "upgrade",
+            "downgrade",
+            "modify",
+            "different plan"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -39,31 +242,11 @@
     },
     {
         "conditions": [
-            "too expensive for me",
-            "can't afford subscription",
-            "price too high",
-            "expensive",
-            "afford",
-            "price",
-            "cost"
-        ],
-        "set": {
-            "category": "Billing & Subscription",
-            "subcategory": "Pricing Complaint",
-            "level_3": "Price Concern",
-            "level_4": "Too Expensive",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "charged twice this month",
+            "charged twice",
             "double charged",
             "billed twice",
-            "charged",
-            "twice",
-            "double",
-            "billing"
+            "duplicate",
+            "multiple times"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -75,13 +258,11 @@
     },
     {
         "conditions": [
-            "wrong amount on bill",
-            "incorrect charge",
-            "overcharged",
-            "wrong",
-            "amount",
+            "wrong amount",
             "incorrect",
-            "overcharged"
+            "overcharged",
+            "billing error",
+            "payment error"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -93,82 +274,43 @@
     },
     {
         "conditions": [
-            "need a refund",
-            "want my money back",
-            "refund request",
             "refund",
-            "money",
-            "back"
+            "money back",
+            "reimburse",
+            "chargeback"
+        ],
+        "set": {
+            "category": "Refund",
+            "subcategory": "Refund Request",
+            "level_3": "Refund Needed",
+            "level_4": "Customer Requested Refund",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "too expensive",
+            "overpriced",
+            "too much",
+            "price too high",
+            "can't afford",
+            "price increase"
         ],
         "set": {
             "category": "Billing & Subscription",
-            "subcategory": "Billing Issue",
-            "level_3": "Refund Request",
-            "level_4": "Refund Needed",
+            "subcategory": "Pricing Complaint",
+            "level_3": "Price Concern",
+            "level_4": "Too Expensive",
             "sentiment": "negative"
         }
     },
     {
         "conditions": [
-            "constant buffering issue",
-            "keeps buffering",
-            "won't stop buffering",
-            "buffering",
-            "buffer",
-            "constant"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Streaming Quality",
-            "level_3": "Quality Issue",
-            "level_4": "Constant Buffering",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "video keeps freezing",
-            "playback frozen",
-            "screen frozen",
-            "freezing",
-            "frozen",
-            "freeze"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Streaming Quality",
-            "level_3": "Quality Issue",
-            "level_4": "Video Freezing",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "laggy playback",
-            "video lagging",
-            "stuttering",
-            "laggy",
-            "lagging",
-            "lag",
-            "stutter"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Streaming Quality",
-            "level_3": "Quality Issue",
-            "level_4": "Lag/Stuttering",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "video won't play",
-            "can't play video",
+            "won't play",
+            "can't play",
+            "not playing",
             "playback failed",
-            "play",
-            "playing",
-            "playback",
-            "failed"
+            "fails to play"
         ],
         "set": {
             "category": "Technology Driven",
@@ -183,10 +325,7 @@
             "keeps stopping",
             "stops randomly",
             "pauses randomly",
-            "stopping",
-            "stops",
-            "pauses",
-            "pause"
+            "keeps pausing"
         ],
         "set": {
             "category": "Technology Driven",
@@ -198,13 +337,57 @@
     },
     {
         "conditions": [
-            "poor video quality",
-            "blurry video",
-            "pixelated",
-            "quality",
-            "poor",
+            "buffering",
+            "constant buffering",
+            "always buffering",
+            "keeps buffering"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Streaming Quality",
+            "level_3": "Quality Issue",
+            "level_4": "Constant Buffering",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "freezing",
+            "frozen",
+            "freeze",
+            "video freezing"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Streaming Quality",
+            "level_3": "Quality Issue",
+            "level_4": "Video Freezing",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "lagging",
+            "laggy",
+            "stuttering",
+            "choppy"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Streaming Quality",
+            "level_3": "Quality Issue",
+            "level_4": "Lag/Stuttering",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "poor quality",
+            "low quality",
+            "bad quality",
             "blurry",
-            "pixelated"
+            "pixelated",
+            "grainy"
         ],
         "set": {
             "category": "Technology Driven",
@@ -216,13 +399,30 @@
     },
     {
         "conditions": [
-            "song removed from spotify",
-            "album missing",
-            "track unavailable",
+            "sound quality",
+            "audio quality",
+            "distorted",
+            "crackling",
+            "static",
+            "no sound",
+            "muted"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Audio Quality",
+            "level_3": "Quality Issue",
+            "level_4": "Poor Audio Quality",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "removed",
             "missing",
             "unavailable",
-            "song"
+            "gone",
+            "disappeared",
+            "content"
         ],
         "set": {
             "category": "Products and Services",
@@ -234,30 +434,10 @@
     },
     {
         "conditions": [
-            "show removed from netflix",
-            "movie missing",
-            "episode unavailable",
-            "show",
-            "movie",
-            "episode",
-            "series"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Content Issue",
-            "level_3": "Content Availability",
-            "level_4": "Content Removed",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "can't find content",
-            "unable to find",
+            "can't find",
             "cannot find",
-            "find",
-            "search",
-            "looking"
+            "unable to find",
+            "missing content"
         ],
         "set": {
             "category": "Products and Services",
@@ -269,13 +449,11 @@
     },
     {
         "conditions": [
-            "not available in my region",
-            "geo blocked",
-            "region restriction",
             "region",
             "country",
-            "blocked",
-            "restriction"
+            "geo blocked",
+            "geographic restriction",
+            "not available in"
         ],
         "set": {
             "category": "Products and Services",
@@ -287,13 +465,11 @@
     },
     {
         "conditions": [
-            "bluetooth not connecting",
-            "speaker won't connect",
-            "bluetooth issue",
             "bluetooth",
             "speaker",
-            "connecting",
-            "connect"
+            "not connecting",
+            "won't connect",
+            "connection failed"
         ],
         "set": {
             "category": "Technology Driven",
@@ -305,13 +481,11 @@
     },
     {
         "conditions": [
-            "chromecast not working",
-            "airplay issue",
-            "casting failed",
             "chromecast",
             "airplay",
             "casting",
-            "cast"
+            "cast",
+            "not working"
         ],
         "set": {
             "category": "Technology Driven",
@@ -323,12 +497,10 @@
     },
     {
         "conditions": [
-            "alexa not working",
-            "echo issue",
-            "smart speaker",
             "alexa",
             "echo",
-            "speaker"
+            "smart speaker",
+            "not working"
         ],
         "set": {
             "category": "Technology Driven",
@@ -340,12 +512,10 @@
     },
     {
         "conditions": [
-            "smart tv not working",
-            "tv app issue",
-            "television problem",
-            "tv",
+            "smart tv",
+            "tv app",
             "television",
-            "smart"
+            "not working"
         ],
         "set": {
             "category": "Technology Driven",
@@ -357,12 +527,11 @@
     },
     {
         "conditions": [
-            "download failed",
-            "can't download",
-            "offline issue",
             "download",
-            "downloading",
-            "offline"
+            "offline",
+            "failed",
+            "not working",
+            "error"
         ],
         "set": {
             "category": "Technology Driven",
@@ -374,10 +543,9 @@
     },
     {
         "conditions": [
-            "downloaded content missing",
-            "offline downloads disappeared",
-            "saved content",
-            "downloads",
+            "downloaded content",
+            "offline downloads",
+            "missing",
             "disappeared",
             "deleted"
         ],
@@ -391,13 +559,12 @@
     },
     {
         "conditions": [
-            "can't login",
-            "unable to sign in",
-            "login failed",
             "login",
-            "sign",
-            "access",
-            "failed"
+            "sign in",
+            "failed",
+            "error",
+            "cannot",
+            "can't"
         ],
         "set": {
             "category": "Account Access",
@@ -412,9 +579,7 @@
             "forgot password",
             "reset password",
             "password issue",
-            "password",
-            "forgot",
-            "reset"
+            "lost password"
         ],
         "set": {
             "category": "Account Access",
@@ -426,102 +591,249 @@
     },
     {
         "conditions": [
-            "account locked",
-            "account suspended",
-            "account disabled",
-            "account",
-            "locked",
-            "suspended",
-            "disabled"
+            "playlist",
+            "library",
+            "saved songs",
+            "favorites",
+            "missing",
+            "lost",
+            "deleted"
         ],
         "set": {
-            "category": "Account Management",
-            "subcategory": "Account Issue",
-            "level_3": "Account Status",
-            "level_4": "Account Locked",
+            "category": "Products and Services",
+            "subcategory": "Content Issue",
+            "level_3": "User Content",
+            "level_4": "Playlist/Library Missing",
             "sentiment": "negative"
         }
     },
     {
         "conditions": [
-            "thank you for your help",
-            "thanks for helping",
-            "appreciate your help",
-            "thank",
-            "thanks",
-            "appreciate",
-            "grateful"
+            "sync",
+            "syncing",
+            "not syncing",
+            "sync failed",
+            "connection lost"
         ],
         "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Issue Resolved",
-            "level_4": "Professional Service",
-            "sentiment": "positive"
+            "category": "Technology Driven",
+            "subcategory": "Sync Issue",
+            "level_3": "Connection Problem",
+            "level_4": "Sync Failed",
+            "sentiment": "negative"
         }
     },
     {
         "conditions": [
-            "all set now",
-            "works great now",
-            "working fine",
-            "all set",
-            "works",
-            "working",
-            "fine"
+            "update email",
+            "change email",
+            "update phone",
+            "change phone",
+            "update contact"
         ],
         "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Issue Resolved",
-            "level_4": "Professional Service",
-            "sentiment": "positive"
+            "category": "Account Management",
+            "subcategory": "Account Update",
+            "level_3": "Contact Information",
+            "level_4": "Update Contact Details",
+            "sentiment": "neutral"
         }
     },
     {
         "conditions": [
-            "issue resolved",
-            "problem solved",
-            "successfully fixed",
-            "resolved",
-            "solved",
-            "fixed",
-            "successfully"
+            "promo code",
+            "discount code",
+            "coupon",
+            "offer",
+            "not working",
+            "invalid",
+            "expired"
         ],
         "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Issue Resolved",
-            "level_4": "Professional Service",
-            "sentiment": "positive"
+            "category": "Billing & Subscription",
+            "subcategory": "Promotional Issue",
+            "level_3": "Promo Code",
+            "level_4": "Promo Code Invalid",
+            "sentiment": "negative"
         }
     },
     {
         "conditions": [
-            "excellent service",
-            "great support",
-            "helpful agent",
-            "excellent",
-            "great",
-            "helpful",
-            "service"
+            "subtitle",
+            "caption",
+            "closed caption",
+            "not working",
+            "missing",
+            "out of sync"
         ],
         "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Excellent Service",
-            "level_4": "Great Support",
-            "sentiment": "positive"
+            "category": "Technology Driven",
+            "subcategory": "Subtitle Issue",
+            "level_3": "Display Problem",
+            "level_4": "Subtitle Not Working",
+            "sentiment": "negative"
         }
     },
     {
         "conditions": [
-            "family plan request",
-            "want family plan",
+            "profile",
+            "user profile",
+            "kids profile",
+            "create",
+            "delete",
+            "issue",
+            "error"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Profile Management",
+            "level_3": "Profile Issue",
+            "level_4": "Profile Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "watchlist",
+            "my list",
+            "continue watching",
+            "watch history",
+            "missing",
+            "disappeared"
+        ],
+        "set": {
+            "category": "Products and Services",
+            "subcategory": "Content Issue",
+            "level_3": "User Content",
+            "level_4": "Watchlist Missing",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "search",
+            "searching",
+            "find",
+            "not working",
+            "broken",
+            "error"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Search Issue",
+            "level_3": "Feature Not Working",
+            "level_4": "Search Failed",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "language",
+            "audio language",
+            "subtitle language",
+            "dubbed",
+            "not available",
+            "missing"
+        ],
+        "set": {
+            "category": "Products and Services",
+            "subcategory": "Content Issue",
+            "level_3": "Language Options",
+            "level_4": "Language Unavailable",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "gift card",
+            "gift subscription",
+            "redeem",
+            "redemption",
+            "not working",
+            "invalid",
+            "expired"
+        ],
+        "set": {
+            "category": "Billing & Subscription",
+            "subcategory": "Payment Issue",
+            "level_3": "Gift Card",
+            "level_4": "Gift Card Invalid",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "app crash",
+            "app crashing",
+            "app error",
+            "app freeze",
+            "app slow",
+            "won't open"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "App Issue",
+            "level_3": "App Performance",
+            "level_4": "App Crashing",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "connection",
+            "internet",
+            "wifi",
+            "network",
+            "lost",
+            "disconnecting"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Connection Issue",
+            "level_3": "Network Problem",
+            "level_4": "Connection Lost",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "verify",
+            "verification",
+            "verification code",
+            "failed",
+            "cannot verify",
+            "error"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Verification Issue",
+            "level_3": "Account Verification",
+            "level_4": "Verification Failed",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "free trial",
+            "trial period",
+            "trial end",
+            "trial expire",
+            "start trial"
+        ],
+        "set": {
+            "category": "Billing & Subscription",
+            "subcategory": "Trial Issue",
+            "level_3": "Free Trial",
+            "level_4": "Trial Period",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "family plan",
             "family subscription",
-            "family",
-            "plan",
-            "subscription"
+            "family member",
+            "family sharing"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -533,12 +845,10 @@
     },
     {
         "conditions": [
-            "student plan request",
             "student discount",
+            "student plan",
             "student subscription",
-            "student",
-            "discount",
-            "verification"
+            "student verification"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -550,84 +860,51 @@
     },
     {
         "conditions": [
-            "clear explanation by agent",
-            "clear",
-            "explanation",
-            "agent",
-            "appreciating agent",
-            "appreciating"
+            "thank you",
+            "thanks",
+            "appreciate",
+            "grateful",
+            "help"
         ],
         "set": {
             "category": "Positive Feedback",
             "subcategory": "Appreciating Agent",
-            "level_3": "Clear Explanation by Agent",
-            "level_4": "Clear Explanation by Agent",
+            "level_3": "Issue Resolved",
+            "level_4": "Professional Service",
             "sentiment": "positive"
         }
     },
     {
         "conditions": [
-            "courteous agent",
-            "courteous",
-            "agent",
-            "polite",
-            "professional"
+            "all set",
+            "works now",
+            "working",
+            "fixed",
+            "resolved",
+            "solved"
         ],
         "set": {
             "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Courteous Agent",
-            "level_4": "Courteous Agent",
+            "subcategory": "Appreciating Product & Service",
+            "level_3": "Issue Resolved",
+            "level_4": "Professional Service",
             "sentiment": "positive"
         }
     },
     {
         "conditions": [
-            "efficient agent",
-            "quick response",
-            "fast service",
-            "efficient",
-            "quick",
-            "fast"
+            "excellent",
+            "great",
+            "amazing",
+            "helpful",
+            "service",
+            "support"
         ],
         "set": {
             "category": "Positive Feedback",
             "subcategory": "Appreciating Agent",
-            "level_3": "Efficient Agent",
-            "level_4": "Efficient Agent",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "patient agent",
-            "agent was patient",
-            "very patient",
-            "patient",
-            "understanding"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Patient Agent",
-            "level_4": "Patient Agent",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "knowledgeable agent",
-            "agent knows well",
-            "well informed",
-            "knowledgeable",
-            "informed",
-            "expert"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Knowledgeable Agent",
-            "level_4": "Knowledgeable Agent",
+            "level_3": "Excellent Service",
+            "level_4": "Great Support",
             "sentiment": "positive"
         }
     }
