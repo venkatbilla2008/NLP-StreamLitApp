@@ -687,6 +687,15 @@ class VectorizedRuleEngine:
                 re.IGNORECASE
             ),
             
+            # Password Reset Failure / System Error (HIGH PRIORITY)
+            'password_reset_failure': re.compile(
+                r'\b(password.{0,10}(reset|recover|recovery)|forgot.{0,10}password|'
+                r'reset.{0,10}(password|link)|password.{0,10}link)'
+                r'.{0,50}(error|not.working|failed|failure|something.went.wrong|'
+                r'try.again.later|system.error|technical.error|cannot|can\'t)',
+                re.IGNORECASE
+            ),
+            
             # Account Restrictions & Policy Violations (HIGH PRIORITY - Check before billing)
             'account_restriction': re.compile(
                 r'\b(account.{0,10}(blocked|suspended|disabled|restricted|locked|banned|terminated)|'
@@ -1467,6 +1476,10 @@ class VectorizedRuleEngine:
         if self.intent_patterns['switch_plan'].search(text_lower):
             return 'switch_plan'
         
+        # PRIORITY 1.1: Password Reset Failure (HIGHEST - Check BEFORE login/hacking)
+        if self.intent_patterns['password_reset_failure'].search(text_lower):
+            return 'password_reset_failure'
+        
         # PRIORITY 1.2: Login Failure due to Restriction/Policy (HIGHEST - Check BEFORE hacking/billing)
         if self.intent_patterns['login_restricted'].search(text_lower):
             return 'login_restricted'
@@ -1937,6 +1950,12 @@ class VectorizedRuleEngine:
             },
             
             # Account Access
+            'password_reset_failure': {
+                'l1': 'Account Management',
+                'l2': 'Forgot Password',
+                'l3': 'Password Reset Not Working',
+                'l4': 'System Error'
+            },
             'login_issue': {
                 'l1': 'Account Access',
                 'l2': 'Login Issue',
@@ -2110,8 +2129,24 @@ class VectorizedRuleEngine:
         """ULTRA-ENHANCED batch classification"""
         results = []
         for text in texts:
-            result = self.classify_single(text)
-            results.append(result)
+            # Handle empty/null texts to maintain row alignment
+            if not text or not isinstance(text, str) or text.strip() == '':
+                results.append({
+                    'l1': 'Uncategorized',
+                    'l2': 'NA',
+                    'l3': 'NA',
+                    'l4': 'NA',
+                    'confidence': 0.0,
+                    'match_path': 'Uncategorized'
+                })
+            else:
+                result = self.classify_single(text)
+                results.append(result)
+        
+        # Ensure we return same number of rows as input
+        assert len(results) == len(texts), \
+            f"Row count mismatch in classify_batch: input={len(texts)}, output={len(results)}"
+        
         return pl.DataFrame(results)
 
 
@@ -2254,6 +2289,10 @@ class UltraFastNLPPipeline:
             # COMMENTED OUT - Proximity not needed in output
             # proximity_df
         ], how='horizontal')
+        
+        # Validate row alignment
+        assert result_df.height == chunk_df.height, \
+            f"Row count mismatch after concat: expected={chunk_df.height}, got={result_df.height}"
         
         return result_df
     
