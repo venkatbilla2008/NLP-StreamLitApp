@@ -696,6 +696,95 @@ class VectorizedRuleEngine:
                 re.IGNORECASE
             ),
             
+            # Unauthorized Charges / Fraudulent Billing (HIGHEST PRIORITY)
+            'unauthorized_charges': re.compile(
+                r'\b(unauthorized.{0,10}(charge|charges|billing|deduction|payment|subscription)|'
+                r'never.{0,10}(subscribed|subscribe|signed.up|authorized)|'
+                r'didn\'t.{0,10}(subscribe|authorize|sign.up)|'
+                r'fraudulent.{0,10}(charge|billing|payment|subscription)|'
+                r'unrecognized.{0,10}(charge|subscription|payment)|'
+                r'someone.{0,10}(created|used|took).{0,10}(account|payment)|'
+                r'account.{0,10}takeover|different.{0,10}email.{0,10}(address|account)|'
+                r'charged.{0,10}(for|without).{0,10}(never|didn\'t)|'
+                r'recurring.{0,10}unauthorized|duplicate.{0,10}unauthorized)',
+                re.IGNORECASE
+            ),
+            
+            # Duplicate/Accidental Payment (HIGH PRIORITY)
+            'duplicate_payment': re.compile(
+                r'\b(duplicate.{0,10}(payment|charge|subscription|purchase)|'
+                r'accidental.{0,10}(payment|purchase|subscription|upgrade)|'
+                r'paid.{0,10}twice|charged.{0,10}twice.{0,10}(same|for)|'
+                r'wrong.{0,10}account.{0,10}(purchase|subscription|premium)|'
+                r'purchased.{0,10}(on|to).{0,10}wrong.{0,10}account|'
+                r'two.{0,10}accounts.{0,10}(premium|subscription)|'
+                r'subscribed.{0,10}(on|to).{0,10}both.{0,10}accounts|'
+                r'mistake.{0,10}(purchase|subscription|payment)|'
+                r'error.{0,10}(purchase|subscription|payment)|'
+                r'accidentally.{0,10}(subscribed|purchased|upgraded))',
+                re.IGNORECASE
+            ),
+            
+            # Incorrect Plan Charge / Student Discount Issues (HIGH PRIORITY)
+            'incorrect_plan_charge': re.compile(
+                r'\b(incorrect.{0,10}(plan|charge|billing)|'
+                r'charged.{0,10}(for|wrong).{0,10}(plan|family|premium)|'
+                r'student.{0,10}(discount|rate|plan).{0,10}(not.applied|missing|removed|expired)|'
+                r'auto.{0,10}(upgrade|upgraded|changed).{0,10}(plan|to.family|to.premium)|'
+                r'unintended.{0,10}(plan|upgrade|change)|'
+                r'plan.{0,10}(changed|upgraded).{0,10}(without|no).{0,10}(consent|permission|authorization)|'
+                r'charged.{0,10}family.{0,10}(instead|not).{0,10}student|'
+                r'student.{0,10}(expired|ended).{0,10}(auto|automatically).{0,10}upgrade|'
+                r'unexpected.{0,10}(plan|charge|upgrade)|'
+                r'didn\'t.{0,10}(upgrade|change|authorize).{0,10}plan)',
+                re.IGNORECASE
+            ),
+            
+            # Content Metadata Errors (NEW CATEGORY)
+            'metadata_error': re.compile(
+                r'\b(incorrect.{0,10}(artist|attribution|metadata|tag|album|song.info)|'
+                r'wrong.{0,10}(artist|attribution|album|song.info|metadata)|'
+                r'song.{0,10}(attributed|credited|tagged).{0,10}(to|as).{0,10}wrong.{0,10}artist|'
+                r'artist.{0,10}(attribution|credit|tag).{0,10}(error|incorrect|wrong)|'
+                r'metadata.{0,10}(error|incorrect|wrong|issue)|'
+                r'catalog.{0,10}(error|incorrect|issue|quality)|'
+                r'incorrectly.{0,10}(attributed|credited|tagged|listed)|'
+                r'should.be.{0,10}(attributed|credited).{0,10}to.{0,10}(different|another).{0,10}artist|'
+                r'discography.{0,10}(error|incorrect|issue)|'
+                r'content.{0,10}(correction|quality|accuracy).{0,10}(request|issue))',
+                re.IGNORECASE
+            ),
+            
+            # Payment Method Update Issues (HIGH PRIORITY)
+            'payment_method_issue': re.compile(
+                r'\b(update.{0,10}(payment|credit.card|card|billing)|'
+                r'new.{0,10}(credit.card|card|payment.method)|'
+                r'change.{0,10}(payment|credit.card|card|billing.method)|'
+                r'unable.{0,10}(to.)?update.{0,10}(payment|card)|'
+                r'cannot.{0,10}update.{0,10}(payment|card)|'
+                r'can\'t.{0,10}update.{0,10}(payment|card)|'
+                r'downgrade.{0,10}(from|to).{0,10}(premium|free)|'
+                r'account.{0,10}downgraded|premium.{0,10}(lost|removed|expired)|'
+                r'reactivate.{0,10}premium|premium.{0,10}reactivation|'
+                r'locked.out.{0,10}(of|from).{0,10}account.{0,10}management|'
+                r'lost.{0,10}access.{0,10}(to|after).{0,10}(new|credit).{0,10}card)',
+                re.IGNORECASE
+            ),
+            
+            # Student Resubscription Failure (TECHNICAL ISSUE)
+            'student_resubscription_failure': re.compile(
+                r'\b(student.{0,10}(resubscribe|resubscription|re-subscribe|renew)|'
+                r'reverified.{0,10}student.{0,10}(cannot|unable|can\'t).{0,10}subscribe|'
+                r'student.{0,10}(verification|verified).{0,10}(but|however).{0,10}(cannot|unable|can\'t)|'
+                r'student.{0,10}plan.{0,10}(failure|failed|error|not.working)|'
+                r'cannot.{0,10}subscribe.{0,10}(to|with).{0,10}student|'
+                r'student.{0,10}discount.{0,10}(subscription|resubscription).{0,10}(failed|failure|error)|'
+                r'technical.{0,10}(barrier|issue|problem).{0,10}student|'
+                r'payment.{0,10}system.{0,10}error.{0,10}student|'
+                r'self-service.{0,10}(failed|failure).{0,10}student)',
+                re.IGNORECASE
+            ),
+            
             # Account Restrictions & Policy Violations (HIGH PRIORITY - Check before billing)
             'account_restriction': re.compile(
                 r'\b(account.{0,10}(blocked|suspended|disabled|restricted|locked|banned|terminated)|'
@@ -1380,6 +1469,46 @@ class VectorizedRuleEngine:
         else:
             return 'Standard Cancellation Request'
     
+    def _get_refund_l3(self, text: str) -> str:
+        """
+        Get granular L3 category for refund based on reason
+        """
+        text_lower = text.lower()
+        
+        # Check for specific refund reasons
+        if any(kw in text_lower for kw in ['billed before', 'charged before', 'billed.{0,10}day.{0,10}before', 'forgot to cancel']):
+            return 'Post-Renewal Cancellation Refund'
+        elif any(kw in text_lower for kw in ['didn\'t use', 'haven\'t used', 'not using', 'never used']):
+            return 'Service Not Used'
+        elif any(kw in text_lower for kw in ['goodwill', 'courtesy', 'one-time', 'exception']):
+            return 'Goodwill Refund'
+        elif any(kw in text_lower for kw in ['charged twice', 'double charge', 'duplicate']):
+            return 'Duplicate Charge Refund'
+        elif any(kw in text_lower for kw in ['not satisfied', 'dissatisfied', 'poor quality']):
+            return 'Dissatisfaction Refund'
+        else:
+            return 'Refund Requested'
+    
+    def _get_refund_l4(self, text: str) -> str:
+        """
+        Get granular L4 category for refund based on approval type
+        """
+        text_lower = text.lower()
+        
+        # Check for specific refund types
+        if any(kw in text_lower for kw in ['goodwill', 'courtesy', 'discretionary', 'exception']):
+            return 'Goodwill Refund Granted'
+        elif any(kw in text_lower for kw in ['approved', 'granted', 'processed', 'issued']):
+            return 'Discretionary Refund Approved'
+        elif any(kw in text_lower for kw in ['forgot to cancel', 'billed before']):
+            return 'Post-Cancellation Refund'
+        elif any(kw in text_lower for kw in ['didn\'t use', 'not used']):
+            return 'Unused Service Refund'
+        elif any(kw in text_lower for kw in ['charged twice', 'duplicate']):
+            return 'Duplicate Charge Refund'
+        else:
+            return 'Refund Requested'
+    
     def _is_billing_context(self, text: str) -> bool:
         """
         Determine if context is billing-related vs subscription-related
@@ -1469,12 +1598,27 @@ class VectorizedRuleEngine:
         
         # PRIORITY 1: Subscription Management
         if self.intent_patterns['cancel_subscription'].search(text_lower):
+            # Check if it's duplicate/accidental payment first
+            if self.intent_patterns['duplicate_payment'].search(text_lower):
+                return 'duplicate_payment'
             if self.intent_patterns['switch_plan'].search(text_lower):
                 return 'switch_plan'  # More specific: cancel to switch
             return 'cancel_subscription'
         
         if self.intent_patterns['switch_plan'].search(text_lower):
             return 'switch_plan'
+        
+        # PRIORITY 1.05: Duplicate/Accidental Payment (Before unauthorized charges)
+        if self.intent_patterns['duplicate_payment'].search(text_lower):
+            return 'duplicate_payment'
+        
+        # PRIORITY 1.06: Incorrect Plan Charge / Student Discount Issues
+        if self.intent_patterns['incorrect_plan_charge'].search(text_lower):
+            return 'incorrect_plan_charge'
+        
+        # PRIORITY 1.0: Unauthorized Charges / Fraudulent Billing (HIGHEST!)
+        if self.intent_patterns['unauthorized_charges'].search(text_lower):
+            return 'unauthorized_charges'
         
         # PRIORITY 1.1: Password Reset Failure (HIGHEST - Check BEFORE login/hacking)
         if self.intent_patterns['password_reset_failure'].search(text_lower):
@@ -1496,6 +1640,15 @@ class VectorizedRuleEngine:
                 pass
             else:
                 return 'account_restriction'
+        
+        
+        # PRIORITY 1.85: Student Resubscription Failure (Technical Issue)
+        if self.intent_patterns['student_resubscription_failure'].search(text_lower):
+            return 'student_resubscription_failure'
+        
+        # PRIORITY 1.9: Payment Method Update Issues (Before billing)
+        if self.intent_patterns['payment_method_issue'].search(text_lower):
+            return 'payment_method_issue'
         
         # PRIORITY 2: Billing & Financial Issues
         if self.intent_patterns['refund_request'].search(text_lower):
@@ -1591,6 +1744,10 @@ class VectorizedRuleEngine:
         
         if self.intent_patterns['login_issue'].search(text_lower):
             return 'login_issue'
+        
+        # PRIORITY 6.5: Content Metadata Errors
+        if self.intent_patterns['metadata_error'].search(text_lower):
+            return 'metadata_error'
         
         return None
     
@@ -1768,6 +1925,18 @@ class VectorizedRuleEngine:
                 'l3': 'Issue Resolved' if has_resolution else 'Plan Modification',
                 'l4': 'Professional Service' if has_resolution else 'Switch Plan'
             },
+            'duplicate_payment': {
+                'l1': 'Subscription Management',
+                'l2': 'Duplicate/Accidental Payment',
+                'l3': 'Refund Processed' if has_resolution else 'Duplicate Subscription Purchase',
+                'l4': 'Refund Issued' if has_resolution else 'Wrong Account Premium Purchase'
+            },
+            'incorrect_plan_charge': {
+                'l1': 'Subscription Management',
+                'l2': 'Incorrect Plan Charge',
+                'l3': 'Refund Processed' if has_resolution else 'Student Discount Not Applied',
+                'l4': 'Correct Plan Applied' if has_resolution else 'Plan Auto-Upgraded'
+            },
             
             # Account Restrictions (HIGH PRIORITY - Before Billing)
             'account_restriction': {
@@ -1824,11 +1993,23 @@ class VectorizedRuleEngine:
                 'l3': 'Code Applied' if has_resolution else 'Promo Code Failed',
                 'l4': 'Discount Activated' if has_resolution else 'Invalid Code'
             },
+            'payment_method_issue': {
+                'l1': 'Account Management',
+                'l2': 'Payment Method Update',
+                'l3': 'Payment Updated' if has_resolution else 'Unable to Update Payment',
+                'l4': 'Premium Reactivated' if has_resolution else 'Premium Reactivation Needed'
+            },
             'gift_card_issue': {
                 'l1': 'Billing',
                 'l2': 'Gift Card',
                 'l3': 'Code Redeemed' if has_resolution else 'Redemption Issue',
                 'l4': 'Gift Card Activated' if has_resolution else 'Invalid Gift Code'
+            },
+            'student_resubscription_failure': {
+                'l1': 'Technology Driven',
+                'l2': 'Student Discount Issues',
+                'l3': 'Student Verified' if has_resolution else 'Student Plan Resubscription Failure',
+                'l4': 'Student Subscribed' if has_resolution else 'Reverified Student Unable to Subscribe'
             },
             
             # Security Issues (NEW L1 CATEGORY)
@@ -1948,6 +2129,12 @@ class VectorizedRuleEngine:
                 'l3': 'Connection Restored' if has_resolution else 'Connection Lost',
                 'l4': 'Network Fixed' if has_resolution else 'Network Error'
             },
+            'metadata_error': {
+                'l1': 'Content & Catalog Issues',
+                'l2': 'Metadata Errors',
+                'l3': 'Metadata Corrected' if has_resolution else 'Incorrect Artist Attribution',
+                'l4': 'Content Updated' if has_resolution else 'Content Correction Request'
+            },
             
             # Account Access
             'password_reset_failure': {
@@ -1955,6 +2142,12 @@ class VectorizedRuleEngine:
                 'l2': 'Forgot Password',
                 'l3': 'Password Reset Not Working',
                 'l4': 'System Error'
+            },
+            'unauthorized_charges': {
+                'l1': 'Payment Disputes',
+                'l2': 'Unauthorized Charges',
+                'l3': 'Unrecognized Subscription Charges',
+                'l4': 'Account Takeover'
             },
             'login_issue': {
                 'l1': 'Account Access',
