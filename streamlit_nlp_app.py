@@ -115,6 +115,97 @@ ENABLE_VECTORIZATION = True
 USE_DUCKDB = True
 USE_POLARS = True
 
+# ========================================================================================
+# JSON CONFIGURATION LOADER - NEW!
+# ========================================================================================
+
+class ConfigLoader:
+    """
+    Load and manage JSON configuration files for NLP classification.
+    Provides dynamic category management alongside hardcoded patterns.
+    """
+    
+    def __init__(self, 
+                 keywords_file: str = "keywords_optimized_FINAL.json", 
+                 rules_file: str = "rules_optimized_FINAL.json"):
+        """Initialize configuration loader"""
+        self.keywords_file = Path(keywords_file)
+        self.rules_file = Path(rules_file)
+        self.keywords = []
+        self.rules = []
+        self.category_cache = {}
+        self.load_configs()
+    
+    def load_configs(self) -> bool:
+        """Load both JSON configuration files"""
+        success = True
+        try:
+            if self.keywords_file.exists():
+                with open(self.keywords_file, 'r', encoding='utf-8') as f:
+                    self.keywords = json.load(f)
+                logger.info(f"✅ Loaded {len(self.keywords)} keyword sets")
+            else:
+                logger.warning(f"⚠️ Keywords file not found: {self.keywords_file}")
+                success = False
+        except Exception as e:
+            logger.error(f"❌ Error loading keywords: {e}")
+            success = False
+        
+        try:
+            if self.rules_file.exists():
+                with open(self.rules_file, 'r', encoding='utf-8') as f:
+                    self.rules = json.load(f)
+                logger.info(f"✅ Loaded {len(self.rules)} rules")
+            else:
+                logger.warning(f"⚠️ Rules file not found: {self.rules_file}")
+                success = False
+        except Exception as e:
+            logger.error(f"❌ Error loading rules: {e}")
+            success = False
+        
+        return success
+    
+    def get_category_for_text(self, text: str) -> Optional[Dict]:
+        """Match text against keywords and return category"""
+        text_lower = text.lower()
+        
+        # Check cache first
+        if text_lower in self.category_cache:
+            return self.category_cache[text_lower]
+        
+        # Try keywords first (more specific)
+        for keyword_set in self.keywords:
+            conditions = keyword_set.get('conditions', [])
+            if any(condition in text_lower for condition in conditions):
+                result = keyword_set.get('set', {})
+                self.category_cache[text_lower] = result
+                return result
+        
+        # Try rules (more general)
+        for rule in self.rules:
+            conditions = rule.get('conditions', [])
+            if any(condition in text_lower for condition in conditions):
+                result = rule.get('set', {})
+                self.category_cache[text_lower] = result
+                return result
+        
+        return None
+    
+    def get_stats(self) -> Dict:
+        """Get statistics about loaded configurations"""
+        l1_categories = set()
+        for keyword_set in self.keywords:
+            cat = keyword_set.get('set', {}).get('category')
+            if cat:
+                l1_categories.add(cat)
+        
+        return {
+            'total_keyword_sets': len(self.keywords),
+            'total_rules': len(self.rules),
+            'unique_l1_categories': len(l1_categories),
+            'cache_size': len(self.category_cache)
+        }
+
 # Load spaCy model with caching
 @st.cache_resource
 def load_spacy_model():
@@ -3342,6 +3433,15 @@ def main():
                 st.success(f"✅ Loaded {loaded_count} industries: {', '.join(sorted(industries))}")
             else:
                 st.warning("⚠️ No industries loaded from domain_packs directory")
+    
+    # Initialize JSON Configuration Loader (NEW!)
+    if 'config_loader' not in st.session_state:
+        st.session_state.config_loader = ConfigLoader()
+        stats = st.session_state.config_loader.get_stats()
+        if stats['total_keyword_sets'] > 0:
+            st.success(f"✅ Loaded JSON configs: {stats['total_keyword_sets']} keywords, {stats['unique_l1_categories']} L1 categories")
+        else:
+            st.info("ℹ️ JSON config files not found - using hardcoded patterns only")
     
     # Sidebar
     st.sidebar.header("⚙️ Configuration")

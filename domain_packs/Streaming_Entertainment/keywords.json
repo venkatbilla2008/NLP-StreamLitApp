@@ -1072,5 +1072,220 @@
             "level_4": "Great Support",
             "sentiment": "positive"
         }
+    },
+    {
+        "conditions": [
+            "too many screens",
+            "screen limit",
+            "device limit",
+            "simultaneous streams",
+            "concurrent viewing",
+            "all screens in use",
+            "cannot watch too many",
+            "upgrade for more screens",
+            "max screens reached"
+        ],
+        "set": {
+            "category": "Subscription Management",
+            "subcategory": "Device/Screen Limit",
+            "level_3": "Screen Limit Reached",
+            "level_4": "Simultaneous Streams Exceeded",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "parental controls",
+            "parental lock",
+            "pin code setup",
+            "pin reset",
+            "kids profile settings",
+            "content restrictions",
+            "age restriction",
+            "maturity rating",
+            "child safety",
+            "family safety settings"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Parental Controls",
+            "level_3": "PIN Setup Issue",
+            "level_4": "Cannot Set PIN",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "autoplay settings",
+            "auto play issue",
+            "automatic playback",
+            "preview autoplay",
+            "disable autoplay",
+            "turn off autoplay",
+            "stop autoplay",
+            "playback settings not saving"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Playback Settings",
+            "level_3": "Autoplay Issue",
+            "level_4": "Cannot Disable Autoplay",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "viewing history",
+            "viewing activity",
+            "watch history",
+            "recently watched",
+            "delete history",
+            "clear history",
+            "hide from history",
+            "viewing data privacy"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Viewing Activity",
+            "level_3": "Cannot View History",
+            "level_4": "History Sync Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "download limit reached",
+            "too many downloads",
+            "cannot download more",
+            "download quota exceeded",
+            "storage full downloads",
+            "no more downloads allowed",
+            "offline limit",
+            "max downloads"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Download Limit",
+            "level_3": "Download Limit Reached",
+            "level_4": "Download Quota Exceeded",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "caption style",
+            "caption size",
+            "caption color",
+            "caption font",
+            "customize captions",
+            "subtitle appearance",
+            "accessibility caption settings",
+            "caption background"
+        ],
+        "set": {
+            "category": "Content",
+            "subcategory": "Caption Customization",
+            "level_3": "Cannot Change Caption Style",
+            "level_4": "Accessibility Settings Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "audio description",
+            "AD not available",
+            "descriptive audio",
+            "visually impaired audio",
+            "audio track for blind",
+            "narration track",
+            "accessibility audio feature"
+        ],
+        "set": {
+            "category": "Content",
+            "subcategory": "Audio Description",
+            "level_3": "Audio Description Not Available",
+            "level_4": "Accessibility Feature Missing",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "too many notifications",
+            "too many emails",
+            "spam emails",
+            "unsubscribe from emails",
+            "notification settings",
+            "email preferences",
+            "stop sending emails",
+            "disable notifications"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Notification Settings",
+            "level_3": "Too Many Notifications",
+            "level_4": "Cannot Unsubscribe",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "cannot rate content",
+            "rating not working",
+            "thumbs up not working",
+            "thumbs down issue",
+            "like dislike not working",
+            "rating system error"
+        ],
+        "set": {
+            "category": "Content",
+            "subcategory": "Rating/Review Issue",
+            "level_3": "Cannot Rate Content",
+            "level_4": "Rating System Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "watchlist disappeared",
+            "my list missing",
+            "continue watching issue",
+            "watchlist not syncing",
+            "cannot add to list",
+            "list not working"
+        ],
+        "set": {
+            "category": "Content",
+            "subcategory": "Watchlist Issue",
+            "level_3": "Content Missing from List",
+            "level_4": "Watchlist Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "payment pending",
+            "payment still pending",
+            "payment in pending",
+            "payment shows pending",
+            "paid but pending",
+            "payment completed but pending",
+            "payment done but pending",
+            "payment successful but pending",
+            "account not activated",
+            "subscription not activated",
+            "can't use service",
+            "cannot use service",
+            "service not active",
+            "waiting for activation",
+            "activation delay",
+            "payment processed but not active"
+        ],
+        "set": {
+            "category": "Payments",
+            "subcategory": "Payment Status",
+            "level_3": "Payment Pending",
+            "level_4": "Subscription Activation Delay",
+            "sentiment": "negative"
+        }
     }
 ]

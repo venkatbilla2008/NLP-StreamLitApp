@@ -907,5 +907,176 @@
             "level_4": "Great Support",
             "sentiment": "positive"
         }
+    },
+    {
+        "conditions": [
+            "too many screens",
+            "screen limit",
+            "device limit",
+            "simultaneous streams",
+            "all screens in use"
+        ],
+        "set": {
+            "category": "Subscription Management",
+            "subcategory": "Device/Screen Limit",
+            "level_3": "Screen Limit Reached",
+            "level_4": "Simultaneous Streams Exceeded",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "parental controls",
+            "pin code",
+            "kids profile",
+            "content restrictions",
+            "child safety"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Parental Controls",
+            "level_3": "PIN Setup Issue",
+            "level_4": "Cannot Set PIN",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "autoplay",
+            "auto play",
+            "disable autoplay",
+            "playback settings"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Playback Settings",
+            "level_3": "Autoplay Issue",
+            "level_4": "Cannot Disable Autoplay",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "viewing history",
+            "watch history",
+            "delete history",
+            "viewing activity"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Viewing Activity",
+            "level_3": "Cannot View History",
+            "level_4": "History Sync Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "download limit",
+            "too many downloads",
+            "download quota",
+            "offline limit"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Download Limit",
+            "level_3": "Download Limit Reached",
+            "level_4": "Download Quota Exceeded",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "caption style",
+            "caption size",
+            "customize captions",
+            "accessibility settings"
+        ],
+        "set": {
+            "category": "Content",
+            "subcategory": "Caption Customization",
+            "level_3": "Cannot Change Caption Style",
+            "level_4": "Accessibility Settings Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "audio description",
+            "descriptive audio",
+            "visually impaired",
+            "accessibility audio"
+        ],
+        "set": {
+            "category": "Content",
+            "subcategory": "Audio Description",
+            "level_3": "Audio Description Not Available",
+            "level_4": "Accessibility Feature Missing",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "too many notifications",
+            "spam emails",
+            "unsubscribe",
+            "notification settings"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Notification Settings",
+            "level_3": "Too Many Notifications",
+            "level_4": "Cannot Unsubscribe",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "cannot rate",
+            "rating not working",
+            "thumbs up",
+            "thumbs down"
+        ],
+        "set": {
+            "category": "Content",
+            "subcategory": "Rating/Review Issue",
+            "level_3": "Cannot Rate Content",
+            "level_4": "Rating System Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "roku",
+            "fire tv",
+            "apple tv",
+            "smart tv app",
+            "tv not working"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Smart TV Issue",
+            "level_3": "TV App Not Working",
+            "level_4": "Device Compatibility Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "payment pending",
+            "paid but pending",
+            "payment shows pending",
+            "account not activated",
+            "subscription not activated",
+            "can't use service",
+            "activation delay"
+        ],
+        "set": {
+            "category": "Payments",
+            "subcategory": "Payment Status",
+            "level_3": "Payment Pending",
+            "level_4": "Subscription Activation Delay",
+            "sentiment": "negative"
+        }
     }
 ]
