@@ -701,11 +701,15 @@ class VectorizedRuleEngine:
                 r'\b(unauthorized.{0,10}(charge|charges|billing|deduction|payment|subscription)|'
                 r'never.{0,10}(subscribed|subscribe|signed.up|authorized)|'
                 r'didn\'t.{0,10}(subscribe|authorize|sign.up)|'
+                r'did.not.{0,10}sign.up|not.sign.up.for|'
                 r'fraudulent.{0,10}(charge|billing|payment|subscription)|'
                 r'unrecognized.{0,10}(charge|subscription|payment)|'
                 r'someone.{0,10}(created|used|took).{0,10}(account|payment)|'
                 r'account.{0,10}takeover|different.{0,10}email.{0,10}(address|account)|'
                 r'charged.{0,10}(for|without).{0,10}(never|didn\'t)|'
+                r'charged.{0,10}(my|card).{0,10}(multiple|several|many).{0,10}times|'
+                r'charged.{0,10}(2|3|4|5|6|7|8|9|10).{0,10}times|'
+                r'multiple.{0,10}(unauthorized|unrecognized).{0,10}charges|'
                 r'recurring.{0,10}unauthorized|duplicate.{0,10}unauthorized)',
                 re.IGNORECASE
             ),
@@ -1508,6 +1512,45 @@ class VectorizedRuleEngine:
             return 'Duplicate Charge Refund'
         else:
             return 'Refund Requested'
+    
+    def _get_unauthorized_charge_l3(self, text: str) -> str:
+        """
+        Get granular L3 category for unauthorized charges based on type
+        """
+        text_lower = text.lower()
+        
+        # Check for specific unauthorized charge types
+        if any(kw in text_lower for kw in ['charged 2 times', 'charged 3 times', 'charged 4 times', 'charged 5 times', 
+                                             'charged multiple times', 'charged several times', 'charged many times',
+                                             'multiple charges', 'multiple unauthorized', 'several charges']):
+            return 'Multiple Unauthorized Charges'
+        elif any(kw in text_lower for kw in ['did not sign up', 'didn\'t sign up', 'never signed up', 
+                                               'not sign up for', 'never subscribed']):
+            return 'Charges for Unsubscribed Plans'
+        elif any(kw in text_lower for kw in ['account takeover', 'someone created', 'different email', 
+                                               'fraudulent', 'fraud']):
+            return 'Fraudulent Account Activity'
+        elif any(kw in text_lower for kw in ['unrecognized', 'don\'t recognize', 'do not recognize']):
+            return 'Unrecognized Subscription Charges'
+        else:
+            return 'Unauthorized Billing'
+    
+    def _get_unauthorized_charge_l4(self, text: str) -> str:
+        """
+        Get granular L4 category for unauthorized charges based on customer action
+        """
+        text_lower = text.lower()
+        
+        # Check for refund escalation
+        if any(kw in text_lower for kw in ['want refund', 'need refund', 'refund for all', 
+                                             'refund request', 'requesting refund', 'demand refund']):
+            return 'Refund Escalation'
+        elif any(kw in text_lower for kw in ['dispute', 'disputing', 'card dispute', 'chargeback']):
+            return 'Card Dispute'
+        elif any(kw in text_lower for kw in ['clarification', 'explain', 'why was i charged']):
+            return 'Seeking Clarification'
+        else:
+            return 'Customer Refund Claim'
     
     def _is_billing_context(self, text: str) -> bool:
         """
