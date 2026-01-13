@@ -1287,5 +1287,73 @@
             "level_4": "Subscription Activation Delay",
             "sentiment": "negative"
         }
+    },
+    {
+        "conditions": [
+            "preview club",
+            "netflix preview club",
+            "preview program",
+            "early access program",
+            "beta program",
+            "test program",
+            "preview club available",
+            "preview club in my region",
+            "preview club in my country",
+            "can i join preview club",
+            "how to join preview club",
+            "preview club invitation",
+            "preview club invite",
+            "was i invited",
+            "check if invited",
+            "am i selected",
+            "preview club eligibility",
+            "preview club eligible",
+            "regional availability",
+            "available in my region",
+            "available in my country",
+            "region not supported",
+            "country not supported"
+        ],
+        "set": {
+            "category": "Product Information",
+            "subcategory": "Programs & Features",
+            "level_3": "Preview Club",
+            "level_4": "Regional Availability",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "free trial",
+            "trial period",
+            "trial offer",
+            "free trial available",
+            "still offer free trial",
+            "still have free trial",
+            "do you offer free trial",
+            "does netflix offer free trial",
+            "free trial in usa",
+            "free trial in my country",
+            "free trial in my region",
+            "trial subscription",
+            "trial membership",
+            "try before buy",
+            "test subscription",
+            "trial eligibility",
+            "eligible for trial",
+            "free trial not offered",
+            "no free trial",
+            "trial not available",
+            "trial ended",
+            "trial expired",
+            "trial discontinued"
+        ],
+        "set": {
+            "category": "Product Information",
+            "subcategory": "Plans & Pricing",
+            "level_3": "Free Trial",
+            "level_4": "Not Offered",
+            "sentiment": "neutral"
+        }
     }
 ]

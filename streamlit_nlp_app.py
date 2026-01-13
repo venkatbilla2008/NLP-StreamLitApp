@@ -52,13 +52,8 @@ import duckdb
 # NLP Libraries
 import spacy
 from textblob import TextBlob
-from wordcloud import WordCloud, STOPWORDS
 import plotly.express as px
 import plotly.graph_objects as go
-import networkx as nx
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.cluster import MiniBatchKMeans
-from sklearn.decomposition import PCA, TruncatedSVD
 import matplotlib.pyplot as plt
 from collections import Counter, defaultdict
 import itertools
@@ -83,25 +78,6 @@ CACHE_SIZE = 200000  # 200K cache entries
 SUPPORTED_FORMATS = ['csv', 'xlsx', 'xls', 'parquet', 'json']
 COMPLIANCE_STANDARDS = ["HIPAA", "GDPR", "PCI-DSS", "CCPA"]
 
-# General terms to exclude from visuals (can be customized)
-GENERAL_TERMS = {
-    'issue', 'problem', 'customer', 'client', 'agent', 'please', 'help', 
-    'thank', 'thanks', 'contact', 'support', 'service', 'working', 'check',
-    'need', 'want', 'know', 'like', 'think', 'going', 'would', 'could',
-    'get', 'got', 'getting', 'see', 'saw', 'try', 'tried', 'trying',
-    'make', 'do', 'did', 'does', 'done', 'doing', 'can', 'cant', 'cannot',
-    'will', 'wont', 'just', 'now', 'today', 'tomorrow', 'yesterday',
-    'day', 'week', 'month', 'year', 'time', 'minute', 'hour', 'moment',
-    'hi', 'hello', 'hey', 'dear', 'ok', 'okay', 'yes', 'no', 'yeah',
-    'subject', 're', 'fw', 'fwd', 'message', 'conversation', 'chat',
-    'email', 'phone', 'number', 'address', 'name', 'account', 'id',
-    'date', 'timestamp', 'transcript', 'visitor', 'browser', 'os', 'ip',
-    'consumer', 'question', 'select', 'option', 'note', 'verify', 'allow', 
-    'br', 'spotify', 'netflix', 'premium', 'start', 'end', 'session',
-    'user', 'logged', 'logging', 'log', 'thing', 'way', 'look', 'looking',
-    'ask', 'asking', 'tell', 'telling', 'say', 'saying', 'provide', 'providing',
-    'give', 'giving', 'use', 'using', 'able', 'unable', 'link', 'click'
-}
 
 # File size limits (in MB)
 MAX_FILE_SIZE_MB = 1000  # Increased for large datasets
@@ -205,6 +181,73 @@ class ConfigLoader:
             'unique_l1_categories': len(l1_categories),
             'cache_size': len(self.category_cache)
         }
+
+# ========================================================================================
+# JSON-FIRST CLASSIFICATION HELPER - USE NEW CATEGORIES!
+# ========================================================================================
+
+def get_categories_from_json(text: str, config_loader=None) -> Optional[Dict]:
+    """
+    Get categories from JSON configuration first.
+    This ensures new categories (Payment Pending, Preview Club, Free Trial, etc.) are used.
+    
+    Args:
+        text: Input text to classify
+        config_loader: ConfigLoader instance (optional)
+        
+    Returns:
+        Dict with L1-L4 categories or None
+    """
+    if config_loader is None:
+        return None
+    
+    try:
+        json_result = config_loader.get_category_for_text(text)
+        if json_result:
+            return {
+                'L1_Category': json_result.get('category', 'Uncategorized'),
+                'L2_Subcategory': json_result.get('subcategory', 'Unknown'),
+                'L3_Tertiary': json_result.get('level_3', 'Not Specified'),
+                'L4_Quaternary': json_result.get('level_4', 'Not Specified'),
+                'source': 'json_config'
+            }
+    except Exception as e:
+        logger.warning(f"JSON classification failed: {e}")
+    
+    return None
+
+
+def classify_with_json_fallback(text: str, config_loader=None, existing_classifier=None) -> Dict:
+    """
+    Classify text using JSON first, then fall back to existing classifier.
+    
+    This is the main integration point - call this instead of direct classification.
+    
+    Args:
+        text: Input text to classify
+        config_loader: ConfigLoader instance
+        existing_classifier: Function that does existing classification
+        
+    Returns:
+        Dict with L1-L4 categories
+    """
+    # Try JSON classification first (NEW CATEGORIES!)
+    json_result = get_categories_from_json(text, config_loader)
+    if json_result:
+        return json_result
+    
+    # Fall back to existing hardcoded patterns
+    if existing_classifier:
+        return existing_classifier(text)
+    
+    # Default fallback
+    return {
+        'L1_Category': 'Uncategorized',
+        'L2_Subcategory': 'Unknown',
+        'L3_Tertiary': 'Not Specified',
+        'L4_Quaternary': 'Not Specified',
+        'source': 'default'
+    }
 
 # ========================================================================================
 # TEXT CLEANING FOR CSV ALIGNMENT - CRITICAL FIX!
@@ -3696,6 +3739,51 @@ def main():
                 
                 # Convert to Pandas for display
                 output_df = pipeline.results_to_dataframe(results_df, id_column, text_column)
+                
+                # ============================================================================
+                # JSON CATEGORY ENHANCEMENT - USE NEW CATEGORIES!
+                # ============================================================================
+                st.info("🔄 Enhancing with JSON categories (Payment Pending, Preview Club, Free Trial, etc.)...")
+                
+                # Priority keywords for JSON classification
+                json_keywords = {
+                    'payment pending', 'payment shows pending', 'paid but pending', 'account not activated',
+                    'preview club', 'netflix preview club', 'early access', 'beta program',
+                    'free trial', 'trial offer', 'still offer free trial', 'trial available',
+                    'screen limit', 'device limit', 'too many screens', 'simultaneous streams',
+                    'parental controls', 'pin code', 'kids profile', 'parental pin',
+                    'autoplay', 'auto play', 'disable autoplay', 'autoplay settings',
+                    'viewing history', 'watch history', 'viewing activity', 'cannot view history',
+                    'download limit', 'too many downloads', 'download quota', 'download exceeded',
+                    'caption style', 'caption size', 'customize captions', 'caption settings',
+                    'audio description', 'descriptive audio', 'visually impaired',
+                    'notification settings', 'too many notifications', 'spam emails', 'unsubscribe',
+                    'rating not working', 'cannot rate', 'thumbs up', 'review issue',
+                    'smart tv', 'roku', 'fire tv', 'apple tv', 'tv app',
+                    'watchlist', 'my list', 'watchlist disappeared', 'list missing'
+                }
+                
+                # Apply JSON classification
+                enhanced_count = 0
+                config_loader = st.session_state.get('config_loader')
+                
+                if config_loader:
+                    for idx, row in output_df.iterrows():
+                        text_lower = str(row.get('Original_Text', '')).lower()
+                        
+                        # Check if text contains priority keywords
+                        if any(keyword in text_lower for keyword in json_keywords):
+                            json_result = get_categories_from_json(row['Original_Text'], config_loader)
+                            if json_result:
+                                output_df.at[idx, 'L1_Category'] = json_result['L1_Category']
+                                output_df.at[idx, 'L2_Subcategory'] = json_result['L2_Subcategory']
+                                output_df.at[idx, 'L3_Tertiary'] = json_result['L3_Tertiary']
+                                output_df.at[idx, 'L4_Quaternary'] = json_result['L4_Quaternary']
+                                enhanced_count += 1
+                    
+                    st.success(f"✅ Enhanced {enhanced_count:,} records with JSON categories")
+                else:
+                    st.warning("⚠️ Config loader not available - using pipeline categories only")
                 
                 # Display results
                 st.success(f"✅ Complete! {len(output_df):,} records in {processing_time:.1f}s ({len(output_df)/processing_time:.1f} rec/s)")

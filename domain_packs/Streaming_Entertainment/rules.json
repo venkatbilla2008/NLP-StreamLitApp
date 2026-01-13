@@ -1078,5 +1078,51 @@
             "level_4": "Subscription Activation Delay",
             "sentiment": "negative"
         }
+    },
+    {
+        "conditions": [
+            "preview club",
+            "netflix preview club",
+            "preview program",
+            "early access",
+            "beta program",
+            "available in my region",
+            "available in my country",
+            "can i join",
+            "how to join",
+            "was i invited",
+            "am i selected",
+            "regional availability",
+            "region not supported"
+        ],
+        "set": {
+            "category": "Product Information",
+            "subcategory": "Programs & Features",
+            "level_3": "Preview Club",
+            "level_4": "Regional Availability",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "free trial",
+            "trial period",
+            "trial offer",
+            "still offer free trial",
+            "does netflix offer free trial",
+            "free trial available",
+            "trial not offered",
+            "no free trial",
+            "trial discontinued",
+            "try before buy",
+            "trial eligibility"
+        ],
+        "set": {
+            "category": "Product Information",
+            "subcategory": "Plans & Pricing",
+            "level_3": "Free Trial",
+            "level_4": "Not Offered",
+            "sentiment": "neutral"
+        }
     }
 ]
