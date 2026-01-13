@@ -206,6 +206,44 @@ class ConfigLoader:
             'cache_size': len(self.category_cache)
         }
 
+# ========================================================================================
+# TEXT CLEANING FOR CSV ALIGNMENT - CRITICAL FIX!
+# ========================================================================================
+
+def clean_text_for_csv(text: str) -> str:
+    """
+    Clean text to prevent CSV row misalignment issues.
+    
+    Removes newlines, tabs, and normalizes whitespace that can cause
+    data to shift to wrong rows when exported to CSV.
+    
+    Args:
+        text: Input text to clean
+        
+    Returns:
+        Cleaned text safe for CSV export
+    """
+    if pd.isna(text) or text is None:
+        return ""
+    
+    if not isinstance(text, str):
+        text = str(text)
+    
+    # Remove newlines and carriage returns (main cause of misalignment)
+    text = text.replace('\n', ' ').replace('\r', ' ')
+    
+    # Remove tabs
+    text = text.replace('\t', ' ')
+    
+    # Normalize multiple spaces to single space
+    text = ' '.join(text.split())
+    
+    # Remove leading/trailing whitespace
+    text = text.strip()
+    
+    return text
+
+
 # Load spaCy model with caching
 @st.cache_resource
 def load_spacy_model():
@@ -3590,6 +3628,20 @@ def main():
                     index=text_default,
                     help="Text to analyze"
                 )
+            
+            # CRITICAL FIX: Clean text to prevent CSV row misalignment
+            st.info("🧹 Cleaning text to prevent CSV row misalignment...")
+            with st.spinner("Removing newlines and special characters..."):
+                # Apply cleaning function to text column
+                data_df = data_df.with_columns([
+                    pl.col(text_column).map_elements(
+                        clean_text_for_csv,
+                        return_dtype=pl.Utf8
+                    ).alias(text_column)
+                ])
+                
+                # Count how many rows had newlines
+                st.success(f"✅ Text cleaned in '{text_column}' - CSV alignment ensured!")
             
             # Preview with Polars
             with st.expander("👀 Preview (first 10 rows)", expanded=True):
