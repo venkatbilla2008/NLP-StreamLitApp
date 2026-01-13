@@ -49,11 +49,15 @@ import multiprocessing
 import duckdb
 
 # NLP Libraries
-# NLP Libraries
 import spacy
 from textblob import TextBlob
+from wordcloud import WordCloud, STOPWORDS
 import plotly.express as px
 import plotly.graph_objects as go
+import networkx as nx
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.cluster import MiniBatchKMeans
+from sklearn.decomposition import PCA, TruncatedSVD
 import matplotlib.pyplot as plt
 from collections import Counter, defaultdict
 import itertools
