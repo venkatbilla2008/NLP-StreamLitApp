@@ -1647,12 +1647,12 @@ def main():
             # Preview with Polars
             with st.expander("👀 Preview (first 10 rows)", expanded=True):
                 preview_df = data_df.select([id_column, text_column]).head(10)
-                st.dataframe(preview_df.to_pandas(), use_container_width=True)
+                st.dataframe(preview_df.to_pandas(), width='stretch')
             
             st.markdown("---")
             
             # Process button
-            if st.button("🚀 Run ULTRA-FAST Analysis", type="primary", use_container_width=True):
+            if st.button("🚀 Run ULTRA-FAST Analysis", type="primary", width='stretch'):
                 
                 # Get industry data
                 industry_data = st.session_state.domain_loader.get_industry_data(selected_industry)
@@ -1732,7 +1732,7 @@ def main():
                 
                 # Results preview
                 st.subheader("📋 Results Preview (First 20 rows)")
-                st.dataframe(output_df.head(20), use_container_width=True)
+                st.dataframe(output_df.head(20), width='stretch')
                 
                 # Analytics using DuckDB & Plotly
                 st.subheader("📊 Executive Dashboard")
@@ -1740,24 +1740,13 @@ def main():
                 # Overview tab only
                 st.markdown("### 📈 Overview")
                 
-                # Top section: Charts
-                chart_row1 = st.columns([2, 1])
-                
-                with chart_row1[0]:
-                    # Sunburst (The Wow Factor)
-                    st.markdown("#### 🌍 Hierarchical Category View")
-                    fig_sun = AdvancedVisualizer.create_sunburst_chart(output_df)
-                    if fig_sun:
-                        st.plotly_chart(fig_sun, use_container_width=True)
-                    else:
-                        st.info("Not enough data for hierarchical view.")
-                
-                with chart_row1[1]:
-                    # Donut of L1
-                    st.markdown("#### 🎯 Primary Intent Distribution")
-                    fig_donut = AdvancedVisualizer.create_intent_donut(output_df)
-                    if fig_donut:
-                        st.plotly_chart(fig_donut, use_container_width=True)
+                # Hierarchical Category View (Full Width)
+                st.markdown("#### 🌍 Hierarchical Category View")
+                fig_sun = AdvancedVisualizer.create_sunburst_chart(output_df)
+                if fig_sun:
+                    st.plotly_chart(fig_sun, width='stretch')
+                else:
+                    st.info("Not enough data for hierarchical view.")
                 
                 # Bar Chart - L1 Category Distribution
                 st.markdown("#### 📊 L1 Category Distribution")
@@ -1774,74 +1763,64 @@ def main():
                 )
                 fig_bar.update_traces(texttemplate='%{text}', textposition='outside')
                 fig_bar.update_layout(showlegend=False, height=400)
-                st.plotly_chart(fig_bar, use_container_width=True)
+                st.plotly_chart(fig_bar, width='stretch')
                 
                 st.markdown("---")
                 
                 # Category Distribution Tables
                 st.markdown("### 📋 Category Distribution Tables")
                 
-                table_tabs = st.tabs(["L1 Categories", "L2 Categories", "L3 Categories", "L4 Categories"])
+                # L1 Category Distribution
+                st.markdown("#### L1 Category Distribution")
+                l1_dist = output_df['L1_Category'].value_counts().reset_index()
+                l1_dist.columns = ['L1 Category', 'Count']
+                l1_dist['Percentage'] = (l1_dist['Count'] / len(output_df) * 100).round(2)
+                l1_dist['Percentage'] = l1_dist['Percentage'].astype(str) + '%'
+                st.dataframe(l1_dist, width='stretch', hide_index=True)
                 
-                with table_tabs[0]:
-                    st.markdown("#### L1 Category Distribution")
-                    l1_dist = output_df['L1_Category'].value_counts().reset_index()
-                    l1_dist.columns = ['L1 Category', 'Count']
-                    l1_dist['Percentage'] = (l1_dist['Count'] / len(output_df) * 100).round(2)
-                    l1_dist['Percentage'] = l1_dist['Percentage'].astype(str) + '%'
-                    st.dataframe(l1_dist, use_container_width=True, hide_index=True)
+                st.markdown("---")
                 
-                with table_tabs[1]:
-                    st.markdown("#### L2 Category Distribution")
-                    l2_dist = output_df.groupby(['L1_Category', 'L2_Subcategory']).size().reset_index(name='Count')
-                    l2_dist = l2_dist.sort_values('Count', ascending=False)
-                    l2_dist['Percentage'] = (l2_dist['Count'] / len(output_df) * 100).round(2)
-                    l2_dist['Percentage'] = l2_dist['Percentage'].astype(str) + '%'
-                    st.dataframe(l2_dist, use_container_width=True, hide_index=True)
+                # L2 Category Distribution
+                st.markdown("#### L2 Category Distribution")
+                l2_dist = output_df['L2_Subcategory'].value_counts().reset_index()
+                l2_dist.columns = ['L2 Subcategory', 'Count']
+                l2_dist['Percentage'] = (l2_dist['Count'] / len(output_df) * 100).round(2)
+                l2_dist['Percentage'] = l2_dist['Percentage'].astype(str) + '%'
+                st.dataframe(l2_dist, width='stretch', hide_index=True)
                 
-                with table_tabs[2]:
-                    st.markdown("#### L3 Category Distribution")
-                    l3_dist = output_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary']).size().reset_index(name='Count')
-                    l3_dist = l3_dist.sort_values('Count', ascending=False)
-                    l3_dist['Percentage'] = (l3_dist['Count'] / len(output_df) * 100).round(2)
-                    l3_dist['Percentage'] = l3_dist['Percentage'].astype(str) + '%'
-                    st.dataframe(l3_dist, use_container_width=True, hide_index=True)
+                st.markdown("---")
                 
-                with table_tabs[3]:
-                    st.markdown("#### L4 Category Distribution")
-                    l4_dist = output_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().reset_index(name='Count')
-                    l4_dist = l4_dist.sort_values('Count', ascending=False)
-                    l4_dist['Percentage'] = (l4_dist['Count'] / len(output_df) * 100).round(2)
-                    l4_dist['Percentage'] = l4_dist['Percentage'].astype(str) + '%'
-                    st.dataframe(l4_dist, use_container_width=True, hide_index=True)
+                # L3 Category Distribution
+                st.markdown("#### L3 Category Distribution")
+                l3_dist = output_df['L3_Tertiary'].value_counts().reset_index()
+                l3_dist.columns = ['L3 Tertiary', 'Count']
+                l3_dist['Percentage'] = (l3_dist['Count'] / len(output_df) * 100).round(2)
+                l3_dist['Percentage'] = l3_dist['Percentage'].astype(str) + '%'
+                st.dataframe(l3_dist, width='stretch', hide_index=True)
                 
-                # Downloads
-                st.subheader("💾 Downloads")
+                st.markdown("---")
                 
-                download_cols = st.columns(2)
+                # L4 Category Distribution
+                st.markdown("#### L4 Category Distribution")
+                l4_dist = output_df['L4_Quaternary'].value_counts().reset_index()
+                l4_dist.columns = ['L4 Quaternary', 'Count']
+                l4_dist['Percentage'] = (l4_dist['Count'] / len(output_df) * 100).round(2)
+                l4_dist['Percentage'] = l4_dist['Percentage'].astype(str) + '%'
+                st.dataframe(l4_dist, width='stretch', hide_index=True)
                 
-                with download_cols[0]:
-                    # Convert back to Polars for fast export
-                    export_df = pl.from_pandas(output_df)
-                    results_bytes = PolarsFileHandler.save_dataframe(export_df, output_format)
-                    st.download_button(
-                        label=f"📥 Download Results (.{output_format})",
-                        data=results_bytes,
-                        file_name=f"results_{selected_industry}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{output_format}",
-                        mime=f"application/{output_format}",
-                        use_container_width=True
-                    )
+                # Download Results
+                st.subheader("💾 Download Results")
                 
-                with download_cols[1]:
-                    if analytics:
-                        analytics_bytes = json.dumps(analytics, indent=2).encode()
-                        st.download_button(
-                            label="📥 Download Analytics Report",
-                            data=analytics_bytes,
-                            file_name=f"analytics_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
-                            mime="application/json",
-                            use_container_width=True
-                        )
+                # Convert back to Polars for fast export
+                export_df = pl.from_pandas(output_df)
+                results_bytes = PolarsFileHandler.save_dataframe(export_df, output_format)
+                st.download_button(
+                    label=f"📥 Download Results (.{output_format})",
+                    data=results_bytes,
+                    file_name=f"results_{selected_industry}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{output_format}",
+                    mime=f"application/{output_format}",
+                    width='stretch'
+                )
     
     # Footer
     st.markdown("---")
