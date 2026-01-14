@@ -1603,7 +1603,38 @@ def main():
         data_df = PolarsFileHandler.read_file(data_file)
         
         if data_df is not None:
-            st.success(f"✅ Loaded {len(data_df):,} records with Polars")
+            total_records = len(data_df)
+            st.success(f"✅ Loaded {total_records:,} records with Polars")
+            
+            # Streamlit Cloud timeout protection
+            MAX_CLOUD_RECORDS = 10000
+            if total_records > MAX_CLOUD_RECORDS:
+                st.warning(f"""
+                ⚠️ **Large Dataset Detected: {total_records:,} records**
+                
+                **Streamlit Cloud has a ~10-15 minute timeout limit.**
+                
+                **Options:**
+                1. **Process first {MAX_CLOUD_RECORDS:,} records** (recommended for cloud)
+                2. **Download and run locally** for full dataset (no timeout)
+                3. **Split into batches** and process separately
+                
+                **Estimated time for {total_records:,} records:** {total_records/20/60:.0f}-{total_records/15/60:.0f} minutes
+                """)
+                
+                process_option = st.radio(
+                    "Choose processing option:",
+                    [
+                        f"Process first {MAX_CLOUD_RECORDS:,} records only (cloud-safe)",
+                        f"Process all {total_records:,} records (may timeout on cloud)"
+                    ]
+                )
+                
+                if "first" in process_option:
+                    st.info(f"📊 Will process first {MAX_CLOUD_RECORDS:,} records to avoid timeout")
+                    data_df = data_df.head(MAX_CLOUD_RECORDS)
+                else:
+                    st.error(f"⚠️ Processing {total_records:,} records may exceed cloud timeout limit!")
             
             # Column detection
             st.subheader("🔧 Column Configuration")
