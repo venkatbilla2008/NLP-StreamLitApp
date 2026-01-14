@@ -1701,9 +1701,9 @@ def main():
                 st.success(f"✅ Complete! {len(output_df):,} records in {processing_time:.1f}s ({len(output_df)/processing_time:.1f} rec/s)")
                 
                 # Metrics
-                st.subheader("📈 Performance Metrics")
+                st.subheader("📈 Key Metrics")
                 
-                metric_cols = st.columns(5)
+                metric_cols = st.columns(7)
                 
                 with metric_cols[0]:
                     st.metric("Total Records", f"{len(output_df):,}")
@@ -1720,7 +1720,15 @@ def main():
                 
                 with metric_cols[4]:
                     unique_l2 = output_df['L2_Subcategory'].nunique()
-                    st.metric("L2 Subcategories", unique_l2)
+                    st.metric("L2 Categories", unique_l2)
+                
+                with metric_cols[5]:
+                    unique_l3 = output_df['L3_Tertiary'].nunique()
+                    st.metric("L3 Categories", unique_l3)
+                
+                with metric_cols[6]:
+                    unique_l4 = output_df['L4_Quaternary'].nunique()
+                    st.metric("L4 Categories", unique_l4)
                 
                 # Results preview
                 st.subheader("📋 Results Preview (First 20 rows)")
@@ -1729,70 +1737,83 @@ def main():
                 # Analytics using DuckDB & Plotly
                 st.subheader("📊 Executive Dashboard")
 
-                analytics_tabs = st.tabs(["Overview", "Deep Dive", "Text Analysis"])
+                # Overview tab only
+                st.markdown("### 📈 Overview")
                 
-                with analytics_tabs[0]:
-                    col1, col2 = st.columns([2, 1])
-                    with col1:
-                        # Sunburst (The Wow Factor)
-                        st.markdown("##### 🌍 Hierarchical Category View")
-                        fig_sun = AdvancedVisualizer.create_sunburst_chart(output_df)
-                        if fig_sun:
-                            st.plotly_chart(fig_sun, use_container_width=True)
-                        else:
-                            st.info("Not enough data for hierarchical view.")
-                    
-                    with col2:
-                        # Donut of L1
-                        st.markdown("##### 🎯 Primary Intent Distribution")
-                        fig_donut = AdvancedVisualizer.create_intent_donut(output_df)
-                        if fig_donut:
-                            st.plotly_chart(fig_donut, use_container_width=True)
-                        
-                        st.markdown("---")
-                        
-                        # Resolution Gauge
-                        st.markdown("##### ✅ Resolution Rate")
-                        fig_gauge = AdvancedVisualizer.create_resolution_gauge(output_df)
-                        if fig_gauge:
-                            st.plotly_chart(fig_gauge, use_container_width=True)
-
-                with analytics_tabs[1]:
-                    # Raw stats
-                    st.markdown("### 🔢 Detailed Statistics")
-                    analytics = pipeline.get_analytics_summary()
-                    if 'basic_statistics' in analytics:
-                        stats = analytics['basic_statistics']
-                        c1, c2, c3 = st.columns(3)
-                        c1.metric("Total Records", f"{stats['total_records']:,}")
-                        c2.metric("Unique L1 Categories", stats['unique_l1_categories'])
-                        c3.metric("Unique L2 Subcategories", stats['unique_l2_categories'])
-                    
-                    st.markdown("#### Category breakdown")
-                    if 'category_distribution' in analytics:
-                         st.dataframe(pd.DataFrame(analytics['category_distribution']), use_container_width=True)
-
-                with analytics_tabs[2]:
-                    st.markdown("### ☁️ Sentiment Topic Cloud")
-                    
-                    cloud_mode = st.radio(
-                        "Visualize:",
-                        ["Pain Points (Negative)", "General Terms"],
-                        horizontal=True
-                    )
-                    
-                    mode_key = 'negative' if 'Negative' in cloud_mode else 'general'
-                    
-                    with st.spinner("Generating sentiment cloud..."):
-                        wc = AdvancedVisualizer.create_wordcloud(output_df, 'Original_Text', mode=mode_key)
-                        
-                        if wc:
-                            fig, ax = plt.subplots(figsize=(10, 5))
-                            ax.imshow(wc, interpolation='bilinear')
-                            ax.axis('off')
-                            st.pyplot(fig)
-                        else:
-                            st.info(f"No significant {mode_key} terms found in the text.")
+                # Top section: Charts
+                chart_row1 = st.columns([2, 1])
+                
+                with chart_row1[0]:
+                    # Sunburst (The Wow Factor)
+                    st.markdown("#### 🌍 Hierarchical Category View")
+                    fig_sun = AdvancedVisualizer.create_sunburst_chart(output_df)
+                    if fig_sun:
+                        st.plotly_chart(fig_sun, use_container_width=True)
+                    else:
+                        st.info("Not enough data for hierarchical view.")
+                
+                with chart_row1[1]:
+                    # Donut of L1
+                    st.markdown("#### 🎯 Primary Intent Distribution")
+                    fig_donut = AdvancedVisualizer.create_intent_donut(output_df)
+                    if fig_donut:
+                        st.plotly_chart(fig_donut, use_container_width=True)
+                
+                # Bar Chart - L1 Category Distribution
+                st.markdown("#### 📊 L1 Category Distribution")
+                l1_counts = output_df['L1_Category'].value_counts().reset_index()
+                l1_counts.columns = ['Category', 'Count']
+                fig_bar = px.bar(
+                    l1_counts,
+                    x='Category',
+                    y='Count',
+                    title='L1 Category Distribution',
+                    color='Count',
+                    color_continuous_scale='Blues',
+                    text='Count'
+                )
+                fig_bar.update_traces(texttemplate='%{text}', textposition='outside')
+                fig_bar.update_layout(showlegend=False, height=400)
+                st.plotly_chart(fig_bar, use_container_width=True)
+                
+                st.markdown("---")
+                
+                # Category Distribution Tables
+                st.markdown("### 📋 Category Distribution Tables")
+                
+                table_tabs = st.tabs(["L1 Categories", "L2 Categories", "L3 Categories", "L4 Categories"])
+                
+                with table_tabs[0]:
+                    st.markdown("#### L1 Category Distribution")
+                    l1_dist = output_df['L1_Category'].value_counts().reset_index()
+                    l1_dist.columns = ['L1 Category', 'Count']
+                    l1_dist['Percentage'] = (l1_dist['Count'] / len(output_df) * 100).round(2)
+                    l1_dist['Percentage'] = l1_dist['Percentage'].astype(str) + '%'
+                    st.dataframe(l1_dist, use_container_width=True, hide_index=True)
+                
+                with table_tabs[1]:
+                    st.markdown("#### L2 Category Distribution")
+                    l2_dist = output_df.groupby(['L1_Category', 'L2_Subcategory']).size().reset_index(name='Count')
+                    l2_dist = l2_dist.sort_values('Count', ascending=False)
+                    l2_dist['Percentage'] = (l2_dist['Count'] / len(output_df) * 100).round(2)
+                    l2_dist['Percentage'] = l2_dist['Percentage'].astype(str) + '%'
+                    st.dataframe(l2_dist, use_container_width=True, hide_index=True)
+                
+                with table_tabs[2]:
+                    st.markdown("#### L3 Category Distribution")
+                    l3_dist = output_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary']).size().reset_index(name='Count')
+                    l3_dist = l3_dist.sort_values('Count', ascending=False)
+                    l3_dist['Percentage'] = (l3_dist['Count'] / len(output_df) * 100).round(2)
+                    l3_dist['Percentage'] = l3_dist['Percentage'].astype(str) + '%'
+                    st.dataframe(l3_dist, use_container_width=True, hide_index=True)
+                
+                with table_tabs[3]:
+                    st.markdown("#### L4 Category Distribution")
+                    l4_dist = output_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().reset_index(name='Count')
+                    l4_dist = l4_dist.sort_values('Count', ascending=False)
+                    l4_dist['Percentage'] = (l4_dist['Count'] / len(output_df) * 100).round(2)
+                    l4_dist['Percentage'] = l4_dist['Percentage'].astype(str) + '%'
+                    st.dataframe(l4_dist, use_container_width=True, hide_index=True)
                 
                 # Downloads
                 st.subheader("💾 Downloads")
