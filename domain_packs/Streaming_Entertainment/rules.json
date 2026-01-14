@@ -2,12 +2,9 @@
     {
         "conditions": [
             "chat closed",
-            "chat ended",
-            "conversation ended",
             "session ended",
-            "automatically",
-            "inactivity",
-            "timeout"
+            "timeout",
+            "inactivity"
         ],
         "set": {
             "category": "Communication",
@@ -19,13 +16,9 @@
     },
     {
         "conditions": [
-            "have not heard",
-            "not heard from you",
             "no response",
             "delayed",
-            "slow",
-            "waiting",
-            "still waiting"
+            "slow response"
         ],
         "set": {
             "category": "Communication",
@@ -38,14 +31,8 @@
     {
         "conditions": [
             "account hacked",
-            "compromised",
             "fraud",
-            "fraudulent",
-            "restore",
-            "restoration",
-            "recovery",
-            "data lost",
-            "history lost"
+            "compromised"
         ],
         "set": {
             "category": "Account Hacking & Fraud",
@@ -57,13 +44,9 @@
     },
     {
         "conditions": [
-            "login failure",
             "login restricted",
             "account flagged",
-            "suspicious activity",
-            "unauthorized usage",
-            "access restoration",
-            "reactivation"
+            "suspicious activity"
         ],
         "set": {
             "category": "Account Restriction",
@@ -75,13 +58,8 @@
     },
     {
         "conditions": [
-            "password reset",
-            "reset link",
-            "error",
-            "not working",
-            "failed",
-            "system error",
-            "technical error"
+            "password reset error",
+            "reset link error"
         ],
         "set": {
             "category": "Account Access",
@@ -95,14 +73,7 @@
         "conditions": [
             "account blocked",
             "account suspended",
-            "account disabled",
-            "account restricted",
-            "policy violation",
-            "tos violation",
-            "terms violation",
-            "unauthorized content",
-            "copyright",
-            "piracy"
+            "policy violation"
         ],
         "set": {
             "category": "Account Restriction",
@@ -115,11 +86,6 @@
     {
         "conditions": [
             "cancel subscription",
-            "cancel",
-            "end subscription",
-            "stop subscription",
-            "terminate",
-            "discontinue",
             "unsubscribe"
         ],
         "set": {
@@ -132,105 +98,8 @@
     },
     {
         "conditions": [
-            "no longer need",
-            "don't need",
-            "not using",
-            "don't use"
-        ],
-        "set": {
-            "category": "Cancellation",
-            "subcategory": "Cancel Membership",
-            "level_3": "Service No Longer Needed",
-            "level_4": "Service Not Needed",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "too expensive",
-            "can't afford",
-            "price",
-            "cost",
-            "cancel"
-        ],
-        "set": {
-            "category": "Cancellation",
-            "subcategory": "Cancel Membership",
-            "level_3": "Price/Cost Concern",
-            "level_4": "Cost Related",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "not satisfied",
-            "dissatisfied",
-            "unhappy",
-            "disappointed",
-            "cancel"
-        ],
-        "set": {
-            "category": "Cancellation",
-            "subcategory": "Cancel Membership",
-            "level_3": "Customer Dissatisfaction",
-            "level_4": "Dissatisfaction",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "not working",
-            "technical issue",
-            "problem",
-            "broken",
-            "cancel"
-        ],
-        "set": {
-            "category": "Cancellation",
-            "subcategory": "Cancel Membership",
-            "level_3": "Technical Issues",
-            "level_4": "Technical Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "found alternative",
-            "switching to",
-            "competitor",
-            "cancel"
-        ],
-        "set": {
-            "category": "Cancellation",
-            "subcategory": "Cancel Membership",
-            "level_3": "Switching to Competitor",
-            "level_4": "Competitor Switch",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "trial end",
-            "trial over",
-            "trial expire",
-            "cancel"
-        ],
-        "set": {
-            "category": "Cancellation",
-            "subcategory": "Cancel Membership",
-            "level_3": "Trial Ended",
-            "level_4": "Trial Period Ended",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
             "switch plan",
-            "change plan",
-            "upgrade",
-            "downgrade",
-            "modify",
-            "different plan"
+            "change plan"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -243,10 +112,7 @@
     {
         "conditions": [
             "charged twice",
-            "double charged",
-            "billed twice",
-            "duplicate",
-            "multiple times"
+            "double charged"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -259,10 +125,7 @@
     {
         "conditions": [
             "wrong amount",
-            "incorrect",
-            "overcharged",
-            "billing error",
-            "payment error"
+            "overcharged"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -275,9 +138,7 @@
     {
         "conditions": [
             "refund",
-            "money back",
-            "reimburse",
-            "chargeback"
+            "money back"
         ],
         "set": {
             "category": "Refund",
@@ -290,10 +151,6 @@
     {
         "conditions": [
             "too expensive",
-            "overpriced",
-            "too much",
-            "price too high",
-            "can't afford",
             "price increase"
         ],
         "set": {
@@ -307,10 +164,7 @@
     {
         "conditions": [
             "won't play",
-            "can't play",
-            "not playing",
-            "playback failed",
-            "fails to play"
+            "playback failed"
         ],
         "set": {
             "category": "Technology Driven",
@@ -323,9 +177,7 @@
     {
         "conditions": [
             "keeps stopping",
-            "stops randomly",
-            "pauses randomly",
-            "keeps pausing"
+            "stops randomly"
         ],
         "set": {
             "category": "Technology Driven",
@@ -338,9 +190,7 @@
     {
         "conditions": [
             "buffering",
-            "constant buffering",
-            "always buffering",
-            "keeps buffering"
+            "constant buffering"
         ],
         "set": {
             "category": "Technology Driven",
@@ -353,9 +203,7 @@
     {
         "conditions": [
             "freezing",
-            "frozen",
-            "freeze",
-            "video freezing"
+            "frozen"
         ],
         "set": {
             "category": "Technology Driven",
@@ -368,9 +216,7 @@
     {
         "conditions": [
             "lagging",
-            "laggy",
-            "stuttering",
-            "choppy"
+            "stuttering"
         ],
         "set": {
             "category": "Technology Driven",
@@ -383,11 +229,8 @@
     {
         "conditions": [
             "poor quality",
-            "low quality",
-            "bad quality",
             "blurry",
-            "pixelated",
-            "grainy"
+            "pixelated"
         ],
         "set": {
             "category": "Technology Driven",
@@ -399,13 +242,8 @@
     },
     {
         "conditions": [
-            "sound quality",
-            "audio quality",
-            "distorted",
-            "crackling",
-            "static",
-            "no sound",
-            "muted"
+            "audio bad",
+            "no sound"
         ],
         "set": {
             "category": "Technology Driven",
@@ -417,12 +255,8 @@
     },
     {
         "conditions": [
-            "removed",
-            "missing",
-            "unavailable",
-            "gone",
-            "disappeared",
-            "content"
+            "content removed",
+            "song removed"
         ],
         "set": {
             "category": "Products and Services",
@@ -434,9 +268,7 @@
     },
     {
         "conditions": [
-            "can't find",
-            "cannot find",
-            "unable to find",
+            "can't find content",
             "missing content"
         ],
         "set": {
@@ -449,11 +281,8 @@
     },
     {
         "conditions": [
-            "region",
-            "country",
-            "geo blocked",
-            "geographic restriction",
-            "not available in"
+            "region restriction",
+            "geo blocked"
         ],
         "set": {
             "category": "Products and Services",
@@ -465,11 +294,8 @@
     },
     {
         "conditions": [
-            "bluetooth",
-            "speaker",
-            "not connecting",
-            "won't connect",
-            "connection failed"
+            "bluetooth not connecting",
+            "bluetooth failed"
         ],
         "set": {
             "category": "Technology Driven",
@@ -481,11 +307,8 @@
     },
     {
         "conditions": [
-            "chromecast",
-            "airplay",
-            "casting",
-            "cast",
-            "not working"
+            "chromecast not working",
+            "casting failed"
         ],
         "set": {
             "category": "Technology Driven",
@@ -497,10 +320,8 @@
     },
     {
         "conditions": [
-            "alexa",
-            "echo",
-            "smart speaker",
-            "not working"
+            "alexa not working",
+            "smart speaker issue"
         ],
         "set": {
             "category": "Technology Driven",
@@ -512,10 +333,8 @@
     },
     {
         "conditions": [
-            "smart tv",
-            "tv app",
-            "television",
-            "not working"
+            "smart tv issue",
+            "tv app not working"
         ],
         "set": {
             "category": "Technology Driven",
@@ -527,11 +346,8 @@
     },
     {
         "conditions": [
-            "download",
-            "offline",
-            "failed",
-            "not working",
-            "error"
+            "download failed",
+            "can't download"
         ],
         "set": {
             "category": "Technology Driven",
@@ -543,11 +359,8 @@
     },
     {
         "conditions": [
-            "downloaded content",
-            "offline downloads",
-            "missing",
-            "disappeared",
-            "deleted"
+            "downloads missing",
+            "offline downloads disappeared"
         ],
         "set": {
             "category": "Technology Driven",
@@ -559,12 +372,8 @@
     },
     {
         "conditions": [
-            "login",
-            "sign in",
-            "failed",
-            "error",
-            "cannot",
-            "can't"
+            "login failed",
+            "can't login"
         ],
         "set": {
             "category": "Account Access",
@@ -577,9 +386,7 @@
     {
         "conditions": [
             "forgot password",
-            "reset password",
-            "password issue",
-            "lost password"
+            "reset password"
         ],
         "set": {
             "category": "Account Access",
@@ -591,13 +398,8 @@
     },
     {
         "conditions": [
-            "playlist",
-            "library",
-            "saved songs",
-            "favorites",
-            "missing",
-            "lost",
-            "deleted"
+            "playlist missing",
+            "library missing"
         ],
         "set": {
             "category": "Products and Services",
@@ -609,11 +411,8 @@
     },
     {
         "conditions": [
-            "sync",
-            "syncing",
-            "not syncing",
             "sync failed",
-            "connection lost"
+            "not syncing"
         ],
         "set": {
             "category": "Technology Driven",
@@ -626,10 +425,7 @@
     {
         "conditions": [
             "update email",
-            "change email",
-            "update phone",
-            "change phone",
-            "update contact"
+            "change phone"
         ],
         "set": {
             "category": "Account Management",
@@ -641,13 +437,8 @@
     },
     {
         "conditions": [
-            "promo code",
-            "discount code",
-            "coupon",
-            "offer",
-            "not working",
-            "invalid",
-            "expired"
+            "promo code not working",
+            "coupon invalid"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -659,12 +450,8 @@
     },
     {
         "conditions": [
-            "subtitle",
-            "caption",
-            "closed caption",
-            "not working",
-            "missing",
-            "out of sync"
+            "subtitle not working",
+            "caption missing"
         ],
         "set": {
             "category": "Technology Driven",
@@ -672,457 +459,6 @@
             "level_3": "Display Problem",
             "level_4": "Subtitle Not Working",
             "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "profile",
-            "user profile",
-            "kids profile",
-            "create",
-            "delete",
-            "issue",
-            "error"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Profile Management",
-            "level_3": "Profile Issue",
-            "level_4": "Profile Error",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "watchlist",
-            "my list",
-            "continue watching",
-            "watch history",
-            "missing",
-            "disappeared"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Content Issue",
-            "level_3": "User Content",
-            "level_4": "Watchlist Missing",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "search",
-            "searching",
-            "find",
-            "not working",
-            "broken",
-            "error"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Search Issue",
-            "level_3": "Feature Not Working",
-            "level_4": "Search Failed",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "language",
-            "audio language",
-            "subtitle language",
-            "dubbed",
-            "not available",
-            "missing"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Content Issue",
-            "level_3": "Language Options",
-            "level_4": "Language Unavailable",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "gift card",
-            "gift subscription",
-            "redeem",
-            "redemption",
-            "not working",
-            "invalid",
-            "expired"
-        ],
-        "set": {
-            "category": "Billing & Subscription",
-            "subcategory": "Payment Issue",
-            "level_3": "Gift Card",
-            "level_4": "Gift Card Invalid",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "app crash",
-            "app crashing",
-            "app error",
-            "app freeze",
-            "app slow",
-            "won't open"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "App Issue",
-            "level_3": "App Performance",
-            "level_4": "App Crashing",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "connection",
-            "internet",
-            "wifi",
-            "network",
-            "lost",
-            "disconnecting"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Connection Issue",
-            "level_3": "Network Problem",
-            "level_4": "Connection Lost",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "verify",
-            "verification",
-            "verification code",
-            "failed",
-            "cannot verify",
-            "error"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Verification Issue",
-            "level_3": "Account Verification",
-            "level_4": "Verification Failed",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "free trial",
-            "trial period",
-            "trial end",
-            "trial expire",
-            "start trial"
-        ],
-        "set": {
-            "category": "Billing & Subscription",
-            "subcategory": "Trial Issue",
-            "level_3": "Free Trial",
-            "level_4": "Trial Period",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "family plan",
-            "family subscription",
-            "family member",
-            "family sharing"
-        ],
-        "set": {
-            "category": "Billing & Subscription",
-            "subcategory": "Subscription Issue",
-            "level_3": "Plan Type Request",
-            "level_4": "Family Plan",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "student discount",
-            "student plan",
-            "student subscription",
-            "student verification"
-        ],
-        "set": {
-            "category": "Billing & Subscription",
-            "subcategory": "Subscription Issue",
-            "level_3": "Plan Type Request",
-            "level_4": "Student Plan",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "thank you",
-            "thanks",
-            "appreciate",
-            "grateful",
-            "help"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Issue Resolved",
-            "level_4": "Professional Service",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "all set",
-            "works now",
-            "working",
-            "fixed",
-            "resolved",
-            "solved"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Issue Resolved",
-            "level_4": "Professional Service",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "excellent",
-            "great",
-            "amazing",
-            "helpful",
-            "service",
-            "support"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Excellent Service",
-            "level_4": "Great Support",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "too many screens",
-            "screen limit",
-            "device limit",
-            "simultaneous streams",
-            "all screens in use"
-        ],
-        "set": {
-            "category": "Subscription Management",
-            "subcategory": "Device/Screen Limit",
-            "level_3": "Screen Limit Reached",
-            "level_4": "Simultaneous Streams Exceeded",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "parental controls",
-            "pin code",
-            "kids profile",
-            "content restrictions",
-            "child safety"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Parental Controls",
-            "level_3": "PIN Setup Issue",
-            "level_4": "Cannot Set PIN",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "autoplay",
-            "auto play",
-            "disable autoplay",
-            "playback settings"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Playback Settings",
-            "level_3": "Autoplay Issue",
-            "level_4": "Cannot Disable Autoplay",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "viewing history",
-            "watch history",
-            "delete history",
-            "viewing activity"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Viewing Activity",
-            "level_3": "Cannot View History",
-            "level_4": "History Sync Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "download limit",
-            "too many downloads",
-            "download quota",
-            "offline limit"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Download Limit",
-            "level_3": "Download Limit Reached",
-            "level_4": "Download Quota Exceeded",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "caption style",
-            "caption size",
-            "customize captions",
-            "accessibility settings"
-        ],
-        "set": {
-            "category": "Content",
-            "subcategory": "Caption Customization",
-            "level_3": "Cannot Change Caption Style",
-            "level_4": "Accessibility Settings Error",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "audio description",
-            "descriptive audio",
-            "visually impaired",
-            "accessibility audio"
-        ],
-        "set": {
-            "category": "Content",
-            "subcategory": "Audio Description",
-            "level_3": "Audio Description Not Available",
-            "level_4": "Accessibility Feature Missing",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "too many notifications",
-            "spam emails",
-            "unsubscribe",
-            "notification settings"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Notification Settings",
-            "level_3": "Too Many Notifications",
-            "level_4": "Cannot Unsubscribe",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "cannot rate",
-            "rating not working",
-            "thumbs up",
-            "thumbs down"
-        ],
-        "set": {
-            "category": "Content",
-            "subcategory": "Rating/Review Issue",
-            "level_3": "Cannot Rate Content",
-            "level_4": "Rating System Error",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "roku",
-            "fire tv",
-            "apple tv",
-            "smart tv app",
-            "tv not working"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Smart TV Issue",
-            "level_3": "TV App Not Working",
-            "level_4": "Device Compatibility Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "payment pending",
-            "paid but pending",
-            "payment shows pending",
-            "account not activated",
-            "subscription not activated",
-            "can't use service",
-            "activation delay"
-        ],
-        "set": {
-            "category": "Payments",
-            "subcategory": "Payment Status",
-            "level_3": "Payment Pending",
-            "level_4": "Subscription Activation Delay",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "preview club",
-            "netflix preview club",
-            "preview program",
-            "early access",
-            "beta program",
-            "available in my region",
-            "available in my country",
-            "can i join",
-            "how to join",
-            "was i invited",
-            "am i selected",
-            "regional availability",
-            "region not supported"
-        ],
-        "set": {
-            "category": "Product Information",
-            "subcategory": "Programs & Features",
-            "level_3": "Preview Club",
-            "level_4": "Regional Availability",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "free trial",
-            "trial period",
-            "trial offer",
-            "still offer free trial",
-            "does netflix offer free trial",
-            "free trial available",
-            "trial not offered",
-            "no free trial",
-            "trial discontinued",
-            "try before buy",
-            "trial eligibility"
-        ],
-        "set": {
-            "category": "Product Information",
-            "subcategory": "Plans & Pricing",
-            "level_3": "Free Trial",
-            "level_4": "Not Offered",
-            "sentiment": "neutral"
         }
     }
 ]
