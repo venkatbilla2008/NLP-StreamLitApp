@@ -5,7 +5,8 @@
             "session ended",
             "session timeout",
             "inactivity",
-            "start new chat"
+            "start new chat",
+            "conversation ended"
         ],
         "set": {
             "category": "Communication",
@@ -20,7 +21,8 @@
             "no response",
             "delayed response",
             "slow response",
-            "still waiting"
+            "still waiting",
+            "waiting for response"
         ],
         "set": {
             "category": "Communication",
@@ -36,7 +38,9 @@
             "account compromised",
             "fraudulent activity",
             "restore account",
-            "lost playlists"
+            "lost playlists",
+            "fraud",
+            "hacked"
         ],
         "set": {
             "category": "Account Hacking & Fraud",
@@ -52,7 +56,8 @@
             "login restricted",
             "cannot login",
             "account flagged",
-            "account restricted"
+            "account restricted",
+            "login failure"
         ],
         "set": {
             "category": "Account Restriction",
@@ -66,7 +71,8 @@
         "conditions": [
             "password reset error",
             "reset link error",
-            "cannot reset password"
+            "cannot reset password",
+            "password reset failed"
         ],
         "set": {
             "category": "Account Access",
@@ -82,7 +88,8 @@
             "account suspended",
             "policy violation",
             "tos violation",
-            "copyright violation"
+            "copyright violation",
+            "account disabled"
         ],
         "set": {
             "category": "Account Restriction",
@@ -97,7 +104,10 @@
             "cancel subscription",
             "cancel membership",
             "unsubscribe",
-            "stop subscription"
+            "stop subscription",
+            "end subscription",
+            "cancel",
+            "cancellation"
         ],
         "set": {
             "category": "Cancellation",
@@ -112,7 +122,9 @@
             "switch plan",
             "change plan",
             "upgrade subscription",
-            "downgrade subscription"
+            "downgrade subscription",
+            "upgrade",
+            "downgrade"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -126,7 +138,9 @@
         "conditions": [
             "charged twice",
             "double charged",
-            "duplicate billing"
+            "duplicate billing",
+            "billed twice",
+            "duplicate charge"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -141,7 +155,8 @@
             "wrong amount",
             "incorrect charge",
             "overcharged",
-            "billing error"
+            "billing error",
+            "incorrect billing"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -156,7 +171,8 @@
             "refund",
             "money back",
             "reimburse",
-            "chargeback"
+            "chargeback",
+            "reimbursement"
         ],
         "set": {
             "category": "Refund",
@@ -171,7 +187,9 @@
             "too expensive",
             "overpriced",
             "can't afford",
-            "price increase"
+            "price increase",
+            "too much money",
+            "price too high"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -186,7 +204,9 @@
             "won't play",
             "not playing",
             "playback failed",
-            "cannot play"
+            "cannot play",
+            "can't play",
+            "fails to play"
         ],
         "set": {
             "category": "Technology Driven",
@@ -200,7 +220,8 @@
         "conditions": [
             "keeps stopping",
             "keeps pausing",
-            "stops randomly"
+            "stops randomly",
+            "pauses randomly"
         ],
         "set": {
             "category": "Technology Driven",
@@ -214,7 +235,8 @@
         "conditions": [
             "buffering",
             "constant buffering",
-            "always buffering"
+            "always buffering",
+            "keeps buffering"
         ],
         "set": {
             "category": "Technology Driven",
@@ -228,7 +250,8 @@
         "conditions": [
             "freezing",
             "frozen",
-            "screen frozen"
+            "screen frozen",
+            "video freezing"
         ],
         "set": {
             "category": "Technology Driven",
@@ -243,7 +266,8 @@
             "lagging",
             "lag issue",
             "stuttering",
-            "choppy"
+            "choppy",
+            "laggy"
         ],
         "set": {
             "category": "Technology Driven",
@@ -258,7 +282,8 @@
             "poor quality",
             "low quality",
             "blurry",
-            "pixelated"
+            "pixelated",
+            "bad quality"
         ],
         "set": {
             "category": "Technology Driven",
@@ -273,7 +298,8 @@
             "audio bad",
             "sound bad",
             "no sound",
-            "distorted sound"
+            "distorted sound",
+            "poor audio"
         ],
         "set": {
             "category": "Technology Driven",
@@ -288,7 +314,8 @@
             "song removed",
             "track removed",
             "album removed",
-            "content removed"
+            "content removed",
+            "music removed"
         ],
         "set": {
             "category": "Products and Services",
@@ -303,7 +330,8 @@
             "show removed",
             "movie removed",
             "episode missing",
-            "series removed"
+            "series removed",
+            "video removed"
         ],
         "set": {
             "category": "Products and Services",
@@ -317,7 +345,8 @@
         "conditions": [
             "can't find",
             "cannot find",
-            "missing content"
+            "missing content",
+            "unable to find"
         ],
         "set": {
             "category": "Products and Services",
@@ -331,7 +360,9 @@
         "conditions": [
             "region restriction",
             "geo blocked",
-            "country blocked"
+            "country blocked",
+            "not available in my region",
+            "not available in my country"
         ],
         "set": {
             "category": "Products and Services",
@@ -345,7 +376,8 @@
         "conditions": [
             "bluetooth not connecting",
             "bluetooth issue",
-            "bluetooth failed"
+            "bluetooth failed",
+            "bluetooth not working"
         ],
         "set": {
             "category": "Technology Driven",
@@ -359,7 +391,8 @@
         "conditions": [
             "chromecast not working",
             "airplay not working",
-            "casting failed"
+            "casting failed",
+            "can't cast"
         ],
         "set": {
             "category": "Technology Driven",
@@ -373,7 +406,8 @@
         "conditions": [
             "alexa not working",
             "echo issue",
-            "smart speaker issue"
+            "smart speaker issue",
+            "smart speaker not working"
         ],
         "set": {
             "category": "Technology Driven",
@@ -386,7 +420,8 @@
     {
         "conditions": [
             "smart tv issue",
-            "tv app not working"
+            "tv app not working",
+            "tv not working"
         ],
         "set": {
             "category": "Technology Driven",
@@ -400,7 +435,8 @@
         "conditions": [
             "download failed",
             "can't download",
-            "download error"
+            "download error",
+            "download not working"
         ],
         "set": {
             "category": "Technology Driven",
@@ -413,7 +449,8 @@
     {
         "conditions": [
             "downloads missing",
-            "offline downloads disappeared"
+            "offline downloads disappeared",
+            "downloaded content missing"
         ],
         "set": {
             "category": "Technology Driven",
@@ -428,7 +465,8 @@
             "can't login",
             "login failed",
             "login error",
-            "sign in failed"
+            "sign in failed",
+            "cannot login"
         ],
         "set": {
             "category": "Account Access",
@@ -442,7 +480,8 @@
         "conditions": [
             "forgot password",
             "reset password",
-            "lost password"
+            "lost password",
+            "password reset"
         ],
         "set": {
             "category": "Account Access",
@@ -456,7 +495,8 @@
         "conditions": [
             "playlist missing",
             "library missing",
-            "saved songs missing"
+            "saved songs missing",
+            "playlist lost"
         ],
         "set": {
             "category": "Products and Services",
@@ -468,9 +508,10 @@
     },
     {
         "conditions": [
-            "sync issue",
+            "sync failed",
             "not syncing",
-            "sync failed"
+            "sync issue",
+            "sync error"
         ],
         "set": {
             "category": "Technology Driven",
@@ -483,6 +524,7 @@
     {
         "conditions": [
             "update email",
+            "change phone",
             "change email",
             "update phone"
         ],
@@ -497,8 +539,9 @@
     {
         "conditions": [
             "promo code not working",
-            "discount code expired",
-            "coupon not working"
+            "coupon invalid",
+            "discount code",
+            "promo code"
         ],
         "set": {
             "category": "Billing & Subscription",
@@ -511,8 +554,9 @@
     {
         "conditions": [
             "subtitle not working",
+            "caption missing",
             "subtitles missing",
-            "caption not working"
+            "subtitle"
         ],
         "set": {
             "category": "Technology Driven",
@@ -520,6 +564,40 @@
             "level_3": "Display Problem",
             "level_4": "Subtitle Not Working",
             "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "help",
+            "support",
+            "assistance",
+            "question",
+            "how do i",
+            "how to"
+        ],
+        "set": {
+            "category": "General Inquiry",
+            "subcategory": "Help Request",
+            "level_3": "General Support",
+            "level_4": "Customer Support",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "thank",
+            "thanks",
+            "appreciate",
+            "great",
+            "awesome",
+            "perfect"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Appreciation",
+            "level_3": "Customer Satisfaction",
+            "level_4": "Positive Response",
+            "sentiment": "positive"
         }
     }
 ]
