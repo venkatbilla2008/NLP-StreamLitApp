@@ -22,11 +22,25 @@
             "payment"
         ],
         "set": {
-            "category": "Billing & Subscription",
-            "subcategory": "Billing Issue",
+            "category": "Billing Issues",
+            "subcategory": "Payment Problem",
             "level_3": "Payment Error",
             "level_4": "Billing Problem",
             "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "subscription",
+            "plan",
+            "membership"
+        ],
+        "set": {
+            "category": "Subscription Management",
+            "subcategory": "Subscription Issue",
+            "level_3": "Plan Problem",
+            "level_4": "Subscription Issue",
+            "sentiment": "neutral"
         }
     },
     {
@@ -49,7 +63,7 @@
             "cost"
         ],
         "set": {
-            "category": "Billing & Subscription",
+            "category": "Billing Issues",
             "subcategory": "Pricing Complaint",
             "level_3": "Price Concern",
             "level_4": "Too Expensive",
@@ -329,7 +343,7 @@
             "code"
         ],
         "set": {
-            "category": "Billing & Subscription",
+            "category": "Billing Issues",
             "subcategory": "Promotional Issue",
             "level_3": "Promo Code",
             "level_4": "Promo Code Invalid",
@@ -405,34 +419,6 @@
             "level_3": "Technical Problem",
             "level_4": "General Error",
             "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "help",
-            "support",
-            "assist"
-        ],
-        "set": {
-            "category": "General Inquiry",
-            "subcategory": "Help Request",
-            "level_3": "General Support",
-            "level_4": "Customer Support",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "thank",
-            "thanks",
-            "appreciate"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciation",
-            "level_3": "Customer Satisfaction",
-            "level_4": "Positive Response",
-            "sentiment": "positive"
         }
     }
 ]

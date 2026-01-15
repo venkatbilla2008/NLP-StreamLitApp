@@ -127,9 +127,9 @@
             "downgrade"
         ],
         "set": {
-            "category": "Billing & Subscription",
-            "subcategory": "Subscription Issue",
-            "level_3": "Plan Change Request",
+            "category": "Subscription Management",
+            "subcategory": "Plan Change",
+            "level_3": "Plan Modification",
             "level_4": "Switch Plan",
             "sentiment": "neutral"
         }
@@ -143,9 +143,9 @@
             "duplicate charge"
         ],
         "set": {
-            "category": "Billing & Subscription",
-            "subcategory": "Billing Issue",
-            "level_3": "Payment Error",
+            "category": "Billing Issues",
+            "subcategory": "Payment Error",
+            "level_3": "Duplicate Charge",
             "level_4": "Charged Twice",
             "sentiment": "negative"
         }
@@ -159,9 +159,9 @@
             "incorrect billing"
         ],
         "set": {
-            "category": "Billing & Subscription",
-            "subcategory": "Billing Issue",
-            "level_3": "Payment Error",
+            "category": "Billing Issues",
+            "subcategory": "Payment Error",
+            "level_3": "Charge Error",
             "level_4": "Incorrect Amount",
             "sentiment": "negative"
         }
@@ -192,7 +192,7 @@
             "price too high"
         ],
         "set": {
-            "category": "Billing & Subscription",
+            "category": "Billing Issues",
             "subcategory": "Pricing Complaint",
             "level_3": "Price Concern",
             "level_4": "Too Expensive",
@@ -544,7 +544,7 @@
             "promo code"
         ],
         "set": {
-            "category": "Billing & Subscription",
+            "category": "Billing Issues",
             "subcategory": "Promotional Issue",
             "level_3": "Promo Code",
             "level_4": "Promo Code Invalid",
@@ -564,40 +564,6 @@
             "level_3": "Display Problem",
             "level_4": "Subtitle Not Working",
             "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "help",
-            "support",
-            "assistance",
-            "question",
-            "how do i",
-            "how to"
-        ],
-        "set": {
-            "category": "General Inquiry",
-            "subcategory": "Help Request",
-            "level_3": "General Support",
-            "level_4": "Customer Support",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "thank",
-            "thanks",
-            "appreciate",
-            "great",
-            "awesome",
-            "perfect"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciation",
-            "level_3": "Customer Satisfaction",
-            "level_4": "Positive Response",
-            "sentiment": "positive"
         }
     }
 ]
