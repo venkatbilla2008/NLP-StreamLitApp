@@ -1713,7 +1713,8 @@ def main():
                     # Click buttons
                     st.markdown("**Click a category to expand:**")
                     cols = st.columns(min(3, len(category_counts)))
-                    for idx, (_, row) in enumerate(category_counts.iterrows()):
+                    for idx in range(len(category_counts)):
+                        row = category_counts.iloc[idx]
                         with cols[idx % 3]:
                             if st.button(f"📂 {row['L1_Category']}\n({row['count']:,})", key=f"wt_l1_{idx}"):
                                 st.session_state.word_tree_path = [row['L1_Category']]
@@ -1788,7 +1789,8 @@ def main():
                     st.plotly_chart(fig, width='stretch')
                     
                     cols = st.columns(min(3, len(category_counts)))
-                    for idx, (_, row) in enumerate(category_counts.iterrows()):
+                    for idx in range(len(category_counts)):
+                        row = category_counts.iloc[idx]
                         with cols[idx % 3]:
                             if st.button(f"📁 {row['L2_Subcategory']}\n({row['count']:,})", key=f"wt_l2_{idx}"):
                                 st.session_state.word_tree_path.append(row['L2_Subcategory'])
@@ -1870,7 +1872,8 @@ def main():
                     st.plotly_chart(fig, width='stretch')
                     
                     cols = st.columns(min(3, len(category_counts)))
-                    for idx, (_, row) in enumerate(category_counts.iterrows()):
+                    for idx in range(len(category_counts)):
+                        row = category_counts.iloc[idx]
                         with cols[idx % 3]:
                             if st.button(f"📄 {row['L3_Tertiary']}\n({row['count']:,})", key=f"wt_l3_{idx}"):
                                 st.session_state.word_tree_path.append(row['L3_Tertiary'])
