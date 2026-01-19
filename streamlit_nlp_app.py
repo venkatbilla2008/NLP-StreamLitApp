@@ -55,6 +55,8 @@ import spacy
 # Visualization Libraries
 import plotly.express as px
 import plotly.graph_objects as go
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
 from collections import Counter
 
 # ========================================================================================
@@ -917,6 +919,159 @@ class AdvancedVisualizer:
     """Generates executive-level visualizations for the dashboard"""
     
     # Pre-defined sentiment lists for "Realistic Meaning" in Word Cloud
+    NEGATIVE_TERMS = {
+        'issue', 'problem', 'error', 'fail', 'failed', 'failure', 'slow', 'lag', 'lagging', 
+        'buffer', 'buffering', 'terrible', 'bad', 'worst', 'broken', 'glitch', 'bug', 
+        'cancel', 'cancellation', 'charged', 'overcharged', 'refund', 'scam', 'cheat', 
+        'awful', 'useless', 'stupid', 'ridiculous', 'waiting', 'wait', 'delay', 'delayed', 
+        'rude', 'unprofessional', 'hang', 'froze', 'frozen', 'crash', 'crashed', 'deny', 
+        'denied', 'reject', 'rejected', 'dispute', 'fraud', 'unauthorized', 'stole', 
+        'missing', 'gone', 'lost', 'unable', 'cannot', 'cant', 'won', 'wont', 'freeze',
+        'pixelated', 'blurry', 'disconnect', 'disconnected', 'dropping', 'drops', 'stop',
+        'stopped', 'stuck', 'garbage', 'furious', 'upset', 'angry', 'hate', 'disappointed',
+        'annoying', 'incorrect', 'wrong', 'mistake', 'lie', 'lying', 'ignore', 'ignored'
+    }
+
+    @staticmethod
+    def create_sunburst_chart(df: pd.DataFrame):
+        """Create hierarchical sunburst chart of categories"""
+        if df.empty:
+            return None
+            
+        # Prepare data: Count occurrences of hierarchy paths
+        # Handle missing values
+        df_clean = df.fillna("Uncategorized")
+        
+        # Aggregate data for speed
+        sunburst_data = df_clean.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().reset_index(name='count')
+        
+        # Filter out extremely small segments for better visibility
+        limit = len(df) * 0.005  # 0.5% threshold
+        sunburst_data = sunburst_data[sunburst_data['count'] > limit]
+        
+        fig = px.sunburst(
+            sunburst_data,
+            path=['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary'],
+            values='count',
+            title="<b>Hierarchical Category Breakdown</b><br><sup>Click to zoom in/out</sup>",
+            color='L1_Category',
+            color_discrete_sequence=px.colors.qualitative.Prism,
+            height=700
+        )
+        fig.update_traces(textinfo="label+percent entry")
+        fig.update_layout(margin=dict(t=50, l=0, r=0, b=0))
+        return fig
+
+    @staticmethod
+    def create_intent_donut(df: pd.DataFrame):
+        """Create donut chart of L1 intents"""
+        if df.empty:
+            return None
+            
+        l1_counts = df['L1_Category'].value_counts().reset_index()
+        l1_counts.columns = ['Category', 'Count']
+        
+        fig = px.pie(
+            l1_counts,
+            values='Count',
+            names='Category',
+            hole=0.4,
+            title="<b>Primary Intent Distribution</b>",
+            color_discrete_sequence=px.colors.qualitative.Bold
+        )
+        fig.update_traces(textposition='inside', textinfo='percent+label')
+        fig.update_layout(margin=dict(t=50, l=20, r=20, b=20))
+        return fig
+
+    @staticmethod
+    def create_resolution_gauge(df: pd.DataFrame):
+        """Create gauge chart for resolution rate"""
+        if df.empty:
+            return None
+            
+        # Calculate resolution stats
+        total = len(df)
+        resolved = len(df[df['L3_Tertiary'].astype(str).str.contains('Resolved', case=False, na=False)])
+        rate = (resolved / total * 100) if total > 0 else 0
+        
+        fig = go.Figure(go.Indicator(
+            mode = "gauge+number",
+            value = rate,
+            domain = {'x': [0, 1], 'y': [0, 1]},
+            title = {'text': "<b>Issue Resolution Rate</b>"},
+            gauge = {
+                'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "darkblue"},
+                'bar': {'color': "#00CC96"},
+                'bgcolor': "white",
+                'borderwidth': 2,
+                'bordercolor': "gray",
+                'steps': [
+                    {'range': [0, 50], 'color': '#FFE6E6'},
+                    {'range': [50, 80], 'color': '#EAFFEA'},
+                    {'range': [80, 100], 'color': '#CCFFCC'}],
+                'threshold': {
+                    'line': {'color': "red", 'width': 4},
+                    'thickness': 0.75,
+                    'value': 90}
+            }
+        ))
+        fig.update_layout(height=400, margin=dict(t=50, l=20, r=20, b=20))
+        return fig
+
+    @classmethod
+    def create_wordcloud(cls, df: pd.DataFrame, text_col: str, mode: str = 'negative'):
+        """
+        Create a meaningful word cloud focusing on specific sentiments.
+        mode: 'negative' (Pain Points) or 'general' (All text)
+        """
+        if df.empty:
+            return None
+            
+        # 1. Concatenate all text
+        text_data = df[text_col].astype(str).str.lower().tolist()
+        text_joined = " ".join(text_data)
+        
+        # 2. Tokenize (simple split is faster for wordcloud)
+        # Remove punctuation for better matching
+        text_clean = re.sub(r'[^\w\s]', '', text_joined)
+        tokens = text_clean.split()
+        
+        # 3. Filter based on mode
+        final_counts = Counter()
+        
+        if mode == 'negative':
+            # Only keep words that match our negative list
+            relevant_tokens = [t for t in tokens if t in cls.NEGATIVE_TERMS]
+            if not relevant_tokens:
+                return None
+            final_counts.update(relevant_tokens)
+            colormap = 'Reds'
+            background = '#FFF0F0' # Light red background (optional, or white)
+            background = 'white'
+        else:
+            # General mode: Standardstopwords + Domain specific stopwords to remove noise
+            stopwords = set(['the', 'and', 'to', 'of', 'a', 'in', 'is', 'that', 'for', 'it', 'on', 'with', 'as', 'this', 'but', 'be', 'you', 'are', 'not', 'have', 'i', 'my', 'me', 'we', 'your', 'can', 'will', 'netflix', 'spotify', 'account', 'chat', 'hello', 'hi', 'thank', 'thanks', 'help', 'please', 'customer', 'service', 'agent', 'yes', 'no', 'ok', 'okay'])
+            relevant_tokens = [t for t in tokens if t not in stopwords and len(t) > 2]
+            final_counts.update(relevant_tokens)
+            colormap = 'viridis'
+            background = 'white'
+
+        # 4. Generate Cloud from Frequencies
+        if not final_counts:
+            return None
+            
+        wc = WordCloud(
+            width=800, 
+            height=400, 
+            background_color=background,
+            min_font_size=10,
+            max_words=100,
+            colormap=colormap,
+            prefer_horizontal=0.9
+        ).generate_from_frequencies(final_counts)
+        
+        return wc
+
 
 # ========================================================================================
 # ULTRA-FAST NLP PIPELINE WITH DUCKDB
@@ -1616,369 +1771,13 @@ def main():
                 # Overview tab only
                 st.markdown("### 📈 Overview")
                 
-                # Interactive Word Tree
-                st.markdown("#### 🌳 Word Tree")
-                
-                # Initialize session state
-                if 'word_tree_path' not in st.session_state:
-                    st.session_state.word_tree_path = []
-                if 'word_tree_level' not in st.session_state:
-                    st.session_state.word_tree_level = 0
-                
-                # Reset button
-                if st.button("🔄 Reset to ROOT", key="reset_word_tree"):
-                    st.session_state.word_tree_path = []
-                    st.session_state.word_tree_level = 0
-                    st.rerun()
-                
-                # Filter data based on current path
-                filtered_df = output_df.copy()
-                if len(st.session_state.word_tree_path) >= 1:
-                    filtered_df = filtered_df[filtered_df['L1_Category'] == st.session_state.word_tree_path[0]]
-                if len(st.session_state.word_tree_path) >= 2:
-                    filtered_df = filtered_df[filtered_df['L2_Subcategory'] == st.session_state.word_tree_path[1]]
-                if len(st.session_state.word_tree_path) >= 3:
-                    filtered_df = filtered_df[filtered_df['L3_Tertiary'] == st.session_state.word_tree_path[2]]
-                if len(st.session_state.word_tree_path) >= 4:
-                    filtered_df = filtered_df[filtered_df['L4_Quaternary'] == st.session_state.word_tree_path[3]]
-                
-                # Determine what to show based on level
-                level = len(st.session_state.word_tree_path)
-                
-                if level == 0:
-                    # Show L1 categories
-                    st.markdown("**📂 L1 Categories** (Click to expand)")
-                    category_counts = filtered_df.groupby('L1_Category').size().reset_index(name='count')
-                    category_counts = category_counts.sort_values('count', ascending=False)
-                    
-                    # Create network-style visualization
-                    import networkx as nx
-                    
-                    G = nx.DiGraph()
-                    pos = {}
-                    
-                    # Root
-                    pos['ROOT'] = (0, 0)
-                    G.add_node('ROOT')
-                    
-                    # L1 nodes
-                    for idx, row in enumerate(category_counts.iterrows()):
-                        _, data = row
-                        cat = data['L1_Category']
-                        count = data['count']
-                        pos[cat] = (2, idx * 2 - len(category_counts))
-                        G.add_node(cat, count=count)
-                        G.add_edge('ROOT', cat)
-                    
-                    # Draw
-                    edge_x, edge_y = [], []
-                    for edge in G.edges():
-                        x0, y0 = pos[edge[0]]
-                        x1, y1 = pos[edge[1]]
-                        edge_x.extend([x0, x1, None])
-                        edge_y.extend([y0, y1, None])
-                    
-                    edge_trace = go.Scatter(x=edge_x, y=edge_y, line=dict(width=2, color='#888'),
-                                           hoverinfo='none', mode='lines')
-                    
-                    node_x, node_y, node_text, node_color, node_size = [], [], [], [], []
-                    for node in G.nodes():
-                        x, y = pos[node]
-                        node_x.append(x)
-                        node_y.append(y)
-                        if node == 'ROOT':
-                            node_text.append('ROOT')
-                            node_color.append('#333')
-                            node_size.append(30)
-                        else:
-                            count = G.nodes[node]['count']
-                            node_text.append(f"{node}<br>({count:,})")
-                            node_color.append('#1f77b4')
-                            node_size.append(min(40, 15 + count/200))
-                    
-                    node_trace = go.Scatter(x=node_x, y=node_y, mode='markers+text',
-                                           hoverinfo='text', text=node_text, textposition="middle right",
-                                           textfont=dict(size=11, color='black'),
-                                           marker=dict(color=node_color, size=node_size, 
-                                                      line=dict(width=2, color='white')))
-                    
-                    fig = go.Figure(data=[edge_trace, node_trace],
-                                   layout=go.Layout(showlegend=False, hovermode='closest',
-                                                   margin=dict(b=20,l=5,r=5,t=40),
-                                                   xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                                                   yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                                                   height=400, plot_bgcolor='white'))
-                    st.plotly_chart(fig, width='stretch')
-                    
-                    # Click buttons
-                    st.markdown("**Click a category to expand:**")
-                    cols = st.columns(min(3, len(category_counts)))
-                    for idx in range(len(category_counts)):
-                        row = category_counts.iloc[idx]
-                        with cols[idx % 3]:
-                            if st.button(f"📂 {row['L1_Category']}\n({row['count']:,})", key=f"wt_l1_{idx}"):
-                                st.session_state.word_tree_path = [row['L1_Category']]
-                                st.session_state.word_tree_level = 1
-                                st.rerun()
-                
-                elif level == 1:
-                    # Show L2 categories
-                    st.markdown(f"**📁 L2 Subcategories under '{st.session_state.word_tree_path[0]}'**")
-                    category_counts = filtered_df.groupby('L2_Subcategory').size().reset_index(name='count')
-                    category_counts = category_counts.sort_values('count', ascending=False)
-                    
-                    # Visualization
-                    G = nx.DiGraph()
-                    pos = {}
-                    
-                    pos['ROOT'] = (0, 0)
-                    pos[st.session_state.word_tree_path[0]] = (2, 0)
-                    G.add_node('ROOT')
-                    G.add_node(st.session_state.word_tree_path[0])
-                    G.add_edge('ROOT', st.session_state.word_tree_path[0])
-                    
-                    for idx, row in enumerate(category_counts.iterrows()):
-                        _, data = row
-                        cat = data['L2_Subcategory']
-                        count = data['count']
-                        pos[cat] = (4, idx * 2 - len(category_counts))
-                        G.add_node(cat, count=count)
-                        G.add_edge(st.session_state.word_tree_path[0], cat)
-                    
-                    edge_x, edge_y = [], []
-                    for edge in G.edges():
-                        x0, y0 = pos[edge[0]]
-                        x1, y1 = pos[edge[1]]
-                        edge_x.extend([x0, x1, None])
-                        edge_y.extend([y0, y1, None])
-                    
-                    edge_trace = go.Scatter(x=edge_x, y=edge_y, line=dict(width=2, color='#888'),
-                                           hoverinfo='none', mode='lines')
-                    
-                    node_x, node_y, node_text, node_color, node_size = [], [], [], [], []
-                    for node in G.nodes():
-                        x, y = pos[node]
-                        node_x.append(x)
-                        node_y.append(y)
-                        if node == 'ROOT':
-                            node_text.append('ROOT')
-                            node_color.append('#333')
-                            node_size.append(25)
-                        elif node == st.session_state.word_tree_path[0]:
-                            node_text.append(node)
-                            node_color.append('#1f77b4')
-                            node_size.append(30)
-                        else:
-                            count = G.nodes[node]['count']
-                            node_text.append(f"{node}<br>({count:,})")
-                            node_color.append('#2ca02c')
-                            node_size.append(min(40, 15 + count/200))
-                    
-                    node_trace = go.Scatter(x=node_x, y=node_y, mode='markers+text',
-                                           hoverinfo='text', text=node_text, textposition="middle right",
-                                           textfont=dict(size=10, color='black'),
-                                           marker=dict(color=node_color, size=node_size,
-                                                      line=dict(width=2, color='white')))
-                    
-                    fig = go.Figure(data=[edge_trace, node_trace],
-                                   layout=go.Layout(showlegend=False, hovermode='closest',
-                                                   margin=dict(b=20,l=5,r=5,t=40),
-                                                   xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                                                   yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                                                   height=400, plot_bgcolor='white'))
-                    st.plotly_chart(fig, width='stretch')
-                    
-                    cols = st.columns(min(3, len(category_counts)))
-                    for idx in range(len(category_counts)):
-                        row = category_counts.iloc[idx]
-                        with cols[idx % 3]:
-                            if st.button(f"📁 {row['L2_Subcategory']}\n({row['count']:,})", key=f"wt_l2_{idx}"):
-                                st.session_state.word_tree_path.append(row['L2_Subcategory'])
-                                st.session_state.word_tree_level = 2
-                                st.rerun()
-                    
-                    if st.button("⬅️ Back", key="back_wt_l1"):
-                        st.session_state.word_tree_path = st.session_state.word_tree_path[:-1]
-                        st.rerun()
-                
-                elif level == 2:
-                    # Show L3 categories
-                    st.markdown(f"**📄 L3 Categories under '{st.session_state.word_tree_path[1]}'**")
-                    category_counts = filtered_df.groupby('L3_Tertiary').size().reset_index(name='count')
-                    category_counts = category_counts.sort_values('count', ascending=False)
-                    
-                    # Similar visualization for L3
-                    G = nx.DiGraph()
-                    pos = {}
-                    
-                    pos['ROOT'] = (0, 0)
-                    pos[st.session_state.word_tree_path[0]] = (2, 0)
-                    pos[st.session_state.word_tree_path[1]] = (4, 0)
-                    G.add_node('ROOT')
-                    G.add_node(st.session_state.word_tree_path[0])
-                    G.add_node(st.session_state.word_tree_path[1])
-                    G.add_edge('ROOT', st.session_state.word_tree_path[0])
-                    G.add_edge(st.session_state.word_tree_path[0], st.session_state.word_tree_path[1])
-                    
-                    for idx, row in enumerate(category_counts.iterrows()):
-                        _, data = row
-                        cat = data['L3_Tertiary']
-                        count = data['count']
-                        pos[cat] = (6, idx * 2 - len(category_counts))
-                        G.add_node(cat, count=count)
-                        G.add_edge(st.session_state.word_tree_path[1], cat)
-                    
-                    edge_x, edge_y = [], []
-                    for edge in G.edges():
-                        x0, y0 = pos[edge[0]]
-                        x1, y1 = pos[edge[1]]
-                        edge_x.extend([x0, x1, None])
-                        edge_y.extend([y0, y1, None])
-                    
-                    edge_trace = go.Scatter(x=edge_x, y=edge_y, line=dict(width=2, color='#888'),
-                                           hoverinfo='none', mode='lines')
-                    
-                    node_x, node_y, node_text, node_color, node_size = [], [], [], [], []
-                    for node in G.nodes():
-                        x, y = pos[node]
-                        node_x.append(x)
-                        node_y.append(y)
-                        if node == 'ROOT':
-                            node_text.append('ROOT')
-                            node_color.append('#333')
-                            node_size.append(20)
-                        elif node in st.session_state.word_tree_path[:2]:
-                            node_text.append(node)
-                            node_color.append('#1f77b4' if node == st.session_state.word_tree_path[0] else '#2ca02c')
-                            node_size.append(25)
-                        else:
-                            count = G.nodes[node]['count']
-                            node_text.append(f"{node}<br>({count:,})")
-                            node_color.append('#ff7f0e')
-                            node_size.append(min(40, 15 + count/200))
-                    
-                    node_trace = go.Scatter(x=node_x, y=node_y, mode='markers+text',
-                                           hoverinfo='text', text=node_text, textposition="middle right",
-                                           textfont=dict(size=9, color='black'),
-                                           marker=dict(color=node_color, size=node_size,
-                                                      line=dict(width=2, color='white')))
-                    
-                    fig = go.Figure(data=[edge_trace, node_trace],
-                                   layout=go.Layout(showlegend=False, hovermode='closest',
-                                                   margin=dict(b=20,l=5,r=5,t=40),
-                                                   xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                                                   yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                                                   height=400, plot_bgcolor='white'))
-                    st.plotly_chart(fig, width='stretch')
-                    
-                    cols = st.columns(min(3, len(category_counts)))
-                    for idx in range(len(category_counts)):
-                        row = category_counts.iloc[idx]
-                        with cols[idx % 3]:
-                            if st.button(f"📄 {row['L3_Tertiary']}\n({row['count']:,})", key=f"wt_l3_{idx}"):
-                                st.session_state.word_tree_path.append(row['L3_Tertiary'])
-                                st.session_state.word_tree_level = 3
-                                st.rerun()
-                    
-                    if st.button("⬅️ Back", key="back_wt_l2"):
-                        st.session_state.word_tree_path = st.session_state.word_tree_path[:-1]
-                        st.rerun()
-                
-                elif level == 3:
-                    # Show L4 categories
-                    st.markdown(f"**🔖 L4 Categories under '{st.session_state.word_tree_path[2]}'**")
-                    category_counts = filtered_df.groupby('L4_Quaternary').size().reset_index(name='count')
-                    category_counts = category_counts.sort_values('count', ascending=False)
-                    
-                    # Full path visualization
-                    G = nx.DiGraph()
-                    pos = {}
-                    
-                    pos['ROOT'] = (0, 0)
-                    pos[st.session_state.word_tree_path[0]] = (2, 0)
-                    pos[st.session_state.word_tree_path[1]] = (4, 0)
-                    pos[st.session_state.word_tree_path[2]] = (6, 0)
-                    G.add_node('ROOT')
-                    for i, cat in enumerate(st.session_state.word_tree_path[:3]):
-                        G.add_node(cat)
-                        if i == 0:
-                            G.add_edge('ROOT', cat)
-                        else:
-                            G.add_edge(st.session_state.word_tree_path[i-1], cat)
-                    
-                    for idx, row in enumerate(category_counts.iterrows()):
-                        _, data = row
-                        cat = data['L4_Quaternary']
-                        count = data['count']
-                        pos[cat] = (8, idx * 2 - len(category_counts))
-                        G.add_node(cat, count=count)
-                        G.add_edge(st.session_state.word_tree_path[2], cat)
-                    
-                    edge_x, edge_y = [], []
-                    for edge in G.edges():
-                        x0, y0 = pos[edge[0]]
-                        x1, y1 = pos[edge[1]]
-                        edge_x.extend([x0, x1, None])
-                        edge_y.extend([y0, y1, None])
-                    
-                    edge_trace = go.Scatter(x=edge_x, y=edge_y, line=dict(width=2, color='#888'),
-                                           hoverinfo='none', mode='lines')
-                    
-                    node_x, node_y, node_text, node_color, node_size = [], [], [], [], []
-                    colors_path = ['#1f77b4', '#2ca02c', '#ff7f0e']
-                    for node in G.nodes():
-                        x, y = pos[node]
-                        node_x.append(x)
-                        node_y.append(y)
-                        if node == 'ROOT':
-                            node_text.append('ROOT')
-                            node_color.append('#333')
-                            node_size.append(20)
-                        elif node in st.session_state.word_tree_path[:3]:
-                            node_text.append(node)
-                            idx = st.session_state.word_tree_path.index(node)
-                            node_color.append(colors_path[idx])
-                            node_size.append(25)
-                        else:
-                            count = G.nodes[node]['count']
-                            node_text.append(f"{node}<br>({count:,})")
-                            node_color.append('#d62728')
-                            node_size.append(min(40, 15 + count/200))
-                    
-                    node_trace = go.Scatter(x=node_x, y=node_y, mode='markers+text',
-                                           hoverinfo='text', text=node_text, textposition="middle right",
-                                           textfont=dict(size=9, color='black'),
-                                           marker=dict(color=node_color, size=node_size,
-                                                      line=dict(width=2, color='white')))
-                    
-                    fig = go.Figure(data=[edge_trace, node_trace],
-                                   layout=go.Layout(showlegend=False, hovermode='closest',
-                                                   margin=dict(b=20,l=5,r=5,t=40),
-                                                   xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                                                   yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                                                   height=400, plot_bgcolor='white'))
-                    st.plotly_chart(fig, width='stretch')
-                    
-                    # Show sample records
-                    st.markdown(f"**📝 Sample Records ({len(filtered_df):,} total)**")
-                    st.dataframe(filtered_df[['Text', 'L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']].head(10),
-                                width='stretch', hide_index=True)
-                    
-                    if st.button("⬅️ Back", key="back_wt_l3"):
-                        st.session_state.word_tree_path = st.session_state.word_tree_path[:-1]
-                        st.rerun()
-                
-                # Legend
-                st.markdown("""
-                **Color Legend:**
-                - ⚫ Black = ROOT
-                - 🔵 Blue = L1 Category
-                - 🟢 Green = L2 Subcategory
-                - 🟠 Orange = L3 Tertiary
-                - 🔴 Red = L4 Quaternary
-                """)
-                
-                st.markdown("---")
+                # Hierarchical Category View (Full Width)
+                st.markdown("#### 🌍 Hierarchical Category View")
+                fig_sun = AdvancedVisualizer.create_sunburst_chart(output_df)
+                if fig_sun:
+                    st.plotly_chart(fig_sun, width='stretch')
+                else:
+                    st.info("Not enough data for hierarchical view.")
                 
                 # Bar Chart - L1 Category Distribution
                 st.markdown("#### 📊 L1 Category Distribution")
