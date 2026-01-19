@@ -55,9 +55,8 @@ import spacy
 # Visualization Libraries
 import plotly.express as px
 import plotly.graph_objects as go
-
-# Word Tree Visualizer
-from word_tree_visualizer import WordTreeVisualizer
+import networkx as nx
+from collections import Counter
 
 # ========================================================================================
 # CONFIGURATION & CONSTANTS - ULTRA-OPTIMIZED
@@ -909,6 +908,281 @@ class VectorizedProximityAnalyzer:
         
         return pl.DataFrame(results)
 
+
+
+
+
+
+# ========================================================================================
+# WORD TREE VISUALIZER - PHRASE PATTERN ANALYSIS
+# ========================================================================================
+
+class WordTreeVisualizer:
+    """
+    Creates word tree visualizations showing how phrases continue from a root word/phrase.
+    Similar to Google's Word Tree visualization.
+    """
+    
+    def __init__(self, max_depth: int = 3, min_frequency: int = 2):
+        """
+        Initialize the word tree visualizer.
+        
+        Args:
+            max_depth: Maximum depth of the tree (how many words to follow)
+            min_frequency: Minimum frequency for a phrase to be included
+        """
+        self.max_depth = max_depth
+        self.min_frequency = min_frequency
+    
+    def _clean_text(self, text: str) -> str:
+        """Clean and normalize text"""
+        if not isinstance(text, str):
+            return ""
+        text = re.sub(r'\s+', ' ', text)
+        return text.strip().lower()
+    
+    def _extract_phrases(self, texts: List[str], root_phrase: str, direction: str = 'forward') -> Dict[str, int]:
+        """Extract phrases that continue from the root phrase"""
+        root_phrase = self._clean_text(root_phrase)
+        phrase_counts = {}
+        
+        for text in texts:
+            text = self._clean_text(text)
+            if not text or root_phrase not in text:
+                continue
+            
+            if direction == 'forward':
+                parts = text.split(root_phrase)
+                for i in range(len(parts) - 1):
+                    continuation = parts[i + 1].strip()
+                    if continuation:
+                        words = continuation.split()[:self.max_depth]
+                        for j in range(1, len(words) + 1):
+                            phrase = ' '.join(words[:j])
+                            phrase_counts[phrase] = phrase_counts.get(phrase, 0) + 1
+            else:  # backward
+                parts = text.split(root_phrase)
+                for i in range(1, len(parts)):
+                    preceding = parts[i - 1].strip()
+                    if preceding:
+                        words = preceding.split()[-self.max_depth:]
+                        for j in range(len(words), 0, -1):
+                            phrase = ' '.join(words[j-1:])
+                            phrase_counts[phrase] = phrase_counts.get(phrase, 0) + 1
+        
+        return {phrase: count for phrase, count in phrase_counts.items() 
+                if count >= self.min_frequency}
+    
+    def _build_tree_structure(self, phrase_counts: Dict[str, int]) -> Tuple[List[str], List[str], List[int]]:
+        """Build hierarchical tree structure from phrase counts"""
+        sorted_phrases = sorted(phrase_counts.items(), key=lambda x: (len(x[0].split()), -x[1]))
+        
+        labels = ["ROOT"]
+        parents = [""]
+        values = [sum(phrase_counts.values())]
+        
+        phrase_to_label = {}
+        
+        for phrase, count in sorted_phrases:
+            words = phrase.split()
+            
+            if len(words) == 1:
+                parent = "ROOT"
+            else:
+                parent_phrase = ' '.join(words[:-1])
+                parent = phrase_to_label.get(parent_phrase, "ROOT")
+            
+            labels.append(phrase)
+            parents.append(parent)
+            values.append(count)
+            phrase_to_label[phrase] = phrase
+        
+        return labels, parents, values
+    
+    def create_word_tree_plotly(
+        self, 
+        df: pd.DataFrame, 
+        text_column: str, 
+        root_phrase: str,
+        direction: str = 'forward',
+        title: str = None
+    ) -> go.Figure:
+        """Create an interactive word tree visualization using Plotly treemap"""
+        texts = df[text_column].astype(str).tolist()
+        phrase_counts = self._extract_phrases(texts, root_phrase, direction)
+        
+        if not phrase_counts:
+            fig = go.Figure()
+            fig.add_annotation(
+                text=f"No phrases found starting with '{root_phrase}'",
+                xref="paper", yref="paper",
+                x=0.5, y=0.5, showarrow=False,
+                font=dict(size=16)
+            )
+            return fig
+        
+        labels, parents, values = self._build_tree_structure(phrase_counts)
+        
+        fig = go.Figure(go.Treemap(
+            labels=labels,
+            parents=parents,
+            values=values,
+            textinfo="label+value",
+            marker=dict(
+                colorscale='Blues',
+                cmid=sum(values) / len(values)
+            ),
+            hovertemplate='<b>%{label}</b><br>Count: %{value}<extra></extra>'
+        ))
+        
+        if title is None:
+            direction_text = "after" if direction == 'forward' else "before"
+            title = f"<b>Word Tree: Phrases {direction_text} '{root_phrase}'</b>"
+        
+        fig.update_layout(
+            title=title,
+            height=600,
+            margin=dict(t=50, l=0, r=0, b=0)
+        )
+        
+        return fig
+    
+    def create_word_tree_network(
+        self,
+        df: pd.DataFrame,
+        text_column: str,
+        root_phrase: str,
+        direction: str = 'forward',
+        title: str = None
+    ) -> go.Figure:
+        """Create a network-style word tree visualization"""
+        texts = df[text_column].astype(str).tolist()
+        phrase_counts = self._extract_phrases(texts, root_phrase, direction)
+        
+        if not phrase_counts:
+            fig = go.Figure()
+            fig.add_annotation(
+                text=f"No phrases found starting with '{root_phrase}'",
+                xref="paper", yref="paper",
+                x=0.5, y=0.5, showarrow=False,
+                font=dict(size=16)
+            )
+            return fig
+        
+        # Build network graph
+        G = nx.DiGraph()
+        G.add_node("ROOT", label=root_phrase, count=sum(phrase_counts.values()))
+        
+        phrase_to_node = {}
+        for phrase, count in phrase_counts.items():
+            words = phrase.split()
+            
+            if len(words) == 1:
+                parent = "ROOT"
+            else:
+                parent_phrase = ' '.join(words[:-1])
+                parent = phrase_to_node.get(parent_phrase, "ROOT")
+            
+            node_id = phrase
+            G.add_node(node_id, label=words[-1], count=count)
+            G.add_edge(parent, node_id, weight=count)
+            phrase_to_node[phrase] = node_id
+        
+        # Calculate layout
+        pos = nx.spring_layout(G, k=2, iterations=50)
+        
+        # Create edge traces
+        edge_x = []
+        edge_y = []
+        for edge in G.edges():
+            x0, y0 = pos[edge[0]]
+            x1, y1 = pos[edge[1]]
+            edge_x.extend([x0, x1, None])
+            edge_y.extend([y0, y1, None])
+        
+        edge_trace = go.Scatter(
+            x=edge_x, y=edge_y,
+            line=dict(width=0.5, color='#888'),
+            hoverinfo='none',
+            mode='lines'
+        )
+        
+        # Create node traces
+        node_x = []
+        node_y = []
+        node_text = []
+        node_size = []
+        node_color = []
+        
+        for node in G.nodes():
+            x, y = pos[node]
+            node_x.append(x)
+            node_y.append(y)
+            
+            label = G.nodes[node]['label']
+            count = G.nodes[node]['count']
+            
+            node_text.append(f"{label}<br>Count: {count}")
+            node_size.append(min(count * 5 + 20, 100))
+            node_color.append(count)
+        
+        node_trace = go.Scatter(
+            x=node_x, y=node_y,
+            mode='markers+text',
+            text=[G.nodes[node]['label'] for node in G.nodes()],
+            textposition="top center",
+            hovertext=node_text,
+            hoverinfo='text',
+            marker=dict(
+                size=node_size,
+                color=node_color,
+                colorscale='YlOrRd',
+                showscale=True,
+                colorbar=dict(
+                    title="Frequency",
+                    thickness=15,
+                    len=0.7
+                ),
+                line=dict(width=2, color='white')
+            )
+        )
+        
+        fig = go.Figure(data=[edge_trace, node_trace])
+        
+        if title is None:
+            direction_text = "after" if direction == 'forward' else "before"
+            title = f"<b>Word Tree: Phrases {direction_text} '{root_phrase}'</b>"
+        
+        fig.update_layout(
+            title=title,
+            showlegend=False,
+            hovermode='closest',
+            height=700,
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            plot_bgcolor='white'
+        )
+        
+        return fig
+    
+    def get_common_phrases(self, df: pd.DataFrame, text_column: str, top_n: int = 10) -> List[str]:
+        """Get the most common starting phrases to use as root phrases"""
+        texts = df[text_column].astype(str).tolist()
+        phrase_counts = Counter()
+        
+        for text in texts:
+            text = self._clean_text(text)
+            if not text:
+                continue
+            
+            words = text.split()
+            
+            if len(words) >= 1:
+                phrase_counts[words[0]] += 1
+            if len(words) >= 2:
+                phrase_counts[' '.join(words[:2])] += 1
+        
+        return [phrase for phrase, _ in phrase_counts.most_common(top_n)]
 
 
 # ========================================================================================
