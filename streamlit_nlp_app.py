@@ -1617,7 +1617,7 @@ def main():
                 st.markdown("### 📈 Overview")
                 
                 # Interactive Drill-Down Tree
-                st.markdown("#### 🌳 Interactive Category Tree (Click to Drill Down)")
+                st.markdown("#### 🌳 Word Tree (Click to Drill Down)")
                 
                 # Initialize session state for drill-down
                 if 'tree_level' not in st.session_state:
