@@ -1616,193 +1616,364 @@ def main():
                 # Overview tab only
                 st.markdown("### 📈 Overview")
                 
-                # Interactive Drill-Down Tree
-                st.markdown("#### 🌳 Word Tree (Click to Drill Down)")
+                # Interactive Word Tree
+                st.markdown("#### 🌳 Word Tree")
                 
-                # Initialize session state for drill-down
-                if 'tree_level' not in st.session_state:
-                    st.session_state.tree_level = 'L1'
-                if 'selected_l1' not in st.session_state:
-                    st.session_state.selected_l1 = None
-                if 'selected_l2' not in st.session_state:
-                    st.session_state.selected_l2 = None
-                if 'selected_l3' not in st.session_state:
-                    st.session_state.selected_l3 = None
-                
-                # Breadcrumb navigation
-                breadcrumb_parts = ["🏠 All Categories"]
-                if st.session_state.selected_l1:
-                    breadcrumb_parts.append(f"→ {st.session_state.selected_l1}")
-                if st.session_state.selected_l2:
-                    breadcrumb_parts.append(f"→ {st.session_state.selected_l2}")
-                if st.session_state.selected_l3:
-                    breadcrumb_parts.append(f"→ {st.session_state.selected_l3}")
-                
-                st.markdown(f"**Navigation:** {' '.join(breadcrumb_parts)}")
+                # Initialize session state
+                if 'word_tree_path' not in st.session_state:
+                    st.session_state.word_tree_path = []
+                if 'word_tree_level' not in st.session_state:
+                    st.session_state.word_tree_level = 0
                 
                 # Reset button
-                col_reset, col_space = st.columns([1, 5])
-                with col_reset:
-                    if st.button("🔄 Reset to L1", key="reset_tree"):
-                        st.session_state.tree_level = 'L1'
-                        st.session_state.selected_l1 = None
-                        st.session_state.selected_l2 = None
-                        st.session_state.selected_l3 = None
-                        st.rerun()
+                if st.button("🔄 Reset to ROOT", key="reset_word_tree"):
+                    st.session_state.word_tree_path = []
+                    st.session_state.word_tree_level = 0
+                    st.rerun()
                 
-                # Create drill-down visualization based on current level
-                if st.session_state.tree_level == 'L1':
+                # Filter data based on current path
+                filtered_df = output_df.copy()
+                if len(st.session_state.word_tree_path) >= 1:
+                    filtered_df = filtered_df[filtered_df['L1_Category'] == st.session_state.word_tree_path[0]]
+                if len(st.session_state.word_tree_path) >= 2:
+                    filtered_df = filtered_df[filtered_df['L2_Subcategory'] == st.session_state.word_tree_path[1]]
+                if len(st.session_state.word_tree_path) >= 3:
+                    filtered_df = filtered_df[filtered_df['L3_Tertiary'] == st.session_state.word_tree_path[2]]
+                if len(st.session_state.word_tree_path) >= 4:
+                    filtered_df = filtered_df[filtered_df['L4_Quaternary'] == st.session_state.word_tree_path[3]]
+                
+                # Determine what to show based on level
+                level = len(st.session_state.word_tree_path)
+                
+                if level == 0:
                     # Show L1 categories
-                    l1_data = output_df.groupby('L1_Category').size().reset_index(name='Count')
-                    l1_data = l1_data.sort_values('Count', ascending=False)
+                    st.markdown("**📂 L1 Categories** (Click to expand)")
+                    category_counts = filtered_df.groupby('L1_Category').size().reset_index(name='count')
+                    category_counts = category_counts.sort_values('count', ascending=False)
                     
-                    fig_tree = px.treemap(
-                        l1_data,
-                        path=['L1_Category'],
-                        values='Count',
-                        title='L1 Categories (Click to Drill Down)',
-                        color='Count',
-                        color_continuous_scale='Blues',
-                        hover_data={'Count': ':,'}
-                    )
-                    fig_tree.update_traces(
-                        textinfo='label+value',
-                        textfont_size=14,
-                        marker=dict(line=dict(width=2, color='white'))
-                    )
-                    fig_tree.update_layout(height=500)
-                    st.plotly_chart(fig_tree, width='stretch', key='tree_l1')
+                    # Create network-style visualization
+                    import networkx as nx
                     
-                    # Selection buttons
-                    st.markdown("**Select a category to drill down:**")
-                    cols = st.columns(min(4, len(l1_data)))
-                    for idx, (_, row) in enumerate(l1_data.iterrows()):
-                        with cols[idx % 4]:
-                            if st.button(f"📂 {row['L1_Category']}\n({row['Count']:,})", key=f"l1_{idx}"):
-                                st.session_state.selected_l1 = row['L1_Category']
-                                st.session_state.tree_level = 'L2'
+                    G = nx.DiGraph()
+                    pos = {}
+                    
+                    # Root
+                    pos['ROOT'] = (0, 0)
+                    G.add_node('ROOT')
+                    
+                    # L1 nodes
+                    for idx, row in enumerate(category_counts.iterrows()):
+                        _, data = row
+                        cat = data['L1_Category']
+                        count = data['count']
+                        pos[cat] = (2, idx * 2 - len(category_counts))
+                        G.add_node(cat, count=count)
+                        G.add_edge('ROOT', cat)
+                    
+                    # Draw
+                    edge_x, edge_y = [], []
+                    for edge in G.edges():
+                        x0, y0 = pos[edge[0]]
+                        x1, y1 = pos[edge[1]]
+                        edge_x.extend([x0, x1, None])
+                        edge_y.extend([y0, y1, None])
+                    
+                    edge_trace = go.Scatter(x=edge_x, y=edge_y, line=dict(width=2, color='#888'),
+                                           hoverinfo='none', mode='lines')
+                    
+                    node_x, node_y, node_text, node_color, node_size = [], [], [], [], []
+                    for node in G.nodes():
+                        x, y = pos[node]
+                        node_x.append(x)
+                        node_y.append(y)
+                        if node == 'ROOT':
+                            node_text.append('ROOT')
+                            node_color.append('#333')
+                            node_size.append(30)
+                        else:
+                            count = G.nodes[node]['count']
+                            node_text.append(f"{node}<br>({count:,})")
+                            node_color.append('#1f77b4')
+                            node_size.append(min(40, 15 + count/200))
+                    
+                    node_trace = go.Scatter(x=node_x, y=node_y, mode='markers+text',
+                                           hoverinfo='text', text=node_text, textposition="middle right",
+                                           textfont=dict(size=11, color='black'),
+                                           marker=dict(color=node_color, size=node_size, 
+                                                      line=dict(width=2, color='white')))
+                    
+                    fig = go.Figure(data=[edge_trace, node_trace],
+                                   layout=go.Layout(showlegend=False, hovermode='closest',
+                                                   margin=dict(b=20,l=5,r=5,t=40),
+                                                   xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                                                   yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                                                   height=400, plot_bgcolor='white'))
+                    st.plotly_chart(fig, width='stretch')
+                    
+                    # Click buttons
+                    st.markdown("**Click a category to expand:**")
+                    cols = st.columns(min(3, len(category_counts)))
+                    for idx, (_, row) in enumerate(category_counts.iterrows()):
+                        with cols[idx % 3]:
+                            if st.button(f"📂 {row['L1_Category']}\n({row['count']:,})", key=f"wt_l1_{idx}"):
+                                st.session_state.word_tree_path = [row['L1_Category']]
+                                st.session_state.word_tree_level = 1
                                 st.rerun()
                 
-                elif st.session_state.tree_level == 'L2':
-                    # Show L2 categories for selected L1
-                    filtered_df = output_df[output_df['L1_Category'] == st.session_state.selected_l1]
-                    l2_data = filtered_df.groupby(['L1_Category', 'L2_Subcategory']).size().reset_index(name='Count')
-                    l2_data = l2_data.sort_values('Count', ascending=False)
+                elif level == 1:
+                    # Show L2 categories
+                    st.markdown(f"**📁 L2 Subcategories under '{st.session_state.word_tree_path[0]}'**")
+                    category_counts = filtered_df.groupby('L2_Subcategory').size().reset_index(name='count')
+                    category_counts = category_counts.sort_values('count', ascending=False)
                     
-                    fig_tree = px.treemap(
-                        l2_data,
-                        path=['L1_Category', 'L2_Subcategory'],
-                        values='Count',
-                        title=f'L2 Subcategories under "{st.session_state.selected_l1}" (Click to Drill Down)',
-                        color='Count',
-                        color_continuous_scale='Greens',
-                        hover_data={'Count': ':,'}
-                    )
-                    fig_tree.update_traces(
-                        textinfo='label+value',
-                        textfont_size=13,
-                        marker=dict(line=dict(width=2, color='white'))
-                    )
-                    fig_tree.update_layout(height=500)
-                    st.plotly_chart(fig_tree, width='stretch', key='tree_l2')
+                    # Visualization
+                    G = nx.DiGraph()
+                    pos = {}
                     
-                    # Selection buttons
-                    st.markdown("**Select a subcategory to drill down:**")
-                    cols = st.columns(min(4, len(l2_data)))
-                    for idx, (_, row) in enumerate(l2_data.iterrows()):
-                        with cols[idx % 4]:
-                            if st.button(f"📁 {row['L2_Subcategory']}\n({row['Count']:,})", key=f"l2_{idx}"):
-                                st.session_state.selected_l2 = row['L2_Subcategory']
-                                st.session_state.tree_level = 'L3'
+                    pos['ROOT'] = (0, 0)
+                    pos[st.session_state.word_tree_path[0]] = (2, 0)
+                    G.add_node('ROOT')
+                    G.add_node(st.session_state.word_tree_path[0])
+                    G.add_edge('ROOT', st.session_state.word_tree_path[0])
+                    
+                    for idx, row in enumerate(category_counts.iterrows()):
+                        _, data = row
+                        cat = data['L2_Subcategory']
+                        count = data['count']
+                        pos[cat] = (4, idx * 2 - len(category_counts))
+                        G.add_node(cat, count=count)
+                        G.add_edge(st.session_state.word_tree_path[0], cat)
+                    
+                    edge_x, edge_y = [], []
+                    for edge in G.edges():
+                        x0, y0 = pos[edge[0]]
+                        x1, y1 = pos[edge[1]]
+                        edge_x.extend([x0, x1, None])
+                        edge_y.extend([y0, y1, None])
+                    
+                    edge_trace = go.Scatter(x=edge_x, y=edge_y, line=dict(width=2, color='#888'),
+                                           hoverinfo='none', mode='lines')
+                    
+                    node_x, node_y, node_text, node_color, node_size = [], [], [], [], []
+                    for node in G.nodes():
+                        x, y = pos[node]
+                        node_x.append(x)
+                        node_y.append(y)
+                        if node == 'ROOT':
+                            node_text.append('ROOT')
+                            node_color.append('#333')
+                            node_size.append(25)
+                        elif node == st.session_state.word_tree_path[0]:
+                            node_text.append(node)
+                            node_color.append('#1f77b4')
+                            node_size.append(30)
+                        else:
+                            count = G.nodes[node]['count']
+                            node_text.append(f"{node}<br>({count:,})")
+                            node_color.append('#2ca02c')
+                            node_size.append(min(40, 15 + count/200))
+                    
+                    node_trace = go.Scatter(x=node_x, y=node_y, mode='markers+text',
+                                           hoverinfo='text', text=node_text, textposition="middle right",
+                                           textfont=dict(size=10, color='black'),
+                                           marker=dict(color=node_color, size=node_size,
+                                                      line=dict(width=2, color='white')))
+                    
+                    fig = go.Figure(data=[edge_trace, node_trace],
+                                   layout=go.Layout(showlegend=False, hovermode='closest',
+                                                   margin=dict(b=20,l=5,r=5,t=40),
+                                                   xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                                                   yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                                                   height=400, plot_bgcolor='white'))
+                    st.plotly_chart(fig, width='stretch')
+                    
+                    cols = st.columns(min(3, len(category_counts)))
+                    for idx, (_, row) in enumerate(category_counts.iterrows()):
+                        with cols[idx % 3]:
+                            if st.button(f"📁 {row['L2_Subcategory']}\n({row['count']:,})", key=f"wt_l2_{idx}"):
+                                st.session_state.word_tree_path.append(row['L2_Subcategory'])
+                                st.session_state.word_tree_level = 2
                                 st.rerun()
                     
-                    # Back button
-                    if st.button("⬅️ Back to L1", key="back_to_l1"):
-                        st.session_state.tree_level = 'L1'
-                        st.session_state.selected_l2 = None
+                    if st.button("⬅️ Back", key="back_wt_l1"):
+                        st.session_state.word_tree_path = st.session_state.word_tree_path[:-1]
                         st.rerun()
                 
-                elif st.session_state.tree_level == 'L3':
-                    # Show L3 categories for selected L1 and L2
-                    filtered_df = output_df[
-                        (output_df['L1_Category'] == st.session_state.selected_l1) &
-                        (output_df['L2_Subcategory'] == st.session_state.selected_l2)
-                    ]
-                    l3_data = filtered_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary']).size().reset_index(name='Count')
-                    l3_data = l3_data.sort_values('Count', ascending=False)
+                elif level == 2:
+                    # Show L3 categories
+                    st.markdown(f"**📄 L3 Categories under '{st.session_state.word_tree_path[1]}'**")
+                    category_counts = filtered_df.groupby('L3_Tertiary').size().reset_index(name='count')
+                    category_counts = category_counts.sort_values('count', ascending=False)
                     
-                    fig_tree = px.treemap(
-                        l3_data,
-                        path=['L1_Category', 'L2_Subcategory', 'L3_Tertiary'],
-                        values='Count',
-                        title=f'L3 Categories under "{st.session_state.selected_l2}" (Click to Drill Down)',
-                        color='Count',
-                        color_continuous_scale='Oranges',
-                        hover_data={'Count': ':,'}
-                    )
-                    fig_tree.update_traces(
-                        textinfo='label+value',
-                        textfont_size=12,
-                        marker=dict(line=dict(width=2, color='white'))
-                    )
-                    fig_tree.update_layout(height=500)
-                    st.plotly_chart(fig_tree, width='stretch', key='tree_l3')
+                    # Similar visualization for L3
+                    G = nx.DiGraph()
+                    pos = {}
                     
-                    # Selection buttons
-                    st.markdown("**Select a category to drill down to L4:**")
-                    cols = st.columns(min(4, len(l3_data)))
-                    for idx, (_, row) in enumerate(l3_data.iterrows()):
-                        with cols[idx % 4]:
-                            if st.button(f"📄 {row['L3_Tertiary']}\n({row['Count']:,})", key=f"l3_{idx}"):
-                                st.session_state.selected_l3 = row['L3_Tertiary']
-                                st.session_state.tree_level = 'L4'
+                    pos['ROOT'] = (0, 0)
+                    pos[st.session_state.word_tree_path[0]] = (2, 0)
+                    pos[st.session_state.word_tree_path[1]] = (4, 0)
+                    G.add_node('ROOT')
+                    G.add_node(st.session_state.word_tree_path[0])
+                    G.add_node(st.session_state.word_tree_path[1])
+                    G.add_edge('ROOT', st.session_state.word_tree_path[0])
+                    G.add_edge(st.session_state.word_tree_path[0], st.session_state.word_tree_path[1])
+                    
+                    for idx, row in enumerate(category_counts.iterrows()):
+                        _, data = row
+                        cat = data['L3_Tertiary']
+                        count = data['count']
+                        pos[cat] = (6, idx * 2 - len(category_counts))
+                        G.add_node(cat, count=count)
+                        G.add_edge(st.session_state.word_tree_path[1], cat)
+                    
+                    edge_x, edge_y = [], []
+                    for edge in G.edges():
+                        x0, y0 = pos[edge[0]]
+                        x1, y1 = pos[edge[1]]
+                        edge_x.extend([x0, x1, None])
+                        edge_y.extend([y0, y1, None])
+                    
+                    edge_trace = go.Scatter(x=edge_x, y=edge_y, line=dict(width=2, color='#888'),
+                                           hoverinfo='none', mode='lines')
+                    
+                    node_x, node_y, node_text, node_color, node_size = [], [], [], [], []
+                    for node in G.nodes():
+                        x, y = pos[node]
+                        node_x.append(x)
+                        node_y.append(y)
+                        if node == 'ROOT':
+                            node_text.append('ROOT')
+                            node_color.append('#333')
+                            node_size.append(20)
+                        elif node in st.session_state.word_tree_path[:2]:
+                            node_text.append(node)
+                            node_color.append('#1f77b4' if node == st.session_state.word_tree_path[0] else '#2ca02c')
+                            node_size.append(25)
+                        else:
+                            count = G.nodes[node]['count']
+                            node_text.append(f"{node}<br>({count:,})")
+                            node_color.append('#ff7f0e')
+                            node_size.append(min(40, 15 + count/200))
+                    
+                    node_trace = go.Scatter(x=node_x, y=node_y, mode='markers+text',
+                                           hoverinfo='text', text=node_text, textposition="middle right",
+                                           textfont=dict(size=9, color='black'),
+                                           marker=dict(color=node_color, size=node_size,
+                                                      line=dict(width=2, color='white')))
+                    
+                    fig = go.Figure(data=[edge_trace, node_trace],
+                                   layout=go.Layout(showlegend=False, hovermode='closest',
+                                                   margin=dict(b=20,l=5,r=5,t=40),
+                                                   xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                                                   yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                                                   height=400, plot_bgcolor='white'))
+                    st.plotly_chart(fig, width='stretch')
+                    
+                    cols = st.columns(min(3, len(category_counts)))
+                    for idx, (_, row) in enumerate(category_counts.iterrows()):
+                        with cols[idx % 3]:
+                            if st.button(f"📄 {row['L3_Tertiary']}\n({row['count']:,})", key=f"wt_l3_{idx}"):
+                                st.session_state.word_tree_path.append(row['L3_Tertiary'])
+                                st.session_state.word_tree_level = 3
                                 st.rerun()
                     
-                    # Back button
-                    if st.button("⬅️ Back to L2", key="back_to_l2"):
-                        st.session_state.tree_level = 'L2'
-                        st.session_state.selected_l3 = None
+                    if st.button("⬅️ Back", key="back_wt_l2"):
+                        st.session_state.word_tree_path = st.session_state.word_tree_path[:-1]
                         st.rerun()
                 
-                elif st.session_state.tree_level == 'L4':
-                    # Show L4 categories and actual records
-                    filtered_df = output_df[
-                        (output_df['L1_Category'] == st.session_state.selected_l1) &
-                        (output_df['L2_Subcategory'] == st.session_state.selected_l2) &
-                        (output_df['L3_Tertiary'] == st.session_state.selected_l3)
-                    ]
-                    l4_data = filtered_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().reset_index(name='Count')
-                    l4_data = l4_data.sort_values('Count', ascending=False)
+                elif level == 3:
+                    # Show L4 categories
+                    st.markdown(f"**🔖 L4 Categories under '{st.session_state.word_tree_path[2]}'**")
+                    category_counts = filtered_df.groupby('L4_Quaternary').size().reset_index(name='count')
+                    category_counts = category_counts.sort_values('count', ascending=False)
                     
-                    fig_tree = px.treemap(
-                        l4_data,
-                        path=['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary'],
-                        values='Count',
-                        title=f'L4 Categories under "{st.session_state.selected_l3}"',
-                        color='Count',
-                        color_continuous_scale='Reds',
-                        hover_data={'Count': ':,'}
-                    )
-                    fig_tree.update_traces(
-                        textinfo='label+value',
-                        textfont_size=11,
-                        marker=dict(line=dict(width=2, color='white'))
-                    )
-                    fig_tree.update_layout(height=500)
-                    st.plotly_chart(fig_tree, width='stretch', key='tree_l4')
+                    # Full path visualization
+                    G = nx.DiGraph()
+                    pos = {}
                     
-                    # Show actual records
+                    pos['ROOT'] = (0, 0)
+                    pos[st.session_state.word_tree_path[0]] = (2, 0)
+                    pos[st.session_state.word_tree_path[1]] = (4, 0)
+                    pos[st.session_state.word_tree_path[2]] = (6, 0)
+                    G.add_node('ROOT')
+                    for i, cat in enumerate(st.session_state.word_tree_path[:3]):
+                        G.add_node(cat)
+                        if i == 0:
+                            G.add_edge('ROOT', cat)
+                        else:
+                            G.add_edge(st.session_state.word_tree_path[i-1], cat)
+                    
+                    for idx, row in enumerate(category_counts.iterrows()):
+                        _, data = row
+                        cat = data['L4_Quaternary']
+                        count = data['count']
+                        pos[cat] = (8, idx * 2 - len(category_counts))
+                        G.add_node(cat, count=count)
+                        G.add_edge(st.session_state.word_tree_path[2], cat)
+                    
+                    edge_x, edge_y = [], []
+                    for edge in G.edges():
+                        x0, y0 = pos[edge[0]]
+                        x1, y1 = pos[edge[1]]
+                        edge_x.extend([x0, x1, None])
+                        edge_y.extend([y0, y1, None])
+                    
+                    edge_trace = go.Scatter(x=edge_x, y=edge_y, line=dict(width=2, color='#888'),
+                                           hoverinfo='none', mode='lines')
+                    
+                    node_x, node_y, node_text, node_color, node_size = [], [], [], [], []
+                    colors_path = ['#1f77b4', '#2ca02c', '#ff7f0e']
+                    for node in G.nodes():
+                        x, y = pos[node]
+                        node_x.append(x)
+                        node_y.append(y)
+                        if node == 'ROOT':
+                            node_text.append('ROOT')
+                            node_color.append('#333')
+                            node_size.append(20)
+                        elif node in st.session_state.word_tree_path[:3]:
+                            node_text.append(node)
+                            idx = st.session_state.word_tree_path.index(node)
+                            node_color.append(colors_path[idx])
+                            node_size.append(25)
+                        else:
+                            count = G.nodes[node]['count']
+                            node_text.append(f"{node}<br>({count:,})")
+                            node_color.append('#d62728')
+                            node_size.append(min(40, 15 + count/200))
+                    
+                    node_trace = go.Scatter(x=node_x, y=node_y, mode='markers+text',
+                                           hoverinfo='text', text=node_text, textposition="middle right",
+                                           textfont=dict(size=9, color='black'),
+                                           marker=dict(color=node_color, size=node_size,
+                                                      line=dict(width=2, color='white')))
+                    
+                    fig = go.Figure(data=[edge_trace, node_trace],
+                                   layout=go.Layout(showlegend=False, hovermode='closest',
+                                                   margin=dict(b=20,l=5,r=5,t=40),
+                                                   xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                                                   yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                                                   height=400, plot_bgcolor='white'))
+                    st.plotly_chart(fig, width='stretch')
+                    
+                    # Show sample records
                     st.markdown(f"**📝 Sample Records ({len(filtered_df):,} total)**")
-                    st.dataframe(
-                        filtered_df[['Text', 'L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']].head(20),
-                        width='stretch',
-                        hide_index=True
-                    )
+                    st.dataframe(filtered_df[['Text', 'L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']].head(10),
+                                width='stretch', hide_index=True)
                     
-                    # Back button
-                    if st.button("⬅️ Back to L3", key="back_to_l3"):
-                        st.session_state.tree_level = 'L3'
+                    if st.button("⬅️ Back", key="back_wt_l3"):
+                        st.session_state.word_tree_path = st.session_state.word_tree_path[:-1]
                         st.rerun()
+                
+                # Legend
+                st.markdown("""
+                **Color Legend:**
+                - ⚫ Black = ROOT
+                - 🔵 Blue = L1 Category
+                - 🟢 Green = L2 Subcategory
+                - 🟠 Orange = L3 Tertiary
+                - 🔴 Red = L4 Quaternary
+                """)
                 
                 st.markdown("---")
                 
