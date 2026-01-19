@@ -56,6 +56,9 @@ import spacy
 import plotly.express as px
 import plotly.graph_objects as go
 
+# Word Tree Visualizer
+from word_tree_visualizer import WordTreeVisualizer
+
 # ========================================================================================
 # CONFIGURATION & CONSTANTS - ULTRA-OPTIMIZED
 # ========================================================================================
@@ -1668,6 +1671,80 @@ def main():
                 fig_bar.update_traces(texttemplate='%{text}', textposition='outside')
                 fig_bar.update_layout(showlegend=False, height=400)
                 st.plotly_chart(fig_bar, width='stretch')
+                
+                st.markdown("---")
+                
+                # Word Tree Visualization
+                st.markdown("### 🌳 Word Tree Analysis")
+                st.markdown("**Explore how phrases continue from a root word/phrase**")
+                
+                with st.expander("🌳 Interactive Word Tree", expanded=False):
+                    st.info("💡 **Tip:** Word trees show how conversations flow from a starting phrase. Larger nodes = more frequent phrases.")
+                    
+                    # Initialize word tree visualizer
+                    word_tree_viz = WordTreeVisualizer(max_depth=4, min_frequency=2)
+                    
+                    # Get common phrases as suggestions
+                    common_phrases = word_tree_viz.get_common_phrases(output_df, 'Original_Text', top_n=15)
+                    
+                    col1, col2 = st.columns([3, 1])
+                    
+                    with col1:
+                        # Let user select or enter a root phrase
+                        root_phrase_option = st.selectbox(
+                            "Select a common phrase or enter your own below:",
+                            options=["Custom..."] + common_phrases,
+                            help="Choose a phrase to analyze how conversations continue from it"
+                        )
+                        
+                        if root_phrase_option == "Custom...":
+                            root_phrase = st.text_input(
+                                "Enter custom root phrase:",
+                                value="I",
+                                help="Enter any word or phrase to analyze"
+                            )
+                        else:
+                            root_phrase = root_phrase_option
+                    
+                    with col2:
+                        direction = st.radio(
+                            "Direction:",
+                            options=['forward', 'backward'],
+                            help="Forward: What comes AFTER the phrase\nBackward: What comes BEFORE the phrase"
+                        )
+                        
+                        viz_style = st.radio(
+                            "Style:",
+                            options=['network', 'treemap'],
+                            help="Network: Graph-style (like example)\nTreemap: Hierarchical blocks"
+                        )
+                    
+                    if st.button("🔍 Generate Word Tree", type="primary"):
+                        with st.spinner(f"Analyzing phrases {direction} '{root_phrase}'..."):
+                            try:
+                                if viz_style == 'network':
+                                    fig_word_tree = word_tree_viz.create_word_tree_network(
+                                        df=output_df,
+                                        text_column='Original_Text',
+                                        root_phrase=root_phrase,
+                                        direction=direction
+                                    )
+                                else:
+                                    fig_word_tree = word_tree_viz.create_word_tree_plotly(
+                                        df=output_df,
+                                        text_column='Original_Text',
+                                        root_phrase=root_phrase,
+                                        direction=direction
+                                    )
+                                
+                                st.plotly_chart(fig_word_tree, use_container_width=True)
+                                
+                                # Show insights
+                                st.success(f"✅ Word tree generated for '{root_phrase}' ({direction})")
+                                
+                            except Exception as e:
+                                st.error(f"❌ Error generating word tree: {e}")
+                                st.info("Try a different phrase or check if the phrase exists in your data.")
                 
                 st.markdown("---")
                 
