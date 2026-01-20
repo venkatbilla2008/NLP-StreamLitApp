@@ -61,8 +61,6 @@ import spacy
 # Visualization Libraries
 import plotly.express as px
 import plotly.graph_objects as go
-import networkx as nx  # For Word Tree network graphs
-from collections import defaultdict, Counter  # For Word Tree analysis
 
 # ========================================================================================
 # CONFIGURATION & CONSTANTS - ULTRA-OPTIMIZED
@@ -955,167 +953,19 @@ class AdvancedVisualizer:
 
 
 # ========================================================================================
-# HIERARCHICAL CATEGORY TREE - WORD TREE ENHANCEMENTS
+# HIERARCHICAL CATEGORY TREE - WORD TREE VISUALIZATION
 # ========================================================================================
 
 class HierarchicalCategoryTree:
     """
-    Creates interactive hierarchical word trees based on L1→L2→L3→L4 categories.
-    Allows clicking on categories to drill down and see niche problems.
+    Creates hierarchical word tree visualization based on L1→L2→L3→L4 categories.
+    Shows tree-shaped treemap for drilling down through category hierarchy.
     """
     
     def __init__(self, df: pd.DataFrame):
         """Initialize with classified data"""
         self.df = df
         self.hierarchy_levels = ['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']
-    
-    def create_interactive_sunburst(self, selected_l1: str = None) -> go.Figure:
-        """Create an interactive sunburst chart for hierarchical drilling"""
-        if selected_l1:
-            plot_df = self.df[self.df['L1_Category'] == selected_l1].copy()
-            title = f"🌳 Category Hierarchy: {selected_l1}"
-        else:
-            plot_df = self.df.copy()
-            title = "🌳 Complete Category Hierarchy (Click to Drill Down)"
-        
-        if len(plot_df) == 0:
-            fig = go.Figure()
-            fig.add_annotation(text="No data available", xref="paper", yref="paper",
-                             x=0.5, y=0.5, showarrow=False, font=dict(size=16))
-            return fig
-        
-        # Build hierarchical structure
-        labels, parents, values, colors = [], [], [], []
-        
-        # Color palette
-        l1_colors = {
-            'Cancellation': '#FF6B6B', 'Billing & Subscription': '#4ECDC4',
-            'Technology Driven': '#45B7D1', 'Account Access': '#FFA07A',
-            'Products and Services': '#98D8C8', 'Communication': '#F7DC6F',
-            'Other': '#BDC3C7'
-        }
-        
-        # L1 level
-        for l1, count in plot_df['L1_Category'].value_counts().items():
-            labels.append(l1)
-            parents.append("")
-            values.append(count)
-            colors.append(l1_colors.get(l1, '#95A5A6'))
-        
-        # L2 level
-        for (l1, l2), count in plot_df.groupby(['L1_Category', 'L2_Subcategory']).size().items():
-            labels.append(f"{l2}")
-            parents.append(l1)
-            values.append(count)
-            colors.append(l1_colors.get(l1, '#95A5A6'))
-        
-        # L3 level
-        for (l1, l2, l3), count in plot_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary']).size().items():
-            labels.append(f"{l3}")
-            parents.append(f"{l2}")
-            values.append(count)
-            colors.append(l1_colors.get(l1, '#95A5A6'))
-        
-        # L4 level
-        for (l1, l2, l3, l4), count in plot_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().items():
-            labels.append(f"{l4}")
-            parents.append(f"{l3}")
-            values.append(count)
-            colors.append(l1_colors.get(l1, '#95A5A6'))
-        
-        fig = go.Figure(go.Sunburst(
-            labels=labels, parents=parents, values=values, branchvalues="total",
-            marker=dict(colors=colors, line=dict(color='white', width=2)),
-            hovertemplate='<b>%{label}</b><br>Count: %{value}<br>%{percentParent}<extra></extra>',
-            textfont=dict(size=12)
-        ))
-        
-        fig.update_layout(title=dict(text=title, font=dict(size=20, color='#2C3E50')),
-                         height=800, margin=dict(t=80, l=0, r=0, b=0))
-        return fig
-    
-    def create_category_network(self, selected_l1: str = None, max_nodes: int = 50) -> go.Figure:
-        """Create a network graph showing category connections"""
-        plot_df = self.df[self.df['L1_Category'] == selected_l1].copy() if selected_l1 else self.df.copy()
-        title = f"🔗 Category Network: {selected_l1}" if selected_l1 else "🔗 Category Network (All)"
-        
-        if len(plot_df) == 0:
-            fig = go.Figure()
-            fig.add_annotation(text="No data available", xref="paper", yref="paper",
-                             x=0.5, y=0.5, showarrow=False)
-            return fig
-        
-        G = nx.DiGraph()
-        
-        # Add edges for L1→L2→L3→L4
-        for _, row in plot_df.iterrows():
-            l1, l2, l3, l4 = row['L1_Category'], row['L2_Subcategory'], row['L3_Tertiary'], row['L4_Quaternary']
-            
-            if pd.notna(l1) and pd.notna(l2):
-                if G.has_edge(l1, l2):
-                    G[l1][l2]['weight'] += 1
-                else:
-                    G.add_edge(l1, l2, weight=1)
-            
-            if pd.notna(l2) and pd.notna(l3):
-                if G.has_edge(l2, l3):
-                    G[l2][l3]['weight'] += 1
-                else:
-                    G.add_edge(l2, l3, weight=1)
-            
-            if pd.notna(l3) and pd.notna(l4):
-                if G.has_edge(l3, l4):
-                    G[l3][l4]['weight'] += 1
-                else:
-                    G.add_edge(l3, l4, weight=1)
-        
-        # Limit nodes
-        if len(G.nodes()) > max_nodes:
-            top_nodes = sorted(G.degree(), key=lambda x: x[1], reverse=True)[:max_nodes]
-            G = G.subgraph([node for node, _ in top_nodes])
-        
-        pos = nx.spring_layout(G, k=1.5, iterations=50, seed=42)
-        
-        # Create edges
-        edge_x, edge_y = [], []
-        for edge in G.edges():
-            x0, y0 = pos[edge[0]]
-            x1, y1 = pos[edge[1]]
-            edge_x.extend([x0, x1, None])
-            edge_y.extend([y0, y1, None])
-        
-        edge_trace = go.Scatter(x=edge_x, y=edge_y, line=dict(width=1, color='#888'),
-                               hoverinfo='none', mode='lines', opacity=0.5)
-        
-        # Create nodes
-        node_x, node_y, node_text, node_size, node_color = [], [], [], [], []
-        for node in G.nodes():
-            x, y = pos[node]
-            node_x.append(x)
-            node_y.append(y)
-            degree = G.degree(node)
-            node_size.append(min(degree * 3 + 15, 60))
-            count = sum(1 for _, row in plot_df.iterrows() if node in row.values)
-            node_text.append(f"{node}<br>Count: {count}")
-            node_color.append(count)
-        
-        node_trace = go.Scatter(
-            x=node_x, y=node_y, mode='markers+text',
-            text=[str(node)[:20] for node in G.nodes()],
-            textposition="top center", textfont=dict(size=10),
-            hovertext=node_text, hoverinfo='text',
-            marker=dict(size=node_size, color=node_color, colorscale='Viridis',
-                       showscale=True, colorbar=dict(title="Frequency", thickness=15, len=0.7),
-                       line=dict(width=2, color='white'))
-        )
-        
-        fig = go.Figure(data=[edge_trace, node_trace])
-        fig.update_layout(title=dict(text=title, font=dict(size=18)), showlegend=False,
-                         hovermode='closest', height=700,
-                         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                         plot_bgcolor='white', margin=dict(t=60, l=0, r=0, b=0))
-        return fig
     
     def create_drill_down_treemap(self, selected_l1: str = None, selected_l2: str = None) -> go.Figure:
         """Create a treemap with progressive drill-down"""
@@ -1135,7 +985,7 @@ class HierarchicalCategoryTree:
         labels, parents, values = [], [], []
         
         if selected_l2:
-            title = f"📊 Drill-Down: {selected_l1} > {selected_l2}"
+            title = f"📊 Word Tree: {selected_l1} > {selected_l2}"
             for l3, count in plot_df['L3_Tertiary'].value_counts().items():
                 labels.append(l3)
                 parents.append("")
@@ -1145,7 +995,7 @@ class HierarchicalCategoryTree:
                 parents.append(l3)
                 values.append(count)
         elif selected_l1:
-            title = f"📊 Drill-Down: {selected_l1}"
+            title = f"📊 Word Tree: {selected_l1}"
             for l2, count in plot_df['L2_Subcategory'].value_counts().items():
                 labels.append(l2)
                 parents.append("")
@@ -1159,7 +1009,7 @@ class HierarchicalCategoryTree:
                 parents.append(f"{l3}")
                 values.append(count)
         else:
-            title = "📊 Complete Hierarchy Treemap"
+            title = "📊 Word Tree: Complete Category Hierarchy"
             for l1, count in plot_df['L1_Category'].value_counts().items():
                 labels.append(l1)
                 parents.append("")
@@ -1183,22 +1033,6 @@ class HierarchicalCategoryTree:
         fig.update_layout(title=dict(text=title, font=dict(size=18)),
                          height=700, margin=dict(t=60, l=10, r=10, b=10))
         return fig
-    
-    def get_niche_problems(self, selected_l1: str, min_count: int = 5) -> pd.DataFrame:
-        """Extract niche problems (L4) for a given L1 category"""
-        filtered_df = self.df[self.df['L1_Category'] == selected_l1].copy()
-        
-        niche_df = filtered_df.groupby([
-            'L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary'
-        ]).size().reset_index(name='Count')
-        
-        niche_df = niche_df[niche_df['Count'] >= min_count]
-        niche_df = niche_df.sort_values('Count', ascending=False)
-        
-        total = niche_df['Count'].sum()
-        niche_df['Percentage'] = (niche_df['Count'] / total * 100).round(2)
-        
-        return niche_df
 
 
 # ========================================================================================
@@ -1927,172 +1761,59 @@ def main():
                 st.markdown("---")
                 
                 # ============================================================================
-                # WORD TREE ENHANCEMENTS - INTERACTIVE HIERARCHICAL VISUALIZATION
+                # WORD TREE - HIERARCHICAL CATEGORY VISUALIZATION
                 # ============================================================================
                 
-                st.subheader("🌳 Interactive Hierarchical Word Tree")
+                st.subheader("🌳 Word Tree - Hierarchical Categories")
                 st.markdown("""
-                **Explore your data hierarchically!** Click on categories to drill down and discover niche problems.
-                - **Sunburst Chart**: Interactive circular hierarchy
-                - **Network Graph**: See connections between categories
-                - **Treemap**: Drill down into specific categories
-                - **Niche Problems**: Discover specific issues at L4 level
+                **Explore your data hierarchically!** Select categories to drill down and see the tree structure.
+                - Click on blocks to explore deeper levels
+                - See proportions at each level
+                - Progressive filtering: All → L1 → L2 → L3 → L4
                 """)
                 
                 # Initialize hierarchical tree
                 tree_viz = HierarchicalCategoryTree(output_df)
                 
-                # Tabs for different visualizations
-                tree_tab1, tree_tab2, tree_tab3, tree_tab4 = st.tabs([
-                    "🌞 Sunburst (Interactive)",
-                    "🔗 Network Graph",
-                    "📊 Drill-Down Treemap",
-                    "🎯 Niche Problems"
-                ])
+                # Treemap controls
+                st.markdown("### 📊 Category Tree (Drill-Down)")
+                st.markdown("Select categories to drill down into specific problems")
                 
-                with tree_tab1:
-                    st.markdown("### 🌞 Interactive Sunburst Chart")
-                    st.markdown("Click on any segment to zoom in and explore that category's hierarchy")
-                    
-                    # L1 filter
-                    l1_options = ['All Categories'] + sorted(output_df['L1_Category'].unique().tolist())
-                    selected_l1_sunburst = st.selectbox(
-                        "Filter by L1 Category",
-                        options=l1_options,
-                        key="sunburst_l1"
-                    )
-                    
-                    # Create sunburst
-                    if selected_l1_sunburst == 'All Categories':
-                        fig_sunburst = tree_viz.create_interactive_sunburst()
-                    else:
-                        fig_sunburst = tree_viz.create_interactive_sunburst(selected_l1=selected_l1_sunburst)
-                    
-                    st.plotly_chart(fig_sunburst, use_container_width=True)
+                col1, col2 = st.columns(2)
                 
-                with tree_tab2:
-                    st.markdown("### 🔗 Category Network Graph")
-                    st.markdown("Visualize how categories connect across all levels")
-                    
-                    # L1 filter
-                    l1_options_network = ['All Categories'] + sorted(output_df['L1_Category'].unique().tolist())
-                    selected_l1_network = st.selectbox(
-                        "Filter by L1 Category",
-                        options=l1_options_network,
-                        key="network_l1"
+                with col1:
+                    l1_options_treemap = ['All'] + sorted(output_df['L1_Category'].unique().tolist())
+                    selected_l1_treemap = st.selectbox(
+                        "Select L1 Category",
+                        options=l1_options_treemap,
+                        key="treemap_l1"
                     )
-                    
-                    # Max nodes slider
-                    max_nodes = st.slider(
-                        "Maximum nodes to display",
-                        min_value=20,
-                        max_value=100,
-                        value=50,
-                        step=10
-                    )
-                    
-                    # Create network
-                    if selected_l1_network == 'All Categories':
-                        fig_network = tree_viz.create_category_network(max_nodes=max_nodes)
-                    else:
-                        fig_network = tree_viz.create_category_network(selected_l1=selected_l1_network, max_nodes=max_nodes)
-                    
-                    st.plotly_chart(fig_network, use_container_width=True)
                 
-                with tree_tab3:
-                    st.markdown("### 📊 Drill-Down Treemap")
-                    st.markdown("Select categories to drill down into specific problems")
-                    
-                    col1, col2 = st.columns(2)
-                    
-                    with col1:
-                        l1_options_treemap = ['All'] + sorted(output_df['L1_Category'].unique().tolist())
-                        selected_l1_treemap = st.selectbox(
-                            "Select L1 Category",
-                            options=l1_options_treemap,
-                            key="treemap_l1"
+                with col2:
+                    if selected_l1_treemap != 'All':
+                        l2_options = ['All'] + sorted(
+                            output_df[output_df['L1_Category'] == selected_l1_treemap]['L2_Subcategory'].unique().tolist()
                         )
-                    
-                    with col2:
-                        if selected_l1_treemap != 'All':
-                            l2_options = ['All'] + sorted(
-                                output_df[output_df['L1_Category'] == selected_l1_treemap]['L2_Subcategory'].unique().tolist()
-                            )
-                            selected_l2_treemap = st.selectbox(
-                                "Select L2 Subcategory (Optional)",
-                                options=l2_options,
-                                key="treemap_l2"
-                            )
-                        else:
-                            selected_l2_treemap = 'All'
-                    
-                    # Create treemap
-                    if selected_l1_treemap == 'All':
-                        fig_treemap = tree_viz.create_drill_down_treemap()
-                    elif selected_l2_treemap == 'All':
-                        fig_treemap = tree_viz.create_drill_down_treemap(selected_l1=selected_l1_treemap)
-                    else:
-                        fig_treemap = tree_viz.create_drill_down_treemap(
-                            selected_l1=selected_l1_treemap,
-                            selected_l2=selected_l2_treemap
-                        )
-                    
-                    st.plotly_chart(fig_treemap, use_container_width=True)
-                
-                with tree_tab4:
-                    st.markdown("### 🎯 Niche Problems Analysis")
-                    st.markdown("Discover specific issues (L4 level) within each major category")
-                    
-                    # L1 selection
-                    l1_categories = sorted(output_df['L1_Category'].unique().tolist())
-                    selected_l1_niche = st.selectbox(
-                        "Select L1 Category to Analyze",
-                        options=l1_categories,
-                        key="niche_l1"
-                    )
-                    
-                    # Min count filter
-                    min_count = st.slider(
-                        "Minimum occurrences",
-                        min_value=1,
-                        max_value=50,
-                        value=5,
-                        step=1
-                    )
-                    
-                    # Get niche problems
-                    niche_df = tree_viz.get_niche_problems(selected_l1_niche, min_count=min_count)
-                    
-                    if len(niche_df) > 0:
-                        st.markdown(f"#### Found {len(niche_df)} niche problems in **{selected_l1_niche}**")
-                        
-                        # Display as expandable sections
-                        for idx, row in niche_df.iterrows():
-                            with st.expander(
-                                f"🔸 {row['L4_Quaternary']} ({row['Count']} occurrences, {row['Percentage']}%)"
-                            ):
-                                st.markdown(f"""
-                                **Full Path:**
-                                - **L1**: {row['L1_Category']}
-                                - **L2**: {row['L2_Subcategory']}
-                                - **L3**: {row['L3_Tertiary']}
-                                - **L4**: {row['L4_Quaternary']}
-                                
-                                **Statistics:**
-                                - Count: {row['Count']}
-                                - Percentage of {selected_l1_niche}: {row['Percentage']}%
-                                """)
-                        
-                        # Download niche problems
-                        csv_niche = niche_df.to_csv(index=False)
-                        st.download_button(
-                            label=f"📥 Download Niche Problems ({selected_l1_niche})",
-                            data=csv_niche,
-                            file_name=f"niche_problems_{selected_l1_niche}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
-                            mime="text/csv"
+                        selected_l2_treemap = st.selectbox(
+                            "Select L2 Subcategory (Optional)",
+                            options=l2_options,
+                            key="treemap_l2"
                         )
                     else:
-                        st.info(f"No niche problems found with minimum {min_count} occurrences")
+                        selected_l2_treemap = 'All'
+                
+                # Create treemap
+                if selected_l1_treemap == 'All':
+                    fig_treemap = tree_viz.create_drill_down_treemap()
+                elif selected_l2_treemap == 'All':
+                    fig_treemap = tree_viz.create_drill_down_treemap(selected_l1=selected_l1_treemap)
+                else:
+                    fig_treemap = tree_viz.create_drill_down_treemap(
+                        selected_l1=selected_l1_treemap,
+                        selected_l2=selected_l2_treemap
+                    )
+                
+                st.plotly_chart(fig_treemap, use_container_width=True)
                 
                 st.markdown("---")
                 
