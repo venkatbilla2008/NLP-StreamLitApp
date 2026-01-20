@@ -61,6 +61,7 @@ import spacy
 # Visualization Libraries
 import plotly.express as px
 import plotly.graph_objects as go
+import networkx as nx  # For tree diagram layout
 
 # ========================================================================================
 # CONFIGURATION & CONSTANTS - ULTRA-OPTIMIZED
@@ -967,8 +968,8 @@ class HierarchicalCategoryTree:
         self.df = df
         self.hierarchy_levels = ['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']
     
-    def create_drill_down_treemap(self, selected_l1: str = None, selected_l2: str = None) -> go.Figure:
-        """Create a treemap showing all 4 levels (L1→L2→L3→L4) in tree structure"""
+    def create_tree_diagram(self, selected_l1: str = None, selected_l2: str = None) -> go.Figure:
+        """Create a traditional tree diagram with branches showing L1→L2→L3→L4 hierarchy"""
         plot_df = self.df.copy()
         
         # Apply filters if selected
@@ -985,64 +986,136 @@ class HierarchicalCategoryTree:
         
         # Build title based on selection
         if selected_l2:
-            title = f"📊 Word Tree: {selected_l1} > {selected_l2} (All 4 Levels)"
+            title = f"🌳 Word Tree: {selected_l1} > {selected_l2}"
         elif selected_l1:
-            title = f"📊 Word Tree: {selected_l1} (All 4 Levels)"
+            title = f"🌳 Word Tree: {selected_l1}"
         else:
-            title = "📊 Word Tree: Complete Hierarchy (All 4 Levels)"
+            title = "🌳 Word Tree: Category Hierarchy"
         
-        labels, parents, values, texts = [], [], [], []
+        # Build tree structure
+        import networkx as nx
+        G = nx.DiGraph()
         
-        # Always build all 4 levels for complete tree structure
-        # L1 level (root)
+        # Add root node
+        root = "Categories"
+        G.add_node(root, level=0, count=len(plot_df))
+        
+        # Add L1 nodes
         for l1, count in plot_df['L1_Category'].value_counts().items():
-            labels.append(l1)
-            parents.append("")
-            values.append(count)
-            texts.append(f"{l1}<br>Count: {count}")
+            G.add_node(l1, level=1, count=count)
+            G.add_edge(root, l1)
         
-        # L2 level
+        # Add L2 nodes
         for (l1, l2), count in plot_df.groupby(['L1_Category', 'L2_Subcategory']).size().items():
-            labels.append(f"{l1}|{l2}")
-            parents.append(l1)
-            values.append(count)
-            texts.append(f"{l2}<br>Count: {count}")
+            l2_node = f"{l1}|{l2}"
+            G.add_node(l2_node, level=2, count=count, display_name=l2)
+            G.add_edge(l1, l2_node)
         
-        # L3 level
+        # Add L3 nodes
         for (l1, l2, l3), count in plot_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary']).size().items():
-            labels.append(f"{l1}|{l2}|{l3}")
-            parents.append(f"{l1}|{l2}")
-            values.append(count)
-            texts.append(f"{l3}<br>Count: {count}")
+            l2_node = f"{l1}|{l2}"
+            l3_node = f"{l1}|{l2}|{l3}"
+            G.add_node(l3_node, level=3, count=count, display_name=l3)
+            G.add_edge(l2_node, l3_node)
         
-        # L4 level (leaf nodes)
+        # Add L4 nodes
         for (l1, l2, l3, l4), count in plot_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().items():
-            labels.append(f"{l1}|{l2}|{l3}|{l4}")
-            parents.append(f"{l1}|{l2}|{l3}")
-            values.append(count)
-            texts.append(f"{l4}<br>Count: {count}")
+            l3_node = f"{l1}|{l2}|{l3}"
+            l4_node = f"{l1}|{l2}|{l3}|{l4}"
+            G.add_node(l4_node, level=4, count=count, display_name=l4)
+            G.add_edge(l3_node, l4_node)
         
-        # Create treemap with all 4 levels
-        fig = go.Figure(go.Treemap(
-            labels=labels,
-            parents=parents,
-            values=values,
-            text=texts,
-            textposition="middle center",
-            marker=dict(
-                colorscale='RdYlGn_r',
-                line=dict(color='white', width=2)
-            ),
-            hovertemplate='<b>%{text}</b><br>Percentage: %{percentParent}<extra></extra>'
-        ))
+        # Create hierarchical layout
+        pos = self._hierarchical_layout(G, root)
+        
+        # Create edges (branches)
+        edge_traces = []
+        for edge in G.edges():
+            x0, y0 = pos[edge[0]]
+            x1, y1 = pos[edge[1]]
+            
+            edge_trace = go.Scatter(
+                x=[x0, x1, None],
+                y=[y0, y1, None],
+                mode='lines',
+                line=dict(color='#888', width=2),
+                hoverinfo='none',
+                showlegend=False
+            )
+            edge_traces.append(edge_trace)
+        
+        # Create nodes (text labels)
+        node_trace = go.Scatter(
+            x=[],
+            y=[],
+            mode='text',
+            text=[],
+            textposition='middle right',
+            textfont=dict(size=12, color='#2C3E50'),
+            hovertext=[],
+            hoverinfo='text',
+            showlegend=False
+        )
+        
+        for node in G.nodes():
+            x, y = pos[node]
+            node_trace['x'] += tuple([x])
+            node_trace['y'] += tuple([y])
+            
+            # Get display name
+            if node == root:
+                display_name = root
+            elif 'display_name' in G.nodes[node]:
+                display_name = G.nodes[node]['display_name']
+            else:
+                display_name = node
+            
+            count = G.nodes[node].get('count', 0)
+            node_trace['text'] += tuple([display_name])
+            node_trace['hovertext'] += tuple([f"{display_name}<br>Count: {count}"])
+        
+        # Create figure
+        fig = go.Figure(data=edge_traces + [node_trace])
         
         fig.update_layout(
             title=dict(text=title, font=dict(size=18)),
-            height=800,  # Increased height for 4 levels
-            margin=dict(t=60, l=10, r=10, b=10)
+            showlegend=False,
+            hovermode='closest',
+            height=800,
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            plot_bgcolor='white',
+            margin=dict(t=60, l=20, r=150, b=20)
         )
         
         return fig
+    
+    def _hierarchical_layout(self, G, root):
+        """Create hierarchical tree layout positions"""
+        pos = {}
+        levels = {}
+        
+        # Assign levels using BFS
+        from collections import deque
+        queue = deque([(root, 0)])
+        while queue:
+            node, level = queue.popleft()
+            if level not in levels:
+                levels[level] = []
+            levels[level].append(node)
+            for child in G.successors(node):
+                queue.append((child, level + 1))
+        
+        # Calculate positions
+        max_level = max(levels.keys())
+        for level, nodes in levels.items():
+            x = level * 2  # Horizontal spacing
+            num_nodes = len(nodes)
+            for i, node in enumerate(nodes):
+                y = (i - num_nodes / 2) * 1.5  # Vertical spacing
+                pos[node] = (x, y)
+        
+        return pos
 
 
 # ========================================================================================
@@ -1825,13 +1898,13 @@ def main():
                 else:
                     selected_l2_treemap = 'All'
             
-            # Create treemap
+            # Create tree diagram
             if selected_l1_treemap == 'All':
-                fig_treemap = tree_viz.create_drill_down_treemap()
+                fig_treemap = tree_viz.create_tree_diagram()
             elif selected_l2_treemap == 'All':
-                fig_treemap = tree_viz.create_drill_down_treemap(selected_l1=selected_l1_treemap)
+                fig_treemap = tree_viz.create_tree_diagram(selected_l1=selected_l1_treemap)
             else:
-                fig_treemap = tree_viz.create_drill_down_treemap(
+                fig_treemap = tree_viz.create_tree_diagram(
                     selected_l1=selected_l1_treemap,
                     selected_l2=selected_l2_treemap
                 )
