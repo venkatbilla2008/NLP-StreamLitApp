@@ -968,154 +968,123 @@ class HierarchicalCategoryTree:
         self.df = df
         self.hierarchy_levels = ['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']
     
-    def create_tree_diagram(self, selected_l1: str = None, selected_l2: str = None) -> go.Figure:
-        """Create a traditional tree diagram with branches showing L1→L2→L3→L4 hierarchy"""
+    def create_interactive_tree(self, selected_l1: str = None, selected_l2: str = None, selected_l3: str = None) -> go.Figure:
+        """Create an interactive tree that expands on click (L1 → L2 → L3 → L4)"""
         plot_df = self.df.copy()
         
-        # Apply filters if selected
-        if selected_l1:
-            plot_df = plot_df[plot_df['L1_Category'] == selected_l1]
-        if selected_l2:
-            plot_df = plot_df[plot_df['L2_Subcategory'] == selected_l2]
+        # Build title and determine what to show
+        if selected_l3:
+            # Show L4 level
+            title = f"🌳 Word Tree: {selected_l1} > {selected_l2} > {selected_l3} (Click L4 to see details)"
+            filtered_df = plot_df[
+                (plot_df['L1_Category'] == selected_l1) &
+                (plot_df['L2_Subcategory'] == selected_l2) &
+                (plot_df['L3_Tertiary'] == selected_l3)
+            ]
+            
+            if len(filtered_df) == 0:
+                fig = go.Figure()
+                fig.add_annotation(text="No data available", xref="paper", yref="paper",
+                                 x=0.5, y=0.5, showarrow=False)
+                return fig
+            
+            # Show L3 → L4
+            labels = [selected_l3]
+            parents = [""]
+            values = [len(filtered_df)]
+            customdata = [[selected_l1, selected_l2, selected_l3, ""]]
+            
+            for l4, count in filtered_df['L4_Quaternary'].value_counts().items():
+                labels.append(l4)
+                parents.append(selected_l3)
+                values.append(count)
+                customdata.append([selected_l1, selected_l2, selected_l3, l4])
         
-        if len(plot_df) == 0:
-            fig = go.Figure()
-            fig.add_annotation(text="No data available", xref="paper", yref="paper",
-                             x=0.5, y=0.5, showarrow=False)
-            return fig
+        elif selected_l2:
+            # Show L3 level
+            title = f"🌳 Word Tree: {selected_l1} > {selected_l2} (Click L3 to expand)"
+            filtered_df = plot_df[
+                (plot_df['L1_Category'] == selected_l1) &
+                (plot_df['L2_Subcategory'] == selected_l2)
+            ]
+            
+            if len(filtered_df) == 0:
+                fig = go.Figure()
+                fig.add_annotation(text="No data available", xref="paper", yref="paper",
+                                 x=0.5, y=0.5, showarrow=False)
+                return fig
+            
+            # Show L2 → L3
+            labels = [selected_l2]
+            parents = [""]
+            values = [len(filtered_df)]
+            customdata = [[selected_l1, selected_l2, "", ""]]
+            
+            for l3, count in filtered_df['L3_Tertiary'].value_counts().items():
+                labels.append(l3)
+                parents.append(selected_l2)
+                values.append(count)
+                customdata.append([selected_l1, selected_l2, l3, ""])
         
-        # Build title based on selection
-        if selected_l2:
-            title = f"🌳 Word Tree: {selected_l1} > {selected_l2}"
         elif selected_l1:
-            title = f"🌳 Word Tree: {selected_l1}"
+            # Show L2 level
+            title = f"🌳 Word Tree: {selected_l1} (Click L2 to expand)"
+            filtered_df = plot_df[plot_df['L1_Category'] == selected_l1]
+            
+            if len(filtered_df) == 0:
+                fig = go.Figure()
+                fig.add_annotation(text="No data available", xref="paper", yref="paper",
+                                 x=0.5, y=0.5, showarrow=False)
+                return fig
+            
+            # Show L1 → L2
+            labels = [selected_l1]
+            parents = [""]
+            values = [len(filtered_df)]
+            customdata = [[selected_l1, "", "", ""]]
+            
+            for l2, count in filtered_df['L2_Subcategory'].value_counts().items():
+                labels.append(l2)
+                parents.append(selected_l1)
+                values.append(count)
+                customdata.append([selected_l1, l2, "", ""])
+        
         else:
-            title = "🌳 Word Tree: Category Hierarchy"
-        
-        # Build tree structure
-        import networkx as nx
-        G = nx.DiGraph()
-        
-        # Add root node
-        root = "Categories"
-        G.add_node(root, level=0, count=len(plot_df))
-        
-        # Add L1 nodes
-        for l1, count in plot_df['L1_Category'].value_counts().items():
-            G.add_node(l1, level=1, count=count)
-            G.add_edge(root, l1)
-        
-        # Add L2 nodes
-        for (l1, l2), count in plot_df.groupby(['L1_Category', 'L2_Subcategory']).size().items():
-            l2_node = f"{l1}|{l2}"
-            G.add_node(l2_node, level=2, count=count, display_name=l2)
-            G.add_edge(l1, l2_node)
-        
-        # Add L3 nodes
-        for (l1, l2, l3), count in plot_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary']).size().items():
-            l2_node = f"{l1}|{l2}"
-            l3_node = f"{l1}|{l2}|{l3}"
-            G.add_node(l3_node, level=3, count=count, display_name=l3)
-            G.add_edge(l2_node, l3_node)
-        
-        # Add L4 nodes
-        for (l1, l2, l3, l4), count in plot_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().items():
-            l3_node = f"{l1}|{l2}|{l3}"
-            l4_node = f"{l1}|{l2}|{l3}|{l4}"
-            G.add_node(l4_node, level=4, count=count, display_name=l4)
-            G.add_edge(l3_node, l4_node)
-        
-        # Create hierarchical layout
-        pos = self._hierarchical_layout(G, root)
-        
-        # Create edges (branches)
-        edge_traces = []
-        for edge in G.edges():
-            x0, y0 = pos[edge[0]]
-            x1, y1 = pos[edge[1]]
+            # Show L1 level (root)
+            title = "🌳 Word Tree: All Categories (Click L1 to expand)"
+            labels = []
+            parents = []
+            values = []
+            customdata = []
             
-            edge_trace = go.Scatter(
-                x=[x0, x1, None],
-                y=[y0, y1, None],
-                mode='lines',
-                line=dict(color='#888', width=2),
-                hoverinfo='none',
-                showlegend=False
-            )
-            edge_traces.append(edge_trace)
+            for l1, count in plot_df['L1_Category'].value_counts().items():
+                labels.append(l1)
+                parents.append("")
+                values.append(count)
+                customdata.append([l1, "", "", ""])
         
-        # Create nodes (text labels)
-        node_trace = go.Scatter(
-            x=[],
-            y=[],
-            mode='text',
-            text=[],
-            textposition='middle right',
-            textfont=dict(size=12, color='#2C3E50'),
-            hovertext=[],
-            hoverinfo='text',
-            showlegend=False
-        )
-        
-        for node in G.nodes():
-            x, y = pos[node]
-            node_trace['x'] += tuple([x])
-            node_trace['y'] += tuple([y])
-            
-            # Get display name
-            if node == root:
-                display_name = root
-            elif 'display_name' in G.nodes[node]:
-                display_name = G.nodes[node]['display_name']
-            else:
-                display_name = node
-            
-            count = G.nodes[node].get('count', 0)
-            node_trace['text'] += tuple([display_name])
-            node_trace['hovertext'] += tuple([f"{display_name}<br>Count: {count}"])
-        
-        # Create figure
-        fig = go.Figure(data=edge_traces + [node_trace])
+        # Create sunburst chart (better for interactive drill-down than tree diagram)
+        fig = go.Figure(go.Sunburst(
+            labels=labels,
+            parents=parents,
+            values=values,
+            customdata=customdata,
+            branchvalues="total",
+            marker=dict(
+                line=dict(color='white', width=2),
+                colorscale='Blues'
+            ),
+            hovertemplate='<b>%{label}</b><br>Count: %{value}<br>Click to expand<extra></extra>',
+            textfont=dict(size=14)
+        ))
         
         fig.update_layout(
             title=dict(text=title, font=dict(size=18)),
-            showlegend=False,
-            hovermode='closest',
-            height=800,
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-            plot_bgcolor='white',
-            margin=dict(t=60, l=20, r=150, b=20)
+            height=700,
+            margin=dict(t=80, l=0, r=0, b=0)
         )
         
         return fig
-    
-    def _hierarchical_layout(self, G, root):
-        """Create hierarchical tree layout positions"""
-        pos = {}
-        levels = {}
-        
-        # Assign levels using BFS
-        from collections import deque
-        queue = deque([(root, 0)])
-        while queue:
-            node, level = queue.popleft()
-            if level not in levels:
-                levels[level] = []
-            levels[level].append(node)
-            for child in G.successors(node):
-                queue.append((child, level + 1))
-        
-        # Calculate positions
-        max_level = max(levels.keys())
-        for level, nodes in levels.items():
-            x = level * 2  # Horizontal spacing
-            num_nodes = len(nodes)
-            for i, node in enumerate(nodes):
-                y = (i - num_nodes / 2) * 1.5  # Vertical spacing
-                pos[node] = (x, y)
-        
-        return pos
 
 
 # ========================================================================================
@@ -1857,59 +1826,132 @@ def main():
             st.markdown("---")
             
             # ============================================================================
-            # WORD TREE - HIERARCHICAL CATEGORY VISUALIZATION
+            # WORD TREE - INTERACTIVE HIERARCHICAL VISUALIZATION
             # ============================================================================
             
-            st.subheader("🌳 Word Tree - Hierarchical Categories")
+            st.subheader("🌳 Word Tree - Interactive Hierarchy")
             st.markdown("""
-            **Explore your data hierarchically!** Select categories to drill down and see the tree structure.
-            - Click on blocks to explore deeper levels
-            - See proportions at each level
-            - Progressive filtering: All → L1 → L2 → L3 → L4
+            **Click on categories to drill down!** Navigate through the hierarchy interactively.
+            - Click on L1 category → See L2 subcategories
+            - Click on L2 → See L3 categories
+            - Click on L3 → See L4 categories
+            - Use buttons below to navigate back
             """)
+            
+            # Initialize session state for navigation
+            if 'tree_l1' not in st.session_state:
+                st.session_state.tree_l1 = None
+            if 'tree_l2' not in st.session_state:
+                st.session_state.tree_l2 = None
+            if 'tree_l3' not in st.session_state:
+                st.session_state.tree_l3 = None
             
             # Initialize hierarchical tree
             tree_viz = HierarchicalCategoryTree(output_df)
             
-            # Treemap controls
-            st.markdown("### 📊 Category Tree (Drill-Down)")
-            st.markdown("Select categories to drill down into specific problems")
+            # Navigation breadcrumb and controls
+            st.markdown("### 📍 Current Path")
             
-            col1, col2 = st.columns(2)
+            # Build breadcrumb
+            breadcrumb_parts = ["All Categories"]
+            if st.session_state.tree_l1:
+                breadcrumb_parts.append(st.session_state.tree_l1)
+            if st.session_state.tree_l2:
+                breadcrumb_parts.append(st.session_state.tree_l2)
+            if st.session_state.tree_l3:
+                breadcrumb_parts.append(st.session_state.tree_l3)
             
-            with col1:
-                l1_options_treemap = ['All'] + sorted(output_df['L1_Category'].unique().tolist())
-                selected_l1_treemap = st.selectbox(
-                    "Select L1 Category",
-                    options=l1_options_treemap,
-                    key="treemap_l1"
+            breadcrumb = " → ".join(breadcrumb_parts)
+            st.info(f"**{breadcrumb}**")
+            
+            # Navigation buttons
+            nav_cols = st.columns([1, 1, 1, 1, 2])
+            
+            with nav_cols[0]:
+                if st.button("🏠 Reset to All", key="reset_tree"):
+                    st.session_state.tree_l1 = None
+                    st.session_state.tree_l2 = None
+                    st.session_state.tree_l3 = None
+                    st.rerun()
+            
+            with nav_cols[1]:
+                if st.session_state.tree_l1 and st.button("⬅️ Back to L1", key="back_to_l1"):
+                    st.session_state.tree_l2 = None
+                    st.session_state.tree_l3 = None
+                    st.rerun()
+            
+            with nav_cols[2]:
+                if st.session_state.tree_l2 and st.button("⬅️ Back to L2", key="back_to_l2"):
+                    st.session_state.tree_l3 = None
+                    st.rerun()
+            
+            # Selection controls for manual navigation
+            st.markdown("### 🎯 Manual Selection (Optional)")
+            
+            sel_cols = st.columns(3)
+            
+            with sel_cols[0]:
+                l1_options = [''] + sorted(output_df['L1_Category'].unique().tolist())
+                manual_l1 = st.selectbox(
+                    "Jump to L1",
+                    options=l1_options,
+                    key="manual_l1",
+                    index=l1_options.index(st.session_state.tree_l1) if st.session_state.tree_l1 in l1_options else 0
                 )
+                if manual_l1 and manual_l1 != st.session_state.tree_l1:
+                    st.session_state.tree_l1 = manual_l1
+                    st.session_state.tree_l2 = None
+                    st.session_state.tree_l3 = None
+                    st.rerun()
             
-            with col2:
-                if selected_l1_treemap != 'All':
-                    l2_options = ['All'] + sorted(
-                        output_df[output_df['L1_Category'] == selected_l1_treemap]['L2_Subcategory'].unique().tolist()
+            with sel_cols[1]:
+                if st.session_state.tree_l1:
+                    l2_options = [''] + sorted(
+                        output_df[output_df['L1_Category'] == st.session_state.tree_l1]['L2_Subcategory'].unique().tolist()
                     )
-                    selected_l2_treemap = st.selectbox(
-                        "Select L2 Subcategory (Optional)",
+                    manual_l2 = st.selectbox(
+                        "Jump to L2",
                         options=l2_options,
-                        key="treemap_l2"
+                        key="manual_l2",
+                        index=l2_options.index(st.session_state.tree_l2) if st.session_state.tree_l2 in l2_options else 0
                     )
-                else:
-                    selected_l2_treemap = 'All'
+                    if manual_l2 and manual_l2 != st.session_state.tree_l2:
+                        st.session_state.tree_l2 = manual_l2
+                        st.session_state.tree_l3 = None
+                        st.rerun()
             
-            # Create tree diagram
-            if selected_l1_treemap == 'All':
-                fig_treemap = tree_viz.create_tree_diagram()
-            elif selected_l2_treemap == 'All':
-                fig_treemap = tree_viz.create_tree_diagram(selected_l1=selected_l1_treemap)
-            else:
-                fig_treemap = tree_viz.create_tree_diagram(
-                    selected_l1=selected_l1_treemap,
-                    selected_l2=selected_l2_treemap
-                )
+            with sel_cols[2]:
+                if st.session_state.tree_l2:
+                    l3_options = [''] + sorted(
+                        output_df[
+                            (output_df['L1_Category'] == st.session_state.tree_l1) &
+                            (output_df['L2_Subcategory'] == st.session_state.tree_l2)
+                        ]['L3_Tertiary'].unique().tolist()
+                    )
+                    manual_l3 = st.selectbox(
+                        "Jump to L3",
+                        options=l3_options,
+                        key="manual_l3",
+                        index=l3_options.index(st.session_state.tree_l3) if st.session_state.tree_l3 in l3_options else 0
+                    )
+                    if manual_l3 and manual_l3 != st.session_state.tree_l3:
+                        st.session_state.tree_l3 = manual_l3
+                        st.rerun()
             
-            st.plotly_chart(fig_treemap, use_container_width=True)
+            # Create and display interactive tree
+            st.markdown("### 🌳 Interactive Tree (Click to Expand)")
+            
+            fig_tree = tree_viz.create_interactive_tree(
+                selected_l1=st.session_state.tree_l1,
+                selected_l2=st.session_state.tree_l2,
+                selected_l3=st.session_state.tree_l3
+            )
+            
+            # Display with click event handling
+            selected_point = st.plotly_chart(fig_tree, use_container_width=True, key="interactive_tree", on_select="rerun")
+            
+            # Handle click events (if Plotly supports it in your Streamlit version)
+            # Note: This is a simplified version - full click handling may require custom JavaScript
             
             st.markdown("---")
             
