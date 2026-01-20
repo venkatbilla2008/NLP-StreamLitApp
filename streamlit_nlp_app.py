@@ -968,9 +968,10 @@ class HierarchicalCategoryTree:
         self.hierarchy_levels = ['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']
     
     def create_drill_down_treemap(self, selected_l1: str = None, selected_l2: str = None) -> go.Figure:
-        """Create a treemap with progressive drill-down"""
+        """Create a treemap showing all 4 levels (L1→L2→L3→L4) in tree structure"""
         plot_df = self.df.copy()
         
+        # Apply filters if selected
         if selected_l1:
             plot_df = plot_df[plot_df['L1_Category'] == selected_l1]
         if selected_l2:
@@ -982,56 +983,65 @@ class HierarchicalCategoryTree:
                              x=0.5, y=0.5, showarrow=False)
             return fig
         
-        labels, parents, values = [], [], []
-        
+        # Build title based on selection
         if selected_l2:
-            title = f"📊 Word Tree: {selected_l1} > {selected_l2}"
-            for l3, count in plot_df['L3_Tertiary'].value_counts().items():
-                labels.append(l3)
-                parents.append("")
-                values.append(count)
-            for (l3, l4), count in plot_df.groupby(['L3_Tertiary', 'L4_Quaternary']).size().items():
-                labels.append(l4)
-                parents.append(l3)
-                values.append(count)
+            title = f"📊 Word Tree: {selected_l1} > {selected_l2} (All 4 Levels)"
         elif selected_l1:
-            title = f"📊 Word Tree: {selected_l1}"
-            for l2, count in plot_df['L2_Subcategory'].value_counts().items():
-                labels.append(l2)
-                parents.append("")
-                values.append(count)
-            for (l2, l3), count in plot_df.groupby(['L2_Subcategory', 'L3_Tertiary']).size().items():
-                labels.append(f"{l3}")
-                parents.append(l2)
-                values.append(count)
-            for (l2, l3, l4), count in plot_df.groupby(['L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().items():
-                labels.append(f"{l4}")
-                parents.append(f"{l3}")
-                values.append(count)
+            title = f"📊 Word Tree: {selected_l1} (All 4 Levels)"
         else:
-            title = "📊 Word Tree: Complete Category Hierarchy"
-            for l1, count in plot_df['L1_Category'].value_counts().items():
-                labels.append(l1)
-                parents.append("")
-                values.append(count)
-            for (l1, l2), count in plot_df.groupby(['L1_Category', 'L2_Subcategory']).size().items():
-                labels.append(f"{l2}")
-                parents.append(l1)
-                values.append(count)
-            for (l1, l2, l3), count in plot_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary']).size().items():
-                labels.append(f"{l3}")
-                parents.append(f"{l2}")
-                values.append(count)
+            title = "📊 Word Tree: Complete Hierarchy (All 4 Levels)"
         
+        labels, parents, values, texts = [], [], [], []
+        
+        # Always build all 4 levels for complete tree structure
+        # L1 level (root)
+        for l1, count in plot_df['L1_Category'].value_counts().items():
+            labels.append(l1)
+            parents.append("")
+            values.append(count)
+            texts.append(f"{l1}<br>Count: {count}")
+        
+        # L2 level
+        for (l1, l2), count in plot_df.groupby(['L1_Category', 'L2_Subcategory']).size().items():
+            labels.append(f"{l1}|{l2}")
+            parents.append(l1)
+            values.append(count)
+            texts.append(f"{l2}<br>Count: {count}")
+        
+        # L3 level
+        for (l1, l2, l3), count in plot_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary']).size().items():
+            labels.append(f"{l1}|{l2}|{l3}")
+            parents.append(f"{l1}|{l2}")
+            values.append(count)
+            texts.append(f"{l3}<br>Count: {count}")
+        
+        # L4 level (leaf nodes)
+        for (l1, l2, l3, l4), count in plot_df.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().items():
+            labels.append(f"{l1}|{l2}|{l3}|{l4}")
+            parents.append(f"{l1}|{l2}|{l3}")
+            values.append(count)
+            texts.append(f"{l4}<br>Count: {count}")
+        
+        # Create treemap with all 4 levels
         fig = go.Figure(go.Treemap(
-            labels=labels, parents=parents, values=values,
-            textinfo="label+value+percent parent",
-            marker=dict(colorscale='RdYlGn_r', line=dict(color='white', width=2)),
-            hovertemplate='<b>%{label}</b><br>Count: %{value}<br>%{percentParent}<extra></extra>'
+            labels=labels,
+            parents=parents,
+            values=values,
+            text=texts,
+            textposition="middle center",
+            marker=dict(
+                colorscale='RdYlGn_r',
+                line=dict(color='white', width=2)
+            ),
+            hovertemplate='<b>%{text}</b><br>Percentage: %{percentParent}<extra></extra>'
         ))
         
-        fig.update_layout(title=dict(text=title, font=dict(size=18)),
-                         height=700, margin=dict(t=60, l=10, r=10, b=10))
+        fig.update_layout(
+            title=dict(text=title, font=dict(size=18)),
+            height=800,  # Increased height for 4 levels
+            margin=dict(t=60, l=10, r=10, b=10)
+        )
+        
         return fig
 
 
