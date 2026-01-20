@@ -969,122 +969,172 @@ class HierarchicalCategoryTree:
         self.hierarchy_levels = ['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']
     
     def create_interactive_tree(self, selected_l1: str = None, selected_l2: str = None, selected_l3: str = None) -> go.Figure:
-        """Create an interactive tree that expands on click (L1 → L2 → L3 → L4)"""
+        """Create an interactive tree diagram with non-overlapping labels"""
         plot_df = self.df.copy()
         
         # Build title and determine what to show
         if selected_l3:
-            # Show L4 level
-            title = f"🌳 Word Tree: {selected_l1} > {selected_l2} > {selected_l3} (Click L4 to see details)"
+            title = f"🌳 Word Tree: {selected_l1} > {selected_l2} > {selected_l3}"
             filtered_df = plot_df[
                 (plot_df['L1_Category'] == selected_l1) &
                 (plot_df['L2_Subcategory'] == selected_l2) &
                 (plot_df['L3_Tertiary'] == selected_l3)
             ]
-            
-            if len(filtered_df) == 0:
-                fig = go.Figure()
-                fig.add_annotation(text="No data available", xref="paper", yref="paper",
-                                 x=0.5, y=0.5, showarrow=False)
-                return fig
-            
-            # Show L3 → L4
-            labels = [selected_l3]
-            parents = [""]
-            values = [len(filtered_df)]
-            customdata = [[selected_l1, selected_l2, selected_l3, ""]]
-            
-            for l4, count in filtered_df['L4_Quaternary'].value_counts().items():
-                labels.append(l4)
-                parents.append(selected_l3)
-                values.append(count)
-                customdata.append([selected_l1, selected_l2, selected_l3, l4])
-        
+            level_name = "L4"
         elif selected_l2:
-            # Show L3 level
-            title = f"🌳 Word Tree: {selected_l1} > {selected_l2} (Click L3 to expand)"
+            title = f"🌳 Word Tree: {selected_l1} > {selected_l2}"
             filtered_df = plot_df[
                 (plot_df['L1_Category'] == selected_l1) &
                 (plot_df['L2_Subcategory'] == selected_l2)
             ]
-            
-            if len(filtered_df) == 0:
-                fig = go.Figure()
-                fig.add_annotation(text="No data available", xref="paper", yref="paper",
-                                 x=0.5, y=0.5, showarrow=False)
-                return fig
-            
-            # Show L2 → L3
-            labels = [selected_l2]
-            parents = [""]
-            values = [len(filtered_df)]
-            customdata = [[selected_l1, selected_l2, "", ""]]
-            
-            for l3, count in filtered_df['L3_Tertiary'].value_counts().items():
-                labels.append(l3)
-                parents.append(selected_l2)
-                values.append(count)
-                customdata.append([selected_l1, selected_l2, l3, ""])
-        
+            level_name = "L3"
         elif selected_l1:
-            # Show L2 level
-            title = f"🌳 Word Tree: {selected_l1} (Click L2 to expand)"
+            title = f"🌳 Word Tree: {selected_l1}"
             filtered_df = plot_df[plot_df['L1_Category'] == selected_l1]
-            
-            if len(filtered_df) == 0:
-                fig = go.Figure()
-                fig.add_annotation(text="No data available", xref="paper", yref="paper",
-                                 x=0.5, y=0.5, showarrow=False)
-                return fig
-            
-            # Show L1 → L2
-            labels = [selected_l1]
-            parents = [""]
-            values = [len(filtered_df)]
-            customdata = [[selected_l1, "", "", ""]]
-            
-            for l2, count in filtered_df['L2_Subcategory'].value_counts().items():
-                labels.append(l2)
-                parents.append(selected_l1)
-                values.append(count)
-                customdata.append([selected_l1, l2, "", ""])
-        
+            level_name = "L2"
         else:
-            # Show L1 level (root)
-            title = "🌳 Word Tree: All Categories (Click L1 to expand)"
-            labels = []
-            parents = []
-            values = []
-            customdata = []
+            title = "🌳 Word Tree: All Categories"
+            filtered_df = plot_df
+            level_name = "L1"
+        
+        if len(filtered_df) == 0:
+            fig = go.Figure()
+            fig.add_annotation(text="No data available", xref="paper", yref="paper",
+                             x=0.5, y=0.5, showarrow=False)
+            return fig
+        
+        # Build tree structure based on current level
+        import networkx as nx
+        G = nx.DiGraph()
+        
+        # Determine what to display based on drill-down level
+        if selected_l3:
+            # Show L3 → L4
+            root = selected_l3
+            G.add_node(root, count=len(filtered_df), level=0)
+            for l4, count in filtered_df['L4_Quaternary'].value_counts().items():
+                G.add_node(l4, count=count, level=1)
+                G.add_edge(root, l4)
+        elif selected_l2:
+            # Show L2 → L3
+            root = selected_l2
+            G.add_node(root, count=len(filtered_df), level=0)
+            for l3, count in filtered_df['L3_Tertiary'].value_counts().items():
+                G.add_node(l3, count=count, level=1)
+                G.add_edge(root, l3)
+        elif selected_l1:
+            # Show L1 → L2
+            root = selected_l1
+            G.add_node(root, count=len(filtered_df), level=0)
+            for l2, count in filtered_df['L2_Subcategory'].value_counts().items():
+                G.add_node(l2, count=count, level=1)
+                G.add_edge(root, l2)
+        else:
+            # Show all L1
+            root = "Categories"
+            G.add_node(root, count=len(filtered_df), level=0)
+            for l1, count in filtered_df['L1_Category'].value_counts().items():
+                G.add_node(l1, count=count, level=1)
+                G.add_edge(root, l1)
+        
+        # Create hierarchical layout with proper spacing
+        pos = self._create_tree_layout(G, root)
+        
+        # Create figure
+        fig = go.Figure()
+        
+        # Add edges (branches) first
+        for edge in G.edges():
+            x0, y0 = pos[edge[0]]
+            x1, y1 = pos[edge[1]]
             
-            for l1, count in plot_df['L1_Category'].value_counts().items():
-                labels.append(l1)
-                parents.append("")
-                values.append(count)
-                customdata.append([l1, "", "", ""])
+            fig.add_trace(go.Scatter(
+                x=[x0, x1],
+                y=[y0, y1],
+                mode='lines',
+                line=dict(color='#888', width=2),
+                hoverinfo='none',
+                showlegend=False
+            ))
         
-        # Create sunburst chart (better for interactive drill-down than tree diagram)
-        fig = go.Figure(go.Sunburst(
-            labels=labels,
-            parents=parents,
-            values=values,
-            customdata=customdata,
-            branchvalues="total",
-            marker=dict(
-                line=dict(color='white', width=2),
-                colorscale='Blues'
-            ),
-            hovertemplate='<b>%{label}</b><br>Count: %{value}<br>Click to expand<extra></extra>',
-            textfont=dict(size=14)
-        ))
+        # Add nodes (labels) with proper positioning to avoid overlap
+        for node in G.nodes():
+            x, y = pos[node]
+            count = G.nodes[node]['count']
+            level = G.nodes[node]['level']
+            
+            # Position text to the right of the node for leaf nodes, centered for root
+            if level == 0:
+                textposition = 'middle center'
+                textfont_size = 16
+                textfont_color = '#1f77b4'
+                textfont_weight = 'bold'
+            else:
+                textposition = 'middle right'
+                textfont_size = 12
+                textfont_color = '#2C3E50'
+                textfont_weight = 'normal'
+            
+            # Add invisible marker at node position
+            fig.add_trace(go.Scatter(
+                x=[x],
+                y=[y],
+                mode='markers',
+                marker=dict(size=8, color='#1f77b4'),
+                hovertemplate=f'<b>{node}</b><br>Count: {count}<extra></extra>',
+                showlegend=False
+            ))
+            
+            # Add text label offset from the line
+            text_offset = 0.15 if level > 0 else 0
+            fig.add_trace(go.Scatter(
+                x=[x + text_offset],
+                y=[y],
+                mode='text',
+                text=[f"{node} ({count})"],
+                textposition=textposition,
+                textfont=dict(size=textfont_size, color=textfont_color),
+                hoverinfo='skip',
+                showlegend=False
+            ))
         
+        # Update layout
         fig.update_layout(
             title=dict(text=title, font=dict(size=18)),
-            height=700,
-            margin=dict(t=80, l=0, r=0, b=0)
+            showlegend=False,
+            hovermode='closest',
+            height=max(600, len(G.nodes()) * 40),  # Dynamic height based on node count
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.5, 3]),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            plot_bgcolor='white',
+            margin=dict(t=80, l=50, r=200, b=50)
         )
         
         return fig
+    
+    def _create_tree_layout(self, G, root):
+        """Create tree layout with proper spacing to avoid label overlap"""
+        pos = {}
+        
+        # Get all children of root
+        children = list(G.successors(root))
+        num_children = len(children)
+        
+        # Position root at left
+        pos[root] = (0, 0)
+        
+        # Position children vertically with enough spacing
+        if num_children > 0:
+            # Calculate vertical spacing (minimum 1.0 units between nodes)
+            spacing = max(1.0, 10.0 / num_children) if num_children > 10 else 1.5
+            total_height = (num_children - 1) * spacing
+            start_y = -total_height / 2
+            
+            for i, child in enumerate(sorted(children)):
+                y = start_y + (i * spacing)
+                pos[child] = (2, y)  # X=2 for children (horizontal distance from root)
+        
+        return pos
 
 
 # ========================================================================================
