@@ -1690,187 +1690,200 @@ def main():
                 # Convert to Pandas for display
                 output_df = pipeline.results_to_dataframe(results_df, id_column, text_column)
                 
+                # Store in session state for persistence across reruns
+                st.session_state.output_df = output_df
+                st.session_state.processing_time = processing_time
+                st.session_state.selected_industry = selected_industry
+                st.session_state.output_format = output_format
+                
                 # Display results
                 st.success(f"✅ Complete! {len(output_df):,} records in {processing_time:.1f}s ({len(output_df)/processing_time:.1f} rec/s)")
+        
+        # Display results if available (persists across reruns)
+        if 'output_df' in st.session_state:
+            output_df = st.session_state.output_df
+            processing_time = st.session_state.processing_time
+            selected_industry = st.session_state.get('selected_industry', 'Unknown')
+            output_format = st.session_state.get('output_format', 'csv')
+            
+            # Metrics
+            st.subheader("📈 Key Metrics")
+            
+            metric_cols = st.columns(7)
                 
-                # Metrics
-                st.subheader("📈 Key Metrics")
-                
-                metric_cols = st.columns(7)
-                
-                with metric_cols[0]:
-                    st.metric("Total Records", f"{len(output_df):,}")
-                
-                with metric_cols[1]:
-                    st.metric("Processing Time", f"{processing_time/60:.1f} min")
-                
-                with metric_cols[2]:
-                    st.metric("Speed", f"{len(output_df)/processing_time:.1f} rec/s")
-                
-                with metric_cols[3]:
-                    unique_l1 = output_df['L1_Category'].nunique()
-                    st.metric("L1 Categories", unique_l1)
-                
-                with metric_cols[4]:
-                    unique_l2 = output_df['L2_Subcategory'].nunique()
-                    st.metric("L2 Categories", unique_l2)
-                
-                with metric_cols[5]:
-                    unique_l3 = output_df['L3_Tertiary'].nunique()
-                    st.metric("L3 Categories", unique_l3)
-                
-                with metric_cols[6]:
-                    unique_l4 = output_df['L4_Quaternary'].nunique()
-                    st.metric("L4 Categories", unique_l4)
-                
-                # Results preview
-                st.subheader("📋 Results Preview (First 20 rows)")
-                st.dataframe(output_df.head(20), width='stretch')
-                
-                # Analytics using DuckDB & Plotly
-                st.subheader("📊 Executive Dashboard")
+            with metric_cols[0]:
+                st.metric("Total Records", f"{len(output_df):,}")
+            
+            with metric_cols[1]:
+                st.metric("Processing Time", f"{processing_time/60:.1f} min")
+            
+            with metric_cols[2]:
+                st.metric("Speed", f"{len(output_df)/processing_time:.1f} rec/s")
+            
+            with metric_cols[3]:
+                unique_l1 = output_df['L1_Category'].nunique()
+                st.metric("L1 Categories", unique_l1)
+            
+            with metric_cols[4]:
+                unique_l2 = output_df['L2_Subcategory'].nunique()
+                st.metric("L2 Categories", unique_l2)
+            
+            with metric_cols[5]:
+                unique_l3 = output_df['L3_Tertiary'].nunique()
+                st.metric("L3 Categories", unique_l3)
+            
+            with metric_cols[6]:
+                unique_l4 = output_df['L4_Quaternary'].nunique()
+                st.metric("L4 Categories", unique_l4)
+            
+            # Results preview
+            st.subheader("📋 Results Preview (First 20 rows)")
+            st.dataframe(output_df.head(20), width='stretch')
+            
+            # Analytics using DuckDB & Plotly
+            st.subheader("📊 Executive Dashboard")
 
-                # Overview tab only
-                st.markdown("### 📈 Overview")
-                
-                # Hierarchical Category View (Full Width)
-                st.markdown("#### 🌍 Hierarchical Category View")
-                fig_sun = AdvancedVisualizer.create_sunburst_chart(output_df)
-                if fig_sun:
-                    st.plotly_chart(fig_sun, width='stretch')
-                else:
-                    st.info("Not enough data for hierarchical view.")
-                
-                # Bar Chart - L1 Category Distribution
-                st.markdown("#### 📊 L1 Category Distribution")
-                l1_counts = output_df['L1_Category'].value_counts().reset_index()
-                l1_counts.columns = ['Category', 'Count']
-                fig_bar = px.bar(
-                    l1_counts,
-                    x='Category',
-                    y='Count',
-                    title='L1 Category Distribution',
-                    color='Count',
-                    color_continuous_scale='Blues',
-                    text='Count'
+            # Overview tab only
+            st.markdown("### 📈 Overview")
+            
+            # Hierarchical Category View (Full Width)
+            st.markdown("#### 🌍 Hierarchical Category View")
+            fig_sun = AdvancedVisualizer.create_sunburst_chart(output_df)
+            if fig_sun:
+                st.plotly_chart(fig_sun, width='stretch')
+            else:
+                st.info("Not enough data for hierarchical view.")
+            
+            # Bar Chart - L1 Category Distribution
+            st.markdown("#### 📊 L1 Category Distribution")
+            l1_counts = output_df['L1_Category'].value_counts().reset_index()
+            l1_counts.columns = ['Category', 'Count']
+            fig_bar = px.bar(
+                l1_counts,
+                x='Category',
+                y='Count',
+                title='L1 Category Distribution',
+                color='Count',
+                color_continuous_scale='Blues',
+                text='Count'
+            )
+            fig_bar.update_traces(texttemplate='%{text}', textposition='outside')
+            fig_bar.update_layout(showlegend=False, height=400)
+            st.plotly_chart(fig_bar, width='stretch')
+            
+            st.markdown("---")
+            
+            # ============================================================================
+            # WORD TREE - HIERARCHICAL CATEGORY VISUALIZATION
+            # ============================================================================
+            
+            st.subheader("🌳 Word Tree - Hierarchical Categories")
+            st.markdown("""
+            **Explore your data hierarchically!** Select categories to drill down and see the tree structure.
+            - Click on blocks to explore deeper levels
+            - See proportions at each level
+            - Progressive filtering: All → L1 → L2 → L3 → L4
+            """)
+            
+            # Initialize hierarchical tree
+            tree_viz = HierarchicalCategoryTree(output_df)
+            
+            # Treemap controls
+            st.markdown("### 📊 Category Tree (Drill-Down)")
+            st.markdown("Select categories to drill down into specific problems")
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                l1_options_treemap = ['All'] + sorted(output_df['L1_Category'].unique().tolist())
+                selected_l1_treemap = st.selectbox(
+                    "Select L1 Category",
+                    options=l1_options_treemap,
+                    key="treemap_l1"
                 )
-                fig_bar.update_traces(texttemplate='%{text}', textposition='outside')
-                fig_bar.update_layout(showlegend=False, height=400)
-                st.plotly_chart(fig_bar, width='stretch')
-                
-                st.markdown("---")
-                
-                # ============================================================================
-                # WORD TREE - HIERARCHICAL CATEGORY VISUALIZATION
-                # ============================================================================
-                
-                st.subheader("🌳 Word Tree - Hierarchical Categories")
-                st.markdown("""
-                **Explore your data hierarchically!** Select categories to drill down and see the tree structure.
-                - Click on blocks to explore deeper levels
-                - See proportions at each level
-                - Progressive filtering: All → L1 → L2 → L3 → L4
-                """)
-                
-                # Initialize hierarchical tree
-                tree_viz = HierarchicalCategoryTree(output_df)
-                
-                # Treemap controls
-                st.markdown("### 📊 Category Tree (Drill-Down)")
-                st.markdown("Select categories to drill down into specific problems")
-                
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    l1_options_treemap = ['All'] + sorted(output_df['L1_Category'].unique().tolist())
-                    selected_l1_treemap = st.selectbox(
-                        "Select L1 Category",
-                        options=l1_options_treemap,
-                        key="treemap_l1"
+            
+            with col2:
+                if selected_l1_treemap != 'All':
+                    l2_options = ['All'] + sorted(
+                        output_df[output_df['L1_Category'] == selected_l1_treemap]['L2_Subcategory'].unique().tolist()
                     )
-                
-                with col2:
-                    if selected_l1_treemap != 'All':
-                        l2_options = ['All'] + sorted(
-                            output_df[output_df['L1_Category'] == selected_l1_treemap]['L2_Subcategory'].unique().tolist()
-                        )
-                        selected_l2_treemap = st.selectbox(
-                            "Select L2 Subcategory (Optional)",
-                            options=l2_options,
-                            key="treemap_l2"
-                        )
-                    else:
-                        selected_l2_treemap = 'All'
-                
-                # Create treemap
-                if selected_l1_treemap == 'All':
-                    fig_treemap = tree_viz.create_drill_down_treemap()
-                elif selected_l2_treemap == 'All':
-                    fig_treemap = tree_viz.create_drill_down_treemap(selected_l1=selected_l1_treemap)
+                    selected_l2_treemap = st.selectbox(
+                        "Select L2 Subcategory (Optional)",
+                        options=l2_options,
+                        key="treemap_l2"
+                    )
                 else:
-                    fig_treemap = tree_viz.create_drill_down_treemap(
-                        selected_l1=selected_l1_treemap,
-                        selected_l2=selected_l2_treemap
-                    )
-                
-                st.plotly_chart(fig_treemap, use_container_width=True)
-                
-                st.markdown("---")
-                
-                # Category Distribution Tables
-                st.markdown("### 📋 Category Distribution Tables")
-                
-                # L1 Category Distribution
-                st.markdown("#### L1 Category Distribution")
-                l1_dist = output_df['L1_Category'].value_counts().reset_index()
-                l1_dist.columns = ['L1 Category', 'Count']
-                l1_dist['Percentage'] = (l1_dist['Count'] / len(output_df) * 100).round(2)
-                l1_dist['Percentage'] = l1_dist['Percentage'].astype(str) + '%'
-                st.dataframe(l1_dist, width='stretch', hide_index=True)
-                
-                st.markdown("---")
-                
-                # L2 Category Distribution
-                st.markdown("#### L2 Category Distribution")
-                l2_dist = output_df['L2_Subcategory'].value_counts().reset_index()
-                l2_dist.columns = ['L2 Subcategory', 'Count']
-                l2_dist['Percentage'] = (l2_dist['Count'] / len(output_df) * 100).round(2)
-                l2_dist['Percentage'] = l2_dist['Percentage'].astype(str) + '%'
-                st.dataframe(l2_dist, width='stretch', hide_index=True)
-                
-                st.markdown("---")
-                
-                # L3 Category Distribution
-                st.markdown("#### L3 Category Distribution")
-                l3_dist = output_df['L3_Tertiary'].value_counts().reset_index()
-                l3_dist.columns = ['L3 Tertiary', 'Count']
-                l3_dist['Percentage'] = (l3_dist['Count'] / len(output_df) * 100).round(2)
-                l3_dist['Percentage'] = l3_dist['Percentage'].astype(str) + '%'
-                st.dataframe(l3_dist, width='stretch', hide_index=True)
-                
-                st.markdown("---")
-                
-                # L4 Category Distribution
-                st.markdown("#### L4 Category Distribution")
-                l4_dist = output_df['L4_Quaternary'].value_counts().reset_index()
-                l4_dist.columns = ['L4 Quaternary', 'Count']
-                l4_dist['Percentage'] = (l4_dist['Count'] / len(output_df) * 100).round(2)
-                l4_dist['Percentage'] = l4_dist['Percentage'].astype(str) + '%'
-                st.dataframe(l4_dist, width='stretch', hide_index=True)
-                
-                # Download Results
-                st.subheader("💾 Download Results")
-                
-                # Convert back to Polars for fast export
-                export_df = pl.from_pandas(output_df)
-                results_bytes = PolarsFileHandler.save_dataframe(export_df, output_format)
-                st.download_button(
-                    label=f"📥 Download Results (.{output_format})",
-                    data=results_bytes,
-                    file_name=f"results_{selected_industry}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{output_format}",
-                    mime=f"application/{output_format}",
-                    width='stretch'
+                    selected_l2_treemap = 'All'
+            
+            # Create treemap
+            if selected_l1_treemap == 'All':
+                fig_treemap = tree_viz.create_drill_down_treemap()
+            elif selected_l2_treemap == 'All':
+                fig_treemap = tree_viz.create_drill_down_treemap(selected_l1=selected_l1_treemap)
+            else:
+                fig_treemap = tree_viz.create_drill_down_treemap(
+                    selected_l1=selected_l1_treemap,
+                    selected_l2=selected_l2_treemap
                 )
+            
+            st.plotly_chart(fig_treemap, use_container_width=True)
+            
+            st.markdown("---")
+            
+            # Category Distribution Tables
+            st.markdown("### 📋 Category Distribution Tables")
+            
+            # L1 Category Distribution
+            st.markdown("#### L1 Category Distribution")
+            l1_dist = output_df['L1_Category'].value_counts().reset_index()
+            l1_dist.columns = ['L1 Category', 'Count']
+            l1_dist['Percentage'] = (l1_dist['Count'] / len(output_df) * 100).round(2)
+            l1_dist['Percentage'] = l1_dist['Percentage'].astype(str) + '%'
+            st.dataframe(l1_dist, width='stretch', hide_index=True)
+            
+            st.markdown("---")
+            
+            # L2 Category Distribution
+            st.markdown("#### L2 Category Distribution")
+            l2_dist = output_df['L2_Subcategory'].value_counts().reset_index()
+            l2_dist.columns = ['L2 Subcategory', 'Count']
+            l2_dist['Percentage'] = (l2_dist['Count'] / len(output_df) * 100).round(2)
+            l2_dist['Percentage'] = l2_dist['Percentage'].astype(str) + '%'
+            st.dataframe(l2_dist, width='stretch', hide_index=True)
+            
+            st.markdown("---")
+            
+            # L3 Category Distribution
+            st.markdown("#### L3 Category Distribution")
+            l3_dist = output_df['L3_Tertiary'].value_counts().reset_index()
+            l3_dist.columns = ['L3 Tertiary', 'Count']
+            l3_dist['Percentage'] = (l3_dist['Count'] / len(output_df) * 100).round(2)
+            l3_dist['Percentage'] = l3_dist['Percentage'].astype(str) + '%'
+            st.dataframe(l3_dist, width='stretch', hide_index=True)
+            
+            st.markdown("---")
+            
+            # L4 Category Distribution
+            st.markdown("#### L4 Category Distribution")
+            l4_dist = output_df['L4_Quaternary'].value_counts().reset_index()
+            l4_dist.columns = ['L4 Quaternary', 'Count']
+            l4_dist['Percentage'] = (l4_dist['Count'] / len(output_df) * 100).round(2)
+            l4_dist['Percentage'] = l4_dist['Percentage'].astype(str) + '%'
+            st.dataframe(l4_dist, width='stretch', hide_index=True)
+            
+            # Download Results
+            st.subheader("💾 Download Results")
+            
+            # Convert back to Polars for fast export
+            export_df = pl.from_pandas(output_df)
+            results_bytes = PolarsFileHandler.save_dataframe(export_df, output_format)
+            st.download_button(
+                label=f"📥 Download Results (.{output_format})",
+                data=results_bytes,
+                file_name=f"results_{selected_industry}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{output_format}",
+                mime=f"application/{output_format}",
+                width='stretch'
+            )
     
     # Footer
     st.markdown("---")
