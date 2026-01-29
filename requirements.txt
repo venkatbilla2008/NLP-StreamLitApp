@@ -42,6 +42,8 @@ networkx
 scikit-learn
 Textblob
 seaborn
+pyecharts>=2.0.0
+streamlit-echarts>=0.4.0
 
 
 # spaCy for NER-based PII Detection
