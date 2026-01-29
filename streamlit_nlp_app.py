@@ -1,5 +1,5 @@
 """
-Dynamic Domain-Agnostic NLP Text Analysis Pipeline - WORD TREE ENHANCED VERSION
+Dynamic Domain-Agnostic NLP Text Analysis Pipeline - PYECHARTS WORD TREE VERSION
 ==================================================================================
 
 ULTRA-FAST OPTIMIZATIONS:
@@ -11,14 +11,15 @@ ULTRA-FAST OPTIMIZATIONS:
 6. ✅ Pre-compiled patterns with aggressive caching
 7. ✅ Zero-copy operations where possible
 
-WORD TREE ENHANCEMENTS:
-8. ✅ Interactive Hierarchical Sunburst (click to drill down L1→L2→L3→L4)
-9. ✅ Category Network Graph (see connections between categories)
-10. ✅ Drill-Down Treemap (progressive filtering)
-11. ✅ Niche Problems Analysis (discover specific L4 issues)
+PYECHARTS WORD TREE ENHANCEMENTS:
+8. ✅ Interactive Tree Chart with expand/collapse functionality
+9. ✅ Smooth animations and transitions
+10. ✅ No overlapping labels (smart positioning)
+11. ✅ Beautiful, professional appearance
+12. ✅ Curved branches with emphasis effects
 
 TARGET: 50,000 records in ~30-60 minutes (15-30 records/second)
-Version: 6.0.0 - WORD TREE ENHANCED
+Version: 7.0.0 - PYECHARTS WORD TREE
 
 OUTPUT COLUMNS (6 essential columns only):
 - Conversation_ID
@@ -62,6 +63,11 @@ import spacy
 import plotly.express as px
 import plotly.graph_objects as go
 import networkx as nx  # For tree diagram layout
+
+# PyEcharts for Word Tree
+from pyecharts import options as opts
+from pyecharts.charts import Tree
+from streamlit_echarts import st_echarts
 
 # ========================================================================================
 # CONFIGURATION & CONSTANTS - ULTRA-OPTIMIZED
@@ -954,187 +960,195 @@ class AdvancedVisualizer:
 
 
 # ========================================================================================
-# HIERARCHICAL CATEGORY TREE - WORD TREE VISUALIZATION
+# PYECHARTS WORD TREE VISUALIZER
 # ========================================================================================
 
-class HierarchicalCategoryTree:
+class PyEchartsWordTree:
     """
-    Creates hierarchical word tree visualization based on L1→L2→L3→L4 categories.
-    Shows tree-shaped treemap for drilling down through category hierarchy.
+    Creates beautiful, interactive Word Tree visualizations using PyEcharts.
+    Features: expand/collapse, smooth animations, no overlapping labels.
     """
     
     def __init__(self, df: pd.DataFrame):
-        """Initialize with classified data"""
         self.df = df
         self.hierarchy_levels = ['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']
     
-    def create_interactive_tree(self, selected_l1: str = None, selected_l2: str = None, selected_l3: str = None) -> go.Figure:
-        """Create an interactive tree diagram with non-overlapping labels"""
+    def create_tree_data(self, selected_l1: str = None, selected_l2: str = None, selected_l3: str = None) -> Dict:
+        """Build tree data structure for PyEcharts"""
         plot_df = self.df.copy()
         
-        # Build title and determine what to show
+        # Apply filters
         if selected_l3:
-            title = f"🌳 Word Tree: {selected_l1} > {selected_l2} > {selected_l3}"
-            filtered_df = plot_df[
+            plot_df = plot_df[
                 (plot_df['L1_Category'] == selected_l1) &
                 (plot_df['L2_Subcategory'] == selected_l2) &
                 (plot_df['L3_Tertiary'] == selected_l3)
             ]
-            level_name = "L4"
+            root_name = selected_l3
+            child_col = 'L4_Quaternary'
         elif selected_l2:
-            title = f"🌳 Word Tree: {selected_l1} > {selected_l2}"
-            filtered_df = plot_df[
+            plot_df = plot_df[
                 (plot_df['L1_Category'] == selected_l1) &
                 (plot_df['L2_Subcategory'] == selected_l2)
             ]
-            level_name = "L3"
+            root_name = selected_l2
+            child_col = 'L3_Tertiary'
+        elif selected_l1:
+            plot_df = plot_df[plot_df['L1_Category'] == selected_l1]
+            root_name = selected_l1
+            child_col = 'L2_Subcategory'
+        else:
+            root_name = "All Categories"
+            child_col = 'L1_Category'
+        
+        if len(plot_df) == 0:
+            return {"name": "No Data", "value": 0, "children": []}
+        
+        # Build tree structure
+        if root_name == "All Categories":
+            # Build full hierarchy
+            tree_data = {
+                "name": f"{root_name} ({len(plot_df)})",
+                "value": len(plot_df),
+                "children": []
+            }
+            
+            # Group by L1
+            for l1, l1_df in plot_df.groupby('L1_Category'):
+                l1_node = {
+                    "name": f"{l1} ({len(l1_df)})",
+                    "value": len(l1_df),
+                    "children": []
+                }
+                
+                # Group by L2
+                for l2, l2_df in l1_df.groupby('L2_Subcategory'):
+                    l2_node = {
+                        "name": f"{l2} ({len(l2_df)})",
+                        "value": len(l2_df),
+                        "children": []
+                    }
+                    
+                    # Group by L3
+                    for l3, l3_df in l2_df.groupby('L3_Tertiary'):
+                        l3_node = {
+                            "name": f"{l3} ({len(l3_df)})",
+                            "value": len(l3_df),
+                            "children": []
+                        }
+                        
+                        # Add L4
+                        for l4, count in l3_df['L4_Quaternary'].value_counts().items():
+                            l3_node["children"].append({
+                                "name": f"{l4} ({count})",
+                                "value": count
+                            })
+                        
+                        l2_node["children"].append(l3_node)
+                    
+                    l1_node["children"].append(l2_node)
+                
+                tree_data["children"].append(l1_node)
+        else:
+            # Single level drill-down
+            tree_data = {
+                "name": f"{root_name} ({len(plot_df)})",
+                "value": len(plot_df),
+                "children": []
+            }
+            
+            for child, count in plot_df[child_col].value_counts().items():
+                tree_data["children"].append({
+                    "name": f"{child} ({count})",
+                    "value": count
+                })
+        
+        return tree_data
+    
+    def create_echarts_tree(self, selected_l1: str = None, selected_l2: str = None, selected_l3: str = None) -> Dict:
+        """Create PyEcharts tree configuration"""
+        tree_data = self.create_tree_data(selected_l1, selected_l2, selected_l3)
+        
+        # Build title
+        if selected_l3:
+            title = f"🌳 Word Tree: {selected_l1} > {selected_l2} > {selected_l3}"
+        elif selected_l2:
+            title = f"🌳 Word Tree: {selected_l1} > {selected_l2}"
         elif selected_l1:
             title = f"🌳 Word Tree: {selected_l1}"
-            filtered_df = plot_df[plot_df['L1_Category'] == selected_l1]
-            level_name = "L2"
         else:
-            title = "🌳 Word Tree: All Categories"
-            filtered_df = plot_df
-            level_name = "L1"
+            title = "🌳 Word Tree: Complete Hierarchy"
         
-        if len(filtered_df) == 0:
-            fig = go.Figure()
-            fig.add_annotation(text="No data available", xref="paper", yref="paper",
-                             x=0.5, y=0.5, showarrow=False)
-            return fig
+        # ECharts configuration
+        option = {
+            "title": {
+                "text": title,
+                "left": "center",
+                "textStyle": {"fontSize": 18, "fontWeight": "bold"}
+            },
+            "tooltip": {
+                "trigger": "item",
+                "triggerOn": "mousemove",
+                "formatter": "{b}"
+            },
+            "series": [
+                {
+                    "type": "tree",
+                    "data": [tree_data],
+                    "top": "10%",
+                    "left": "10%",
+                    "bottom": "10%",
+                    "right": "20%",
+                    "symbolSize": 10,
+                    "orient": "LR",  # Left to Right
+                    "label": {
+                        "position": "right",
+                        "verticalAlign": "middle",
+                        "align": "left",
+                        "fontSize": 12,
+                        "color": "#2C3E50"
+                    },
+                    "leaves": {
+                        "label": {
+                            "position": "right",
+                            "verticalAlign": "middle",
+                            "align": "left",
+                            "fontSize": 11,
+                            "color": "#555"
+                        }
+                    },
+                    "expandAndCollapse": True,
+                    "animationDuration": 550,
+                    "animationDurationUpdate": 750,
+                    "initialTreeDepth": 2,  # Show first 2 levels by default
+                    "lineStyle": {
+                        "color": "#888",
+                        "width": 2,
+                        "curveness": 0.5
+                    },
+                    "itemStyle": {
+                        "color": "#1f77b4",
+                        "borderColor": "#1f77b4"
+                    },
+                    "emphasis": {
+                        "focus": "descendant",
+                        "itemStyle": {
+                            "color": "#ff7f0e"
+                        },
+                        "lineStyle": {
+                            "color": "#ff7f0e",
+                            "width": 3
+                        }
+                    }
+                }
+            ]
+        }
         
-        # Build tree structure based on current level
-        import networkx as nx
-        G = nx.DiGraph()
-        
-        # Determine what to display based on drill-down level
-        if selected_l3:
-            # Show L3 → L4
-            root = selected_l3
-            G.add_node(root, count=len(filtered_df), level=0)
-            for l4, count in filtered_df['L4_Quaternary'].value_counts().items():
-                G.add_node(l4, count=count, level=1)
-                G.add_edge(root, l4)
-        elif selected_l2:
-            # Show L2 → L3
-            root = selected_l2
-            G.add_node(root, count=len(filtered_df), level=0)
-            for l3, count in filtered_df['L3_Tertiary'].value_counts().items():
-                G.add_node(l3, count=count, level=1)
-                G.add_edge(root, l3)
-        elif selected_l1:
-            # Show L1 → L2
-            root = selected_l1
-            G.add_node(root, count=len(filtered_df), level=0)
-            for l2, count in filtered_df['L2_Subcategory'].value_counts().items():
-                G.add_node(l2, count=count, level=1)
-                G.add_edge(root, l2)
-        else:
-            # Show all L1
-            root = "Categories"
-            G.add_node(root, count=len(filtered_df), level=0)
-            for l1, count in filtered_df['L1_Category'].value_counts().items():
-                G.add_node(l1, count=count, level=1)
-                G.add_edge(root, l1)
-        
-        # Create hierarchical layout with proper spacing
-        pos = self._create_tree_layout(G, root)
-        
-        # Create figure
-        fig = go.Figure()
-        
-        # Add edges (branches) first
-        for edge in G.edges():
-            x0, y0 = pos[edge[0]]
-            x1, y1 = pos[edge[1]]
-            
-            fig.add_trace(go.Scatter(
-                x=[x0, x1],
-                y=[y0, y1],
-                mode='lines',
-                line=dict(color='#888', width=2),
-                hoverinfo='none',
-                showlegend=False
-            ))
-        
-        # Add nodes (labels) with proper positioning to avoid overlap
-        for node in G.nodes():
-            x, y = pos[node]
-            count = G.nodes[node]['count']
-            level = G.nodes[node]['level']
-            
-            # Position text to the right of the node for leaf nodes, centered for root
-            if level == 0:
-                textposition = 'middle center'
-                textfont_size = 16
-                textfont_color = '#1f77b4'
-                textfont_weight = 'bold'
-            else:
-                textposition = 'middle right'
-                textfont_size = 12
-                textfont_color = '#2C3E50'
-                textfont_weight = 'normal'
-            
-            # Add invisible marker at node position
-            fig.add_trace(go.Scatter(
-                x=[x],
-                y=[y],
-                mode='markers',
-                marker=dict(size=8, color='#1f77b4'),
-                hovertemplate=f'<b>{node}</b><br>Count: {count}<extra></extra>',
-                showlegend=False
-            ))
-            
-            # Add text label offset from the line
-            text_offset = 0.15 if level > 0 else 0
-            fig.add_trace(go.Scatter(
-                x=[x + text_offset],
-                y=[y],
-                mode='text',
-                text=[f"{node} ({count})"],
-                textposition=textposition,
-                textfont=dict(size=textfont_size, color=textfont_color),
-                hoverinfo='skip',
-                showlegend=False
-            ))
-        
-        # Update layout
-        fig.update_layout(
-            title=dict(text=title, font=dict(size=18)),
-            showlegend=False,
-            hovermode='closest',
-            height=max(600, len(G.nodes()) * 40),  # Dynamic height based on node count
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.5, 3]),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-            plot_bgcolor='white',
-            margin=dict(t=80, l=50, r=200, b=50)
-        )
-        
-        return fig
-    
-    def _create_tree_layout(self, G, root):
-        """Create tree layout with proper spacing to avoid label overlap"""
-        pos = {}
-        
-        # Get all children of root
-        children = list(G.successors(root))
-        num_children = len(children)
-        
-        # Position root at left
-        pos[root] = (0, 0)
-        
-        # Position children vertically with enough spacing
-        if num_children > 0:
-            # Calculate vertical spacing (minimum 1.0 units between nodes)
-            spacing = max(1.0, 10.0 / num_children) if num_children > 10 else 1.5
-            total_height = (num_children - 1) * spacing
-            start_y = -total_height / 2
-            
-            for i, child in enumerate(sorted(children)):
-                y = start_y + (i * spacing)
-                pos[child] = (2, y)  # X=2 for children (horizontal distance from root)
-        
-        return pos
+        return option
+
+
+# Keep the old class name for compatibility
+HierarchicalCategoryTree = PyEchartsWordTree
 
 
 # ========================================================================================
@@ -1988,20 +2002,28 @@ def main():
                         st.session_state.tree_l3 = manual_l3
                         st.rerun()
             
-            # Create and display interactive tree
-            st.markdown("### 🌳 Interactive Tree (Click to Expand)")
+            # Create and display PyEcharts interactive tree
+            st.markdown("### 🌳 PyEcharts Interactive Tree (Click nodes to expand/collapse)")
+            st.markdown("""
+            **Features:**
+            - Click on nodes to expand or collapse branches
+            - Hover to see category details
+            - Smooth animations
+            - No overlapping labels
+            """)
             
-            fig_tree = tree_viz.create_interactive_tree(
+            echarts_option = tree_viz.create_echarts_tree(
                 selected_l1=st.session_state.tree_l1,
                 selected_l2=st.session_state.tree_l2,
                 selected_l3=st.session_state.tree_l3
             )
             
-            # Display with click event handling
-            selected_point = st.plotly_chart(fig_tree, use_container_width=True, key="interactive_tree", on_select="rerun")
-            
-            # Handle click events (if Plotly supports it in your Streamlit version)
-            # Note: This is a simplified version - full click handling may require custom JavaScript
+            # Display with st_echarts
+            st_echarts(
+                options=echarts_option,
+                height="700px",
+                key="pyecharts_word_tree"
+            )
             
             st.markdown("---")
             
