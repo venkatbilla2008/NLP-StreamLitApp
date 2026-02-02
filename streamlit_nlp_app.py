@@ -2,7 +2,7 @@
 Dynamic Domain-Agnostic NLP Text Analysis Pipeline
 ==================================================================================
 
-ULTRA-FAST OPTIMIZATIONS:
+OPTIMIZATIONS:
 1. ✅ Polars for 10x faster data reading/writing
 2. ✅ Vectorized operations (no row-by-row loops)
 3. ✅ DuckDB for memory-efficient large dataset processing
@@ -11,7 +11,7 @@ ULTRA-FAST OPTIMIZATIONS:
 6. ✅ Pre-compiled patterns with aggressive caching
 7. ✅ Zero-copy operations where possible
 
-PYECHARTS WORD TREE ENHANCEMENTS:
+PYECHARTS WORD TREE:
 8. ✅ Interactive Tree Chart with expand/collapse functionality
 9. ✅ Smooth animations and transitions
 10. ✅ No overlapping labels (smart positioning)
@@ -1059,7 +1059,7 @@ class PyEchartsWordTree:
         return tree_data
     
     def create_echarts_tree(self, selected_l1: str = None, selected_l2: str = None, selected_l3: str = None) -> Dict:
-        """Create PyEcharts tree configuration"""
+        """Create PyEcharts tree configuration with improved readability"""
         tree_data = self.create_tree_data(selected_l1, selected_l2, selected_l3)
         
         # Build title
@@ -1072,42 +1072,74 @@ class PyEchartsWordTree:
         else:
             title = "🌳 Word Tree: Complete Hierarchy"
         
-        # ECharts configuration
+        # ECharts configuration with improved spacing and readability
         option = {
             "title": {
                 "text": title,
                 "left": "center",
-                "textStyle": {"fontSize": 18, "fontWeight": "bold"}
+                "top": "2%",
+                "textStyle": {"fontSize": 18, "fontWeight": "bold", "color": "#2C3E50"}
             },
             "tooltip": {
                 "trigger": "item",
                 "triggerOn": "mousemove",
-                "formatter": "{b}"
+                "formatter": "{b}",
+                "backgroundColor": "rgba(50, 50, 50, 0.9)",
+                "borderColor": "#333",
+                "borderWidth": 1,
+                "textStyle": {
+                    "color": "#fff",
+                    "fontSize": 13
+                }
             },
             "series": [
                 {
                     "type": "tree",
                     "data": [tree_data],
-                    "top": "10%",
-                    "left": "10%",
-                    "bottom": "10%",
-                    "right": "20%",
-                    "symbolSize": 10,
+                    "top": "12%",
+                    "left": "5%",
+                    "bottom": "5%",
+                    "right": "25%",  # More space on right for labels
+                    "symbolSize": 8,
                     "orient": "LR",  # Left to Right
+                    "layout": "orthogonal",  # Orthogonal layout for better spacing
+                    "edgeShape": "polyline",  # Cleaner edge connections
+                    "edgeForkPosition": "50%",  # Center fork position
+                    "roam": True,  # Enable zoom and pan
+                    "scaleLimit": {
+                        "min": 0.5,
+                        "max": 3
+                    },
                     "label": {
+                        "show": True,
                         "position": "right",
+                        "distance": 15,  # Distance from node
                         "verticalAlign": "middle",
                         "align": "left",
-                        "fontSize": 12,
-                        "color": "#2C3E50"
+                        "fontSize": 13,
+                        "color": "#2C3E50",
+                        "fontWeight": "500",
+                        "overflow": "breakAll",  # Break long text
+                        "width": 200,  # Max width for labels
+                        "backgroundColor": "rgba(255, 255, 255, 0.8)",  # Semi-transparent background
+                        "padding": [4, 8],
+                        "borderRadius": 4
                     },
                     "leaves": {
                         "label": {
+                            "show": True,
                             "position": "right",
+                            "distance": 12,
                             "verticalAlign": "middle",
                             "align": "left",
-                            "fontSize": 11,
-                            "color": "#555"
+                            "fontSize": 12,
+                            "color": "#555",
+                            "fontWeight": "normal",
+                            "overflow": "breakAll",
+                            "width": 180,
+                            "backgroundColor": "rgba(245, 245, 245, 0.8)",
+                            "padding": [3, 6],
+                            "borderRadius": 3
                         }
                     },
                     "expandAndCollapse": True,
@@ -1115,22 +1147,32 @@ class PyEchartsWordTree:
                     "animationDurationUpdate": 750,
                     "initialTreeDepth": 2,  # Show first 2 levels by default
                     "lineStyle": {
-                        "color": "#888",
-                        "width": 2,
-                        "curveness": 0.5
+                        "color": "#999",
+                        "width": 1.5,
+                        "curveness": 0.3  # Reduced curveness for cleaner look
                     },
                     "itemStyle": {
                         "color": "#1f77b4",
-                        "borderColor": "#1f77b4"
+                        "borderColor": "#1f77b4",
+                        "borderWidth": 2
                     },
                     "emphasis": {
                         "focus": "descendant",
                         "itemStyle": {
-                            "color": "#ff7f0e"
+                            "color": "#ff7f0e",
+                            "borderColor": "#ff7f0e",
+                            "borderWidth": 3,
+                            "shadowBlur": 10,
+                            "shadowColor": "rgba(255, 127, 14, 0.5)"
                         },
                         "lineStyle": {
                             "color": "#ff7f0e",
-                            "width": 3
+                            "width": 2.5
+                        },
+                        "label": {
+                            "fontWeight": "bold",
+                            "fontSize": 14,
+                            "backgroundColor": "rgba(255, 127, 14, 0.1)"
                         }
                     }
                 }
@@ -1927,10 +1969,19 @@ def main():
                 selected_l3=st.session_state.tree_l3
             )
             
+            # Display instructions
+            st.info("""
+            **💡 Tips for better readability:**
+            - 🔍 **Zoom In/Out**: Use mouse wheel to zoom
+            - 🖱️ **Pan**: Click and drag to move around
+            - 📏 **Labels have backgrounds** to prevent overlapping
+            - 🎯 **Click nodes** to expand/collapse branches
+            """)
+            
             # Display with st_echarts
             st_echarts(
                 options=echarts_option,
-                height="700px",
+                height="900px",  # Increased height for better spacing
                 key="pyecharts_word_tree"
             )
             
