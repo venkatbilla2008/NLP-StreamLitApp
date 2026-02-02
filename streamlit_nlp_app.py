@@ -1567,13 +1567,13 @@ def main():
     """Main Streamlit application - ULTRA-OPTIMIZED"""
     
     st.set_page_config(
-        page_title="Dynamic Domain-Agnostic NLP Text Analysis Pipeline - ULTRA-OPTIMIZED",
+        page_title="Dynamic Domain-Agnostic NLP Text Analysis Pipeline",
         page_icon="🚀",
         layout="wide",
         initial_sidebar_state="expanded"
     )
     
-    st.title("🚀 Dynamic Domain-Agnostic NLP Text Analysis Pipeline - ULTRA-OPTIMIZED")
+    st.title("🚀 Dynamic Domain-Agnostic NLP Text Analysis Pipeline")
     st.markdown(f"""
     **ULTRA-FAST Performance + Word Tree Visualizations:**
     - 🚀 **Polars**: 10x faster data I/O than Pandas
@@ -1719,35 +1719,19 @@ def main():
             total_records = len(data_df)
             st.success(f"✅ Loaded {total_records:,} records with Polars")
             
-            # Streamlit Cloud timeout protection
+            # Processing option for large datasets
             MAX_CLOUD_RECORDS = 10000
             if total_records > MAX_CLOUD_RECORDS:
-                st.warning(f"""
-                ⚠️ **Large Dataset Detected: {total_records:,} records**
-                
-                **Streamlit Cloud has a ~10-15 minute timeout limit.**
-                
-                **Options:**
-                1. **Process first {MAX_CLOUD_RECORDS:,} records** (recommended for cloud)
-                2. **Download and run locally** for full dataset (no timeout)
-                3. **Split into batches** and process separately
-                
-                **Estimated time for {total_records:,} records:** {total_records/20/60:.0f}-{total_records/15/60:.0f} minutes
-                """)
-                
                 process_option = st.radio(
                     "Choose processing option:",
                     [
-                        f"Process first {MAX_CLOUD_RECORDS:,} records only (cloud-safe)",
-                        f"Process all {total_records:,} records (may timeout on cloud)"
+                        f"Process first {MAX_CLOUD_RECORDS:,} records only",
+                        f"Process all {total_records:,} records"
                     ]
                 )
                 
                 if "first" in process_option:
-                    st.info(f"📊 Will process first {MAX_CLOUD_RECORDS:,} records to avoid timeout")
                     data_df = data_df.head(MAX_CLOUD_RECORDS)
-                else:
-                    st.error(f"⚠️ Processing {total_records:,} records may exceed cloud timeout limit!")
             
             # Column detection
             st.subheader("🔧 Column Configuration")
