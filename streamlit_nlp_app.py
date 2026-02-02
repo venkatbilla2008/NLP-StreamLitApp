@@ -1,5 +1,5 @@
 """
-Dynamic Domain-Agnostic NLP Text Analysis Pipeline - ULTRA-OPTIMIZED VERSION
+Dynamic Domain-Agnostic NLP Text Analysis Pipeline
 ==================================================================================
 
 ULTRA-FAST OPTIMIZATIONS:
@@ -17,9 +17,6 @@ PYECHARTS WORD TREE ENHANCEMENTS:
 10. ✅ No overlapping labels (smart positioning)
 11. ✅ Beautiful, professional appearance
 12. ✅ Curved branches with emphasis effects
-
-TARGET: 50,000 records in ~30-60 minutes (15-30 records/second)
-Version: 8.0.0 - CLEAN UI
 
 OUTPUT COLUMNS (6 essential columns only):
 - Conversation_ID
