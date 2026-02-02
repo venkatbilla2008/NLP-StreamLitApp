@@ -1525,13 +1525,13 @@ def main():
     """Main Streamlit application - ULTRA-OPTIMIZED"""
     
     st.set_page_config(
-        page_title="NLP Analysis - Word Tree Enhanced",
-        page_icon="🌳",
+        page_title="Dynamic Domain-Agnostic NLP Text Analysis Pipeline - ULTRA-OPTIMIZED",
+        page_icon="🚀",
         layout="wide",
         initial_sidebar_state="expanded"
     )
     
-    st.title("🌳 NLP Text Analysis - Word Tree Enhanced")
+    st.title("🚀 Dynamic Domain-Agnostic NLP Text Analysis Pipeline - ULTRA-OPTIMIZED")
     st.markdown(f"""
     **ULTRA-FAST Performance + Word Tree Visualizations:**
     - 🚀 **Polars**: 10x faster data I/O than Pandas
