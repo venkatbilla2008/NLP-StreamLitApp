@@ -1,5 +1,5 @@
 """
-Dynamic Domain-Agnostic NLP Text Analysis Pipeline - PYECHARTS WORD TREE VERSION
+Dynamic Domain-Agnostic NLP Text Analysis Pipeline - ULTRA-OPTIMIZED VERSION
 ==================================================================================
 
 ULTRA-FAST OPTIMIZATIONS:
@@ -19,7 +19,7 @@ PYECHARTS WORD TREE ENHANCEMENTS:
 12. ✅ Curved branches with emphasis effects
 
 TARGET: 50,000 records in ~30-60 minutes (15-30 records/second)
-Version: 7.0.0 - PYECHARTS WORD TREE
+Version: 8.0.0 - CLEAN UI
 
 OUTPUT COLUMNS (6 essential columns only):
 - Conversation_ID
@@ -28,10 +28,6 @@ OUTPUT COLUMNS (6 essential columns only):
 - L2_Subcategory
 - L3_Tertiary
 - L4_Quaternary
-# COMMENTED OUT (not needed):
-# - Primary_Proximity
-# - Proximity_Group
-# - PII_Items_Redacted
 """
 
 import streamlit as st
@@ -1894,13 +1890,6 @@ def main():
             # ============================================================================
             
             st.subheader("🌳 Word Tree - Interactive Hierarchy")
-            st.markdown("""
-            **Click on categories to drill down!** Navigate through the hierarchy interactively.
-            - Click on L1 category → See L2 subcategories
-            - Click on L2 → See L3 categories
-            - Click on L3 → See L4 categories
-            - Use buttons below to navigate back
-            """)
             
             # Initialize session state for navigation
             if 'tree_l1' not in st.session_state:
@@ -1912,21 +1901,6 @@ def main():
             
             # Initialize hierarchical tree
             tree_viz = HierarchicalCategoryTree(output_df)
-            
-            # Navigation breadcrumb and controls
-            st.markdown("### 📍 Current Path")
-            
-            # Build breadcrumb
-            breadcrumb_parts = ["All Categories"]
-            if st.session_state.tree_l1:
-                breadcrumb_parts.append(st.session_state.tree_l1)
-            if st.session_state.tree_l2:
-                breadcrumb_parts.append(st.session_state.tree_l2)
-            if st.session_state.tree_l3:
-                breadcrumb_parts.append(st.session_state.tree_l3)
-            
-            breadcrumb = " → ".join(breadcrumb_parts)
-            st.info(f"**{breadcrumb}**")
             
             # Navigation buttons
             nav_cols = st.columns([1, 1, 1, 1, 2])
@@ -1949,69 +1923,7 @@ def main():
                     st.session_state.tree_l3 = None
                     st.rerun()
             
-            # Selection controls for manual navigation
-            st.markdown("### 🎯 Manual Selection (Optional)")
-            
-            sel_cols = st.columns(3)
-            
-            with sel_cols[0]:
-                l1_options = [''] + sorted(output_df['L1_Category'].unique().tolist())
-                manual_l1 = st.selectbox(
-                    "Jump to L1",
-                    options=l1_options,
-                    key="manual_l1",
-                    index=l1_options.index(st.session_state.tree_l1) if st.session_state.tree_l1 in l1_options else 0
-                )
-                if manual_l1 and manual_l1 != st.session_state.tree_l1:
-                    st.session_state.tree_l1 = manual_l1
-                    st.session_state.tree_l2 = None
-                    st.session_state.tree_l3 = None
-                    st.rerun()
-            
-            with sel_cols[1]:
-                if st.session_state.tree_l1:
-                    l2_options = [''] + sorted(
-                        output_df[output_df['L1_Category'] == st.session_state.tree_l1]['L2_Subcategory'].unique().tolist()
-                    )
-                    manual_l2 = st.selectbox(
-                        "Jump to L2",
-                        options=l2_options,
-                        key="manual_l2",
-                        index=l2_options.index(st.session_state.tree_l2) if st.session_state.tree_l2 in l2_options else 0
-                    )
-                    if manual_l2 and manual_l2 != st.session_state.tree_l2:
-                        st.session_state.tree_l2 = manual_l2
-                        st.session_state.tree_l3 = None
-                        st.rerun()
-            
-            with sel_cols[2]:
-                if st.session_state.tree_l2:
-                    l3_options = [''] + sorted(
-                        output_df[
-                            (output_df['L1_Category'] == st.session_state.tree_l1) &
-                            (output_df['L2_Subcategory'] == st.session_state.tree_l2)
-                        ]['L3_Tertiary'].unique().tolist()
-                    )
-                    manual_l3 = st.selectbox(
-                        "Jump to L3",
-                        options=l3_options,
-                        key="manual_l3",
-                        index=l3_options.index(st.session_state.tree_l3) if st.session_state.tree_l3 in l3_options else 0
-                    )
-                    if manual_l3 and manual_l3 != st.session_state.tree_l3:
-                        st.session_state.tree_l3 = manual_l3
-                        st.rerun()
-            
             # Create and display PyEcharts interactive tree
-            st.markdown("### 🌳 PyEcharts Interactive Tree (Click nodes to expand/collapse)")
-            st.markdown("""
-            **Features:**
-            - Click on nodes to expand or collapse branches
-            - Hover to see category details
-            - Smooth animations
-            - No overlapping labels
-            """)
-            
             echarts_option = tree_viz.create_echarts_tree(
                 selected_l1=st.session_state.tree_l1,
                 selected_l2=st.session_state.tree_l2,
