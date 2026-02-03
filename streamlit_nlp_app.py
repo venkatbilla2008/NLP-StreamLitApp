@@ -21,10 +21,10 @@ PYECHARTS WORD TREE:
 OUTPUT COLUMNS (6 essential columns only):
 - Conversation_ID
 - Original_Text  
-- L1_Category
-- L2_Subcategory
-- L3_Tertiary
-- L4_Quaternary
+- Category
+- Subcategory
+- L3
+- L4
 """
 
 import streamlit as st
@@ -932,7 +932,7 @@ class AdvancedVisualizer:
         df_clean = df.fillna("Uncategorized")
         
         # Aggregate data for speed
-        sunburst_data = df_clean.groupby(['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']).size().reset_index(name='count')
+        sunburst_data = df_clean.groupby(['Category', 'Subcategory', 'L3', 'L4']).size().reset_index(name='count')
         
         # Filter out extremely small segments for better visibility
         limit = len(df) * 0.005  # 0.5% threshold
@@ -940,10 +940,10 @@ class AdvancedVisualizer:
         
         fig = px.sunburst(
             sunburst_data,
-            path=['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary'],
+            path=['Category', 'Subcategory', 'L3', 'L4'],
             values='count',
             title="<b>Hierarchical Category Breakdown</b><br><sup>Click to zoom in/out</sup>",
-            color='L1_Category',
+            color='Category',
             color_discrete_sequence=px.colors.qualitative.Prism,
             height=700
         )
@@ -973,26 +973,26 @@ class PyEchartsWordTree:
         # Apply filters
         if selected_l3:
             plot_df = plot_df[
-                (plot_df['L1_Category'] == selected_l1) &
-                (plot_df['L2_Subcategory'] == selected_l2) &
-                (plot_df['L3_Tertiary'] == selected_l3)
+                (plot_df['Category'] == selected_l1) &
+                (plot_df['Subcategory'] == selected_l2) &
+                (plot_df['L3'] == selected_l3)
             ]
             root_name = selected_l3
-            child_col = 'L4_Quaternary'
+            child_col = 'L4'
         elif selected_l2:
             plot_df = plot_df[
-                (plot_df['L1_Category'] == selected_l1) &
-                (plot_df['L2_Subcategory'] == selected_l2)
+                (plot_df['Category'] == selected_l1) &
+                (plot_df['Subcategory'] == selected_l2)
             ]
             root_name = selected_l2
-            child_col = 'L3_Tertiary'
+            child_col = 'L3'
         elif selected_l1:
-            plot_df = plot_df[plot_df['L1_Category'] == selected_l1]
+            plot_df = plot_df[plot_df['Category'] == selected_l1]
             root_name = selected_l1
-            child_col = 'L2_Subcategory'
+            child_col = 'Subcategory'
         else:
             root_name = "All Categories"
-            child_col = 'L1_Category'
+            child_col = 'Category'
         
         if len(plot_df) == 0:
             return {"name": "No Data", "value": 0, "children": []}
@@ -1007,7 +1007,7 @@ class PyEchartsWordTree:
             }
             
             # Group by L1
-            for l1, l1_df in plot_df.groupby('L1_Category'):
+            for l1, l1_df in plot_df.groupby('Category'):
                 l1_node = {
                     "name": f"{l1} ({len(l1_df)})",
                     "value": len(l1_df),
@@ -1015,7 +1015,7 @@ class PyEchartsWordTree:
                 }
                 
                 # Group by L2
-                for l2, l2_df in l1_df.groupby('L2_Subcategory'):
+                for l2, l2_df in l1_df.groupby('Subcategory'):
                     l2_node = {
                         "name": f"{l2} ({len(l2_df)})",
                         "value": len(l2_df),
@@ -1023,7 +1023,7 @@ class PyEchartsWordTree:
                     }
                     
                     # Group by L3
-                    for l3, l3_df in l2_df.groupby('L3_Tertiary'):
+                    for l3, l3_df in l2_df.groupby('L3'):
                         l3_node = {
                             "name": f"{l3} ({len(l3_df)})",
                             "value": len(l3_df),
@@ -1031,7 +1031,7 @@ class PyEchartsWordTree:
                         }
                         
                         # Add L4
-                        for l4, count in l3_df['L4_Quaternary'].value_counts().items():
+                        for l4, count in l3_df['L4'].value_counts().items():
                             l3_node["children"].append({
                                 "name": f"{l4} ({count})",
                                 "value": count
@@ -1314,10 +1314,10 @@ class UltraFastNLPPipeline:
         OUTPUT COLUMNS:
         1. Conversation_ID
         2. Original_Text
-        3. L1_Category
-        4. L2_Subcategory
-        5. L3_Tertiary
-        6. L4_Quaternary
+        3. Category
+        4. Subcategory
+        5. L3
+        6. L4
         
         COMMENTED OUT (not needed):
         # 7. Primary_Proximity
@@ -1342,10 +1342,10 @@ class UltraFastNLPPipeline:
         output_df = output_df.rename({
             id_column: 'Conversation_ID',
             text_column: 'Original_Text',
-            'l1': 'L1_Category',
-            'l2': 'L2_Subcategory',
-            'l3': 'L3_Tertiary',
-            'l4': 'L4_Quaternary',
+            'l1': 'Category',
+            'l2': 'Subcategory',
+            'l3': 'L3',
+            'l4': 'L4',
             # COMMENTED OUT - Not needed in output
             # 'primary_proximity': 'Primary_Proximity',
             # 'proximity_group': 'Proximity_Group',
@@ -1586,7 +1586,7 @@ def main():
     ---
     **Output Columns (6 essential):**
     - Conversation_ID, Original_Text
-    - L1_Category, L2_Subcategory, L3_Tertiary, L4_Quaternary
+    - Category, Subcategory, L3, L4
     """)
     
     # Compliance badges
@@ -1856,19 +1856,19 @@ def main():
                 st.metric("Speed", f"{len(output_df)/processing_time:.1f} rec/s")
             
             with metric_cols[3]:
-                unique_l1 = output_df['L1_Category'].nunique()
-                st.metric("L1 Categories", unique_l1)
+                unique_l1 = output_df['Category'].nunique()
+                st.metric("Categories", unique_l1)
             
             with metric_cols[4]:
-                unique_l2 = output_df['L2_Subcategory'].nunique()
-                st.metric("L2 Categories", unique_l2)
+                unique_l2 = output_df['Subcategory'].nunique()
+                st.metric("Subcategories", unique_l2)
             
             with metric_cols[5]:
-                unique_l3 = output_df['L3_Tertiary'].nunique()
+                unique_l3 = output_df['L3'].nunique()
                 st.metric("L3 Categories", unique_l3)
             
             with metric_cols[6]:
-                unique_l4 = output_df['L4_Quaternary'].nunique()
+                unique_l4 = output_df['L4'].nunique()
                 st.metric("L4 Categories", unique_l4)
             
             # Results preview
@@ -1889,15 +1889,15 @@ def main():
             else:
                 st.info("Not enough data for hierarchical view.")
             
-            # Bar Chart - L1 Category Distribution
-            st.markdown("#### 📊 L1 Category Distribution")
-            l1_counts = output_df['L1_Category'].value_counts().reset_index()
+            # Bar Chart - Category Distribution
+            st.markdown("#### 📊 Category Distribution")
+            l1_counts = output_df['Category'].value_counts().reset_index()
             l1_counts.columns = ['Category', 'Count']
             fig_bar = px.bar(
                 l1_counts,
                 x='Category',
                 y='Count',
-                title='L1 Category Distribution',
+                title='Category Distribution',
                 color='Count',
                 color_continuous_scale='Blues',
                 text='Count'
@@ -1974,40 +1974,40 @@ def main():
             # Category Distribution Tables
             st.markdown("### 📋 Category Distribution Tables")
             
-            # L1 Category Distribution
-            st.markdown("#### L1 Category Distribution")
-            l1_dist = output_df['L1_Category'].value_counts().reset_index()
-            l1_dist.columns = ['L1 Category', 'Count']
+            # Category Distribution
+            st.markdown("#### Category Distribution")
+            l1_dist = output_df['Category'].value_counts().reset_index()
+            l1_dist.columns = ['Category', 'Count']
             l1_dist['Percentage'] = (l1_dist['Count'] / len(output_df) * 100).round(2)
             l1_dist['Percentage'] = l1_dist['Percentage'].astype(str) + '%'
             st.dataframe(l1_dist, width='stretch', hide_index=True)
             
             st.markdown("---")
             
-            # L2 Category Distribution
-            st.markdown("#### L2 Category Distribution")
-            l2_dist = output_df['L2_Subcategory'].value_counts().reset_index()
-            l2_dist.columns = ['L2 Subcategory', 'Count']
+            # Subcategory Distribution
+            st.markdown("#### Subcategory Distribution")
+            l2_dist = output_df['Subcategory'].value_counts().reset_index()
+            l2_dist.columns = ['Subcategory', 'Count']
             l2_dist['Percentage'] = (l2_dist['Count'] / len(output_df) * 100).round(2)
             l2_dist['Percentage'] = l2_dist['Percentage'].astype(str) + '%'
             st.dataframe(l2_dist, width='stretch', hide_index=True)
             
             st.markdown("---")
             
-            # L3 Category Distribution
-            st.markdown("#### L3 Category Distribution")
-            l3_dist = output_df['L3_Tertiary'].value_counts().reset_index()
-            l3_dist.columns = ['L3 Tertiary', 'Count']
+            # L3 Distribution
+            st.markdown("#### L3 Distribution")
+            l3_dist = output_df['L3'].value_counts().reset_index()
+            l3_dist.columns = ['L3', 'Count']
             l3_dist['Percentage'] = (l3_dist['Count'] / len(output_df) * 100).round(2)
             l3_dist['Percentage'] = l3_dist['Percentage'].astype(str) + '%'
             st.dataframe(l3_dist, width='stretch', hide_index=True)
             
             st.markdown("---")
             
-            # L4 Category Distribution
-            st.markdown("#### L4 Category Distribution")
-            l4_dist = output_df['L4_Quaternary'].value_counts().reset_index()
-            l4_dist.columns = ['L4 Quaternary', 'Count']
+            # L4 Distribution
+            st.markdown("#### L4 Distribution")
+            l4_dist = output_df['L4'].value_counts().reset_index()
+            l4_dist.columns = ['L4', 'Count']
             l4_dist['Percentage'] = (l4_dist['Count'] / len(output_df) * 100).round(2)
             l4_dist['Percentage'] = l4_dist['Percentage'].astype(str) + '%'
             st.dataframe(l4_dist, width='stretch', hide_index=True)
