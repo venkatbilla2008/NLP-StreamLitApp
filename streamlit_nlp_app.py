@@ -1630,10 +1630,6 @@ def main():
             industry_data = st.session_state.domain_loader.get_industry_data(selected_industry)
             
             st.sidebar.success(f"✅ **{selected_industry}**")
-            st.sidebar.info(f"""
-            📋 Rules: {industry_data.get('rules_count', 0)}
-            🔑 Keywords: {industry_data.get('keywords_count', 0)}
-            """)
         else:
             st.sidebar.warning("⚠️ Select an industry")
             st.session_state.selected_industry = None
