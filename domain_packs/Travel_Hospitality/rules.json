@@ -1,7 +1,10 @@
 [
     {
         "conditions": [
-            "helpful"
+            "helpful",
+            "helpfull",
+            "helpfu",
+            "helped"
         ],
         "set": {
             "category": "Service Quality",
@@ -13,7 +16,9 @@
     },
     {
         "conditions": [
-            "polite"
+            "polite",
+            "courteous",
+            "pleasant"
         ],
         "set": {
             "category": "Service Quality",
@@ -25,7 +30,8 @@
     },
     {
         "conditions": [
-            "professional"
+            "professional",
+            "profesional"
         ],
         "set": {
             "category": "Service Quality",
@@ -37,7 +43,9 @@
     },
     {
         "conditions": [
-            "friendly"
+            "friendly",
+            "kind",
+            "nice"
         ],
         "set": {
             "category": "Service Quality",
@@ -49,7 +57,8 @@
     },
     {
         "conditions": [
-            "patient"
+            "patient",
+            "patience"
         ],
         "set": {
             "category": "Service Quality",
@@ -73,7 +82,81 @@
     },
     {
         "conditions": [
-            "efficient"
+            "inexperienced",
+            "unqualified",
+            "incompetent"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Satisfaction",
+            "level_3": "Negative Experience",
+            "level_4": "Inexperienced/Unqualified Staff",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "unprofessional",
+            "unconcerned",
+            "rude"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Representative Behavior",
+            "level_3": "Negative Service",
+            "level_4": "Rude/Unprofessional Representative",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "awesome",
+            "incredible",
+            "outstanding",
+            "fantastic",
+            "wonderful",
+            "amazing"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Satisfaction",
+            "level_3": "Positive Experience",
+            "level_4": "Exceptional Service",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "satisfied",
+            "happy",
+            "pleased"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Satisfaction",
+            "level_3": "Positive Experience",
+            "level_4": "Customer Satisfied",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "sued",
+            "attorney",
+            "lawyer"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Legal Threat",
+            "level_3": "Negative Experience",
+            "level_4": "Legal Action Threat",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "efficient",
+            "prompt"
         ],
         "set": {
             "category": "Service Quality",
@@ -97,7 +180,10 @@
     },
     {
         "conditions": [
-            "resolved"
+            "resolved",
+            "fixed",
+            "solved",
+            "rectify"
         ],
         "set": {
             "category": "Service Quality",
@@ -109,7 +195,9 @@
     },
     {
         "conditions": [
-            "reservation"
+            "reservation",
+            "booking",
+            "reservations"
         ],
         "set": {
             "category": "Reservation & Booking",
@@ -121,19 +209,9 @@
     },
     {
         "conditions": [
-            "booking"
-        ],
-        "set": {
-            "category": "Reservation & Booking",
-            "subcategory": "Reservation Management",
-            "level_3": "Booking Issue",
-            "level_4": "General Booking",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "cancel"
+            "cancel",
+            "cancellation",
+            "cancelled"
         ],
         "set": {
             "category": "Reservation & Booking",
@@ -169,25 +247,14 @@
     },
     {
         "conditions": [
-            "honors"
-        ],
-        "set": {
-            "category": "Loyalty & Rewards",
-            "subcategory": "Account Management",
-            "level_3": "Account Issue",
-            "level_4": "Honors Account",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
+            "honors",
             "rewards"
         ],
         "set": {
             "category": "Loyalty & Rewards",
             "subcategory": "Account Management",
             "level_3": "Account Issue",
-            "level_4": "Rewards Account",
+            "level_4": "Honors Account",
             "sentiment": "neutral"
         }
     },
@@ -205,31 +272,23 @@
     },
     {
         "conditions": [
-            "app"
+            "app",
+            "website",
+            "online"
         ],
         "set": {
             "category": "Technology & Systems",
             "subcategory": "Technical Issue",
             "level_3": "System Malfunction",
-            "level_4": "App Issue",
+            "level_4": "App/Website Issue",
             "sentiment": "negative"
         }
     },
     {
         "conditions": [
-            "website"
-        ],
-        "set": {
-            "category": "Technology & Systems",
-            "subcategory": "Technical Issue",
-            "level_3": "System Malfunction",
-            "level_4": "Website Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "wait"
+            "wait",
+            "hold",
+            "waiting"
         ],
         "set": {
             "category": "Service Quality",
@@ -241,19 +300,8 @@
     },
     {
         "conditions": [
-            "hold"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Wait Time",
-            "level_3": "Service Delay",
-            "level_4": "On Hold",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "transfer"
+            "transfer",
+            "transferred"
         ],
         "set": {
             "category": "Service Quality",
@@ -265,7 +313,8 @@
     },
     {
         "conditions": [
-            "disconnect"
+            "disconnect",
+            "disconnected"
         ],
         "set": {
             "category": "Service Quality",
@@ -277,7 +326,9 @@
     },
     {
         "conditions": [
-            "understand"
+            "understand",
+            "accent",
+            "speech"
         ],
         "set": {
             "category": "Service Quality",
@@ -289,19 +340,10 @@
     },
     {
         "conditions": [
-            "accent"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Communication Issue",
-            "level_3": "Language Barrier",
-            "level_4": "Accent Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "charge"
+            "charge",
+            "charged",
+            "billing",
+            "payment"
         ],
         "set": {
             "category": "Billing & Pricing",
@@ -313,25 +355,16 @@
     },
     {
         "conditions": [
-            "price"
+            "price",
+            "rate",
+            "cost",
+            "fee"
         ],
         "set": {
             "category": "Billing & Pricing",
             "subcategory": "Pricing Discrepancy",
             "level_3": "Price Issue",
             "level_4": "Price Problem",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "rate"
-        ],
-        "set": {
-            "category": "Billing & Pricing",
-            "subcategory": "Rate Information",
-            "level_3": "Rate Issue",
-            "level_4": "Rate Problem",
             "sentiment": "neutral"
         }
     },
@@ -349,19 +382,8 @@
     },
     {
         "conditions": [
-            "confirmation"
-        ],
-        "set": {
-            "category": "Reservation & Booking",
-            "subcategory": "Booking Confirmation",
-            "level_3": "Confirmation Issue",
-            "level_4": "Confirmation Problem",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "receipt"
+            "receipt",
+            "VAT"
         ],
         "set": {
             "category": "Billing & Pricing",
@@ -373,67 +395,30 @@
     },
     {
         "conditions": [
-            "frustrated"
+            "frustrated",
+            "disappointed",
+            "angry",
+            "pissed",
+            "disgusted",
+            "scammed",
+            "unacceptable"
         ],
         "set": {
             "category": "Overall Experience",
             "subcategory": "Customer Emotion",
             "level_3": "Negative Experience",
-            "level_4": "Frustrated Customer",
+            "level_4": "Negative Sentiments",
             "sentiment": "negative"
         }
     },
     {
         "conditions": [
-            "disappointed"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Emotion",
-            "level_3": "Negative Experience",
-            "level_4": "Disappointed Customer",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "excellent"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Satisfaction",
-            "level_3": "Positive Experience",
-            "level_4": "Excellent Experience",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "great"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Satisfaction",
-            "level_3": "Positive Experience",
-            "level_4": "Great Experience",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "terrible"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Satisfaction",
-            "level_3": "Negative Experience",
-            "level_4": "Terrible Experience",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "member"
+            "member",
+            "membership",
+            "diamond",
+            "gold",
+            "silver",
+            "platinum"
         ],
         "set": {
             "category": "Loyalty & Rewards",
@@ -445,31 +430,10 @@
     },
     {
         "conditions": [
-            "status"
-        ],
-        "set": {
-            "category": "Loyalty & Rewards",
-            "subcategory": "Membership Status",
-            "level_3": "Status Issue",
-            "level_4": "Status Problem",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "account"
-        ],
-        "set": {
-            "category": "Loyalty & Rewards",
-            "subcategory": "Account Management",
-            "level_3": "Account Issue",
-            "level_4": "Account Problem",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "representative"
+            "representative",
+            "agent",
+            "personnel",
+            "staff"
         ],
         "set": {
             "category": "Service Quality",
@@ -481,14 +445,19 @@
     },
     {
         "conditions": [
-            "agent"
+            "failure",
+            "madness",
+            "mess",
+            "horrible",
+            "awful",
+            "terrible"
         ],
         "set": {
-            "category": "Service Quality",
-            "subcategory": "Representative Behavior",
-            "level_3": "Service Interaction",
-            "level_4": "Agent Contact",
-            "sentiment": "neutral"
+            "category": "Overall Experience",
+            "subcategory": "Customer Satisfaction",
+            "level_3": "Negative Experience",
+            "level_4": "Service Failure",
+            "sentiment": "negative"
         }
     }
 ]

@@ -4,7 +4,11 @@
             "helpful and nice",
             "very helpful",
             "super helpful",
-            "extremely helpful"
+            "extremely helpful",
+            "helpfull",
+            "helpfu",
+            "helpfull staff",
+            "helpfuland"
         ],
         "set": {
             "category": "Service Quality",
@@ -19,7 +23,8 @@
             "polite and helpful",
             "very polite",
             "courteous and polite",
-            "professional and polite"
+            "professional and polite",
+            "pleasant and helpful"
         ],
         "set": {
             "category": "Service Quality",
@@ -31,10 +36,44 @@
     },
     {
         "conditions": [
+            "profesional and helpfull staff",
+            "profesional staff",
+            "very profesional",
+            "highly professional",
+            "professional status"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Staff Performance",
+            "level_3": "Positive Experience",
+            "level_4": "Professional/Helpful Staff",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "inexperienced and highly unqualified",
+            "unqualified people",
+            "inexperienced people",
+            "unqualified staff",
+            "inexperienced staff",
+            "incompetent people"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Satisfaction",
+            "level_3": "Negative Experience",
+            "level_4": "Inexperienced/Unqualified Staff",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "excellent customer service",
             "great customer service",
             "exceptional customer service",
-            "outstanding customer service"
+            "outstanding customer service",
+            "top of the line service"
         ],
         "set": {
             "category": "Service Quality",
@@ -48,7 +87,8 @@
         "conditions": [
             "friendly and helpful",
             "kind and helpful",
-            "patient and helpful"
+            "patient and helpful",
+            "patient and helpfu"
         ],
         "set": {
             "category": "Service Quality",
@@ -63,7 +103,9 @@
             "quickly resolved",
             "resolved quickly",
             "resolved my issue",
-            "fixed my problem"
+            "fixed my problem",
+            "sorted out my problem",
+            "quick response and solution"
         ],
         "set": {
             "category": "Service Quality",
@@ -78,7 +120,10 @@
             "problem was not resolved",
             "issue was not resolved",
             "not resolved",
-            "no resolution"
+            "no resolution",
+            "couldn't fix",
+            "didn't fix the problem",
+            "no status update"
         ],
         "set": {
             "category": "Service Quality",
@@ -92,7 +137,9 @@
         "conditions": [
             "booking cancelled",
             "reservation cancelled",
-            "entire booking got cancelled"
+            "entire booking got cancelled",
+            "screwed up my reservation",
+            "accidentally cancelled"
         ],
         "set": {
             "category": "Reservation & Booking",
@@ -107,7 +154,9 @@
             "hilton rewards",
             "hilton honors",
             "honors account",
-            "rewards account"
+            "rewards account",
+            "hh account",
+            "merge my account"
         ],
         "set": {
             "category": "Loyalty & Rewards",
@@ -122,7 +171,9 @@
             "reset password",
             "reset the password",
             "password reset",
-            "forgot password"
+            "forgot password",
+            "reset old account",
+            "reset my password"
         ],
         "set": {
             "category": "Technology & Systems",
@@ -137,7 +188,9 @@
             "points not credited",
             "missing points",
             "didn't get points",
-            "points issue"
+            "points issue",
+            "award points",
+            "points problem"
         ],
         "set": {
             "category": "Loyalty & Rewards",
@@ -152,7 +205,10 @@
             "diamond status",
             "diamond member",
             "gold status",
-            "silver status"
+            "silver status",
+            "platinum member",
+            "owner member",
+            "honor status"
         ],
         "set": {
             "category": "Loyalty & Rewards",
@@ -165,7 +221,9 @@
     {
         "conditions": [
             "connecting rooms",
-            "confirmed connecting rooms"
+            "confirmed connecting rooms",
+            "connecting room",
+            "interconnecting rooms"
         ],
         "set": {
             "category": "Reservation & Booking",
@@ -180,7 +238,9 @@
             "want a refund",
             "refund for our stay",
             "request a refund",
-            "refund approved"
+            "refund approved",
+            "get a refund",
+            "seeking refund"
         ],
         "set": {
             "category": "Billing & Pricing",
@@ -194,7 +254,9 @@
         "conditions": [
             "modify reservation",
             "change reservation",
-            "modify my reservation"
+            "modify my reservation",
+            "adjustment to reservation",
+            "update my booking"
         ],
         "set": {
             "category": "Reservation & Booking",
@@ -209,7 +271,9 @@
             "on hold",
             "wait time",
             "waited 20 minutes",
-            "long wait"
+            "long wait",
+            "waited 35 minutes",
+            "excessive wait"
         ],
         "set": {
             "category": "Service Quality",
@@ -224,7 +288,10 @@
             "hard to understand",
             "difficult to understand",
             "couldn't understand",
-            "heavy accent"
+            "heavy accent",
+            "hard to hear",
+            "enunciate",
+            "language barrier"
         ],
         "set": {
             "category": "Service Quality",
@@ -238,7 +305,9 @@
         "conditions": [
             "call center overseas",
             "overseas call center",
-            "not us based"
+            "not us based",
+            "not US based",
+            "offshore team"
         ],
         "set": {
             "category": "Service Quality",
@@ -253,7 +322,9 @@
             "app not working",
             "app doesn't work",
             "website not working",
-            "website doesn't work"
+            "website doesn't work",
+            "bug in the link",
+            "technical glitch"
         ],
         "set": {
             "category": "Technology & Systems",
@@ -267,7 +338,8 @@
         "conditions": [
             "professional and knowledgeable",
             "knowledgeable and professional",
-            "very knowledgeable"
+            "very knowledgeable",
+            "highly skilled"
         ],
         "set": {
             "category": "Service Quality",
@@ -281,7 +353,9 @@
         "conditions": [
             "efficient and polite",
             "quick and efficient",
-            "very efficient"
+            "very efficient",
+            "super efficient",
+            "fast service"
         ],
         "set": {
             "category": "Service Quality",
@@ -296,7 +370,8 @@
             "merge account",
             "merge accounts",
             "two accounts",
-            "duplicate account"
+            "duplicate account",
+            "multiple accounts"
         ],
         "set": {
             "category": "Loyalty & Rewards",
@@ -311,7 +386,10 @@
             "overcharged",
             "charged more",
             "double charged",
-            "incorrect charge"
+            "incorrect charge",
+            "false charge",
+            "security deposit",
+            "wrong bill"
         ],
         "set": {
             "category": "Billing & Pricing",
@@ -326,7 +404,9 @@
             "no one answered",
             "no answer",
             "couldn't reach",
-            "no response"
+            "no response",
+            "calls went unanswered",
+            "nobody picks up"
         ],
         "set": {
             "category": "Service Quality",
@@ -341,7 +421,9 @@
             "transferred",
             "transferred me",
             "got transferred",
-            "multiple transfers"
+            "multiple transfers",
+            "transferred around",
+            "ping ponged"
         ],
         "set": {
             "category": "Service Quality",
@@ -356,7 +438,9 @@
             "hung up",
             "disconnected",
             "call dropped",
-            "line dropped"
+            "line dropped",
+            "got disconnected",
+            "call cut off"
         ],
         "set": {
             "category": "Service Quality",
@@ -370,7 +454,8 @@
         "conditions": [
             "patient and understanding",
             "very patient",
-            "patient beyond belief"
+            "patient beyond belief",
+            "patiently listened"
         ],
         "set": {
             "category": "Service Quality",
@@ -385,7 +470,10 @@
             "rude",
             "unprofessional",
             "unconcerned",
-            "wouldn't help"
+            "wouldn't help",
+            "awful service",
+            "horrible experience",
+            "disrespectful"
         ],
         "set": {
             "category": "Service Quality",
@@ -397,213 +485,13 @@
     },
     {
         "conditions": [
-            "cancel reservation",
-            "cancellation",
-            "cancelled reservation"
-        ],
-        "set": {
-            "category": "Reservation & Booking",
-            "subcategory": "Cancellation",
-            "level_3": "Cancellation Request",
-            "level_4": "Customer Cancelled",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "book a room",
-            "make a reservation",
-            "booking a room"
-        ],
-        "set": {
-            "category": "Reservation & Booking",
-            "subcategory": "New Booking",
-            "level_3": "Booking Request",
-            "level_4": "New Reservation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "confirmation email",
-            "didn't receive email",
-            "no email confirmation"
-        ],
-        "set": {
-            "category": "Technology & Systems",
-            "subcategory": "Email Issue",
-            "level_3": "Communication Problem",
-            "level_4": "Missing Confirmation Email",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "price was different",
-            "rate was different",
-            "higher rate",
-            "price increased"
-        ],
-        "set": {
-            "category": "Billing & Pricing",
-            "subcategory": "Pricing Discrepancy",
-            "level_3": "Price Issue",
-            "level_4": "Rate Mismatch",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "went above and beyond",
-            "above and beyond",
-            "exceptional service"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Overall Service Experience",
-            "level_3": "Positive Service",
-            "level_4": "Exceptional Service",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "frustrated",
-            "frustrating",
-            "very frustrated",
-            "extremely frustrated"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Emotion",
-            "level_3": "Negative Experience",
-            "level_4": "Frustrated Customer",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "disappointed",
-            "very disappointed",
-            "disappointing"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Emotion",
-            "level_3": "Negative Experience",
-            "level_4": "Disappointed Customer",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "grateful",
-            "very grateful",
-            "thankful",
-            "appreciate"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Emotion",
-            "level_3": "Positive Experience",
-            "level_4": "Grateful Customer",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "check in",
-            "check-in",
-            "digital check in",
-            "check in digitally"
-        ],
-        "set": {
-            "category": "Technology & Systems",
-            "subcategory": "Digital Services",
-            "level_3": "Check-in Issue",
-            "level_4": "Digital Check-in Problem",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "automated system",
-            "voice response system",
-            "ai system",
-            "automated phone system"
-        ],
-        "set": {
-            "category": "Technology & Systems",
-            "subcategory": "Phone System",
-            "level_3": "System Issue",
-            "level_4": "Automated System Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "timeshare",
-            "sales pitch",
-            "trying to sell"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Unwanted Sales",
-            "level_3": "Sales Issue",
-            "level_4": "Timeshare Sales Pitch",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "receipt",
-            "didn't receive receipt",
-            "no receipt",
-            "need a receipt"
-        ],
-        "set": {
-            "category": "Billing & Pricing",
-            "subcategory": "Documentation Issue",
-            "level_3": "Receipt Problem",
-            "level_4": "Missing Receipt",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "room upgrade",
-            "upgraded",
-            "upgrade to"
-        ],
-        "set": {
-            "category": "Reservation & Booking",
-            "subcategory": "Room Upgrade",
-            "level_3": "Positive Service",
-            "level_4": "Room Upgrade Provided",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "loyalty member",
-            "honors member",
-            "diamond member",
-            "long time member"
-        ],
-        "set": {
-            "category": "Loyalty & Rewards",
-            "subcategory": "Membership Recognition",
-            "level_3": "Member Status",
-            "level_4": "Loyalty Member",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
             "never stay again",
             "will not stay",
             "won't be staying",
-            "never again"
+            "never again",
+            "no longer stay at hilton",
+            "seek accommodations elsewhere",
+            "moving to marriott"
         ],
         "set": {
             "category": "Overall Experience",
@@ -618,7 +506,9 @@
             "will continue",
             "will stay again",
             "continue being a member",
-            "loyal to hilton"
+            "loyal to hilton",
+            "always happy at hilton",
+            "staying forever"
         ],
         "set": {
             "category": "Overall Experience",
@@ -630,10 +520,199 @@
     },
     {
         "conditions": [
+            "sued hilton",
+            "hear from my attorney",
+            "legal action",
+            "sue you",
+            "lawsuit"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Legal Threat",
+            "level_3": "Negative Experience",
+            "level_4": "Legal Action Threat",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "vat receipt",
+            "VAT receipt",
+            "tax exemption",
+            "tax receipt"
+        ],
+        "set": {
+            "category": "Billing & Pricing",
+            "subcategory": "Tax/VAT Issue",
+            "level_3": "Documentation Issue",
+            "level_4": "VAT/Tax Documentation Problem",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "currency",
+            "USD",
+            "CAD",
+            "exchange rate",
+            "currency mismatch"
+        ],
+        "set": {
+            "category": "Billing & Pricing",
+            "subcategory": "Currency Issue",
+            "level_3": "Pricing Problem",
+            "level_4": "Currency/Exchange Problem",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "3rd party booking",
+            "Expedia",
+            "Alaska Airlines",
+            "third party",
+            "booking.com"
+        ],
+        "set": {
+            "category": "Reservation & Booking",
+            "subcategory": "Third Party Issue",
+            "level_3": "Booking Issue",
+            "level_4": "3rd Party Booking Problem",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "confirmation email",
+            "didn't receive email",
+            "no email confirmation",
+            "missing confirmation"
+        ],
+        "set": {
+            "category": "Technology & Systems",
+            "subcategory": "Email Issue",
+            "level_3": "Communication Problem",
+            "level_4": "Missing Confirmation Email",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "check in",
+            "check-in",
+            "digital check in",
+            "check in digitally",
+            "digital check-in"
+        ],
+        "set": {
+            "category": "Technology & Systems",
+            "subcategory": "Digital Services",
+            "level_3": "Check-in Issue",
+            "level_4": "Digital Check-in Problem",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "automated system",
+            "voice response system",
+            "ai system",
+            "automated phone system",
+            "robotic system"
+        ],
+        "set": {
+            "category": "Technology & Systems",
+            "subcategory": "Phone System",
+            "level_3": "System Issue",
+            "level_4": "Automated System Problem",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "timeshare",
+            "sales pitch",
+            "trying to sell",
+            "unwanted offer"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Unwanted Sales",
+            "level_3": "Sales Issue",
+            "level_4": "Timeshare Sales Pitch",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "receipt",
+            "didn't receive receipt",
+            "no receipt",
+            "need a receipt",
+            "missing receipt"
+        ],
+        "set": {
+            "category": "Billing & Pricing",
+            "subcategory": "Documentation Issue",
+            "level_3": "Receipt Problem",
+            "level_4": "Missing Receipt",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "frustrated",
+            "frustrating",
+            "very frustrated",
+            "extremely frustrated",
+            "annoying"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Emotion",
+            "level_3": "Negative Experience",
+            "level_4": "Frustrated Customer",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "disappointed",
+            "very disappointed",
+            "disappointing",
+            "not satisfied"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Emotion",
+            "level_3": "Negative Experience",
+            "level_4": "Disappointed Customer",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "grateful",
+            "very grateful",
+            "thankful",
+            "appreciate",
+            "thank you"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Emotion",
+            "level_3": "Positive Experience",
+            "level_4": "Grateful Customer",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
             "medical emergency",
             "family crisis",
             "unforeseen circumstances",
-            "emergency"
+            "emergency",
+            "accident"
         ],
         "set": {
             "category": "Reservation & Booking",
@@ -648,7 +727,8 @@
             "non-refundable",
             "nonrefundable",
             "can't cancel",
-            "cannot cancel"
+            "cannot cancel",
+            "prepaid stay"
         ],
         "set": {
             "category": "Reservation & Booking",
@@ -663,7 +743,8 @@
             "room rate",
             "nightly rate",
             "rate quoted",
-            "quoted price"
+            "quoted price",
+            "expected price"
         ],
         "set": {
             "category": "Billing & Pricing",
@@ -678,7 +759,8 @@
             "supervisor",
             "manager",
             "escalate",
-            "speak to manager"
+            "speak to manager",
+            "management team"
         ],
         "set": {
             "category": "Service Quality",
@@ -693,7 +775,8 @@
             "case number",
             "ticket number",
             "reference number",
-            "case #"
+            "case #",
+            "ticket #"
         ],
         "set": {
             "category": "Service Quality",
@@ -708,7 +791,8 @@
             "hours on the phone",
             "hour on the phone",
             "spent hours",
-            "wasted time"
+            "wasted time",
+            "waste of my time"
         ],
         "set": {
             "category": "Service Quality",
@@ -716,6 +800,21 @@
             "level_3": "Service Delay",
             "level_4": "Excessive Time Spent",
             "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "went above and beyond",
+            "above and beyond",
+            "exceptional service",
+            "exceeded expectations"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Service Experience",
+            "level_3": "Positive Service",
+            "level_4": "Exceptional Service",
+            "sentiment": "positive"
         }
     }
 ]
