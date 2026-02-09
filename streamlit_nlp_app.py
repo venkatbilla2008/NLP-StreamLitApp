@@ -1921,42 +1921,12 @@ def main():
             # Initialize hierarchical tree
             tree_viz = HierarchicalCategoryTree(output_df)
             
-            # Navigation buttons
-            nav_cols = st.columns([1, 1, 1, 1, 2])
-            
-            with nav_cols[0]:
-                if st.button("🏠 Reset to All", key="reset_tree"):
-                    st.session_state.tree_l1 = None
-                    st.session_state.tree_l2 = None
-                    st.session_state.tree_l3 = None
-                    st.rerun()
-            
-            with nav_cols[1]:
-                if st.session_state.tree_l1 and st.button("⬅️ Back to L1", key="back_to_l1"):
-                    st.session_state.tree_l2 = None
-                    st.session_state.tree_l3 = None
-                    st.rerun()
-            
-            with nav_cols[2]:
-                if st.session_state.tree_l2 and st.button("⬅️ Back to L2", key="back_to_l2"):
-                    st.session_state.tree_l3 = None
-                    st.rerun()
-            
             # Create and display PyEcharts interactive tree
             echarts_option = tree_viz.create_echarts_tree(
                 selected_l1=st.session_state.tree_l1,
                 selected_l2=st.session_state.tree_l2,
                 selected_l3=st.session_state.tree_l3
             )
-            
-            # Display instructions
-            st.info("""
-            **💡 Tips for better readability:**
-            - 🔍 **Zoom In/Out**: Use mouse wheel to zoom
-            - 🖱️ **Pan**: Click and drag to move around
-            - 📏 **Labels have backgrounds** to prevent overlapping
-            - 🎯 **Click nodes** to expand/collapse branches
-            """)
             
             # Display with st_echarts
             st_echarts(
