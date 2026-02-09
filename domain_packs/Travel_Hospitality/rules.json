@@ -5,7 +5,9 @@
             "helpfull",
             "helpfu",
             "helped",
-            "helpfully"
+            "helpfully",
+            "assisting",
+            "assisted"
         ],
         "set": {
             "category": "Service Quality",
@@ -20,7 +22,12 @@
             "polite",
             "courteous",
             "pleasant",
-            "courtesy"
+            "courtesy",
+            "attentive",
+            "patient",
+            "patience",
+            "thoroughly",
+            "thorough"
         ],
         "set": {
             "category": "Service Quality",
@@ -34,7 +41,11 @@
         "conditions": [
             "professional",
             "profesional",
-            "professionally"
+            "professionally",
+            "knowledgeable",
+            "knowledgble",
+            "competent",
+            "skilled"
         ],
         "set": {
             "category": "Service Quality",
@@ -60,8 +71,7 @@
     },
     {
         "conditions": [
-            "patient",
-            "patience"
+            "patient"
         ],
         "set": {
             "category": "Service Quality",
@@ -73,11 +83,7 @@
     },
     {
         "conditions": [
-            "knowledgeable",
-            "knowledgble",
-            "skilled",
-            "competent",
-            "knew"
+            "knowledgeable"
         ],
         "set": {
             "category": "Service Quality",
@@ -125,7 +131,8 @@
             "correction",
             "corrected",
             "rectified",
-            "sorted"
+            "sorted",
+            "handled"
         ],
         "set": {
             "category": "Service Quality",
@@ -146,6 +153,18 @@
             "subcategory": "Reservation Management",
             "level_3": "Reservation Issue",
             "level_4": "General Reservation",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "booking"
+        ],
+        "set": {
+            "category": "Reservation & Booking",
+            "subcategory": "Reservation Management",
+            "level_3": "Booking Issue",
+            "level_4": "General Booking",
             "sentiment": "neutral"
         }
     },
@@ -220,6 +239,9 @@
             "online",
             "system",
             "technology",
+            "phone",
+            "call",
+            "link",
             "glitch",
             "failure"
         ],
@@ -235,8 +257,12 @@
         "conditions": [
             "wait",
             "hold",
-            "waiting",
+            "time",
+            "hours",
+            "minutes",
+            "days",
             "forever",
+            "waiting",
             "spent"
         ],
         "set": {
@@ -383,43 +409,75 @@
     },
     {
         "conditions": [
-            "grateful",
-            "thank",
-            "thanks",
-            "thankyou",
-            "appreciate",
-            "super",
-            "brilliant",
-            "greatest",
-            "stars",
-            "awesome",
-            "amazing",
+            "excellent",
+            "incredible",
+            "outstanding",
+            "fantastic",
             "wonderful",
-            "satisfied"
+            "amazing",
+            "brilliant",
+            "superb",
+            "exceptional",
+            "perfect",
+            "terrific",
+            "phenomenal",
+            "gratify",
+            "stars",
+            "awesome"
         ],
         "set": {
             "category": "Overall Experience",
-            "subcategory": "Customer Emotion",
+            "subcategory": "Customer Satisfaction",
             "level_3": "Positive Experience",
-            "level_4": "Positive Sentiments",
+            "level_4": "Exceptional Service",
             "sentiment": "positive"
         }
     },
     {
         "conditions": [
-            "status",
-            "diamond",
-            "gold",
-            "silver",
-            "platinum",
-            "loyal",
-            "loyalty"
+            "great",
+            "good",
+            "satisfied",
+            "happy",
+            "pleased",
+            "pleasure",
+            "gratified",
+            "smooth",
+            "smoothly",
+            "well",
+            "done"
         ],
         "set": {
-            "category": "Loyalty & Rewards",
-            "subcategory": "Membership Status",
-            "level_3": "Status Issue",
-            "level_4": "Status Problem",
+            "category": "Overall Experience",
+            "subcategory": "Customer Satisfaction",
+            "level_3": "Positive Experience",
+            "level_4": "Customer Satisfied",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "loyal",
+            "loyalty",
+            "brand",
+            "hilton",
+            "honors",
+            "stay",
+            "embassy",
+            "suites",
+            "hampton",
+            "conrad",
+            "room",
+            "hotel",
+            "property",
+            "location",
+            "staying"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Brand Perception",
+            "level_3": "General Experience",
+            "level_4": "Brand Feedback",
             "sentiment": "neutral"
         }
     },
@@ -432,7 +490,8 @@
             "employee",
             "employees",
             "rep",
-            "people"
+            "people",
+            "associate"
         ],
         "set": {
             "category": "Service Quality",

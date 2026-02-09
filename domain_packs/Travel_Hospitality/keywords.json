@@ -10,7 +10,8 @@
             "helpfull staff",
             "helpfuland",
             "helpfully worked",
-            "helpful call"
+            "helpful call",
+            "helpful and patient"
         ],
         "set": {
             "category": "Service Quality",
@@ -28,7 +29,9 @@
             "professional and polite",
             "pleasant and helpful",
             "very courtesy",
-            "extremely courteous"
+            "extremely courteous",
+            "polite and thorough",
+            "courteously"
         ],
         "set": {
             "category": "Service Quality",
@@ -40,48 +43,20 @@
     },
     {
         "conditions": [
-            "profesional and helpfull staff",
-            "profesional staff",
-            "very profesional",
-            "highly professional",
-            "professional status",
-            "professional way",
-            "professional and helpful"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Staff Performance",
-            "level_3": "Positive Experience",
-            "level_4": "Professional/Helpful Staff",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "inexperienced and highly unqualified",
-            "unqualified people",
-            "inexperienced people",
-            "unqualified staff",
-            "inexperienced staff",
-            "incompetent people"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Satisfaction",
-            "level_3": "Negative Experience",
-            "level_4": "Inexperienced/Unqualified Staff",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
             "excellent customer service",
             "great customer service",
             "exceptional customer service",
             "outstanding customer service",
             "top of the line service",
             "wonderful service",
-            "brilliant service"
+            "brilliant service",
+            "excellent service",
+            "great service",
+            "good service",
+            "best service",
+            "excellent assistance",
+            "excellent support",
+            "outstanding job"
         ],
         "set": {
             "category": "Service Quality",
@@ -118,7 +93,9 @@
             "resolved the concern",
             "rectify the problem",
             "everything was taken care of",
-            "made it right for me"
+            "made it right for me",
+            "sorted out my payment",
+            "resolved successfully"
         ],
         "set": {
             "category": "Service Quality",
@@ -173,7 +150,9 @@
             "rewards account",
             "hh account",
             "merge my account",
-            "link an existing reservation to my HH app"
+            "link an existing reservation to my HH app",
+            "link to my HH app",
+            "link my account"
         ],
         "set": {
             "category": "Loyalty & Rewards",
@@ -321,7 +300,7 @@
             "category": "Service Quality",
             "subcategory": "Communication Issue",
             "level_3": "Language Barrier",
-            "level_4": "Accent/Understanding Problem",
+            "level_4": "Accent Problem",
             "sentiment": "negative"
         }
     },
@@ -390,166 +369,6 @@
             "level_3": "Positive Service",
             "level_4": "Efficient Service",
             "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "merge account",
-            "merge accounts",
-            "two accounts",
-            "duplicate account"
-        ],
-        "set": {
-            "category": "Loyalty & Rewards",
-            "subcategory": "Account Management",
-            "level_3": "Account Issue",
-            "level_4": "Duplicate Account Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "overcharged",
-            "charged more",
-            "double charged",
-            "incorrect charge",
-            "false charge",
-            "security deposit",
-            "wrong bill",
-            "payment issue"
-        ],
-        "set": {
-            "category": "Billing & Pricing",
-            "subcategory": "Billing Error",
-            "level_3": "Charge Issue",
-            "level_4": "Overcharged",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "no one answered",
-            "no answer",
-            "couldn't reach",
-            "no response"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Accessibility",
-            "level_3": "Contact Issue",
-            "level_4": "No Answer",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "transferred",
-            "transferred me",
-            "got transferred",
-            "multiple transfers",
-            "transferred around",
-            "ping ponged",
-            "passed on to four different departments"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Call Handling",
-            "level_3": "Call Transfer Issue",
-            "level_4": "Multiple Transfers",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "hung up",
-            "disconnected",
-            "call dropped",
-            "line dropped",
-            "got disconnected",
-            "call cut off"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Call Handling",
-            "level_3": "Call Issue",
-            "level_4": "Call Disconnected",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "patient and understanding",
-            "very patient",
-            "patient beyond belief",
-            "patiently listened"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Representative Behavior",
-            "level_3": "Positive Service",
-            "level_4": "Patient Representative",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "rude",
-            "unprofessional",
-            "unconcerned",
-            "wouldn't help",
-            "awful service",
-            "horrible experience",
-            "disrespectful",
-            "no empathy"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Representative Behavior",
-            "level_3": "Negative Service",
-            "level_4": "Rude/Unprofessional Representative",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "cancel reservation",
-            "cancellation",
-            "cancelled reservation"
-        ],
-        "set": {
-            "category": "Reservation & Booking",
-            "subcategory": "Cancellation",
-            "level_3": "Cancellation Request",
-            "level_4": "Customer Cancelled",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "book a room",
-            "make a reservation",
-            "booking a room"
-        ],
-        "set": {
-            "category": "Reservation & Booking",
-            "subcategory": "New Booking",
-            "level_3": "Booking Request",
-            "level_4": "New Reservation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "confirmation email",
-            "didn't receive email",
-            "no email confirmation"
-        ],
-        "set": {
-            "category": "Technology & Systems",
-            "subcategory": "Email Issue",
-            "level_3": "Communication Problem",
-            "level_4": "Missing Confirmation Email",
-            "sentiment": "negative"
         }
     },
     {
@@ -843,77 +662,122 @@
     },
     {
         "conditions": [
-            "sued hilton",
-            "hear from my attorney",
-            "legal action",
-            "sue you"
+            "profesional and helpfull staff",
+            "profesional staff",
+            "very profesional",
+            "highly professional",
+            "professional status",
+            "professional way",
+            "professional and helpful",
+            "utmost professional"
         ],
         "set": {
             "category": "Overall Experience",
-            "subcategory": "Legal Threat",
-            "level_3": "Negative Experience",
-            "level_4": "Legal Action Threat",
-            "sentiment": "negative"
+            "subcategory": "Staff Performance",
+            "level_3": "Positive Experience",
+            "level_4": "Professional/Helpful Staff",
+            "sentiment": "positive"
         }
     },
     {
         "conditions": [
-            "vat receipt",
-            "VAT receipt",
-            "tax exemption"
-        ],
-        "set": {
-            "category": "Billing & Pricing",
-            "subcategory": "Tax/VAT Issue",
-            "level_3": "Documentation Issue",
-            "level_4": "VAT/Tax Documentation Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "currency",
-            "USD",
-            "CAD",
-            "exchange rate"
-        ],
-        "set": {
-            "category": "Billing & Pricing",
-            "subcategory": "Currency Issue",
-            "level_3": "Pricing Problem",
-            "level_4": "Currency/Exchange Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "3rd party booking",
-            "Expedia",
-            "Alaska Airlines",
-            "third party"
-        ],
-        "set": {
-            "category": "Reservation & Booking",
-            "subcategory": "Third Party Issue",
-            "level_3": "Booking Issue",
-            "level_4": "3rd Party Booking Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "muddle thru",
-            "waste of time",
-            "total waste of my time",
-            "hospitality failure",
-            "madness"
+            "inexperienced and highly unqualified",
+            "unqualified people",
+            "inexperienced people",
+            "unqualified staff",
+            "inexperienced staff",
+            "incompetent people",
+            "highly unqualified"
         ],
         "set": {
             "category": "Overall Experience",
             "subcategory": "Customer Satisfaction",
             "level_3": "Negative Experience",
-            "level_4": "Service Failure",
+            "level_4": "Inexperienced/Unqualified Staff",
             "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "great job",
+            "excellent job",
+            "well done",
+            "keep up the good work",
+            "commendable",
+            "assets for hilton",
+            "great asset",
+            "commendable effort"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Representative Behavior",
+            "level_3": "Positive Service",
+            "level_4": "Commendable Effort",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "exceeded my expectations",
+            "exceeded expectations",
+            "better than expected",
+            "happy with phone call",
+            "very happy with phone",
+            "pleased with the service"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Satisfaction",
+            "level_3": "Positive Experience",
+            "level_4": "Exceeded Expectations",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "bien satisfaite",
+            "excellent service de réservation",
+            "très satisfait",
+            "parfait",
+            "merci beaucoup",
+            "répondu en français"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Multilingual Support",
+            "level_3": "Positive Experience",
+            "level_4": "French Support",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "kundenorientiert",
+            "freundlich und hilfsbereit",
+            "vielen dank",
+            "mitarbeiter sehr freundlich"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Multilingual Support",
+            "level_3": "Positive Experience",
+            "level_4": "German Support",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "真摯に対応",
+            "解決しました",
+            "電話を切られました",
+            "日本人女性"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Multilingual Support",
+            "level_3": "Neutral Experience",
+            "level_4": "Japanese Support",
+            "sentiment": "neutral"
         }
     }
 ]
