@@ -76,7 +76,8 @@
             "knowledgeable",
             "knowledgble",
             "skilled",
-            "competent"
+            "competent",
+            "knew"
         ],
         "set": {
             "category": "Service Quality",
@@ -88,94 +89,12 @@
     },
     {
         "conditions": [
-            "inexperienced",
-            "unqualified",
-            "incompetent"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Satisfaction",
-            "level_3": "Negative Experience",
-            "level_4": "Inexperienced/Unqualified Staff",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "unprofessional",
-            "unconcerned",
-            "rude",
-            "disrespectful",
-            "disrespect"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Representative Behavior",
-            "level_3": "Negative Service",
-            "level_4": "Rude/Unprofessional Representative",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "awesome",
-            "incredible",
-            "outstanding",
-            "fantastic",
-            "wonderful",
-            "amazing",
-            "brilliant",
-            "superb",
-            "exceptional",
-            "perfect"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Satisfaction",
-            "level_3": "Positive Experience",
-            "level_4": "Exceptional Service",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "satisfied",
-            "happy",
-            "pleased",
-            "pleasure",
-            "gratified",
-            "satisfaction"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Satisfaction",
-            "level_3": "Positive Experience",
-            "level_4": "Customer Satisfied",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "sued",
-            "attorney",
-            "lawyer",
-            "lawsuit"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Legal Threat",
-            "level_3": "Negative Experience",
-            "level_4": "Legal Action Threat",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
             "efficient",
             "prompt",
             "fast",
             "quickly",
-            "accurately"
+            "accurately",
+            "efficace"
         ],
         "set": {
             "category": "Service Quality",
@@ -271,7 +190,8 @@
     {
         "conditions": [
             "honors",
-            "rewards"
+            "rewards",
+            "member"
         ],
         "set": {
             "category": "Loyalty & Rewards",
@@ -299,7 +219,9 @@
             "website",
             "online",
             "system",
-            "technology"
+            "technology",
+            "glitch",
+            "failure"
         ],
         "set": {
             "category": "Technology & Systems",
@@ -363,7 +285,8 @@
             "hearing",
             "repeat",
             "enunciate",
-            "native"
+            "native",
+            "struggling"
         ],
         "set": {
             "category": "Service Quality",
@@ -381,7 +304,8 @@
             "payment",
             "funds",
             "bill",
-            "debit"
+            "debit",
+            "deposit"
         ],
         "set": {
             "category": "Billing & Pricing",
@@ -424,7 +348,8 @@
     {
         "conditions": [
             "receipt",
-            "VAT"
+            "VAT",
+            "tax"
         ],
         "set": {
             "category": "Billing & Pricing",
@@ -466,7 +391,11 @@
             "super",
             "brilliant",
             "greatest",
-            "stars"
+            "stars",
+            "awesome",
+            "amazing",
+            "wonderful",
+            "satisfied"
         ],
         "set": {
             "category": "Overall Experience",
@@ -478,8 +407,7 @@
     },
     {
         "conditions": [
-            "member",
-            "membership",
+            "status",
             "diamond",
             "gold",
             "silver",
@@ -489,9 +417,9 @@
         ],
         "set": {
             "category": "Loyalty & Rewards",
-            "subcategory": "Membership Recognition",
-            "level_3": "Member Status",
-            "level_4": "Loyalty Member",
+            "subcategory": "Membership Status",
+            "level_3": "Status Issue",
+            "level_4": "Status Problem",
             "sentiment": "neutral"
         }
     },
@@ -503,7 +431,8 @@
             "staff",
             "employee",
             "employees",
-            "rep"
+            "rep",
+            "people"
         ],
         "set": {
             "category": "Service Quality",
@@ -526,6 +455,35 @@
             "subcategory": "Special Circumstances",
             "level_3": "Travel Issue",
             "level_4": "Travel Crisis",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "inexperienced",
+            "unqualified",
+            "incompetent"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Satisfaction",
+            "level_3": "Negative Experience",
+            "level_4": "Inexperienced/Unqualified Staff",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "sued",
+            "attorney",
+            "lawyer",
+            "lawsuit"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Legal Threat",
+            "level_3": "Negative Experience",
+            "level_4": "Legal Action Threat",
             "sentiment": "negative"
         }
     }

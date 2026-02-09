@@ -329,9 +329,7 @@
         "conditions": [
             "call center overseas",
             "overseas call center",
-            "not us based",
-            "not US based",
-            "offshore team"
+            "not us based"
         ],
         "set": {
             "category": "Service Quality",
@@ -399,8 +397,7 @@
             "merge account",
             "merge accounts",
             "two accounts",
-            "duplicate account",
-            "multiple accounts"
+            "duplicate account"
         ],
         "set": {
             "category": "Loyalty & Rewards",
@@ -434,9 +431,7 @@
             "no one answered",
             "no answer",
             "couldn't reach",
-            "no response",
-            "calls went unanswered",
-            "nobody picks up"
+            "no response"
         ],
         "set": {
             "category": "Service Quality",
@@ -517,110 +512,37 @@
     },
     {
         "conditions": [
-            "never stay again",
-            "will not stay",
-            "won't be staying",
-            "never again",
-            "no longer stay at hilton",
-            "seek accommodations elsewhere",
-            "moving to marriott",
-            "choosing another hotel brand"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Loyalty",
-            "level_3": "Negative Experience",
-            "level_4": "Lost Customer",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "will continue",
-            "will stay again",
-            "continue being a member",
-            "loyal to hilton",
-            "always happy at hilton",
-            "staying forever",
-            "remain true to the Hilton brand"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Loyalty",
-            "level_3": "Positive Experience",
-            "level_4": "Retained Customer",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "sued hilton",
-            "hear from my attorney",
-            "legal action",
-            "sue you",
-            "lawsuit"
-        ],
-        "set": {
-            "category": "Overall Experience",
-            "subcategory": "Legal Threat",
-            "level_3": "Negative Experience",
-            "level_4": "Legal Action Threat",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "vat receipt",
-            "VAT receipt",
-            "tax exemption",
-            "tax receipt"
-        ],
-        "set": {
-            "category": "Billing & Pricing",
-            "subcategory": "Tax/VAT Issue",
-            "level_3": "Documentation Issue",
-            "level_4": "VAT/Tax Documentation Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "currency",
-            "USD",
-            "CAD",
-            "exchange rate",
-            "currency mismatch"
-        ],
-        "set": {
-            "category": "Billing & Pricing",
-            "subcategory": "Currency Issue",
-            "level_3": "Pricing Problem",
-            "level_4": "Currency/Exchange Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "3rd party booking",
-            "Expedia",
-            "Alaska Airlines",
-            "third party",
-            "booking.com"
+            "cancel reservation",
+            "cancellation",
+            "cancelled reservation"
         ],
         "set": {
             "category": "Reservation & Booking",
-            "subcategory": "Third Party Issue",
-            "level_3": "Booking Issue",
-            "level_4": "3rd Party Booking Problem",
-            "sentiment": "negative"
+            "subcategory": "Cancellation",
+            "level_3": "Cancellation Request",
+            "level_4": "Customer Cancelled",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "book a room",
+            "make a reservation",
+            "booking a room"
+        ],
+        "set": {
+            "category": "Reservation & Booking",
+            "subcategory": "New Booking",
+            "level_3": "Booking Request",
+            "level_4": "New Reservation",
+            "sentiment": "neutral"
         }
     },
     {
         "conditions": [
             "confirmation email",
             "didn't receive email",
-            "no email confirmation",
-            "missing confirmation"
+            "no email confirmation"
         ],
         "set": {
             "category": "Technology & Systems",
@@ -632,67 +554,31 @@
     },
     {
         "conditions": [
-            "check in",
-            "check-in",
-            "digital check in",
-            "check in digitally",
-            "digital check-in"
-        ],
-        "set": {
-            "category": "Technology & Systems",
-            "subcategory": "Digital Services",
-            "level_3": "Check-in Issue",
-            "level_4": "Digital Check-in Problem",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "automated system",
-            "voice response system",
-            "ai system",
-            "automated phone system",
-            "robotic system",
-            "automated initial response"
-        ],
-        "set": {
-            "category": "Technology & Systems",
-            "subcategory": "Phone System",
-            "level_3": "System Issue",
-            "level_4": "Automated System Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "timeshare",
-            "sales pitch",
-            "trying to sell",
-            "unwanted offer",
-            "promotion offered"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Unwanted Sales",
-            "level_3": "Sales Issue",
-            "level_4": "Timeshare Sales Pitch",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "receipt",
-            "didn't receive receipt",
-            "no receipt",
-            "need a receipt",
-            "missing receipt"
+            "price was different",
+            "rate was different",
+            "higher rate",
+            "price increased"
         ],
         "set": {
             "category": "Billing & Pricing",
-            "subcategory": "Documentation Issue",
-            "level_3": "Receipt Problem",
-            "level_4": "Missing Receipt",
+            "subcategory": "Pricing Discrepancy",
+            "level_3": "Price Issue",
+            "level_4": "Rate Mismatch",
             "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "went above and beyond",
+            "above and beyond",
+            "exceptional service"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Service Experience",
+            "level_3": "Positive Service",
+            "level_4": "Exceptional Service",
+            "sentiment": "positive"
         }
     },
     {
@@ -716,8 +602,7 @@
         "conditions": [
             "disappointed",
             "very disappointed",
-            "disappointing",
-            "not satisfied"
+            "disappointing"
         ],
         "set": {
             "category": "Overall Experience",
@@ -746,18 +631,137 @@
     },
     {
         "conditions": [
+            "check in",
+            "check-in",
+            "digital check in",
+            "check in digitally"
+        ],
+        "set": {
+            "category": "Technology & Systems",
+            "subcategory": "Digital Services",
+            "level_3": "Check-in Issue",
+            "level_4": "Digital Check-in Problem",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "automated system",
+            "voice response system",
+            "ai system",
+            "automated phone system",
+            "automated initial response"
+        ],
+        "set": {
+            "category": "Technology & Systems",
+            "subcategory": "Phone System",
+            "level_3": "System Issue",
+            "level_4": "Automated System Problem",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "timeshare",
+            "sales pitch",
+            "trying to sell"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Unwanted Sales",
+            "level_3": "Sales Issue",
+            "level_4": "Timeshare Sales Pitch",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "receipt",
+            "didn't receive receipt",
+            "no receipt",
+            "need a receipt"
+        ],
+        "set": {
+            "category": "Billing & Pricing",
+            "subcategory": "Documentation Issue",
+            "level_3": "Receipt Problem",
+            "level_4": "Missing Receipt",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "room upgrade",
+            "upgraded",
+            "upgrade to"
+        ],
+        "set": {
+            "category": "Reservation & Booking",
+            "subcategory": "Room Upgrade",
+            "level_3": "Positive Service",
+            "level_4": "Room Upgrade Provided",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "loyalty member",
+            "honors member",
+            "diamond member",
+            "long time member"
+        ],
+        "set": {
+            "category": "Loyalty & Rewards",
+            "subcategory": "Membership Recognition",
+            "level_3": "Member Status",
+            "level_4": "Loyalty Member",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "never stay again",
+            "will not stay",
+            "won't be staying",
+            "never again"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Loyalty",
+            "level_3": "Negative Experience",
+            "level_4": "Lost Customer",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "will continue",
+            "will stay again",
+            "continue being a member",
+            "loyal to hilton",
+            "remain true to the Hilton brand"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Loyalty",
+            "level_3": "Positive Experience",
+            "level_4": "Retained Customer",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
             "medical emergency",
             "family crisis",
             "unforeseen circumstances",
             "emergency",
-            "accident",
             "flight being cancelled"
         ],
         "set": {
             "category": "Reservation & Booking",
             "subcategory": "Special Circumstances",
             "level_3": "Emergency Situation",
-            "level_4": "Medical/Family/Travel Emergency",
+            "level_4": "Medical/Family Emergency",
             "sentiment": "neutral"
         }
     },
@@ -766,8 +770,7 @@
             "non-refundable",
             "nonrefundable",
             "can't cancel",
-            "cannot cancel",
-            "prepaid stay"
+            "cannot cancel"
         ],
         "set": {
             "category": "Reservation & Booking",
@@ -783,7 +786,6 @@
             "nightly rate",
             "rate quoted",
             "quoted price",
-            "expected price",
             "very pricey"
         ],
         "set": {
@@ -799,8 +801,7 @@
             "supervisor",
             "manager",
             "escalate",
-            "speak to manager",
-            "management team"
+            "speak to manager"
         ],
         "set": {
             "category": "Service Quality",
@@ -815,8 +816,7 @@
             "case number",
             "ticket number",
             "reference number",
-            "case #",
-            "ticket #"
+            "case #"
         ],
         "set": {
             "category": "Service Quality",
@@ -824,6 +824,96 @@
             "level_3": "Follow-up Required",
             "level_4": "Case Created",
             "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "hours on the phone",
+            "hour on the phone",
+            "spent hours",
+            "wasted time"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Time Consumption",
+            "level_3": "Service Delay",
+            "level_4": "Excessive Time Spent",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "sued hilton",
+            "hear from my attorney",
+            "legal action",
+            "sue you"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Legal Threat",
+            "level_3": "Negative Experience",
+            "level_4": "Legal Action Threat",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "vat receipt",
+            "VAT receipt",
+            "tax exemption"
+        ],
+        "set": {
+            "category": "Billing & Pricing",
+            "subcategory": "Tax/VAT Issue",
+            "level_3": "Documentation Issue",
+            "level_4": "VAT/Tax Documentation Problem",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "currency",
+            "USD",
+            "CAD",
+            "exchange rate"
+        ],
+        "set": {
+            "category": "Billing & Pricing",
+            "subcategory": "Currency Issue",
+            "level_3": "Pricing Problem",
+            "level_4": "Currency/Exchange Problem",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "3rd party booking",
+            "Expedia",
+            "Alaska Airlines",
+            "third party"
+        ],
+        "set": {
+            "category": "Reservation & Booking",
+            "subcategory": "Third Party Issue",
+            "level_3": "Booking Issue",
+            "level_4": "3rd Party Booking Problem",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "muddle thru",
+            "waste of time",
+            "total waste of my time",
+            "hospitality failure",
+            "madness"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Satisfaction",
+            "level_3": "Negative Experience",
+            "level_4": "Service Failure",
+            "sentiment": "negative"
         }
     }
 ]
