@@ -8,7 +8,9 @@
             "helpfull",
             "helpfu",
             "helpfull staff",
-            "helpfuland"
+            "helpfuland",
+            "helpfully worked",
+            "helpful call"
         ],
         "set": {
             "category": "Service Quality",
@@ -24,7 +26,9 @@
             "very polite",
             "courteous and polite",
             "professional and polite",
-            "pleasant and helpful"
+            "pleasant and helpful",
+            "very courtesy",
+            "extremely courteous"
         ],
         "set": {
             "category": "Service Quality",
@@ -40,7 +44,9 @@
             "profesional staff",
             "very profesional",
             "highly professional",
-            "professional status"
+            "professional status",
+            "professional way",
+            "professional and helpful"
         ],
         "set": {
             "category": "Overall Experience",
@@ -73,7 +79,9 @@
             "great customer service",
             "exceptional customer service",
             "outstanding customer service",
-            "top of the line service"
+            "top of the line service",
+            "wonderful service",
+            "brilliant service"
         ],
         "set": {
             "category": "Service Quality",
@@ -88,7 +96,8 @@
             "friendly and helpful",
             "kind and helpful",
             "patient and helpful",
-            "patient and helpfu"
+            "patient and helpfu",
+            "pleasant and thorough"
         ],
         "set": {
             "category": "Service Quality",
@@ -105,7 +114,11 @@
             "resolved my issue",
             "fixed my problem",
             "sorted out my problem",
-            "quick response and solution"
+            "quick response and solution",
+            "resolved the concern",
+            "rectify the problem",
+            "everything was taken care of",
+            "made it right for me"
         ],
         "set": {
             "category": "Service Quality",
@@ -123,7 +136,9 @@
             "no resolution",
             "couldn't fix",
             "didn't fix the problem",
-            "no status update"
+            "no status update",
+            "issue was never fixed",
+            "nothing being taken care of"
         ],
         "set": {
             "category": "Service Quality",
@@ -139,7 +154,8 @@
             "reservation cancelled",
             "entire booking got cancelled",
             "screwed up my reservation",
-            "accidentally cancelled"
+            "accidentally cancelled",
+            "mistake and cancelled the wrong reservation"
         ],
         "set": {
             "category": "Reservation & Booking",
@@ -156,7 +172,8 @@
             "honors account",
             "rewards account",
             "hh account",
-            "merge my account"
+            "merge my account",
+            "link an existing reservation to my HH app"
         ],
         "set": {
             "category": "Loyalty & Rewards",
@@ -190,7 +207,8 @@
             "didn't get points",
             "points issue",
             "award points",
-            "points problem"
+            "points problem",
+            "earn more points"
         ],
         "set": {
             "category": "Loyalty & Rewards",
@@ -256,7 +274,8 @@
             "change reservation",
             "modify my reservation",
             "adjustment to reservation",
-            "update my booking"
+            "update my booking",
+            "shorten my stay"
         ],
         "set": {
             "category": "Reservation & Booking",
@@ -273,7 +292,10 @@
             "waited 20 minutes",
             "long wait",
             "waited 35 minutes",
-            "excessive wait"
+            "excessive wait",
+            "took forever",
+            "hours on the phone",
+            "took too long on the phone"
         ],
         "set": {
             "category": "Service Quality",
@@ -291,13 +313,15 @@
             "heavy accent",
             "hard to hear",
             "enunciate",
-            "language barrier"
+            "language barrier",
+            "language was a minor issue",
+            "had to repeat numerous times"
         ],
         "set": {
             "category": "Service Quality",
             "subcategory": "Communication Issue",
             "level_3": "Language Barrier",
-            "level_4": "Accent Problem",
+            "level_4": "Accent/Understanding Problem",
             "sentiment": "negative"
         }
     },
@@ -324,7 +348,9 @@
             "website not working",
             "website doesn't work",
             "bug in the link",
-            "technical glitch"
+            "technical glitch",
+            "technology issue",
+            "technical issue"
         ],
         "set": {
             "category": "Technology & Systems",
@@ -339,7 +365,9 @@
             "professional and knowledgeable",
             "knowledgeable and professional",
             "very knowledgeable",
-            "highly skilled"
+            "highly skilled",
+            "knew what she was doing",
+            "knew what he was doing"
         ],
         "set": {
             "category": "Service Quality",
@@ -355,7 +383,8 @@
             "quick and efficient",
             "very efficient",
             "super efficient",
-            "fast service"
+            "fast service",
+            "bref, courtois, efficace"
         ],
         "set": {
             "category": "Service Quality",
@@ -389,7 +418,8 @@
             "incorrect charge",
             "false charge",
             "security deposit",
-            "wrong bill"
+            "wrong bill",
+            "payment issue"
         ],
         "set": {
             "category": "Billing & Pricing",
@@ -423,7 +453,8 @@
             "got transferred",
             "multiple transfers",
             "transferred around",
-            "ping ponged"
+            "ping ponged",
+            "passed on to four different departments"
         ],
         "set": {
             "category": "Service Quality",
@@ -473,7 +504,8 @@
             "wouldn't help",
             "awful service",
             "horrible experience",
-            "disrespectful"
+            "disrespectful",
+            "no empathy"
         ],
         "set": {
             "category": "Service Quality",
@@ -491,7 +523,8 @@
             "never again",
             "no longer stay at hilton",
             "seek accommodations elsewhere",
-            "moving to marriott"
+            "moving to marriott",
+            "choosing another hotel brand"
         ],
         "set": {
             "category": "Overall Experience",
@@ -508,7 +541,8 @@
             "continue being a member",
             "loyal to hilton",
             "always happy at hilton",
-            "staying forever"
+            "staying forever",
+            "remain true to the Hilton brand"
         ],
         "set": {
             "category": "Overall Experience",
@@ -618,7 +652,8 @@
             "voice response system",
             "ai system",
             "automated phone system",
-            "robotic system"
+            "robotic system",
+            "automated initial response"
         ],
         "set": {
             "category": "Technology & Systems",
@@ -633,7 +668,8 @@
             "timeshare",
             "sales pitch",
             "trying to sell",
-            "unwanted offer"
+            "unwanted offer",
+            "promotion offered"
         ],
         "set": {
             "category": "Service Quality",
@@ -665,7 +701,8 @@
             "frustrating",
             "very frustrated",
             "extremely frustrated",
-            "annoying"
+            "annoying",
+            "arduous and irritating"
         ],
         "set": {
             "category": "Overall Experience",
@@ -696,7 +733,8 @@
             "very grateful",
             "thankful",
             "appreciate",
-            "thank you"
+            "thank you",
+            "super happy"
         ],
         "set": {
             "category": "Overall Experience",
@@ -712,13 +750,14 @@
             "family crisis",
             "unforeseen circumstances",
             "emergency",
-            "accident"
+            "accident",
+            "flight being cancelled"
         ],
         "set": {
             "category": "Reservation & Booking",
             "subcategory": "Special Circumstances",
             "level_3": "Emergency Situation",
-            "level_4": "Medical/Family Emergency",
+            "level_4": "Medical/Family/Travel Emergency",
             "sentiment": "neutral"
         }
     },
@@ -744,7 +783,8 @@
             "nightly rate",
             "rate quoted",
             "quoted price",
-            "expected price"
+            "expected price",
+            "very pricey"
         ],
         "set": {
             "category": "Billing & Pricing",
@@ -784,37 +824,6 @@
             "level_3": "Follow-up Required",
             "level_4": "Case Created",
             "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "hours on the phone",
-            "hour on the phone",
-            "spent hours",
-            "wasted time",
-            "waste of my time"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Time Consumption",
-            "level_3": "Service Delay",
-            "level_4": "Excessive Time Spent",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "went above and beyond",
-            "above and beyond",
-            "exceptional service",
-            "exceeded expectations"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Overall Service Experience",
-            "level_3": "Positive Service",
-            "level_4": "Exceptional Service",
-            "sentiment": "positive"
         }
     }
 ]

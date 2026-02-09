@@ -4,7 +4,8 @@
             "helpful",
             "helpfull",
             "helpfu",
-            "helped"
+            "helped",
+            "helpfully"
         ],
         "set": {
             "category": "Service Quality",
@@ -18,7 +19,8 @@
         "conditions": [
             "polite",
             "courteous",
-            "pleasant"
+            "pleasant",
+            "courtesy"
         ],
         "set": {
             "category": "Service Quality",
@@ -31,7 +33,8 @@
     {
         "conditions": [
             "professional",
-            "profesional"
+            "profesional",
+            "professionally"
         ],
         "set": {
             "category": "Service Quality",
@@ -70,7 +73,10 @@
     },
     {
         "conditions": [
-            "knowledgeable"
+            "knowledgeable",
+            "knowledgble",
+            "skilled",
+            "competent"
         ],
         "set": {
             "category": "Service Quality",
@@ -98,7 +104,9 @@
         "conditions": [
             "unprofessional",
             "unconcerned",
-            "rude"
+            "rude",
+            "disrespectful",
+            "disrespect"
         ],
         "set": {
             "category": "Service Quality",
@@ -115,7 +123,11 @@
             "outstanding",
             "fantastic",
             "wonderful",
-            "amazing"
+            "amazing",
+            "brilliant",
+            "superb",
+            "exceptional",
+            "perfect"
         ],
         "set": {
             "category": "Overall Experience",
@@ -129,7 +141,10 @@
         "conditions": [
             "satisfied",
             "happy",
-            "pleased"
+            "pleased",
+            "pleasure",
+            "gratified",
+            "satisfaction"
         ],
         "set": {
             "category": "Overall Experience",
@@ -143,7 +158,8 @@
         "conditions": [
             "sued",
             "attorney",
-            "lawyer"
+            "lawyer",
+            "lawsuit"
         ],
         "set": {
             "category": "Overall Experience",
@@ -156,7 +172,10 @@
     {
         "conditions": [
             "efficient",
-            "prompt"
+            "prompt",
+            "fast",
+            "quickly",
+            "accurately"
         ],
         "set": {
             "category": "Service Quality",
@@ -183,7 +202,11 @@
             "resolved",
             "fixed",
             "solved",
-            "rectify"
+            "rectify",
+            "correction",
+            "corrected",
+            "rectified",
+            "sorted"
         ],
         "set": {
             "category": "Service Quality",
@@ -274,13 +297,15 @@
         "conditions": [
             "app",
             "website",
-            "online"
+            "online",
+            "system",
+            "technology"
         ],
         "set": {
             "category": "Technology & Systems",
             "subcategory": "Technical Issue",
             "level_3": "System Malfunction",
-            "level_4": "App/Website Issue",
+            "level_4": "App/Website/System Issue",
             "sentiment": "negative"
         }
     },
@@ -288,7 +313,9 @@
         "conditions": [
             "wait",
             "hold",
-            "waiting"
+            "waiting",
+            "forever",
+            "spent"
         ],
         "set": {
             "category": "Service Quality",
@@ -301,7 +328,9 @@
     {
         "conditions": [
             "transfer",
-            "transferred"
+            "transferred",
+            "department",
+            "departments"
         ],
         "set": {
             "category": "Service Quality",
@@ -314,7 +343,9 @@
     {
         "conditions": [
             "disconnect",
-            "disconnected"
+            "disconnected",
+            "dropped",
+            "cut"
         ],
         "set": {
             "category": "Service Quality",
@@ -328,7 +359,11 @@
         "conditions": [
             "understand",
             "accent",
-            "speech"
+            "speech",
+            "hearing",
+            "repeat",
+            "enunciate",
+            "native"
         ],
         "set": {
             "category": "Service Quality",
@@ -343,7 +378,10 @@
             "charge",
             "charged",
             "billing",
-            "payment"
+            "payment",
+            "funds",
+            "bill",
+            "debit"
         ],
         "set": {
             "category": "Billing & Pricing",
@@ -358,7 +396,9 @@
             "price",
             "rate",
             "cost",
-            "fee"
+            "fee",
+            "pricey",
+            "rates"
         ],
         "set": {
             "category": "Billing & Pricing",
@@ -370,14 +410,15 @@
     },
     {
         "conditions": [
-            "email"
+            "email",
+            "confirmation"
         ],
         "set": {
             "category": "Technology & Systems",
             "subcategory": "Email Issue",
             "level_3": "Communication Problem",
-            "level_4": "Email Problem",
-            "sentiment": "negative"
+            "level_4": "Email/Confirmation Problem",
+            "sentiment": "neutral"
         }
     },
     {
@@ -401,7 +442,11 @@
             "pissed",
             "disgusted",
             "scammed",
-            "unacceptable"
+            "unacceptable",
+            "failure",
+            "fail",
+            "irritating",
+            "arduous"
         ],
         "set": {
             "category": "Overall Experience",
@@ -413,12 +458,34 @@
     },
     {
         "conditions": [
+            "grateful",
+            "thank",
+            "thanks",
+            "thankyou",
+            "appreciate",
+            "super",
+            "brilliant",
+            "greatest",
+            "stars"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Emotion",
+            "level_3": "Positive Experience",
+            "level_4": "Positive Sentiments",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
             "member",
             "membership",
             "diamond",
             "gold",
             "silver",
-            "platinum"
+            "platinum",
+            "loyal",
+            "loyalty"
         ],
         "set": {
             "category": "Loyalty & Rewards",
@@ -433,7 +500,10 @@
             "representative",
             "agent",
             "personnel",
-            "staff"
+            "staff",
+            "employee",
+            "employees",
+            "rep"
         ],
         "set": {
             "category": "Service Quality",
@@ -445,18 +515,17 @@
     },
     {
         "conditions": [
-            "failure",
-            "madness",
-            "mess",
-            "horrible",
-            "awful",
-            "terrible"
+            "emergency",
+            "flight",
+            "crisis",
+            "unforeseen",
+            "medical"
         ],
         "set": {
-            "category": "Overall Experience",
-            "subcategory": "Customer Satisfaction",
-            "level_3": "Negative Experience",
-            "level_4": "Service Failure",
+            "category": "Reservation & Booking",
+            "subcategory": "Special Circumstances",
+            "level_3": "Travel Issue",
+            "level_4": "Travel Crisis",
             "sentiment": "negative"
         }
     }
