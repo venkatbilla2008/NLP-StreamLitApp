@@ -545,5 +545,139 @@
             "level_4": "Legal Action Threat",
             "sentiment": "negative"
         }
+    },
+    {
+        "conditions": [
+            "passionate",
+            "enthusiastic",
+            "dedicated",
+            "committed",
+            "went above",
+            "went back over everything"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Representative Behavior",
+            "level_3": "Positive Service",
+            "level_4": "Passionate Representative",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "terrible",
+            "horrible",
+            "awful",
+            "worst",
+            "worst ever",
+            "dreadful",
+            "appalling"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Emotion",
+            "level_3": "Negative Experience",
+            "level_4": "Terrible Experience",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "easy to work with",
+            "easy to deal with",
+            "straightforward",
+            "simple",
+            "uncomplicated",
+            "hassle-free"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Service Speed",
+            "level_3": "Positive Service",
+            "level_4": "Easy Process",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "questions answered",
+            "answered my questions",
+            "got my questions answered",
+            "all questions answered",
+            "answered all my questions"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Representative Behavior",
+            "level_3": "Positive Service",
+            "level_4": "Informative Representative",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "attentive",
+            "listened",
+            "listened to me",
+            "heard me",
+            "understood",
+            "understood my needs"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Representative Behavior",
+            "level_3": "Positive Service",
+            "level_4": "Attentive Representative",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "wouldn't listen",
+            "didn't listen",
+            "not listening",
+            "ignored me",
+            "dismissed",
+            "brushed off"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Representative Behavior",
+            "level_3": "Negative Service",
+            "level_4": "Inattentive Representative",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "won't be back",
+            "wont be back",
+            "never coming back",
+            "not returning",
+            "lost a customer"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Loyalty",
+            "level_3": "Negative Experience",
+            "level_4": "Lost Customer",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "explained everything",
+            "explained thoroughly",
+            "clear explanation",
+            "walked me through",
+            "step by step"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Representative Behavior",
+            "level_3": "Positive Service",
+            "level_4": "Clear Communicator",
+            "sentiment": "positive"
+        }
     }
 ]

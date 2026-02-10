@@ -779,5 +779,110 @@
             "level_4": "Japanese Support",
             "sentiment": "neutral"
         }
+    },
+    {
+        "conditions": [
+            "very passionate",
+            "so passionate",
+            "extremely passionate",
+            "passionate about helping",
+            "went back over everything",
+            "reviewed everything"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Representative Behavior",
+            "level_3": "Positive Service",
+            "level_4": "Passionate Representative",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "terrible experience",
+            "horrible experience",
+            "awful experience",
+            "worst experience",
+            "worst ever",
+            "terrible terrible",
+            "won't be back",
+            "wont be back"
+        ],
+        "set": {
+            "category": "Overall Experience",
+            "subcategory": "Customer Emotion",
+            "level_3": "Negative Experience",
+            "level_4": "Terrible Experience",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "very easy to work with",
+            "easy to work with",
+            "so easy to work with",
+            "easy to deal with",
+            "simple process",
+            "straightforward process"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Service Speed",
+            "level_3": "Positive Service",
+            "level_4": "Easy Process",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "able to get my questions answered",
+            "got my questions answered",
+            "questions answered",
+            "all my questions answered",
+            "answered all questions",
+            "answered my questions",
+            "had all my questions answered"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Representative Behavior",
+            "level_3": "Positive Service",
+            "level_4": "Informative Representative",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "very attentive and patient",
+            "attentive and patient",
+            "explained everything thoroughly",
+            "did everything they could",
+            "accommodate my request",
+            "accommodate my needs"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Representative Behavior",
+            "level_3": "Positive Service",
+            "level_4": "Attentive Representative",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "wouldn't listen to me",
+            "didn't listen to me",
+            "wouldn't listen",
+            "in a hurry to tell me",
+            "not interested in",
+            "wasn't interested"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Representative Behavior",
+            "level_3": "Negative Service",
+            "level_4": "Inattentive Representative",
+            "sentiment": "negative"
+        }
     }
 ]
