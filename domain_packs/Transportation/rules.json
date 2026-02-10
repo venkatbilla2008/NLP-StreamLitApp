@@ -583,6 +583,805 @@
     },
     {
         "conditions": [
+            "reimbursed",
+            "reimburse",
+            "reimbursement"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing Issue",
+            "level_3": "Reimbursement",
+            "level_4": "Requesting Reimbursement",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "best",
+            "fantastic",
+            "superb",
+            "perfect"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Exceptional Service",
+            "level_3": "Excellent",
+            "level_4": "Best Experience",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "worst",
+            "bad",
+            "poor",
+            "unpleasant"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Negative",
+            "level_4": "Bad Experience",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "friendly",
+            "kind",
+            "nice",
+            "polite"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Agent Attitude",
+            "level_3": "Friendly Service",
+            "level_4": "Friendly/Kind",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "attentive",
+            "professional",
+            "courteous"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Agent Attitude",
+            "level_3": "Professionalism",
+            "level_4": "Professional/Attentive",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "solution",
+            "solve",
+            "address"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Quality",
+            "level_3": "Problem Solving",
+            "level_4": "Solution Provided",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "policy",
+            "rule",
+            "regulation"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Policy Issues",
+            "level_3": "Policy Concern",
+            "level_4": "Policy Related",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "app",
+            "application",
+            "system"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "App Issues",
+            "level_3": "App Problem",
+            "level_4": "App Related",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "wait",
+            "waiting",
+            "delay"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Wait Time",
+            "level_3": "Delays",
+            "level_4": "Long Wait",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "deactivated",
+            "suspended",
+            "blocked"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Issues",
+            "level_3": "Account Status",
+            "level_4": "Account Deactivated",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "grateful",
+            "thankful",
+            "appreciative"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Gratitude",
+            "level_3": "Appreciation",
+            "level_4": "Very Grateful",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "incompetent",
+            "useless",
+            "unhelpful"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Poor Support",
+            "level_4": "Incompetent Agent",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "advisor",
+            "specialist",
+            "team"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Quality",
+            "level_3": "Support Team",
+            "level_4": "Support Team Feedback",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "improvement",
+            "improve",
+            "better"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Suggestions",
+            "level_3": "Improvement Request",
+            "level_4": "Needs Improvement",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "injure",
+            "hurt",
+            "harm"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Critical Safety",
+            "level_3": "Injury Risk",
+            "level_4": "Potential Harm",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "vehicle",
+            "car",
+            "auto"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Vehicle Condition",
+            "level_3": "Vehicle",
+            "level_4": "Vehicle Related",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "reason",
+            "why",
+            "explain"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "General Issue",
+            "level_3": "Seeking Explanation",
+            "level_4": "Wants Explanation",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "manipulation",
+            "unfair",
+            "unjust"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Fairness Issues",
+            "level_3": "Unfair Treatment",
+            "level_4": "Unfair/Manipulation",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "compensate",
+            "compensation"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing Issue",
+            "level_3": "Compensation",
+            "level_4": "Seeking Compensation",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "difficult",
+            "hard",
+            "trouble"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Usability Issues",
+            "level_3": "Difficulty",
+            "level_4": "Difficult to Use",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "troubles",
+            "hardship",
+            "struggle"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Difficulties",
+            "level_4": "Customer Struggles",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "service",
+            "experience"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "General Feedback",
+            "level_3": "Service Experience",
+            "level_4": "General Service",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "question",
+            "ask",
+            "inquiry"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Questions",
+            "level_4": "Has Questions",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "response",
+            "reply",
+            "answer"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Quality",
+            "level_3": "Response Quality",
+            "level_4": "Response Feedback",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "information",
+            "info",
+            "details"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Information Request",
+            "level_3": "Seeking Info",
+            "level_4": "Information Needed",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "reactivate",
+            "restore",
+            "reinstate"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Issues",
+            "level_3": "Reactivation",
+            "level_4": "Account Reactivation",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "script",
+            "automated",
+            "bot"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Automated Response",
+            "level_4": "Scripted/Automated",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "snafu",
+            "mess",
+            "confusion"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "General Issue",
+            "level_3": "Confusion",
+            "level_4": "Messy Situation",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "coverup",
+            "excuse",
+            "runaround"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Evasive Support",
+            "level_4": "Not Genuine Help",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "happy",
+            "satisfied",
+            "pleased"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Satisfaction",
+            "level_3": "Satisfied",
+            "level_4": "Happy/Satisfied",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "equipment",
+            "tools",
+            "supplies"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Equipment Issues",
+            "level_3": "Equipment",
+            "level_4": "Equipment Related",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "logo",
+            "sticker",
+            "decal"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Driver Materials",
+            "level_3": "Branding Materials",
+            "level_4": "Logo/Sticker Request",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "incident",
+            "situation",
+            "event"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Incident Report",
+            "level_3": "Incident",
+            "level_4": "Incident Related",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "follow up",
+            "followup",
+            "update"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Follow-up",
+            "level_4": "Needs Follow-up",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "salary",
+            "raise",
+            "promotion"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Agent Recognition",
+            "level_3": "Agent Praise",
+            "level_4": "Deserves Raise",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "hero",
+            "legend",
+            "star"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Exceptional Service",
+            "level_3": "Outstanding",
+            "level_4": "Hero/Legend",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "consensus",
+            "agreement",
+            "decision"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Resolution Issues",
+            "level_3": "Decision",
+            "level_4": "Decision/Agreement",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "fair",
+            "fairness",
+            "justice"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Fairness Issues",
+            "level_3": "Fairness",
+            "level_4": "Fairness Concern",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "feedback",
+            "comment",
+            "input"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "General Feedback",
+            "level_3": "Feedback",
+            "level_4": "General Feedback",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "error",
+            "mistake",
+            "wrong"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "System Errors",
+            "level_3": "Error",
+            "level_4": "Error/Mistake",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "notification",
+            "alert",
+            "message"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "App Issues",
+            "level_3": "Notifications",
+            "level_4": "Notification Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "court",
+            "lawsuit",
+            "legal action"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Legal Issues",
+            "level_3": "Legal Action",
+            "level_4": "Court/Lawsuit",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "credits",
+            "credit",
+            "balance"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Credits/Promotions",
+            "level_3": "Credits",
+            "level_4": "Credit Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "address",
+            "location",
+            "place"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Location Issues",
+            "level_3": "Address",
+            "level_4": "Address/Location",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "legislation",
+            "law",
+            "legal"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Legal/Compliance",
+            "level_3": "Legal Compliance",
+            "level_4": "Legal/Legislation",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "form",
+            "document",
+            "paperwork"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Documentation",
+            "level_3": "Forms/Documents",
+            "level_4": "Document Related",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "tax",
+            "taxes",
+            "1099"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Tax Issues",
+            "level_3": "Tax Forms",
+            "level_4": "Tax Related",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "email",
+            "call back",
+            "callback"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Contact Request",
+            "level_4": "Requesting Contact",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "discrepancy",
+            "mismatch",
+            "difference"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing Issue",
+            "level_3": "Discrepancy",
+            "level_4": "Billing Discrepancy",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "elite",
+            "priority",
+            "vip"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Issues",
+            "level_3": "Account Status",
+            "level_4": "Elite/Priority Status",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "color",
+            "appearance",
+            "look"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "App Issues",
+            "level_3": "UI/UX",
+            "level_4": "Appearance Issues",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "online",
+            "offline",
+            "connectivity"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "App Issues",
+            "level_3": "Connection",
+            "level_4": "Online/Offline Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "efficient",
+            "effective",
+            "productive"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Efficiency",
+            "level_3": "Efficient Service",
+            "level_4": "Efficient/Effective",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "attitude",
+            "behavior",
+            "manner"
+        ],
+        "set": {
+            "category": "Driver/Rider",
+            "subcategory": "Behavior",
+            "level_3": "Attitude",
+            "level_4": "Attitude/Behavior",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "sorry",
+            "apology",
+            "apologize"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "General Feedback",
+            "level_3": "Apology",
+            "level_4": "Apology Related",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "typing",
+            "writing",
+            "texting"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Communication",
+            "level_4": "Still Typing",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "done",
+            "finished",
+            "complete"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "General Feedback",
+            "level_3": "Completion",
+            "level_4": "Done/Finished",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
             "unsafe driving",
             "speeding",
             "reckless driving",
