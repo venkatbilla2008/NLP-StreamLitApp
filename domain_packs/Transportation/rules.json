@@ -1,6 +1,588 @@
 [
     {
         "conditions": [
+            "thank you",
+            "thanks",
+            "thank u",
+            "thx",
+            "appreciate"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Gratitude",
+            "level_3": "Appreciation",
+            "level_4": "Thank You",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "great service",
+            "great job",
+            "good job",
+            "awesome",
+            "excellent"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Service Quality",
+            "level_3": "Positive Experience",
+            "level_4": "Great Service",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "issue resolved",
+            "problem solved",
+            "resolved",
+            "fixed",
+            "sorted"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Support Quality",
+            "level_3": "Resolution",
+            "level_4": "Issue Resolved",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "my bag",
+            "my phone",
+            "left item",
+            "forgot",
+            "lost item"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Lost Items",
+            "level_3": "Lost & Found",
+            "level_4": "Item Left Behind",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "compensation",
+            "discount",
+            "credit",
+            "should receive"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing Issue",
+            "level_3": "Compensation Request",
+            "level_4": "Requesting Compensation",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "chat ended",
+            "chat closed",
+            "missed chat",
+            "chat started"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Chat Problems",
+            "level_4": "Chat Session Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "didnt help",
+            "not help",
+            "no help",
+            "couldnt help"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Support Ineffective",
+            "level_4": "Agent Could Not Help",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "paid",
+            "payment",
+            "pay",
+            "money"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Payment Issues",
+            "level_3": "Payment Concern",
+            "level_4": "Payment Related",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "driver",
+            "ride",
+            "trip"
+        ],
+        "set": {
+            "category": "Driver/Rider",
+            "subcategory": "General Feedback",
+            "level_3": "Ride Experience",
+            "level_4": "Driver/Ride Mention",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "nothing",
+            "no issue",
+            "all good",
+            "everything good"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "No Issues",
+            "level_3": "Satisfactory",
+            "level_4": "No Problems",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "long time",
+            "took long",
+            "waited",
+            "waiting"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Response Time",
+            "level_4": "Long Wait Time",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "disappointed",
+            "dissatisfied",
+            "upset",
+            "frustrated"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Negative Experience",
+            "level_4": "Customer Dissatisfaction",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "agent",
+            "representative",
+            "support",
+            "customer service"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Quality",
+            "level_3": "Agent Interaction",
+            "level_4": "Support Agent Feedback",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "charge",
+            "charged",
+            "fee",
+            "cost"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Charges / Fees",
+            "level_3": "Billing Concern",
+            "level_4": "Charge Related",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "concern",
+            "worried",
+            "issue",
+            "problem"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "General Issue",
+            "level_3": "Customer Concern",
+            "level_4": "General Concern",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "call me",
+            "contact me",
+            "reach out"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Follow-up Request",
+            "level_4": "Requesting Callback",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "complaint",
+            "report",
+            "filing"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Complaint",
+            "level_3": "Formal Complaint",
+            "level_4": "Filing Complaint",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "child",
+            "kid",
+            "car seat"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Child Safety",
+            "level_3": "Child Passenger",
+            "level_4": "Child Safety Concern",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "bad review",
+            "rating",
+            "review"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Rating Issues",
+            "level_3": "Rating Concern",
+            "level_4": "Review/Rating Feedback",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "quick",
+            "fast",
+            "prompt",
+            "timely"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Service Efficiency",
+            "level_3": "Speed",
+            "level_4": "Quick Response",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "helpful",
+            "helped",
+            "assist"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Support Quality",
+            "level_3": "Helpfulness",
+            "level_4": "Helpful Agent",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "understood",
+            "understand",
+            "listened"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Support Quality",
+            "level_3": "Understanding",
+            "level_4": "Agent Understood Issue",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "not satisfied",
+            "unsatisfied",
+            "unhappy"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Dissatisfaction",
+            "level_4": "Not Satisfied",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "love",
+            "proud",
+            "honored",
+            "blessed"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Overall Experience",
+            "level_3": "High Satisfaction",
+            "level_4": "Very Positive",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "stop using",
+            "close account",
+            "quit",
+            "done with"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Issues",
+            "level_3": "Account Closure",
+            "level_4": "Considering Leaving",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "cash out",
+            "withdraw",
+            "earnings"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Payment Issues",
+            "level_3": "Driver Earnings",
+            "level_4": "Cash Out Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "booking",
+            "booked",
+            "reservation"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Service Issue",
+            "level_3": "Booking",
+            "level_4": "Booking Related",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "match",
+            "paired",
+            "assigned"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Service Issue",
+            "level_3": "Matching",
+            "level_4": "Driver/Rider Matching",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "toll",
+            "bridge",
+            "fee charged"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Charges / Fees",
+            "level_3": "Toll Charges",
+            "level_4": "Toll/Bridge Fees",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "tier",
+            "level",
+            "status"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Issues",
+            "level_3": "Account Status",
+            "level_4": "Tier/Level Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "phenomenal",
+            "outstanding",
+            "amazing",
+            "wonderful"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Exceptional Service",
+            "level_3": "Excellent Experience",
+            "level_4": "Phenomenal Service",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "wary",
+            "hesitant",
+            "concerned about using"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Trust Issues",
+            "level_3": "Platform Trust",
+            "level_4": "Hesitant to Use",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "treated",
+            "respect",
+            "disrespect"
+        ],
+        "set": {
+            "category": "Driver/Rider",
+            "subcategory": "Treatment",
+            "level_3": "Customer Treatment",
+            "level_4": "Respect/Disrespect",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "emoji",
+            "wrong selection",
+            "accidentally"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "App Issues",
+            "level_3": "User Error",
+            "level_4": "Accidental Selection",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "record",
+            "documentation",
+            "just in case"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Documentation",
+            "level_3": "Record Keeping",
+            "level_4": "Creating Record",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "bank",
+            "account",
+            "unauthorized payment"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Fraud",
+            "level_3": "Payment Fraud",
+            "level_4": "Unauthorized Transaction",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "state id",
+            "identification",
+            "verify"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Verification",
+            "level_3": "ID Verification",
+            "level_4": "Identification Issue",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "lie",
+            "liar",
+            "false",
+            "not true"
+        ],
+        "set": {
+            "category": "Driver/Rider",
+            "subcategory": "Dispute",
+            "level_3": "Accusation",
+            "level_4": "False Information",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "clean",
+            "cleaning"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Vehicle Condition",
+            "level_3": "Cleanliness",
+            "level_4": "Cleaning Related",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "god",
+            "bless",
+            "pray"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Gratitude",
+            "level_3": "Religious Thanks",
+            "level_4": "Blessing/Prayer",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
             "unsafe driving",
             "speeding",
             "reckless driving",
