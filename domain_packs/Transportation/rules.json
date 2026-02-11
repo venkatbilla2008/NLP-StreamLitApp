@@ -1,6 +1,357 @@
 [
     {
         "conditions": [
+            "very good",
+            "very very good",
+            "good person",
+            "good guy"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "General Praise",
+            "level_3": "Positive",
+            "level_4": "Very Good",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "great",
+            "great help"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "General Praise",
+            "level_3": "Positive",
+            "level_4": "Great",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "didnt help",
+            "didn't help",
+            "not help",
+            "no help"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Ineffective Support",
+            "level_4": "Did Not Help",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "dismissive",
+            "dismissed",
+            "ignored"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Poor Treatment",
+            "level_4": "Dismissive",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "right thing",
+            "did right",
+            "correct action"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Resolution",
+            "level_3": "Proper Action",
+            "level_4": "Did Right Thing",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "waste of time",
+            "waste time",
+            "wasted time"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Time Wasted",
+            "level_4": "Waste of Time",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "ridiculous",
+            "absurd",
+            "outrageous"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Extreme Negative",
+            "level_4": "Ridiculous",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "unacceptable",
+            "not acceptable",
+            "cant accept"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Unacceptable",
+            "level_4": "Unacceptable Service",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "easy",
+            "simple",
+            "straightforward"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Ease of Use",
+            "level_3": "Easy Process",
+            "level_4": "Easy/Simple",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "thumbs up",
+            "two thumbs",
+            "thumbs"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Approval",
+            "level_3": "Approval",
+            "level_4": "Thumbs Up",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "lyft cash",
+            "cash credit",
+            "ride credit"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Credits/Promotions",
+            "level_3": "Lyft Cash",
+            "level_4": "Lyft Cash Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "fire",
+            "terminate",
+            "remove"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Complaint",
+            "level_3": "Serious Complaint",
+            "level_4": "Wants Person Fired",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "excellent help",
+            "excellent",
+            "superb"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Exceptional Service",
+            "level_3": "Excellent",
+            "level_4": "Excellent Help",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "useless",
+            "un useful",
+            "not useful"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Useless Support",
+            "level_4": "Useless",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "dmv",
+            "records",
+            "violations"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Documentation",
+            "level_3": "DMV/Records",
+            "level_4": "DMV Records",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "documents rejected",
+            "rejected",
+            "not accepted"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Documentation",
+            "level_3": "Document Rejection",
+            "level_4": "Documents Rejected",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "number doesnt work",
+            "phone doesnt work",
+            "cant call"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Contact Issues",
+            "level_3": "Phone Issues",
+            "level_4": "Phone Number Not Working",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "ai thing",
+            "ai is",
+            "artificial intelligence"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "AI/Automation",
+            "level_3": "AI Feedback",
+            "level_4": "AI Related",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "out of work",
+            "cant work",
+            "not working"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Issues",
+            "level_3": "Unable to Work",
+            "level_4": "Out of Work",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "breach of contract",
+            "contract",
+            "criminal"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Legal/Compliance",
+            "level_3": "Contract Issues",
+            "level_4": "Breach of Contract",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "meeting",
+            "busy",
+            "cant respond"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Timing Issues",
+            "level_4": "Busy/In Meeting",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "everything listed",
+            "all of above",
+            "all above"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "General Feedback",
+            "level_3": "Multiple Issues",
+            "level_4": "All of the Above",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "headset",
+            "lights",
+            "siren"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Traffic Incident",
+            "level_3": "Emergency Vehicle",
+            "level_4": "Emergency Vehicle Incident",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "fuss free",
+            "no fuss",
+            "hassle free"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Ease of Use",
+            "level_3": "Smooth Process",
+            "level_4": "Fuss Free",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "not willing",
+            "unwilling",
+            "refuses"
+        ],
+        "set": {
+            "category": "Driver/Rider",
+            "subcategory": "Behavior",
+            "level_3": "Unwilling",
+            "level_4": "Not Willing to Help",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "thank you",
             "thanks",
             "thank u",
