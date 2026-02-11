@@ -1,1386 +1,1373 @@
-[
-    {
-        "conditions": [
-            "driver issue",
-            "rude driver",
-            "unsafe driving",
-            "driver problem",
-            "bad driver",
-            "unprofessional driver",
-            "terrible driver"
-        ],
-        "set": {
-            "category": "Driver/Rider",
-            "subcategory": "Driver Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "overcharged",
-            "fare dispute",
-            "wrong fare",
-            "pricing issue",
-            "surge pricing",
-            "too expensive",
-            "charged too much",
-            "price too high"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Charges / Fees",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "long wait",
-            "driver cancelled",
-            "no driver",
-            "cant get ride",
-            "wait time",
-            "waited forever",
-            "still waiting"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "great driver",
-            "excellent service",
-            "safe ride",
-            "friendly driver",
-            "professional",
-            "amazing driver",
-            "best driver"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Driver/Rider Professionalism",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "refund request",
-            "need refund",
-            "money back",
-            "want refund",
-            "refund issue",
-            "refund denied"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Billing Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "dirty car",
-            "unclean",
-            "messy vehicle",
-            "smelly",
-            "bad odor",
-            "filthy",
-            "disgusting car",
-            "needs cleaning"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Vehicle Condition",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "wrong location",
-            "pickup issue",
-            "drop off problem",
-            "location error",
-            "wrong address",
-            "incorrect location"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Location Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "app crash",
-            "app error",
-            "technical issue",
-            "app not working",
-            "app froze",
-            "app glitch",
-            "app problem"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "App Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "unsafe",
-            "felt unsafe",
-            "safety concern",
-            "harassment",
-            "uncomfortable",
-            "inappropriate",
-            "creepy"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Safety Concerns",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "wrong route",
-            "inefficient route",
-            "driver got lost",
-            "navigation issue",
-            "took longer route",
-            "went wrong way"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Route & Navigation",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "accident",
-            "crash",
-            "collision",
-            "hit",
-            "damaged",
-            "car accident"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Incident",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "payment failed",
-            "card declined",
-            "payment error",
-            "payment issue",
-            "cant pay",
-            "billing problem"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Payment Processing",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "gps issue",
-            "location tracking",
-            "wrong location on app",
-            "gps not accurate",
-            "location error",
-            "gps wrong"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "App Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "driver didnt respond",
-            "no communication",
-            "ignored messages",
-            "didnt answer",
-            "driver not responding"
-        ],
-        "set": {
-            "category": "Driver/Rider",
-            "subcategory": "Communication",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "language barrier",
-            "couldnt understand",
-            "communication difficulty",
-            "language issue",
-            "cant communicate"
-        ],
-        "set": {
-            "category": "Driver/Rider",
-            "subcategory": "Communication",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "broken ac",
-            "no air conditioning",
-            "too hot",
-            "too cold",
-            "temperature issue",
-            "ac not working"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Vehicle Condition",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "clean car",
-            "spotless",
-            "well maintained",
-            "nice vehicle",
-            "pristine",
-            "very clean"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Vehicle Quality",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "quick pickup",
-            "fast arrival",
-            "arrived quickly",
-            "prompt service",
-            "on time",
-            "fast response"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Service Efficiency",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "eta wrong",
-            "eta changed",
-            "arrival time incorrect",
-            "estimated time wrong",
-            "eta keeps changing"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "App Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "cancellation",
-            "cancelled",
-            "canceled",
-            "driver cancelled",
-            "ride cancelled"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "smoking",
-            "smoke smell",
-            "cigarette",
-            "driver smoking",
-            "smells like smoke"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Vehicle Condition",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "wrong car",
-            "different car",
-            "not the car shown",
-            "car doesnt match",
-            "incorrect vehicle"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "different driver",
-            "wrong driver",
-            "not the driver shown",
-            "driver doesnt match",
-            "driver photo wrong"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Verification Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "asked for cash",
-            "cash payment",
-            "cash only",
-            "refused card",
-            "demanded cash"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Payment Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "promo code",
-            "discount code",
-            "coupon",
-            "promo didnt apply",
-            "code invalid"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Billing Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "charged twice",
-            "double charged",
-            "duplicate charge",
-            "billed twice"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Billing Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "account suspended",
-            "account blocked",
-            "cant access account",
-            "account locked"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Account Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "music too loud",
-            "loud music",
-            "noise complaint",
-            "turn down music"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Comfort Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "helpful",
-            "went above and beyond",
-            "extra help",
-            "very helpful",
-            "assisted"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Driver/Rider Professionalism",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "safe driver",
-            "careful driver",
-            "smooth ride",
-            "felt safe",
-            "safe driving"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Driver/Rider Professionalism",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "driver late",
-            "late pickup",
-            "arrived late",
-            "driver delayed",
-            "took too long to arrive"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "driver no show",
-            "didnt show up",
-            "never came",
-            "driver never arrived",
-            "no driver showed"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "scam",
-            "fraud",
-            "cheating",
-            "rip off",
-            "stealing",
-            "dishonest"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Charges / Fees",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "lost item",
-            "left phone",
-            "forgot wallet",
-            "missing belongings",
-            "left something",
-            "lost and found"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Lost Items",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "driver texting",
-            "distracted",
-            "on phone while driving",
-            "not paying attention",
-            "looking at phone"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Driver Safety",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "road rage",
-            "aggressive",
-            "angry driver",
-            "yelling",
-            "honking excessively"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Driver Safety",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "ran red light",
-            "speeding",
-            "reckless",
-            "dangerous",
-            "traffic violation"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Driver Safety",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "driver had passenger",
-            "extra person",
-            "someone else in car",
-            "unauthorized passenger",
-            "drivers friend"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Ride Safety",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "driver pet",
-            "dog in car",
-            "cat in car",
-            "animal",
-            "pet in vehicle"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Vehicle Condition",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "driver eating",
-            "driver drinking",
-            "eating while driving",
-            "food in car"
-        ],
-        "set": {
-            "category": "Driver/Rider",
-            "subcategory": "Driver Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "asked personal questions",
-            "too personal",
-            "nosy",
-            "invasive",
-            "inappropriate questions"
-        ],
-        "set": {
-            "category": "Driver/Rider",
-            "subcategory": "Driver Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "flirting",
-            "hit on me",
-            "asked for number",
-            "unwanted advances",
-            "romantic advances"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Driver Conduct",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "stalking",
-            "following",
-            "driver followed me",
-            "driver waiting outside",
-            "driver watching"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Driver Conduct",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "refused trip",
-            "wouldnt take me",
-            "rejected destination",
-            "driver said no",
-            "declined ride"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "forced front seat",
-            "made me sit in front",
-            "couldnt sit in back",
-            "insisted front"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Driver Conduct",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "door locked",
-            "child lock",
-            "couldnt open door",
-            "trapped",
-            "locked in"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Vehicle Safety",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "driver stopped for errands",
-            "made stops",
-            "unnecessary delay",
-            "driver made me wait",
-            "took forever"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "picked up another passenger",
-            "shared without permission",
-            "multiple rides",
-            "unauthorized sharing"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "asked to cancel",
-            "wanted me to cancel",
-            "driver requested cancellation",
-            "driver said cancel"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "cancellation fee",
-            "unfair charge",
-            "shouldnt be charged",
-            "false cancellation",
-            "wrongly charged"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Charges / Fees",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "trip started early",
-            "charged before pickup",
-            "meter running",
-            "started before getting in"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Charges / Fees",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "trip ended early",
-            "ended before destination",
-            "marked complete early",
-            "ride ended prematurely"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "route padding",
-            "long route on purpose",
-            "intentionally longer",
-            "driver scamming route",
-            "trying to charge more"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Charges / Fees",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "driver lied",
-            "dishonest",
-            "gave wrong information",
-            "misled",
-            "deceived"
-        ],
-        "set": {
-            "category": "Driver/Rider",
-            "subcategory": "Driver Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "perfect",
-            "flawless",
-            "exceeded expectations",
-            "best ride ever",
-            "couldnt be better"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Overall Experience",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "professional",
-            "courteous",
-            "respectful",
-            "well mannered",
-            "polite"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Driver/Rider Professionalism",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "efficient route",
-            "avoided traffic",
-            "knew shortcuts",
-            "smart routing",
-            "best route"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Service Efficiency",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "helped with luggage",
-            "assisted with bags",
-            "loaded luggage",
-            "carried bags",
-            "luggage help"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Driver/Rider Professionalism",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "comfortable",
-            "smooth drive",
-            "pleasant ride",
-            "nice car",
-            "comfortable seats"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Vehicle Quality",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "offered water",
-            "had amenities",
-            "offered charger",
-            "aux cable",
-            "extras"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Driver/Rider Professionalism",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "patient",
-            "waited for me",
-            "didnt rush",
-            "accommodating",
-            "understanding"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Driver/Rider Professionalism",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "great music",
-            "good playlist",
-            "nice music",
-            "enjoyed music",
-            "perfect music"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Service Quality",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "quiet",
-            "respectful of silence",
-            "didnt talk too much",
-            "peaceful",
-            "understood i didnt want to talk"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Driver/Rider Professionalism",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "good conversation",
-            "interesting talk",
-            "enjoyed chatting",
-            "nice to talk to",
-            "pleasant conversation"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Driver/Rider Professionalism",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "refund",
-            "want refund",
-            "need refund",
-            "refund please",
-            "issue refund"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Billing Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "chat closed",
-            "chat ended",
-            "support closed",
-            "conversation ended"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Support Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "slow response",
-            "waited hours",
-            "long wait",
-            "took too long"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Support Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "stranded",
-            "left stranded",
-            "abandoned",
-            "left me"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Service Failure",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "scamming",
-            "scam",
-            "fraud",
-            "cheating",
-            "rip off"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Charges / Fees",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "stolen",
-            "theft",
-            "stole",
-            "items taken"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Theft",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "pre-booked",
-            "scheduled",
-            "reserved",
-            "booked in advance"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "life in danger",
-            "life threatening",
-            "feared for life",
-            "danger"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Critical Safety",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "worst ride",
-            "nightmare",
-            "terrible",
-            "horrible",
-            "awful"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Overall Experience",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "minors",
-            "minor",
-            "underage",
-            "child alone"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Policy Violation",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "wrong drop off",
-            "miles away",
-            "wrong location",
-            "far from destination"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Route & Navigation",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "issue not resolved",
-            "not solved",
-            "not fixed",
-            "unresolved"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Support Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "escalate",
-            "higher level",
-            "supervisor",
-            "manager"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Support Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "police",
-            "authorities",
-            "legal",
-            "reported"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Legal Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "ride still active",
-            "trip still running",
-            "wont end",
-            "still active"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "App Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "wonderful service",
-            "great support",
-            "excellent help",
-            "amazing"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Support Quality",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "handled beautifully",
-            "well handled",
-            "resolved perfectly",
-            "professionally handled"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Support Quality",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "phone found",
-            "item returned",
-            "got back",
-            "recovered"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Lost & Found",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "unsafe location",
-            "dangerous area",
-            "bad neighborhood",
-            "not safe"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Location Safety",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "female alone",
-            "woman alone",
-            "girl alone",
-            "young female"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Vulnerable Passenger",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "didnt get paid",
-            "payment wrong",
-            "pay discrepancy",
-            "incorrect payment"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Payment Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "upgrade not received",
-            "no upgrade",
-            "paid for upgrade",
-            "upgrade missing"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "assault",
-            "assaulted",
-            "attacked",
-            "violence",
-            "violent"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Critical Safety",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "car damaged",
-            "vehicle damaged",
-            "damage",
-            "broken"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Property Damage",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "transferred",
-            "multiple agents",
-            "talked to 4 people",
-            "keep transferring"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Support Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "hanging up",
-            "hung up",
-            "disconnected",
-            "call dropped"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Support Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "wrong passenger",
-            "picked wrong person",
-            "not my ride"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Service Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "uber",
-            "going to uber",
-            "switching",
-            "competitor"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Competitor Mention",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "system sucks",
-            "system problems",
-            "broken system",
-            "platform issues"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Platform Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "knows where i live",
-            "knows my address",
-            "worried",
-            "privacy concern"
-        ],
-        "set": {
-            "category": "Safety & Security",
-            "subcategory": "Privacy Concern",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "vomit",
-            "threw up",
-            "bodily fluids",
-            "defecate"
-        ],
-        "set": {
-            "category": "Service Quality",
-            "subcategory": "Vehicle Condition",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "quote",
-            "screenshot",
-            "price mismatch",
-            "quoted price"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Charges / Fees",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "runaround",
-            "back and forth",
-            "nobody helping",
-            "passed around"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Support Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "empathy",
-            "understanding",
-            "compassionate",
-            "caring"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Support Quality",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "above and beyond",
-            "extra effort",
-            "outstanding"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Support Quality",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "genuine",
-            "not robotic",
-            "human",
-            "personable"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Support Quality",
-            "sentiment": "positive"
-        }
+﻿[
+    {
+        "conditions":  [
+                           "driver issue",
+                           "rude driver",
+                           "unsafe driving",
+                           "driver problem",
+                           "bad driver",
+                           "unprofessional driver",
+                           "terrible driver"
+                       ],
+        "set":  {
+                    "category":  "Driver/Rider",
+                    "subcategory":  "Driver Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "overcharged",
+                           "fare dispute",
+                           "wrong fare",
+                           "pricing issue",
+                           "surge pricing",
+                           "too expensive",
+                           "charged too much",
+                           "price too high"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Charges / Fees",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "long wait",
+                           "driver cancelled",
+                           "no driver",
+                           "cant get ride",
+                           "wait time",
+                           "waited forever",
+                           "still waiting"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "great driver",
+                           "excellent service",
+                           "safe ride",
+                           "friendly driver",
+                           "professional",
+                           "amazing driver",
+                           "best driver"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Driver/Rider Professionalism",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "refund request",
+                           "need refund",
+                           "money back",
+                           "want refund",
+                           "refund issue",
+                           "refund denied"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Billing Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "dirty car",
+                           "unclean",
+                           "messy vehicle",
+                           "smelly",
+                           "bad odor",
+                           "filthy",
+                           "disgusting car",
+                           "needs cleaning"
+                       ],
+        "set":  {
+                    "category":  "Service Quality",
+                    "subcategory":  "Vehicle Condition",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "wrong location",
+                           "pickup issue",
+                           "drop off problem",
+                           "location error",
+                           "wrong address",
+                           "incorrect location"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Location Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "app crash",
+                           "app error",
+                           "technical issue",
+                           "app not working",
+                           "app froze",
+                           "app glitch",
+                           "app problem"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "App Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "unsafe",
+                           "felt unsafe",
+                           "safety concern",
+                           "harassment",
+                           "uncomfortable",
+                           "inappropriate",
+                           "creepy"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Safety Concerns",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "wrong route",
+                           "inefficient route",
+                           "driver got lost",
+                           "navigation issue",
+                           "took longer route",
+                           "went wrong way"
+                       ],
+        "set":  {
+                    "category":  "Service Quality",
+                    "subcategory":  "Route \u0026 Navigation",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "accident",
+                           "crash",
+                           "collision",
+                           "hit",
+                           "damaged",
+                           "car accident"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Incident",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "payment failed",
+                           "card declined",
+                           "payment error",
+                           "payment issue",
+                           "cant pay",
+                           "billing problem"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "Payment Processing",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "gps issue",
+                           "location tracking",
+                           "wrong location on app",
+                           "gps not accurate",
+                           "gps wrong"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "App Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "driver didnt respond",
+                           "no communication",
+                           "ignored messages",
+                           "didnt answer",
+                           "driver not responding"
+                       ],
+        "set":  {
+                    "category":  "Driver/Rider",
+                    "subcategory":  "Communication",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "language barrier",
+                           "couldnt understand",
+                           "communication difficulty",
+                           "language issue",
+                           "cant communicate"
+                       ],
+        "set":  {
+                    "category":  "Driver/Rider",
+                    "subcategory":  "Communication",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "broken ac",
+                           "no air conditioning",
+                           "too hot",
+                           "too cold",
+                           "temperature issue",
+                           "ac not working"
+                       ],
+        "set":  {
+                    "category":  "Service Quality",
+                    "subcategory":  "Vehicle Condition",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "clean car",
+                           "spotless",
+                           "well maintained",
+                           "nice vehicle",
+                           "pristine",
+                           "very clean"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Vehicle Quality",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "quick pickup",
+                           "fast arrival",
+                           "arrived quickly",
+                           "prompt service",
+                           "on time",
+                           "fast response"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Service Efficiency",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "eta wrong",
+                           "eta changed",
+                           "arrival time incorrect",
+                           "estimated time wrong",
+                           "eta keeps changing"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "App Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "cancellation",
+                           "cancelled",
+                           "canceled",
+                           "ride cancelled"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "smoking",
+                           "smoke smell",
+                           "cigarette",
+                           "driver smoking",
+                           "smells like smoke"
+                       ],
+        "set":  {
+                    "category":  "Service Quality",
+                    "subcategory":  "Vehicle Condition",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "wrong car",
+                           "different car",
+                           "not the car shown",
+                           "car doesnt match",
+                           "incorrect vehicle"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "different driver",
+                           "wrong driver",
+                           "not the driver shown",
+                           "driver doesnt match",
+                           "driver photo wrong"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Verification Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "asked for cash",
+                           "cash payment",
+                           "cash only",
+                           "refused card",
+                           "demanded cash"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Payment Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "promo code",
+                           "discount code",
+                           "coupon",
+                           "promo didnt apply",
+                           "code invalid"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Billing Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "charged twice",
+                           "double charged",
+                           "duplicate charge",
+                           "billed twice"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Billing Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "account suspended",
+                           "account blocked",
+                           "cant access account",
+                           "account locked"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "Account Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "music too loud",
+                           "loud music",
+                           "noise complaint",
+                           "turn down music"
+                       ],
+        "set":  {
+                    "category":  "Service Quality",
+                    "subcategory":  "Comfort Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "helpful",
+                           "went above and beyond",
+                           "extra help",
+                           "very helpful",
+                           "assisted"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Driver/Rider Professionalism",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "safe driver",
+                           "careful driver",
+                           "smooth ride",
+                           "felt safe",
+                           "safe driving"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Driver/Rider Professionalism",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "driver late",
+                           "late pickup",
+                           "arrived late",
+                           "driver delayed",
+                           "took too long to arrive"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "driver no show",
+                           "didnt show up",
+                           "never came",
+                           "driver never arrived",
+                           "no driver showed"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "scam",
+                           "fraud",
+                           "cheating",
+                           "rip off",
+                           "stealing",
+                           "dishonest"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Charges / Fees",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "lost item",
+                           "left phone",
+                           "forgot wallet",
+                           "missing belongings",
+                           "left something",
+                           "lost and found"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Lost Items",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "driver texting",
+                           "distracted",
+                           "on phone while driving",
+                           "not paying attention",
+                           "looking at phone"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Driver Safety",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "road rage",
+                           "aggressive",
+                           "angry driver",
+                           "yelling",
+                           "honking excessively"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Driver Safety",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "ran red light",
+                           "speeding",
+                           "reckless",
+                           "dangerous",
+                           "traffic violation"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Driver Safety",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "driver had passenger",
+                           "extra person",
+                           "someone else in car",
+                           "unauthorized passenger",
+                           "drivers friend"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Ride Safety",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "driver pet",
+                           "dog in car",
+                           "cat in car",
+                           "animal",
+                           "pet in vehicle"
+                       ],
+        "set":  {
+                    "category":  "Service Quality",
+                    "subcategory":  "Vehicle Condition",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "driver eating",
+                           "driver drinking",
+                           "eating while driving",
+                           "food in car"
+                       ],
+        "set":  {
+                    "category":  "Driver/Rider",
+                    "subcategory":  "Driver Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "asked personal questions",
+                           "too personal",
+                           "nosy",
+                           "invasive",
+                           "inappropriate questions"
+                       ],
+        "set":  {
+                    "category":  "Driver/Rider",
+                    "subcategory":  "Driver Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "flirting",
+                           "hit on me",
+                           "asked for number",
+                           "unwanted advances",
+                           "romantic advances"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Driver Conduct",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "stalking",
+                           "following",
+                           "driver followed me",
+                           "driver waiting outside",
+                           "driver watching"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Driver Conduct",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "refused trip",
+                           "wouldnt take me",
+                           "rejected destination",
+                           "driver said no",
+                           "declined ride"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "forced front seat",
+                           "made me sit in front",
+                           "couldnt sit in back",
+                           "insisted front"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Driver Conduct",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "door locked",
+                           "child lock",
+                           "couldnt open door",
+                           "trapped",
+                           "locked in"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Vehicle Safety",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "driver stopped for errands",
+                           "made stops",
+                           "unnecessary delay",
+                           "driver made me wait",
+                           "took forever"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "picked up another passenger",
+                           "shared without permission",
+                           "multiple rides",
+                           "unauthorized sharing"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "asked to cancel",
+                           "wanted me to cancel",
+                           "driver requested cancellation",
+                           "driver said cancel"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "cancellation fee",
+                           "unfair charge",
+                           "shouldnt be charged",
+                           "false cancellation",
+                           "wrongly charged"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Charges / Fees",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "trip started early",
+                           "charged before pickup",
+                           "meter running",
+                           "started before getting in"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Charges / Fees",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "trip ended early",
+                           "ended before destination",
+                           "marked complete early",
+                           "ride ended prematurely"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "route padding",
+                           "long route on purpose",
+                           "intentionally longer",
+                           "driver scamming route",
+                           "trying to charge more"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Charges / Fees",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "driver lied",
+                           "gave wrong information",
+                           "misled",
+                           "deceived"
+                       ],
+        "set":  {
+                    "category":  "Driver/Rider",
+                    "subcategory":  "Driver Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "perfect",
+                           "flawless",
+                           "exceeded expectations",
+                           "best ride ever",
+                           "couldnt be better"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Overall Experience",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "courteous",
+                           "respectful",
+                           "well mannered",
+                           "polite"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Driver/Rider Professionalism",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "efficient route",
+                           "avoided traffic",
+                           "knew shortcuts",
+                           "smart routing",
+                           "best route"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Service Efficiency",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "helped with luggage",
+                           "assisted with bags",
+                           "loaded luggage",
+                           "carried bags",
+                           "luggage help"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Driver/Rider Professionalism",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "comfortable",
+                           "smooth drive",
+                           "pleasant ride",
+                           "nice car",
+                           "comfortable seats"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Vehicle Quality",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "offered water",
+                           "had amenities",
+                           "offered charger",
+                           "aux cable",
+                           "extras"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Driver/Rider Professionalism",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "patient",
+                           "waited for me",
+                           "didnt rush",
+                           "accommodating",
+                           "understanding"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Driver/Rider Professionalism",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "great music",
+                           "good playlist",
+                           "nice music",
+                           "enjoyed music",
+                           "perfect music"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Service Quality",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "quiet",
+                           "respectful of silence",
+                           "didnt talk too much",
+                           "peaceful",
+                           "understood i didnt want to talk"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Driver/Rider Professionalism",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "good conversation",
+                           "interesting talk",
+                           "enjoyed chatting",
+                           "nice to talk to",
+                           "pleasant conversation"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Driver/Rider Professionalism",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "refund",
+                           "refund please",
+                           "issue refund"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Billing Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "chat closed",
+                           "chat ended",
+                           "support closed",
+                           "conversation ended"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "Support Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "slow response",
+                           "waited hours",
+                           "took too long"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "Support Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "stranded",
+                           "left stranded",
+                           "abandoned",
+                           "left me"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Service Failure",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "scamming"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Charges / Fees",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "stolen",
+                           "theft",
+                           "stole",
+                           "items taken"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Theft",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "pre-booked",
+                           "scheduled",
+                           "reserved",
+                           "booked in advance"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "life in danger",
+                           "life threatening",
+                           "feared for life",
+                           "danger"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Critical Safety",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "worst ride",
+                           "nightmare",
+                           "terrible",
+                           "horrible",
+                           "awful"
+                       ],
+        "set":  {
+                    "category":  "Service Quality",
+                    "subcategory":  "Overall Experience",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "minors",
+                           "minor",
+                           "underage",
+                           "child alone"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Policy Violation",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "wrong drop off",
+                           "miles away",
+                           "far from destination"
+                       ],
+        "set":  {
+                    "category":  "Service Quality",
+                    "subcategory":  "Route \u0026 Navigation",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "issue not resolved",
+                           "not solved",
+                           "not fixed",
+                           "unresolved"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "Support Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "escalate",
+                           "higher level",
+                           "supervisor",
+                           "manager"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "Support Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "police",
+                           "authorities",
+                           "legal",
+                           "reported"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Legal Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "ride still active",
+                           "trip still running",
+                           "wont end",
+                           "still active"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "App Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "wonderful service",
+                           "great support",
+                           "excellent help",
+                           "amazing"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Support Quality",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "handled beautifully",
+                           "well handled",
+                           "resolved perfectly",
+                           "professionally handled"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Support Quality",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "phone found",
+                           "item returned",
+                           "got back",
+                           "recovered"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Lost \u0026 Found",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "unsafe location",
+                           "dangerous area",
+                           "bad neighborhood",
+                           "not safe"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Location Safety",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "female alone",
+                           "woman alone",
+                           "girl alone",
+                           "young female"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Vulnerable Passenger",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "didnt get paid",
+                           "payment wrong",
+                           "pay discrepancy",
+                           "incorrect payment"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Payment Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "upgrade not received",
+                           "no upgrade",
+                           "paid for upgrade",
+                           "upgrade missing"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "assault",
+                           "assaulted",
+                           "attacked",
+                           "violence",
+                           "violent"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Critical Safety",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "car damaged",
+                           "vehicle damaged",
+                           "damage",
+                           "broken"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Property Damage",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "transferred",
+                           "multiple agents",
+                           "talked to 4 people",
+                           "keep transferring"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "Support Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "hanging up",
+                           "hung up",
+                           "disconnected",
+                           "call dropped"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "Support Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "wrong passenger",
+                           "picked wrong person",
+                           "not my ride"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Service Issue",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "uber",
+                           "going to uber",
+                           "switching",
+                           "competitor"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Competitor Mention",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "system sucks",
+                           "system problems",
+                           "broken system",
+                           "platform issues"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "Platform Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "knows where i live",
+                           "knows my address",
+                           "worried",
+                           "privacy concern"
+                       ],
+        "set":  {
+                    "category":  "Safety \u0026 Security",
+                    "subcategory":  "Privacy Concern",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "vomit",
+                           "threw up",
+                           "bodily fluids",
+                           "defecate"
+                       ],
+        "set":  {
+                    "category":  "Service Quality",
+                    "subcategory":  "Vehicle Condition",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "quote",
+                           "screenshot",
+                           "price mismatch",
+                           "quoted price"
+                       ],
+        "set":  {
+                    "category":  "Process Driven",
+                    "subcategory":  "Charges / Fees",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "runaround",
+                           "back and forth",
+                           "nobody helping",
+                           "passed around"
+                       ],
+        "set":  {
+                    "category":  "Technology Driven",
+                    "subcategory":  "Support Issues",
+                    "sentiment":  "negative"
+                }
+    },
+    {
+        "conditions":  [
+                           "empathy",
+                           "compassionate",
+                           "caring"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Support Quality",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "above and beyond",
+                           "extra effort",
+                           "outstanding"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Support Quality",
+                    "sentiment":  "positive"
+                }
+    },
+    {
+        "conditions":  [
+                           "genuine",
+                           "not robotic",
+                           "human",
+                           "personable"
+                       ],
+        "set":  {
+                    "category":  "Positive Feedback",
+                    "subcategory":  "Support Quality",
+                    "sentiment":  "positive"
+                }
     }
 ]
