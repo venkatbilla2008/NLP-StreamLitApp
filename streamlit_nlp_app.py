@@ -1187,6 +1187,215 @@ HierarchicalCategoryTree = PyEchartsWordTree
 
 
 # ========================================================================================
+# CONCORDANCE ANALYZER - KEYWORD IN CONTEXT (KWIC)
+# ========================================================================================
+
+class ConcordanceAnalyzer:
+    """
+    Production-ready Concordance Analysis (KWIC - KeyWord In Context)
+    
+    Features:
+    - Fast keyword/phrase search with Polars
+    - Category-based filtering
+    - Adjustable context window
+    - Regex pattern support
+    - Frequency statistics
+    - Collocation analysis
+    - Beautiful UI for business users
+    """
+    
+    def __init__(self, df: pd.DataFrame):
+        """Initialize with processed dataframe"""
+        self.df = df
+        self.polars_df = pl.from_pandas(df)
+    
+    def search_concordance(
+        self,
+        keyword: str,
+        context_words: int = 10,
+        category_filter: str = None,
+        subcategory_filter: str = None,
+        case_sensitive: bool = False,
+        use_regex: bool = False
+    ) -> pl.DataFrame:
+        """
+        Search for keyword and extract concordance lines
+        
+        Args:
+            keyword: Word or phrase to search for
+            context_words: Number of words to show on left and right
+            category_filter: Filter by category (L1)
+            subcategory_filter: Filter by subcategory (L2)
+            case_sensitive: Whether search is case-sensitive
+            use_regex: Whether to use regex pattern matching
+            
+        Returns:
+            Polars DataFrame with concordance results
+        """
+        # Start with full dataset
+        search_df = self.polars_df
+        
+        # Apply category filters
+        if category_filter and category_filter != "All Categories":
+            search_df = search_df.filter(pl.col('Category') == category_filter)
+        
+        if subcategory_filter and subcategory_filter != "All Subcategories":
+            search_df = search_df.filter(pl.col('Subcategory') == subcategory_filter)
+        
+        # Convert to pandas for text processing (easier for context extraction)
+        search_pd = search_df.to_pandas()
+        
+        # Prepare search pattern
+        if use_regex:
+            pattern = re.compile(keyword, re.IGNORECASE if not case_sensitive else 0)
+        else:
+            escaped_keyword = re.escape(keyword)
+            pattern = re.compile(rf'\b{escaped_keyword}\b', re.IGNORECASE if not case_sensitive else 0)
+        
+        # Extract concordances
+        concordances = []
+        
+        for idx, row in search_pd.iterrows():
+            text = str(row['Original_Text'])
+            
+            # Find all matches
+            for match in pattern.finditer(text):
+                start_pos = match.start()
+                end_pos = match.end()
+                matched_text = match.group()
+                
+                # Extract context
+                left_context, right_context = self._extract_context(
+                    text, start_pos, end_pos, context_words
+                )
+                
+                concordances.append({
+                    'Conversation_ID': row['Conversation_ID'],
+                    'Left_Context': left_context,
+                    'Keyword': matched_text,
+                    'Right_Context': right_context,
+                    'Category': row['Category'],
+                    'Subcategory': row['Subcategory'],
+                    'L3': row['L3'],
+                    'L4': row['L4'],
+                    'Full_Text': text,
+                    'Match_Position': start_pos
+                })
+        
+        # Convert to Polars for fast operations
+        if concordances:
+            return pl.DataFrame(concordances)
+        else:
+            return pl.DataFrame()
+    
+    def _extract_context(self, text: str, start_pos: int, end_pos: int, context_words: int) -> Tuple[str, str]:
+        """Extract left and right context around keyword"""
+        # Get text before keyword
+        left_text = text[:start_pos]
+        left_words = left_text.split()
+        left_context = ' '.join(left_words[-context_words:]) if left_words else ''
+        
+        # Get text after keyword
+        right_text = text[end_pos:]
+        right_words = right_text.split()
+        right_context = ' '.join(right_words[:context_words]) if right_words else ''
+        
+        return left_context, right_context
+    
+    def get_frequency_stats(self, concordance_df: pl.DataFrame) -> Dict:
+        """Calculate frequency statistics for concordance results"""
+        if concordance_df.is_empty():
+            return {}
+        
+        total_matches = len(concordance_df)
+        unique_conversations = concordance_df['Conversation_ID'].n_unique()
+        
+        # Category distribution
+        category_dist = concordance_df.group_by('Category').agg(
+            pl.count().alias('count')
+        ).sort('count', descending=True)
+        
+        # Subcategory distribution
+        subcategory_dist = concordance_df.group_by('Subcategory').agg(
+            pl.count().alias('count')
+        ).sort('count', descending=True)
+        
+        return {
+            'total_matches': total_matches,
+            'unique_conversations': unique_conversations,
+            'category_distribution': category_dist.to_pandas(),
+            'subcategory_distribution': subcategory_dist.to_pandas()
+        }
+    
+    def get_collocations(self, concordance_df: pl.DataFrame, n: int = 10) -> Dict:
+        """
+        Find common words that appear near the keyword (collocations)
+        
+        Args:
+            concordance_df: Concordance results
+            n: Number of top collocations to return
+            
+        Returns:
+            Dictionary with left and right collocations
+        """
+        if concordance_df.is_empty():
+            return {'left': [], 'right': []}
+        
+        # Convert to pandas for easier text processing
+        conc_pd = concordance_df.to_pandas()
+        
+        # Collect all left and right context words
+        left_words = []
+        right_words = []
+        
+        # Common stop words to filter out
+        stop_words = {
+            'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
+            'of', 'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'be',
+            'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will',
+            'would', 'should', 'could', 'may', 'might', 'can', 'i', 'you', 'he',
+            'she', 'it', 'we', 'they', 'my', 'your', 'his', 'her', 'its', 'our',
+            'their', 'this', 'that', 'these', 'those'
+        }
+        
+        for _, row in conc_pd.iterrows():
+            # Left context words
+            if row['Left_Context']:
+                words = row['Left_Context'].lower().split()
+                left_words.extend([w.strip('.,!?;:') for w in words if w.strip('.,!?;:') not in stop_words])
+            
+            # Right context words
+            if row['Right_Context']:
+                words = row['Right_Context'].lower().split()
+                right_words.extend([w.strip('.,!?;:') for w in words if w.strip('.,!?;:') not in stop_words])
+        
+        # Count frequencies
+        from collections import Counter
+        left_freq = Counter(left_words).most_common(n)
+        right_freq = Counter(right_words).most_common(n)
+        
+        return {
+            'left': left_freq,
+            'right': right_freq
+        }
+    
+    def export_concordance(self, concordance_df: pl.DataFrame, format: str = 'csv') -> bytes:
+        """Export concordance results to specified format"""
+        if format == 'csv':
+            buffer = io.BytesIO()
+            concordance_df.write_csv(buffer)
+            buffer.seek(0)
+            return buffer.getvalue()
+        elif format == 'xlsx':
+            buffer = io.BytesIO()
+            concordance_df.to_pandas().to_excel(buffer, index=False, engine='openpyxl')
+            buffer.seek(0)
+            return buffer.getvalue()
+        else:
+            raise ValueError(f"Unsupported format: {format}")
+
+
+# ========================================================================================
 # ULTRA-FAST NLP PIPELINE WITH DUCKDB
 # ========================================================================================
 
@@ -1575,13 +1784,14 @@ def main():
     
     st.title("🚀 Dynamic Domain-Agnostic NLP Text Analysis Pipeline")
     st.markdown(f"""
-    **ULTRA-FAST Performance + Word Tree Visualizations:**
+    **ULTRA-FAST Performance + Advanced Text Analytics:**
     - 🚀 **Polars**: 10x faster data I/O than Pandas
     - ⚡ **Auto-Parquet**: Automatic conversion for 10-50x faster reads
     - 🔥 **Vectorized Operations**: Batch processing
     - 💾 **DuckDB**: In-memory analytics
     - 📦 **Chunking**: {CHUNK_SIZE:,} records per chunk
     - 🌳 **Word Tree**: Interactive hierarchical exploration
+    - 🔍 **Concordance Analysis**: Keyword-in-context discovery (NEW!)
     
     ---
     **Output Columns (6 essential):**
@@ -1934,6 +2144,362 @@ def main():
                 height="900px",  # Increased height for better spacing
                 key="pyecharts_word_tree"
             )
+            
+            st.markdown("---")
+            
+            # ============================================================================
+            # CONCORDANCE ANALYSIS - KEYWORD IN CONTEXT (KWIC)
+            # ============================================================================
+            
+            st.subheader("🔍 Concordance Analysis - Keyword in Context")
+            
+            st.markdown("""
+            <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                        padding: 20px; border-radius: 10px; color: white; margin-bottom: 20px;'>
+                <h3 style='margin: 0; color: white;'>💡 What is Concordance Analysis?</h3>
+                <p style='margin: 10px 0 0 0; font-size: 14px;'>
+                    Discover how specific words or phrases are used in your data. See real examples with surrounding context 
+                    to understand customer language patterns, validate categorization, and uncover insights.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Initialize concordance analyzer
+            concordance_analyzer = ConcordanceAnalyzer(output_df)
+            
+            # Search controls in an attractive container
+            with st.container():
+                st.markdown("""
+                <div style='background-color: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #667eea;'>
+                """, unsafe_allow_html=True)
+                
+                st.markdown("#### 🎯 Search Configuration")
+                
+                # Row 1: Keyword and Context
+                col1, col2 = st.columns([3, 1])
+                
+                with col1:
+                    search_keyword = st.text_input(
+                        "🔎 Enter keyword or phrase to search",
+                        placeholder="e.g., cancel subscription, billing issue, technical problem",
+                        help="Enter a word or phrase to find in your data. Use quotes for exact phrases."
+                    )
+                
+                with col2:
+                    context_window = st.slider(
+                        "📏 Context Words",
+                        min_value=5,
+                        max_value=30,
+                        value=10,
+                        help="Number of words to show before and after the keyword"
+                    )
+                
+                # Row 2: Filters
+                col3, col4, col5 = st.columns(3)
+                
+                with col3:
+                    # Category filter
+                    categories = ["All Categories"] + sorted(output_df['Category'].unique().tolist())
+                    category_filter = st.selectbox(
+                        "📂 Filter by Category",
+                        options=categories,
+                        help="Narrow search to specific category"
+                    )
+                
+                with col4:
+                    # Subcategory filter
+                    if category_filter != "All Categories":
+                        subcategories = ["All Subcategories"] + sorted(
+                            output_df[output_df['Category'] == category_filter]['Subcategory'].unique().tolist()
+                        )
+                    else:
+                        subcategories = ["All Subcategories"] + sorted(output_df['Subcategory'].unique().tolist())
+                    
+                    subcategory_filter = st.selectbox(
+                        "📁 Filter by Subcategory",
+                        options=subcategories,
+                        help="Further narrow by subcategory"
+                    )
+                
+                with col5:
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    case_sensitive = st.checkbox("Aa Case Sensitive", value=False)
+                    use_regex = st.checkbox("🔧 Regex Pattern", value=False, help="Enable regex for advanced patterns")
+                
+                st.markdown("</div>", unsafe_allow_html=True)
+            
+            # Search button
+            search_button = st.button("🚀 Search Concordances", type="primary", use_container_width=True)
+            
+            # Perform search
+            if search_button and search_keyword:
+                with st.spinner("🔍 Searching for concordances..."):
+                    # Perform concordance search
+                    concordance_results = concordance_analyzer.search_concordance(
+                        keyword=search_keyword,
+                        context_words=context_window,
+                        category_filter=category_filter if category_filter != "All Categories" else None,
+                        subcategory_filter=subcategory_filter if subcategory_filter != "All Subcategories" else None,
+                        case_sensitive=case_sensitive,
+                        use_regex=use_regex
+                    )
+                    
+                    if not concordance_results.is_empty():
+                        # Store in session state
+                        st.session_state.concordance_results = concordance_results
+                        st.session_state.search_keyword = search_keyword
+                    else:
+                        st.warning(f"⚠️ No matches found for '{search_keyword}'")
+                        st.session_state.concordance_results = None
+            
+            # Display results if available
+            if 'concordance_results' in st.session_state and st.session_state.concordance_results is not None:
+                concordance_results = st.session_state.concordance_results
+                search_keyword = st.session_state.search_keyword
+                
+                # Get statistics
+                stats = concordance_analyzer.get_frequency_stats(concordance_results)
+                
+                # Display statistics in attractive cards
+                st.markdown("#### 📊 Search Results Summary")
+                
+                metric_cols = st.columns(4)
+                
+                with metric_cols[0]:
+                    st.markdown(f"""
+                    <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                padding: 20px; border-radius: 10px; text-align: center; color: white;'>
+                        <h2 style='margin: 0; color: white;'>{stats['total_matches']:,}</h2>
+                        <p style='margin: 5px 0 0 0; font-size: 14px;'>Total Matches</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                with metric_cols[1]:
+                    st.markdown(f"""
+                    <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+                                padding: 20px; border-radius: 10px; text-align: center; color: white;'>
+                        <h2 style='margin: 0; color: white;'>{stats['unique_conversations']:,}</h2>
+                        <p style='margin: 5px 0 0 0; font-size: 14px;'>Unique Conversations</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                with metric_cols[2]:
+                    st.markdown(f"""
+                    <div style='background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
+                                padding: 20px; border-radius: 10px; text-align: center; color: white;'>
+                        <h2 style='margin: 0; color: white;'>{len(stats['category_distribution'])}</h2>
+                        <p style='margin: 5px 0 0 0; font-size: 14px;'>Categories Found</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                with metric_cols[3]:
+                    avg_per_conv = stats['total_matches'] / stats['unique_conversations'] if stats['unique_conversations'] > 0 else 0
+                    st.markdown(f"""
+                    <div style='background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); 
+                                padding: 20px; border-radius: 10px; text-align: center; color: white;'>
+                        <h2 style='margin: 0; color: white;'>{avg_per_conv:.1f}</h2>
+                        <p style='margin: 5px 0 0 0; font-size: 14px;'>Avg per Conversation</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                st.markdown("<br>", unsafe_allow_html=True)
+                
+                # Tabs for different views
+                tab1, tab2, tab3, tab4 = st.tabs([
+                    "📝 Concordance Lines",
+                    "📊 Category Distribution",
+                    "🔤 Word Collocations",
+                    "💾 Export Results"
+                ])
+                
+                with tab1:
+                    st.markdown("#### 📝 Concordance Lines (Keyword in Context)")
+                    st.markdown(f"*Showing how **'{search_keyword}'** is used in context*")
+                    
+                    # Display limit
+                    display_limit = st.slider(
+                        "Number of results to display",
+                        min_value=10,
+                        max_value=min(500, len(concordance_results)),
+                        value=min(50, len(concordance_results)),
+                        step=10
+                    )
+                    
+                    # Convert to pandas for display
+                    display_df = concordance_results.head(display_limit).to_pandas()
+                    
+                    # Create formatted display
+                    for idx, row in display_df.iterrows():
+                        # Create a visually appealing concordance line
+                        st.markdown(f"""
+                        <div style='background-color: #ffffff; padding: 15px; margin: 10px 0; 
+                                    border-radius: 8px; border-left: 4px solid #667eea; 
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);'>
+                            <div style='display: flex; justify-content: space-between; margin-bottom: 10px;'>
+                                <span style='color: #666; font-size: 12px;'>
+                                    <strong>ID:</strong> {row['Conversation_ID']} | 
+                                    <strong>Category:</strong> {row['Category']} → {row['Subcategory']}
+                                </span>
+                            </div>
+                            <div style='font-size: 15px; line-height: 1.6;'>
+                                <span style='color: #555;'>{row['Left_Context']}</span>
+                                <span style='background-color: #ffd700; padding: 2px 6px; 
+                                             border-radius: 4px; font-weight: bold; color: #000;'>
+                                    {row['Keyword']}
+                                </span>
+                                <span style='color: #555;'>{row['Right_Context']}</span>
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    
+                    if len(concordance_results) > display_limit:
+                        st.info(f"ℹ️ Showing {display_limit} of {len(concordance_results):,} results. Use export to get all results.")
+                
+                with tab2:
+                    st.markdown("#### 📊 Distribution Across Categories")
+                    
+                    # Category distribution chart
+                    cat_dist = stats['category_distribution']
+                    if not cat_dist.empty:
+                        fig_cat = px.bar(
+                            cat_dist,
+                            x='Category',
+                            y='count',
+                            title=f"Occurrences of '{search_keyword}' by Category",
+                            color='count',
+                            color_continuous_scale='Viridis',
+                            text='count'
+                        )
+                        fig_cat.update_traces(texttemplate='%{text}', textposition='outside')
+                        fig_cat.update_layout(showlegend=False, height=400)
+                        st.plotly_chart(fig_cat, use_container_width=True)
+                        
+                        # Table view
+                        st.markdown("**Detailed Breakdown:**")
+                        cat_dist['Percentage'] = (cat_dist['count'] / cat_dist['count'].sum() * 100).round(2)
+                        cat_dist['Percentage'] = cat_dist['Percentage'].astype(str) + '%'
+                        st.dataframe(cat_dist, use_container_width=True, hide_index=True)
+                    
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    
+                    # Subcategory distribution chart
+                    subcat_dist = stats['subcategory_distribution'].head(10)
+                    if not subcat_dist.empty:
+                        fig_subcat = px.bar(
+                            subcat_dist,
+                            x='Subcategory',
+                            y='count',
+                            title=f"Top 10 Subcategories for '{search_keyword}'",
+                            color='count',
+                            color_continuous_scale='Blues',
+                            text='count'
+                        )
+                        fig_subcat.update_traces(texttemplate='%{text}', textposition='outside')
+                        fig_subcat.update_layout(showlegend=False, height=400)
+                        st.plotly_chart(fig_subcat, use_container_width=True)
+                
+                with tab3:
+                    st.markdown("#### 🔤 Word Collocations")
+                    st.markdown(f"*Words that frequently appear near **'{search_keyword}'***")
+                    
+                    with st.spinner("Analyzing word collocations..."):
+                        collocations = concordance_analyzer.get_collocations(concordance_results, n=15)
+                    
+                    col_left, col_right = st.columns(2)
+                    
+                    with col_left:
+                        st.markdown("**📍 Words BEFORE the keyword:**")
+                        if collocations['left']:
+                            left_df = pd.DataFrame(collocations['left'], columns=['Word', 'Frequency'])
+                            
+                            # Bar chart
+                            fig_left = px.bar(
+                                left_df,
+                                x='Frequency',
+                                y='Word',
+                                orientation='h',
+                                title="Most Common Left Context Words",
+                                color='Frequency',
+                                color_continuous_scale='Purples'
+                            )
+                            fig_left.update_layout(showlegend=False, height=500, yaxis={'categoryorder':'total ascending'})
+                            st.plotly_chart(fig_left, use_container_width=True)
+                        else:
+                            st.info("No significant words found")
+                    
+                    with col_right:
+                        st.markdown("**📍 Words AFTER the keyword:**")
+                        if collocations['right']:
+                            right_df = pd.DataFrame(collocations['right'], columns=['Word', 'Frequency'])
+                            
+                            # Bar chart
+                            fig_right = px.bar(
+                                right_df,
+                                x='Frequency',
+                                y='Word',
+                                orientation='h',
+                                title="Most Common Right Context Words",
+                                color='Frequency',
+                                color_continuous_scale='Greens'
+                            )
+                            fig_right.update_layout(showlegend=False, height=500, yaxis={'categoryorder':'total ascending'})
+                            st.plotly_chart(fig_right, use_container_width=True)
+                        else:
+                            st.info("No significant words found")
+                    
+                    # Insights
+                    st.markdown("---")
+                    st.markdown("**💡 Insights:**")
+                    st.markdown("""
+                    - **Left collocations** show what typically comes *before* your keyword
+                    - **Right collocations** show what typically comes *after* your keyword
+                    - Use these patterns to discover new keywords for your domain packs
+                    - High-frequency collocations indicate common customer language patterns
+                    """)
+                
+                with tab4:
+                    st.markdown("#### 💾 Export Concordance Results")
+                    
+                    st.markdown("""
+                    <div style='background-color: #e8f4f8; padding: 15px; border-radius: 8px; margin-bottom: 20px;'>
+                        <p style='margin: 0;'>
+                            📥 Download your concordance analysis results for further analysis, 
+                            reporting, or sharing with your team.
+                        </p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    export_format = st.radio(
+                        "Select export format:",
+                        options=['csv', 'xlsx'],
+                        horizontal=True
+                    )
+                    
+                    # Prepare export data
+                    export_data = concordance_analyzer.export_concordance(concordance_results, format=export_format)
+                    
+                    # Download button
+                    st.download_button(
+                        label=f"📥 Download Concordance Results (.{export_format})",
+                        data=export_data,
+                        file_name=f"concordance_{search_keyword.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{export_format}",
+                        mime=f"application/{export_format}",
+                        type="primary",
+                        use_container_width=True
+                    )
+                    
+                    # Summary info
+                    st.markdown("---")
+                    st.markdown("**📋 Export Contents:**")
+                    st.markdown(f"""
+                    - **Total Records:** {len(concordance_results):,}
+                    - **Columns:** Conversation_ID, Left_Context, Keyword, Right_Context, Category, Subcategory, L3, L4, Full_Text
+                    - **Format:** {export_format.upper()}
+                    - **Keyword:** "{search_keyword}"
+                    """)
+            
+            elif search_button and not search_keyword:
+                st.warning("⚠️ Please enter a keyword or phrase to search")
             
             st.markdown("---")
             
