@@ -352,6 +352,776 @@
     },
     {
         "conditions": [
+            "speak with someone",
+            "talk to someone",
+            "need to chat"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Contact Request",
+            "level_4": "Wants to Speak to Someone",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "resolution",
+            "awaiting resolution",
+            "waiting for resolution"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Resolution Issues",
+            "level_3": "Pending Resolution",
+            "level_4": "Awaiting Resolution",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "recommend",
+            "would recommend",
+            "10/10"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Recommendation",
+            "level_3": "High Satisfaction",
+            "level_4": "Would Recommend",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "not good",
+            "no good",
+            "not great"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Negative",
+            "level_4": "Not Good",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "too many steps",
+            "many steps",
+            "complicated"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Usability Issues",
+            "level_3": "Complex Process",
+            "level_4": "Too Many Steps",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "confusing",
+            "confused",
+            "unclear"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Usability Issues",
+            "level_3": "Confusion",
+            "level_4": "Confusing",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "incorrect",
+            "wrong",
+            "not correct"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Data Issues",
+            "level_3": "Incorrect Information",
+            "level_4": "Incorrect/Wrong",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "good luck",
+            "best wishes",
+            "take care"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Well Wishes",
+            "level_3": "Positive Closing",
+            "level_4": "Good Luck",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "superstar",
+            "rockstar",
+            "champion"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Exceptional Service",
+            "level_3": "Outstanding",
+            "level_4": "Superstar",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "taken care of",
+            "all taken care",
+            "handled"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Resolution",
+            "level_3": "Resolved",
+            "level_4": "Taken Care Of",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "second time",
+            "third time",
+            "multiple times"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Recurring Issues",
+            "level_3": "Repeat Problem",
+            "level_4": "Multiple Occurrences",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "unprofessional",
+            "rude",
+            "disrespectful"
+        ],
+        "set": {
+            "category": "Driver/Rider",
+            "subcategory": "Behavior",
+            "level_3": "Unprofessional",
+            "level_4": "Unprofessional Behavior",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "refunded",
+            "should be refunded",
+            "want refund"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing Issue",
+            "level_3": "Refund",
+            "level_4": "Wants Refund",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "background check",
+            "background",
+            "check"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Onboarding",
+            "level_3": "Background Check",
+            "level_4": "Background Check Issue",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "free",
+            "complimentary",
+            "no charge"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing Issue",
+            "level_3": "Free Service",
+            "level_4": "Free/Complimentary",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "special person",
+            "special",
+            "unique"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Agent Recognition",
+            "level_3": "Special Recognition",
+            "level_4": "Special Person",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "supportive",
+            "support",
+            "backing"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Support Quality",
+            "level_3": "Supportive",
+            "level_4": "Very Supportive",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "embarrassing",
+            "shame",
+            "humiliating"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Embarrassment",
+            "level_4": "Embarrassing",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "malfunction",
+            "broken",
+            "not working"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "System Errors",
+            "level_3": "Malfunction",
+            "level_4": "System Malfunction",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "burns",
+            "hospital",
+            "emergency"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Medical Emergency",
+            "level_3": "Emergency",
+            "level_4": "Medical Emergency",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "excited",
+            "thrilled",
+            "delighted"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Enthusiasm",
+            "level_3": "Excitement",
+            "level_4": "Excited",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "satisfy",
+            "satisfied",
+            "content"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Satisfaction",
+            "level_3": "Satisfied",
+            "level_4": "Satisfied Customer",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "on hold",
+            "still on hold",
+            "waiting on hold"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Wait Time",
+            "level_4": "On Hold",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "should have got",
+            "deserve",
+            "entitled"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing Issue",
+            "level_3": "Compensation",
+            "level_4": "Should Have Received More",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "excellency",
+            "excellence",
+            "superior"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Exceptional Service",
+            "level_3": "Excellence",
+            "level_4": "Achieved Excellence",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "verified",
+            "verification",
+            "verify"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Issues",
+            "level_3": "Verification",
+            "level_4": "Verification Issue",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "met expectations",
+            "expectations met",
+            "as expected"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Satisfaction",
+            "level_3": "Expectations Met",
+            "level_4": "Met Expectations",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "loved",
+            "adore",
+            "cherish"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Strong Positive",
+            "level_3": "Love",
+            "level_4": "Loved It",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "easier ways",
+            "should be easier",
+            "make it easier"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Suggestions",
+            "level_3": "Improvement",
+            "level_4": "Should Be Easier",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "mother fucker",
+            "fuck",
+            "shit"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Extreme Negative",
+            "level_4": "Profanity/Anger",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "never heard back",
+            "no response",
+            "didnt hear"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "No Follow-up",
+            "level_4": "Never Heard Back",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "speed limit",
+            "speeding",
+            "speeds"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Driver Safety",
+            "level_3": "Speed",
+            "level_4": "Speed Limit Issue",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "shameless",
+            "disgrace",
+            "disgusting"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Extreme Negative",
+            "level_4": "Shameless/Disgrace",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "bonus",
+            "incentive",
+            "promotion"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Payment Issues",
+            "level_3": "Bonus",
+            "level_4": "Bonus Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "cool",
+            "nice",
+            "neat"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "General Praise",
+            "level_3": "Positive",
+            "level_4": "Cool/Nice",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "worthless",
+            "useless",
+            "pointless"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Extreme Negative",
+            "level_4": "Worthless",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "accountable",
+            "responsibility",
+            "liable"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Accountability",
+            "level_3": "Accountability",
+            "level_4": "Accountability Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "matched",
+            "match",
+            "pairing"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Service Issue",
+            "level_3": "Matching",
+            "level_4": "Matching Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "inspection",
+            "required",
+            "mandatory"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Compliance",
+            "level_3": "Inspection",
+            "level_4": "Inspection Issue",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "replacement",
+            "replace",
+            "substitute"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Equipment Issues",
+            "level_3": "Replacement",
+            "level_4": "Needs Replacement",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "glad",
+            "happy about",
+            "pleased with"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Satisfaction",
+            "level_3": "Glad",
+            "level_4": "Glad/Happy",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "dropped",
+            "disconnected",
+            "cut off"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Connection Issues",
+            "level_4": "Dropped/Disconnected",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "refuse ai",
+            "dont want ai",
+            "no ai"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "AI/Automation",
+            "level_3": "AI Preference",
+            "level_4": "Refuses AI",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "phone number",
+            "call",
+            "contact number"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Contact Issues",
+            "level_3": "Phone",
+            "level_4": "Phone Number Issue",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "listens",
+            "listen",
+            "hearing"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Quality",
+            "level_3": "Listening",
+            "level_4": "Listens/Doesn't Listen",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "sucks",
+            "terrible",
+            "horrible"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Extreme Negative",
+            "level_4": "Sucks/Terrible",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "sharks",
+            "scam",
+            "fraud"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Trust Issues",
+            "level_3": "Fraud Concern",
+            "level_4": "Scam/Fraud",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "copy pasting",
+            "pasting",
+            "scripted"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Scripted Responses",
+            "level_4": "Copy Pasting",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "pin code",
+            "code",
+            "password"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Access Issues",
+            "level_3": "PIN/Code",
+            "level_4": "PIN Code Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "extra comfort",
+            "comfort",
+            "luxury"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Service Issue",
+            "level_3": "Ride Type",
+            "level_4": "Extra Comfort Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "tired",
+            "exhausted",
+            "fed up"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Frustration",
+            "level_4": "Tired/Fed Up",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "rides",
+            "trips",
+            "bookings"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Service Issue",
+            "level_3": "Rides",
+            "level_4": "Ride/Trip Related",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "registration",
+            "register",
+            "signup"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Onboarding",
+            "level_3": "Registration",
+            "level_4": "Registration Issue",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "seats",
+            "seating",
+            "capacity"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Vehicle Condition",
+            "level_3": "Seating",
+            "level_4": "Seat Issue",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "doubts",
+            "clarify",
+            "clarification"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Quality",
+            "level_3": "Clarification",
+            "level_4": "Clarified Doubts",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
             "thank you",
             "thanks",
             "thank u",
