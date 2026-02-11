@@ -2816,6 +2816,1434 @@
     },
     {
         "conditions": [
+            "handicapped",
+            "disabled",
+            "accessibility"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Accessibility",
+            "level_3": "Disability",
+            "level_4": "Handicapped/Disabled",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "so good",
+            "really good",
+            "pretty good"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "General Praise",
+            "level_3": "Positive",
+            "level_4": "So Good",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "region change",
+            "change region",
+            "switch region"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Settings",
+            "level_3": "Region",
+            "level_4": "Region Change",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "activate",
+            "activation",
+            "enable"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Issues",
+            "level_3": "Activation",
+            "level_4": "Activate Account",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "integrity",
+            "honest",
+            "trustworthy"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Character",
+            "level_3": "Integrity",
+            "level_4": "Person of Integrity",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "swift",
+            "quick",
+            "fast"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Speed",
+            "level_3": "Swift",
+            "level_4": "Swift Action",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "knowledgeable",
+            "knows",
+            "expert"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Expertise",
+            "level_3": "Knowledgeable",
+            "level_4": "Knowledgeable Agent",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "safe and alive",
+            "made it safe",
+            "arrived safely"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Safety",
+            "level_3": "Safe Arrival",
+            "level_4": "Safe and Alive",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "courtesy",
+            "courteous",
+            "polite"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Agent Attitude",
+            "level_3": "Courtesy",
+            "level_4": "Very Courteous",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "rewards",
+            "points",
+            "loyalty"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Rewards Program",
+            "level_3": "Rewards",
+            "level_4": "Lyft Rewards",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "travel challenge",
+            "challenge",
+            "streak"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Challenges",
+            "level_3": "Travel Challenge",
+            "level_4": "Travel Challenge Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "sad",
+            "upset",
+            "disappointed"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Sadness",
+            "level_4": "Sad/Upset",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "delete app",
+            "uninstall",
+            "remove app"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Extreme Negative",
+            "level_4": "Delete App",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "violation",
+            "violate",
+            "breach"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Legal Issues",
+            "level_3": "Violation",
+            "level_4": "Violation",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "ada",
+            "americans with disabilities",
+            "disability rights"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Legal Issues",
+            "level_3": "ADA",
+            "level_4": "ADA Violation",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "deferring",
+            "defer",
+            "postpone"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Deferring",
+            "level_4": "Keep Deferring",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "consequences",
+            "accountability",
+            "punishment"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Accountability",
+            "level_3": "Consequences",
+            "level_4": "No Consequences",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "cheated",
+            "cheat",
+            "ripped off"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Trust Issues",
+            "level_3": "Cheating",
+            "level_4": "Cheated",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "scared",
+            "frightened",
+            "terrified"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Safety Concern",
+            "level_3": "Fear",
+            "level_4": "Scared/Frightened",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "impolite",
+            "rude",
+            "disrespectful"
+        ],
+        "set": {
+            "category": "Driver/Rider",
+            "subcategory": "Behavior",
+            "level_3": "Impolite",
+            "level_4": "Impolite/Rude",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "screaming",
+            "yelling",
+            "shouting"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Aggressive Behavior",
+            "level_3": "Screaming",
+            "level_4": "Screaming/Yelling",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "swearing",
+            "cursing",
+            "profanity"
+        ],
+        "set": {
+            "category": "Driver/Rider",
+            "subcategory": "Behavior",
+            "level_3": "Profanity",
+            "level_4": "Swearing/Cursing",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "hitting",
+            "punching",
+            "striking"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Physical Violence",
+            "level_3": "Violence",
+            "level_4": "Hitting/Striking",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "arriving",
+            "on my way",
+            "coming"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "General Feedback",
+            "level_3": "Arrival",
+            "level_4": "Arriving",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "credits",
+            "credit",
+            "account credit"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Credits/Promotions",
+            "level_3": "Credits",
+            "level_4": "Credits Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "photo",
+            "picture",
+            "image"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Settings",
+            "level_3": "Photo",
+            "level_4": "Photo Issue",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "figured out",
+            "figured it out",
+            "solved myself"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Self-Solved",
+            "level_4": "Figured Out On Own",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "ignorant",
+            "clueless",
+            "uninformed"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Ignorance",
+            "level_4": "Ignorant Replies",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "owed",
+            "owe me",
+            "deserve"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Payment Issues",
+            "level_3": "Owed Money",
+            "level_4": "Owed to Me",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "fault",
+            "blame",
+            "responsible"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Dispute",
+            "level_3": "Fault",
+            "level_4": "Whose Fault",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "clarity",
+            "clear",
+            "transparent"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Communication",
+            "level_3": "Clarity",
+            "level_4": "Clarity",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "rushed",
+            "hurried",
+            "pushed"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Rushed",
+            "level_4": "Rushed Off Chat",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "telephone",
+            "phone line",
+            "call center"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Contact Issues",
+            "level_3": "Phone",
+            "level_4": "Telephone Number",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "deposit",
+            "payout",
+            "payment day"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Payment Issues",
+            "level_3": "Deposit",
+            "level_4": "Deposit Day",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "reinstated",
+            "reinstate",
+            "restore"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Issues",
+            "level_3": "Reinstatement",
+            "level_4": "Reinstated",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "pregnant",
+            "expecting",
+            "maternity"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Special Circumstances",
+            "level_3": "Pregnancy",
+            "level_4": "Pregnant",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "emotional",
+            "emotions",
+            "feelings"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Emotional",
+            "level_4": "Emotional",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "run around",
+            "runaround",
+            "circles"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Run Around",
+            "level_4": "Gave Run Around",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "waitlist",
+            "waiting list",
+            "queue"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Onboarding",
+            "level_3": "Waitlist",
+            "level_4": "Waitlist Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "gas",
+            "fuel",
+            "gasoline"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Driver Expenses",
+            "level_3": "Gas",
+            "level_4": "Gas/Fuel",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "miscommunication",
+            "misunderstanding",
+            "confusion"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Communication Issues",
+            "level_3": "Miscommunication",
+            "level_4": "Miscommunication",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "ultimate",
+            "supreme",
+            "top tier"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Exceptional Service",
+            "level_3": "Ultimate",
+            "level_4": "Ultimate",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "old school",
+            "traditional",
+            "prefer human"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "AI/Automation",
+            "level_3": "Human Preference",
+            "level_4": "Prefer Live Person",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "weird ux",
+            "bad ux",
+            "confusing interface"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Usability Issues",
+            "level_3": "UX Issues",
+            "level_4": "Weird UX",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "responsive",
+            "quick response",
+            "prompt"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Responsiveness",
+            "level_3": "Responsive",
+            "level_4": "Very Responsive",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "double charging",
+            "charged twice",
+            "duplicate charge"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Charges / Fees",
+            "level_3": "Double Charge",
+            "level_4": "Double Charging",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "walking home",
+            "stranded",
+            "no ride"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Service Failure",
+            "level_3": "Stranded",
+            "level_4": "Walking Home",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "partnership",
+            "partner",
+            "collaboration"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Partnerships",
+            "level_3": "Partnership",
+            "level_4": "Partnership Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "put effort",
+            "effort",
+            "tried hard"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Effort",
+            "level_3": "Effort",
+            "level_4": "Put Effort",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "professionally",
+            "professional manner",
+            "professional"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Professionalism",
+            "level_3": "Professional",
+            "level_4": "Professionally",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "reconsider",
+            "review again",
+            "second look"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appeal",
+            "level_3": "Reconsideration",
+            "level_4": "Please Reconsider",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "handed off",
+            "transferred",
+            "passed along"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Transfer",
+            "level_4": "Handed Off",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "articulate",
+            "well spoken",
+            "eloquent"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Communication",
+            "level_3": "Articulate",
+            "level_4": "Articulate",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "temporary bond",
+            "bond",
+            "surety"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Documentation",
+            "level_3": "Bond",
+            "level_4": "Temporary Bond",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "no passenger",
+            "no riders",
+            "no requests"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Service Issue",
+            "level_3": "No Passengers",
+            "level_4": "No Passengers",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "judicial",
+            "court",
+            "legal process"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Legal Issues",
+            "level_3": "Judicial",
+            "level_4": "Judicial Process",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "highway",
+            "freeway",
+            "expressway"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Safety Concern",
+            "level_3": "Highway",
+            "level_4": "Highway Incident",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "link",
+            "url",
+            "hyperlink"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "App Issues",
+            "level_3": "Link",
+            "level_4": "Link Not Working",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "wage garnishment",
+            "garnishment",
+            "wage deduction"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Payment Issues",
+            "level_3": "Garnishment",
+            "level_4": "Wage Garnishment",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "expedient",
+            "efficient",
+            "timely"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Efficiency",
+            "level_3": "Expedient",
+            "level_4": "Very Expedient",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "winter storm",
+            "storm",
+            "blizzard"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "External Factors",
+            "level_3": "Weather",
+            "level_4": "Winter Storm",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "office",
+            "headquarters",
+            "location"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "General Feedback",
+            "level_3": "Office",
+            "level_4": "Office Location",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "permanently banned",
+            "permanent ban",
+            "banned forever"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Rider Issues",
+            "level_3": "Ban Request",
+            "level_4": "Permanently Banned",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "angel",
+            "godsend",
+            "blessing"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Exceptional Service",
+            "level_3": "Angel",
+            "level_4": "Is an Angel",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "solved everything",
+            "fixed everything",
+            "resolved all"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Resolution",
+            "level_3": "Complete Resolution",
+            "level_4": "Solved Everything",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "price jumped",
+            "price increase",
+            "surge"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Charges / Fees",
+            "level_3": "Price Jump",
+            "level_4": "Price Jumped",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "bag returned",
+            "returned",
+            "gave back"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Lost & Found",
+            "level_3": "Item Returned",
+            "level_4": "Bag Returned",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "cookie cutter",
+            "generic",
+            "template"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Generic Responses",
+            "level_4": "Cookie Cutter Responses",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "consistent",
+            "consistency",
+            "inconsistent"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Company Criticism",
+            "level_3": "Consistency",
+            "level_4": "Not Consistent",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "trash",
+            "debris",
+            "garbage"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Vehicle Condition",
+            "level_3": "Mess",
+            "level_4": "Trash/Debris",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "sounds good",
+            "looks good",
+            "seems good"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Satisfactory",
+            "level_3": "Sounds Good",
+            "level_4": "Sounds Good",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "ai first",
+            "forced ai",
+            "made me talk to ai"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "AI/Automation",
+            "level_3": "Forced AI",
+            "level_4": "Made Talk to AI First",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "ran over",
+            "almost hit",
+            "nearly hit"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Safety Concern",
+            "level_3": "Near Miss",
+            "level_4": "Almost Ran Over",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "backseat",
+            "back seat",
+            "rear seat"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Vehicle Condition",
+            "level_3": "Backseat",
+            "level_4": "Backseat Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "lost internet",
+            "no internet",
+            "connection lost"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Connectivity",
+            "level_3": "Internet",
+            "level_4": "Lost Internet",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "pauses",
+            "long pauses",
+            "delays"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Delays",
+            "level_4": "Long Pauses",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "shifted around",
+            "bounced around",
+            "passed around"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Multiple Transfers",
+            "level_4": "Shifted Around",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "alternate route",
+            "different route",
+            "another way"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Navigation",
+            "level_3": "Route",
+            "level_4": "Alternate Route",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "copy paste",
+            "copypaste",
+            "ai slop"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Copy Paste",
+            "level_4": "Copy Paste Responses",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "promote",
+            "promotion",
+            "deserves promotion"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Agent Recognition",
+            "level_3": "Promotion",
+            "level_4": "Deserves Promotion",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "seatbelt",
+            "seat belt",
+            "buckle"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Safety Equipment",
+            "level_3": "Seatbelt",
+            "level_4": "Seatbelt Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "cumbersome",
+            "complicated process",
+            "difficult process"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Usability Issues",
+            "level_3": "Cumbersome",
+            "level_4": "Cumbersome Process",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "returned item",
+            "gave back",
+            "returned property"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Lost & Found",
+            "level_3": "Item Returned",
+            "level_4": "Returned Item",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "ai should removed",
+            "remove ai",
+            "get rid of ai"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "AI/Automation",
+            "level_3": "AI Removal",
+            "level_4": "AI Should Be Removed",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "disorganized",
+            "unorganized",
+            "chaotic"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Disorganized",
+            "level_4": "Disorganized",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "random answers",
+            "unrelated",
+            "off topic"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Issues",
+            "level_3": "Irrelevant",
+            "level_4": "Random Answers",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "air pods",
+            "airpods",
+            "earbuds"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Lost Items",
+            "level_3": "Electronics",
+            "level_4": "AirPods",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "rate",
+            "rating",
+            "review"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "General Feedback",
+            "level_3": "Rating",
+            "level_4": "Can I Rate",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "pathetic",
+            "pitiful",
+            "deplorable"
+        ],
+        "set": {
+            "category": "Service Quality",
+            "subcategory": "Overall Experience",
+            "level_3": "Extreme Negative",
+            "level_4": "Pathetic",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "racially profiled",
+            "racial",
+            "racism"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Discrimination",
+            "level_3": "Racial",
+            "level_4": "Racially Profiled",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "dispatch",
+            "dispatcher",
+            "dispatching"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Service Issue",
+            "level_3": "Dispatch",
+            "level_4": "Dispatch Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "spit",
+            "spitting",
+            "saliva"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Hygiene",
+            "level_3": "Spitting",
+            "level_4": "Spit/Spitting",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "compensated",
+            "compensation",
+            "compensate"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing Issue",
+            "level_3": "Compensation",
+            "level_4": "Not Compensated",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "suspension",
+            "suspended",
+            "suspend"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Issues",
+            "level_3": "Suspension",
+            "level_4": "Suspension Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "traveling",
+            "travel",
+            "trip"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "General Feedback",
+            "level_3": "Travel",
+            "level_4": "Traveling",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "connected",
+            "connection",
+            "connect"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Support Quality",
+            "level_3": "Connection",
+            "level_4": "Was Connected",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "listener",
+            "good listener",
+            "listens well"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Support Quality",
+            "level_3": "Listening",
+            "level_4": "Good Listener",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "conditions": [
+            "updated everything",
+            "all updated",
+            "everything updated"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Documentation",
+            "level_3": "Updated",
+            "level_4": "Updated Everything",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "vulgar",
+            "obscene",
+            "offensive"
+        ],
+        "set": {
+            "category": "Driver/Rider",
+            "subcategory": "Behavior",
+            "level_3": "Vulgar",
+            "level_4": "Vulgar Behavior",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "violent",
+            "violence",
+            "aggressive"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Physical Violence",
+            "level_3": "Violence",
+            "level_4": "Violent Behavior",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "drunk",
+            "intoxicated",
+            "inebriated"
+        ],
+        "set": {
+            "category": "Safety & Security",
+            "subcategory": "Substance Issues",
+            "level_3": "Intoxication",
+            "level_4": "Drunk/Intoxicated",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "temporarily cleared",
+            "temporary clearance",
+            "temp approval"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Account Issues",
+            "level_3": "Temporary",
+            "level_4": "Temporarily Cleared",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
             "thank you",
             "thanks",
             "thank u",
