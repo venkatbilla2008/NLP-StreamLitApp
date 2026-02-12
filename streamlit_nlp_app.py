@@ -1836,6 +1836,13 @@ def main():
         )
         
         if selected_industry:
+            # Clear concordance results if industry changed
+            if 'selected_industry' in st.session_state and st.session_state.selected_industry != selected_industry:
+                if 'concordance_results' in st.session_state:
+                    del st.session_state.concordance_results
+                if 'search_keyword' in st.session_state:
+                    del st.session_state.search_keyword
+            
             st.session_state.selected_industry = selected_industry
             industry_data = st.session_state.domain_loader.get_industry_data(selected_industry)
             
