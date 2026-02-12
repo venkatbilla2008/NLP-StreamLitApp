@@ -2002,6 +2002,18 @@ def main():
             # Process button
             if st.button("🚀 Run ULTRA-FAST Analysis", type="primary", width='stretch'):
                 
+                # Clear old concordance results and tree state
+                if 'concordance_results' in st.session_state:
+                    del st.session_state.concordance_results
+                if 'search_keyword' in st.session_state:
+                    del st.session_state.search_keyword
+                if 'tree_l1' in st.session_state:
+                    del st.session_state.tree_l1
+                if 'tree_l2' in st.session_state:
+                    del st.session_state.tree_l2
+                if 'tree_l3' in st.session_state:
+                    del st.session_state.tree_l3
+                
                 # Get industry data
                 industry_data = st.session_state.domain_loader.get_industry_data(selected_industry)
                 
