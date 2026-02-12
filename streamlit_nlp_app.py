@@ -1312,12 +1312,12 @@ class ConcordanceAnalyzer:
         
         # Category distribution
         category_dist = concordance_df.group_by('Category').agg(
-            pl.count().alias('count')
+            pl.len().alias('count')
         ).sort('count', descending=True)
         
         # Subcategory distribution
         subcategory_dist = concordance_df.group_by('Subcategory').agg(
-            pl.count().alias('count')
+            pl.len().alias('count')
         ).sort('count', descending=True)
         
         return {
@@ -2317,13 +2317,18 @@ def main():
                     st.markdown(f"*Showing how **'{search_keyword}'** is used in context*")
                     
                     # Display limit
-                    display_limit = st.slider(
-                        "Number of results to display",
-                        min_value=10,
-                        max_value=min(500, len(concordance_results)),
-                        value=min(50, len(concordance_results)),
-                        step=10
-                    )
+                    max_results = len(concordance_results)
+                    if max_results <= 10:
+                        display_limit = max_results
+                        st.info(f"Showing all {max_results} results")
+                    else:
+                        display_limit = st.slider(
+                            "Number of results to display",
+                            min_value=10,
+                            max_value=min(500, max_results),
+                            value=min(50, max_results),
+                            step=10
+                        )
                     
                     # Convert to pandas for display
                     display_df = concordance_results.head(display_limit).to_pandas()
@@ -2372,13 +2377,13 @@ def main():
                         )
                         fig_cat.update_traces(texttemplate='%{text}', textposition='outside')
                         fig_cat.update_layout(showlegend=False, height=400)
-                        st.plotly_chart(fig_cat, use_container_width=True)
+                        st.plotly_chart(fig_cat, width='stretch')
                         
                         # Table view
                         st.markdown("**Detailed Breakdown:**")
                         cat_dist['Percentage'] = (cat_dist['count'] / cat_dist['count'].sum() * 100).round(2)
                         cat_dist['Percentage'] = cat_dist['Percentage'].astype(str) + '%'
-                        st.dataframe(cat_dist, use_container_width=True, hide_index=True)
+                        st.dataframe(cat_dist, width='stretch', hide_index=True)
                     
                     st.markdown("<br>", unsafe_allow_html=True)
                     
@@ -2396,7 +2401,7 @@ def main():
                         )
                         fig_subcat.update_traces(texttemplate='%{text}', textposition='outside')
                         fig_subcat.update_layout(showlegend=False, height=400)
-                        st.plotly_chart(fig_subcat, use_container_width=True)
+                        st.plotly_chart(fig_subcat, width='stretch')
                 
                 with tab3:
                     st.markdown("#### 🔤 Word Collocations")
@@ -2423,7 +2428,7 @@ def main():
                                 color_continuous_scale='Purples'
                             )
                             fig_left.update_layout(showlegend=False, height=500, yaxis={'categoryorder':'total ascending'})
-                            st.plotly_chart(fig_left, use_container_width=True)
+                            st.plotly_chart(fig_left, width='stretch')
                         else:
                             st.info("No significant words found")
                     
@@ -2443,7 +2448,7 @@ def main():
                                 color_continuous_scale='Greens'
                             )
                             fig_right.update_layout(showlegend=False, height=500, yaxis={'categoryorder':'total ascending'})
-                            st.plotly_chart(fig_right, use_container_width=True)
+                            st.plotly_chart(fig_right, width='stretch')
                         else:
                             st.info("No significant words found")
                     
@@ -2485,7 +2490,7 @@ def main():
                         file_name=f"concordance_{search_keyword.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{export_format}",
                         mime=f"application/{export_format}",
                         type="primary",
-                        use_container_width=True
+                        width='stretch'
                     )
                     
                     # Summary info
