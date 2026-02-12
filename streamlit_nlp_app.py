@@ -2158,10 +2158,6 @@ def main():
             
             # Search controls in an attractive container
             with st.container():
-                st.markdown("""
-                <div style='background-color: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 5px solid #667eea;'>
-                """, unsafe_allow_html=True)
-                
                 st.markdown("#### 🎯 Search Configuration")
                 
                 # Row 1: Keyword and Context
@@ -2215,7 +2211,7 @@ def main():
                     case_sensitive = st.checkbox("Aa Case Sensitive", value=False)
                     use_regex = st.checkbox("🔧 Regex Pattern", value=False, help="Enable regex for advanced patterns")
                 
-                st.markdown("</div>", unsafe_allow_html=True)
+
             
             # Search button
             search_button = st.button("🚀 Search Concordances", type="primary", use_container_width=True)
