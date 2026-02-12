@@ -2153,17 +2153,6 @@ def main():
             
             st.subheader("🔍 Concordance Analysis - Keyword in Context")
             
-            st.markdown("""
-            <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                        padding: 20px; border-radius: 10px; color: white; margin-bottom: 20px;'>
-                <h3 style='margin: 0; color: white;'>💡 What is Concordance Analysis?</h3>
-                <p style='margin: 10px 0 0 0; font-size: 14px;'>
-                    Discover how specific words or phrases are used in your data. See real examples with surrounding context 
-                    to understand customer language patterns, validate categorization, and uncover insights.
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-            
             # Initialize concordance analyzer
             concordance_analyzer = ConcordanceAnalyzer(output_df)
             
@@ -2305,10 +2294,8 @@ def main():
                 st.markdown("<br>", unsafe_allow_html=True)
                 
                 # Tabs for different views
-                tab1, tab2, tab3, tab4 = st.tabs([
+                tab1, tab2 = st.tabs([
                     "📝 Concordance Lines",
-                    "📊 Category Distribution",
-                    "🔤 Word Collocations",
                     "💾 Export Results"
                 ])
                 
@@ -2361,108 +2348,6 @@ def main():
                         st.info(f"ℹ️ Showing {display_limit} of {len(concordance_results):,} results. Use export to get all results.")
                 
                 with tab2:
-                    st.markdown("#### 📊 Distribution Across Categories")
-                    
-                    # Category distribution chart
-                    cat_dist = stats['category_distribution']
-                    if not cat_dist.empty:
-                        fig_cat = px.bar(
-                            cat_dist,
-                            x='Category',
-                            y='count',
-                            title=f"Occurrences of '{search_keyword}' by Category",
-                            color='count',
-                            color_continuous_scale='Viridis',
-                            text='count'
-                        )
-                        fig_cat.update_traces(texttemplate='%{text}', textposition='outside')
-                        fig_cat.update_layout(showlegend=False, height=400)
-                        st.plotly_chart(fig_cat, width='stretch')
-                        
-                        # Table view
-                        st.markdown("**Detailed Breakdown:**")
-                        cat_dist['Percentage'] = (cat_dist['count'] / cat_dist['count'].sum() * 100).round(2)
-                        cat_dist['Percentage'] = cat_dist['Percentage'].astype(str) + '%'
-                        st.dataframe(cat_dist, width='stretch', hide_index=True)
-                    
-                    st.markdown("<br>", unsafe_allow_html=True)
-                    
-                    # Subcategory distribution chart
-                    subcat_dist = stats['subcategory_distribution'].head(10)
-                    if not subcat_dist.empty:
-                        fig_subcat = px.bar(
-                            subcat_dist,
-                            x='Subcategory',
-                            y='count',
-                            title=f"Top 10 Subcategories for '{search_keyword}'",
-                            color='count',
-                            color_continuous_scale='Blues',
-                            text='count'
-                        )
-                        fig_subcat.update_traces(texttemplate='%{text}', textposition='outside')
-                        fig_subcat.update_layout(showlegend=False, height=400)
-                        st.plotly_chart(fig_subcat, width='stretch')
-                
-                with tab3:
-                    st.markdown("#### 🔤 Word Collocations")
-                    st.markdown(f"*Words that frequently appear near **'{search_keyword}'***")
-                    
-                    with st.spinner("Analyzing word collocations..."):
-                        collocations = concordance_analyzer.get_collocations(concordance_results, n=15)
-                    
-                    col_left, col_right = st.columns(2)
-                    
-                    with col_left:
-                        st.markdown("**📍 Words BEFORE the keyword:**")
-                        if collocations['left']:
-                            left_df = pd.DataFrame(collocations['left'], columns=['Word', 'Frequency'])
-                            
-                            # Bar chart
-                            fig_left = px.bar(
-                                left_df,
-                                x='Frequency',
-                                y='Word',
-                                orientation='h',
-                                title="Most Common Left Context Words",
-                                color='Frequency',
-                                color_continuous_scale='Purples'
-                            )
-                            fig_left.update_layout(showlegend=False, height=500, yaxis={'categoryorder':'total ascending'})
-                            st.plotly_chart(fig_left, width='stretch')
-                        else:
-                            st.info("No significant words found")
-                    
-                    with col_right:
-                        st.markdown("**📍 Words AFTER the keyword:**")
-                        if collocations['right']:
-                            right_df = pd.DataFrame(collocations['right'], columns=['Word', 'Frequency'])
-                            
-                            # Bar chart
-                            fig_right = px.bar(
-                                right_df,
-                                x='Frequency',
-                                y='Word',
-                                orientation='h',
-                                title="Most Common Right Context Words",
-                                color='Frequency',
-                                color_continuous_scale='Greens'
-                            )
-                            fig_right.update_layout(showlegend=False, height=500, yaxis={'categoryorder':'total ascending'})
-                            st.plotly_chart(fig_right, width='stretch')
-                        else:
-                            st.info("No significant words found")
-                    
-                    # Insights
-                    st.markdown("---")
-                    st.markdown("**💡 Insights:**")
-                    st.markdown("""
-                    - **Left collocations** show what typically comes *before* your keyword
-                    - **Right collocations** show what typically comes *after* your keyword
-                    - Use these patterns to discover new keywords for your domain packs
-                    - High-frequency collocations indicate common customer language patterns
-                    """)
-                
-                with tab4:
                     st.markdown("#### 💾 Export Concordance Results")
                     
                     st.markdown("""
