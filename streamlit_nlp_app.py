@@ -2146,6 +2146,54 @@ def main():
             
             st.subheader("🌳 Word Tree - Interactive Hierarchy")
             
+            # Add filter controls
+            col_tree1, col_tree2 = st.columns([3, 1])
+            
+            with col_tree1:
+                st.markdown("**Filter out noise by setting minimum count threshold**")
+            
+            with col_tree2:
+                # Calculate smart default (5% of max count or 10, whichever is smaller)
+                category_counts = output_df['Category'].value_counts()
+                max_count = category_counts.max()
+                smart_default = min(10, max(1, int(max_count * 0.05)))
+                
+                min_count_threshold = st.slider(
+                    "Min Count",
+                    min_value=1,
+                    max_value=min(100, max_count),
+                    value=smart_default,
+                    help="Hide categories/subcategories with fewer items than this threshold"
+                )
+            
+            # Filter dataframe based on threshold
+            filtered_df = output_df.copy()
+            
+            # Filter L1 (Category)
+            l1_counts = filtered_df['Category'].value_counts()
+            valid_l1 = l1_counts[l1_counts >= min_count_threshold].index.tolist()
+            filtered_df = filtered_df[filtered_df['Category'].isin(valid_l1)]
+            
+            # Filter L2 (Subcategory)
+            l2_counts = filtered_df['Subcategory'].value_counts()
+            valid_l2 = l2_counts[l2_counts >= min_count_threshold].index.tolist()
+            filtered_df = filtered_df[filtered_df['Subcategory'].isin(valid_l2)]
+            
+            # Filter L3
+            l3_counts = filtered_df['L3'].value_counts()
+            valid_l3 = l3_counts[l3_counts >= min_count_threshold].index.tolist()
+            filtered_df = filtered_df[filtered_df['L3'].isin(valid_l3)]
+            
+            # Filter L4
+            l4_counts = filtered_df['L4'].value_counts()
+            valid_l4 = l4_counts[l4_counts >= min_count_threshold].index.tolist()
+            filtered_df = filtered_df[filtered_df['L4'].isin(valid_l4)]
+            
+            # Show filtering stats
+            removed_count = len(output_df) - len(filtered_df)
+            if removed_count > 0:
+                st.info(f"ℹ️ Filtered out {removed_count:,} items below threshold. Showing {len(filtered_df):,} items in tree.")
+            
             # Initialize session state for navigation
             if 'tree_l1' not in st.session_state:
                 st.session_state.tree_l1 = None
@@ -2154,8 +2202,8 @@ def main():
             if 'tree_l3' not in st.session_state:
                 st.session_state.tree_l3 = None
             
-            # Initialize hierarchical tree
-            tree_viz = HierarchicalCategoryTree(output_df)
+            # Initialize hierarchical tree with filtered data
+            tree_viz = HierarchicalCategoryTree(filtered_df)
             
             # Create and display PyEcharts interactive tree
             echarts_option = tree_viz.create_echarts_tree(
