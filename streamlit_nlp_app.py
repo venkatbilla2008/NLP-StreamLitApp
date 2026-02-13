@@ -2206,7 +2206,7 @@ def main():
                     )
                 
                 # Row 2: Filters
-                col3, col4, col5 = st.columns(3)
+                col3, col4 = st.columns(2)
                 
                 with col3:
                     # Category filter
@@ -2232,11 +2232,9 @@ def main():
                         help="Further narrow by subcategory"
                     )
                 
-                with col5:
-                    st.markdown("<br>", unsafe_allow_html=True)
-                    case_sensitive = st.checkbox("Aa Case Sensitive", value=False)
-                    use_regex = st.checkbox("🔧 Regex Pattern", value=False, help="Enable regex for advanced patterns")
-                
+                # Set default values for removed options
+                case_sensitive = False
+                use_regex = False
 
             
             # Search button
