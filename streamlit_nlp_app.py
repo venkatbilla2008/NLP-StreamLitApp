@@ -2232,10 +2232,10 @@ def main():
             kw_col1, kw_col2, kw_col3 = st.columns([2, 2, 1])
             
             with kw_col1:
-                top_n = st.select_slider(
+                top_n = st.selectbox(
                     "📊 Number of Keywords to Show",
                     options=[10, 20, 30],
-                    value=10,
+                    index=0,
                     help="Select 10, 20, or 30 top keywords by frequency"
                 )
             
@@ -2295,61 +2295,7 @@ def main():
                 kw_freq_df['% of Transcripts'] = (kw_freq_df['Frequency'] / len(kw_df) * 100).round(1)
                 kw_freq_df['Rank'] = range(1, len(kw_freq_df) + 1)
 
-                # ---- Visual 1: Horizontal Bar Chart ----
-                st.markdown("#### 📊 Keyword Frequency Chart")
-                
-                fig_kw = px.bar(
-                    kw_freq_df,
-                    x='Frequency',
-                    y='Keyword',
-                    orientation='h',
-                    color='Frequency',
-                    color_continuous_scale='Viridis',
-                    text='Frequency',
-                    title=f"Top {top_n} Most Frequent Keywords"
-                    + (f" — {kw_category_filter}" if kw_category_filter != "All Categories" else ""),
-                    labels={'Frequency': 'Occurrences', 'Keyword': ''},
-                    height=max(400, top_n * 28)
-                )
-                fig_kw.update_traces(
-                    texttemplate='%{text:,}',
-                    textposition='outside',
-                    marker_line_width=0
-                )
-                fig_kw.update_layout(
-                    yaxis=dict(categoryorder='total ascending'),
-                    showlegend=False,
-                    coloraxis_showscale=False,
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    font=dict(size=13),
-                    margin=dict(l=10, r=60, t=50, b=10)
-                )
-                st.plotly_chart(fig_kw, width='stretch')
-                
-                # ---- Visual 2: Treemap ----
-                st.markdown("#### 🗺️ Keyword Treemap — Size = Frequency")
-                
-                fig_tree = px.treemap(
-                    kw_freq_df,
-                    path=['Keyword'],
-                    values='Frequency',
-                    color='Frequency',
-                    color_continuous_scale='RdYlGn',
-                    title=f"Top {top_n} Keywords — Treemap View",
-                    height=450
-                )
-                fig_tree.update_traces(
-                    texttemplate='<b>%{label}</b><br>%{value:,}',
-                    textfont_size=14
-                )
-                fig_tree.update_layout(
-                    coloraxis_showscale=False,
-                    margin=dict(l=10, r=10, t=50, b=10)
-                )
-                st.plotly_chart(fig_tree, width='stretch')
-                
-                # ---- Visual 3: Summary Table ----
+                # ---- Keyword Frequency Table ----
                 st.markdown("#### 📋 Keyword Frequency Table")
                 
                 # Style the table
