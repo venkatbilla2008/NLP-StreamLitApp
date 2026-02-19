@@ -2222,6 +2222,180 @@ def main():
             st.markdown("---")
             
             # ============================================================================
+            # TOP FREQUENT KEYWORDS - VISUAL INTELLIGENCE
+            # ============================================================================
+            
+            st.subheader("🔑 Top Frequent Keywords")
+            st.markdown("*Most impactful words across your transcripts — instantly revealing what customers talk about most.*")
+            
+            # Controls row
+            kw_col1, kw_col2, kw_col3 = st.columns([2, 2, 1])
+            
+            with kw_col1:
+                top_n = st.select_slider(
+                    "📊 Number of Keywords to Show",
+                    options=[10, 20, 30],
+                    value=10,
+                    help="Select 10, 20, or 30 top keywords by frequency"
+                )
+            
+            with kw_col2:
+                kw_category_filter = st.selectbox(
+                    "📂 Filter by Category",
+                    options=["All Categories"] + sorted(output_df['Category'].unique().tolist()),
+                    key="kw_cat_filter",
+                    help="Analyse keywords within a specific category"
+                )
+            
+            with kw_col3:
+                min_word_len = st.number_input(
+                    "Min Word Length",
+                    min_value=3,
+                    max_value=10,
+                    value=4,
+                    help="Ignore short/noisy words below this character length"
+                )
+            
+            # ----- Compute keyword frequencies -----
+            import re as _re
+            from collections import Counter as _Counter
+
+            _STOP_WORDS = {
+                'the','a','an','and','or','but','in','on','at','to','for','of','with',
+                'by','from','as','is','was','are','were','be','been','being','have',
+                'has','had','do','does','did','will','would','should','could','may',
+                'might','can','i','you','he','she','it','we','they','my','your','his',
+                'her','its','our','their','this','that','these','those','so','just',
+                'not','no','if','then','than','up','out','more','all','get','got',
+                'also','about','what','how','when','where','who','which','there',
+                'here','yes','okay','ok','hi','hello','thanks','thank','please',
+                'know','like','want','need','tell','said','say','can','m','s','t',
+                've','ll','re','don','won','didn','isn','aren','wasn','weren','couldn',
+                'wouldn','shouldn','hasn','haven','hadn','them','into','over','after',
+                'before','some','any','each','few','very','much','many','back','still',
+                'however','because','through','during','between','again','further',
+                'both','own','same','such','only','too','right','did','does'
+            }
+
+            # Apply category filter
+            kw_df = output_df.copy()
+            if kw_category_filter != "All Categories":
+                kw_df = kw_df[kw_df['Category'] == kw_category_filter]
+
+            # Tokenise and count
+            all_words = []
+            for text in kw_df['Original_Text'].dropna().astype(str):
+                tokens = _re.findall(r'\b[a-z]{' + str(min_word_len) + r',}\b', text.lower())
+                all_words.extend([w for w in tokens if w not in _STOP_WORDS])
+
+            if all_words:
+                word_counts = _Counter(all_words)
+                top_words = word_counts.most_common(top_n)
+                kw_freq_df = pd.DataFrame(top_words, columns=['Keyword', 'Frequency'])
+                kw_freq_df['% of Transcripts'] = (kw_freq_df['Frequency'] / len(kw_df) * 100).round(1)
+                kw_freq_df['Rank'] = range(1, len(kw_freq_df) + 1)
+
+                # ---- Visual 1: Horizontal Bar Chart ----
+                st.markdown("#### 📊 Keyword Frequency Chart")
+                
+                fig_kw = px.bar(
+                    kw_freq_df,
+                    x='Frequency',
+                    y='Keyword',
+                    orientation='h',
+                    color='Frequency',
+                    color_continuous_scale='Viridis',
+                    text='Frequency',
+                    title=f"Top {top_n} Most Frequent Keywords"
+                    + (f" — {kw_category_filter}" if kw_category_filter != "All Categories" else ""),
+                    labels={'Frequency': 'Occurrences', 'Keyword': ''},
+                    height=max(400, top_n * 28)
+                )
+                fig_kw.update_traces(
+                    texttemplate='%{text:,}',
+                    textposition='outside',
+                    marker_line_width=0
+                )
+                fig_kw.update_layout(
+                    yaxis=dict(categoryorder='total ascending'),
+                    showlegend=False,
+                    coloraxis_showscale=False,
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(size=13),
+                    margin=dict(l=10, r=60, t=50, b=10)
+                )
+                st.plotly_chart(fig_kw, width='stretch')
+                
+                # ---- Visual 2: Treemap ----
+                st.markdown("#### 🗺️ Keyword Treemap — Size = Frequency")
+                
+                fig_tree = px.treemap(
+                    kw_freq_df,
+                    path=['Keyword'],
+                    values='Frequency',
+                    color='Frequency',
+                    color_continuous_scale='RdYlGn',
+                    title=f"Top {top_n} Keywords — Treemap View",
+                    height=450
+                )
+                fig_tree.update_traces(
+                    texttemplate='<b>%{label}</b><br>%{value:,}',
+                    textfont_size=14
+                )
+                fig_tree.update_layout(
+                    coloraxis_showscale=False,
+                    margin=dict(l=10, r=10, t=50, b=10)
+                )
+                st.plotly_chart(fig_tree, width='stretch')
+                
+                # ---- Visual 3: Summary Table ----
+                st.markdown("#### 📋 Keyword Frequency Table")
+                
+                # Style the table
+                styled_cols = st.columns([1, 2, 1, 1])
+                with styled_cols[0]:
+                    st.markdown("**Rank**")
+                with styled_cols[1]:
+                    st.markdown("**Keyword**")
+                with styled_cols[2]:
+                    st.markdown("**Occurrences**")
+                with styled_cols[3]:
+                    st.markdown("**% Transcripts**")
+                
+                st.markdown("<hr style='margin:4px 0; border-color:#eee;'>", unsafe_allow_html=True)
+                
+                for _, krow in kw_freq_df.iterrows():
+                    bar_pct = int(krow['Frequency'] / kw_freq_df['Frequency'].max() * 100)
+                    sc = st.columns([1, 2, 1, 1])
+                    with sc[0]:
+                        st.markdown(f"<span style='color:#888;font-weight:bold;'>#{int(krow['Rank'])}</span>", unsafe_allow_html=True)
+                    with sc[1]:
+                        st.markdown(
+                            f"<div style='background:linear-gradient(90deg,#667eea {bar_pct}%,#f0f2f6 {bar_pct}%);"
+                            f"padding:4px 10px;border-radius:4px;font-weight:600;color:#333;'>{krow['Keyword']}</div>",
+                            unsafe_allow_html=True
+                        )
+                    with sc[2]:
+                        st.markdown(f"<span style='font-family:monospace;'>{int(krow['Frequency']):,}</span>", unsafe_allow_html=True)
+                    with sc[3]:
+                        st.markdown(f"<span style='color:#667eea;font-weight:600;'>{krow['% of Transcripts']}%</span>", unsafe_allow_html=True)
+                
+                # Download keywords
+                st.markdown("<br>", unsafe_allow_html=True)
+                kw_csv = kw_freq_df[['Rank','Keyword','Frequency','% of Transcripts']].to_csv(index=False).encode('utf-8')
+                st.download_button(
+                    label=f"📥 Download Top {top_n} Keywords (.csv)",
+                    data=kw_csv,
+                    file_name=f"top_{top_n}_keywords_{kw_category_filter.replace(' ','_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+                    mime="text/csv"
+                )
+            else:
+                st.warning("⚠️ No words found. Try lowering the minimum word length or check your data.")
+            
+            st.markdown("---")
+            
+            # ============================================================================
             # CONCORDANCE ANALYSIS - KEYWORD IN CONTEXT (KWIC)
             # ============================================================================
             
