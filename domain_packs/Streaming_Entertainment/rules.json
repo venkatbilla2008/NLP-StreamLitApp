@@ -2,9 +2,7 @@
     {
         "conditions": [
             "cancel",
-            "cancellation",
-            "stop",
-            "end"
+            "cancellation"
         ],
         "set": {
             "category": "Cancellation",
@@ -16,24 +14,59 @@
     },
     {
         "conditions": [
+            "stop subscription",
+            "end subscription",
+            "terminate service"
+        ],
+        "set": {
+            "category": "Cancellation",
+            "subcategory": "Cancel Membership",
+            "level_3": "Subscription Cancellation",
+            "level_4": "Service Termination",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "billing",
+            "billed"
+        ],
+        "set": {
+            "category": "Billing Issues",
+            "subcategory": "Payment Problem",
+            "level_3": "Payment Error",
+            "level_4": "General Billing Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "charged",
-            "charge",
+            "charge"
+        ],
+        "set": {
+            "category": "Billing Issues",
+            "subcategory": "Payment Problem",
+            "level_3": "Payment Error",
+            "level_4": "Unexpected Charge",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "payment"
         ],
         "set": {
             "category": "Billing Issues",
             "subcategory": "Payment Problem",
             "level_3": "Payment Error",
-            "level_4": "Billing Problem",
+            "level_4": "Payment Processing Issue",
             "sentiment": "negative"
         }
     },
     {
         "conditions": [
-            "subscription",
-            "plan",
-            "membership"
+            "subscription"
         ],
         "set": {
             "category": "Subscription Management",
@@ -45,8 +78,31 @@
     },
     {
         "conditions": [
-            "refund",
-            "money back"
+            "plan"
+        ],
+        "set": {
+            "category": "Subscription Management",
+            "subcategory": "Subscription Issue",
+            "level_3": "Plan Problem",
+            "level_4": "Plan Configuration Issue",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "membership"
+        ],
+        "set": {
+            "category": "Subscription Management",
+            "subcategory": "Subscription Issue",
+            "level_3": "Plan Problem",
+            "level_4": "Membership Issue",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "refund"
         ],
         "set": {
             "category": "Refund",
@@ -58,9 +114,21 @@
     },
     {
         "conditions": [
+            "money back",
+            "reimbursement"
+        ],
+        "set": {
+            "category": "Refund",
+            "subcategory": "Refund Request",
+            "level_3": "Refund Needed",
+            "level_4": "Reimbursement Request",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "expensive",
-            "price",
-            "cost"
+            "overpriced"
         ],
         "set": {
             "category": "Billing Issues",
@@ -72,15 +140,39 @@
     },
     {
         "conditions": [
+            "price",
+            "cost"
+        ],
+        "set": {
+            "category": "Billing Issues",
+            "subcategory": "Pricing Complaint",
+            "level_3": "Price Concern",
+            "level_4": "Price Inquiry",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "play",
-            "playback",
             "playing"
         ],
         "set": {
             "category": "Technology Driven",
             "subcategory": "Playback Issue",
             "level_3": "Playback Error",
-            "level_4": "Playback Problem",
+            "level_4": "General Playback Problem",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "playback"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Playback Issue",
+            "level_3": "Playback Error",
+            "level_4": "Playback Failure",
             "sentiment": "negative"
         }
     },
@@ -142,8 +234,7 @@
     {
         "conditions": [
             "sound",
-            "audio",
-            "volume"
+            "audio"
         ],
         "set": {
             "category": "Technology Driven",
@@ -155,8 +246,19 @@
     },
     {
         "conditions": [
+            "volume"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Audio Quality",
+            "level_3": "Quality Issue",
+            "level_4": "Volume Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "removed",
-            "missing",
             "unavailable",
             "gone"
         ],
@@ -185,8 +287,7 @@
     {
         "conditions": [
             "region",
-            "country",
-            "location"
+            "country"
         ],
         "set": {
             "category": "Products and Services",
@@ -199,7 +300,6 @@
     {
         "conditions": [
             "bluetooth",
-            "speaker",
             "headphones"
         ],
         "set": {
@@ -207,6 +307,18 @@
             "subcategory": "Device Issue",
             "level_3": "Connectivity Problem",
             "level_4": "Bluetooth Connection Failed",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "speaker"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Device Issue",
+            "level_3": "Connectivity Problem",
+            "level_4": "Speaker Issue",
             "sentiment": "negative"
         }
     },
@@ -254,8 +366,7 @@
     },
     {
         "conditions": [
-            "download",
-            "offline"
+            "download"
         ],
         "set": {
             "category": "Technology Driven",
@@ -267,9 +378,20 @@
     },
     {
         "conditions": [
+            "offline"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Download Issue",
+            "level_3": "Download Problem",
+            "level_4": "Offline Access Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "login",
-            "log in",
-            "sign in"
+            "log in"
         ],
         "set": {
             "category": "Account Access",
@@ -281,9 +403,20 @@
     },
     {
         "conditions": [
+            "sign in"
+        ],
+        "set": {
+            "category": "Account Access",
+            "subcategory": "Login Issue",
+            "level_3": "Access Problem",
+            "level_4": "Sign In Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "password",
-            "forgot",
-            "reset"
+            "forgot password"
         ],
         "set": {
             "category": "Account Access",
@@ -295,7 +428,30 @@
     },
     {
         "conditions": [
-            "playlist",
+            "reset"
+        ],
+        "set": {
+            "category": "Account Access",
+            "subcategory": "Login Issue",
+            "level_3": "Password Problem",
+            "level_4": "Account Reset Request",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "playlist"
+        ],
+        "set": {
+            "category": "Products and Services",
+            "subcategory": "Content Issue",
+            "level_3": "User Content",
+            "level_4": "Playlist Missing",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "library",
             "collection"
         ],
@@ -303,7 +459,7 @@
             "category": "Products and Services",
             "subcategory": "Content Issue",
             "level_3": "User Content",
-            "level_4": "Playlist/Library Missing",
+            "level_4": "Library Missing",
             "sentiment": "negative"
         }
     },
@@ -323,24 +479,44 @@
     },
     {
         "conditions": [
-            "email",
-            "phone",
+            "email"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Account Update",
+            "level_3": "Contact Information",
+            "level_4": "Email Update",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "phone"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Account Update",
+            "level_3": "Contact Information",
+            "level_4": "Phone Update",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
             "contact"
         ],
         "set": {
             "category": "Account Management",
             "subcategory": "Account Update",
             "level_3": "Contact Information",
-            "level_4": "Update Contact Details",
+            "level_4": "General Contact Update",
             "sentiment": "neutral"
         }
     },
     {
         "conditions": [
             "promo",
-            "coupon",
-            "discount",
-            "code"
+            "coupon"
         ],
         "set": {
             "category": "Billing Issues",
@@ -352,15 +528,40 @@
     },
     {
         "conditions": [
+            "discount",
+            "code"
+        ],
+        "set": {
+            "category": "Billing Issues",
+            "subcategory": "Promotional Issue",
+            "level_3": "Promo Code",
+            "level_4": "Discount Issue",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "subtitle",
-            "caption",
-            "cc"
+            "caption"
         ],
         "set": {
             "category": "Technology Driven",
             "subcategory": "Subtitle Issue",
             "level_3": "Display Problem",
             "level_4": "Subtitle Not Working",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "cc",
+            "closed caption"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Subtitle Issue",
+            "level_3": "Display Problem",
+            "level_4": "Closed Caption Issue",
             "sentiment": "negative"
         }
     },
@@ -411,21 +612,43 @@
     {
         "conditions": [
             "app",
-            "application",
+            "application"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "App Issue",
+            "level_3": "App Performance",
+            "level_4": "App Malfunction",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "software"
         ],
         "set": {
             "category": "Technology Driven",
             "subcategory": "App Issue",
             "level_3": "App Performance",
-            "level_4": "App Problem",
+            "level_4": "Software Bug",
             "sentiment": "negative"
         }
     },
     {
         "conditions": [
             "connection",
-            "internet",
+            "internet"
+        ],
+        "set": {
+            "category": "Technology Driven",
+            "subcategory": "Connection Issue",
+            "level_3": "Network Problem",
+            "level_4": "Internet Connection Lost",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
             "network",
             "wifi"
         ],
@@ -433,7 +656,7 @@
             "category": "Technology Driven",
             "subcategory": "Connection Issue",
             "level_3": "Network Problem",
-            "level_4": "Connection Lost",
+            "level_4": "WiFi Issue",
             "sentiment": "negative"
         }
     },
