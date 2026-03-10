@@ -43,6 +43,7 @@ import logging
 from functools import lru_cache
 import io
 import os
+import sys
 import multiprocessing
 
 # DuckDB for in-memory analytics
@@ -84,8 +85,30 @@ COMPLIANCE_STANDARDS = ["HIPAA", "GDPR", "PCI-DSS", "CCPA"]
 MAX_FILE_SIZE_MB = 1000  # Increased for large datasets
 WARN_FILE_SIZE_MB = 200
 
-# Domain packs directory
-DOMAIN_PACKS_DIR = "domain_packs"
+# Domain packs directory — always resolved as an absolute path so it works
+# both when running from source AND inside a PyInstaller frozen bundle where
+# the working directory is NOT guaranteed to be the _internal/ folder.
+def _resolve_domain_packs_dir() -> str:
+    """Return the absolute path to the domain_packs directory."""
+    # Option 1: frozen exe – model sits next to this .py inside _internal/
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        candidate = os.path.join(sys._MEIPASS, 'domain_packs')
+        if os.path.isdir(candidate):
+            return candidate
+
+    # Option 2: running from source – domain_packs is a sibling of this file
+    candidate = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'domain_packs')
+    if os.path.isdir(candidate):
+        return candidate
+
+    # Option 3: fall back to wherever the exe/script lives
+    candidate = os.path.join(os.path.dirname(sys.executable
+                             if getattr(sys, 'frozen', False) else
+                             os.path.abspath(__file__)), 'domain_packs')
+    return candidate
+
+DOMAIN_PACKS_DIR = _resolve_domain_packs_dir()
+logger.info(f"Domain packs directory resolved to: {DOMAIN_PACKS_DIR}")
 
 # Vectorization settings
 ENABLE_VECTORIZATION = True
@@ -95,35 +118,77 @@ USE_POLARS = True
 # Load spaCy model with caching
 @st.cache_resource
 def load_spacy_model():
-    """Load spaCy model with caching"""
+    """Load spaCy model with fallback for PyInstaller bundles.
+
+    Resolution order:
+    1. Standard spacy.load("en_core_web_sm") – works in a normal Python env.
+    2. Load from the versioned subfolder inside sys._MEIPASS  (PyInstaller).
+       The bundle layout is:
+           _internal/
+               en_core_web_sm/
+                   __init__.py
+                   meta.json
+                   en_core_web_sm-3.7.1/   <── config.cfg lives HERE
+                       config.cfg
+                       ...
+       spacy.load(path) requires the path that contains config.cfg directly,
+       so we must resolve the versioned subfolder, not the parent.
+    3. Live download as a last resort (dev/venv only).
+    """
+    import sys
+    import subprocess
+
+    # ── Attempt 1: normal package install ────────────────────────────────────
     try:
         return spacy.load("en_core_web_sm")
     except OSError:
-        try:
-            logger.warning("spaCy model not found. Downloading...")
-            import subprocess
-            import sys
-            
-            result = subprocess.run(
-                [sys.executable, "-m", "spacy", "download", "en_core_web_sm"],
-                capture_output=True,
-                text=True,
-                timeout=120
-            )
-            
-            if result.returncode == 0:
-                logger.info("✅ spaCy model downloaded successfully")
-                return spacy.load("en_core_web_sm")
-            else:
-                logger.error(f"❌ Failed to download spaCy model: {result.stderr}")
-                st.error("⚠️ spaCy model download failed. Run: python -m spacy download en_core_web_sm")
-                st.stop()
-        except Exception as e:
-            logger.error(f"❌ Error downloading spaCy model: {e}")
-            st.error(f"⚠️ Could not load spaCy model. Error: {e}")
+        pass
+
+    # ── Attempt 2: PyInstaller bundle ────────────────────────────────────────
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        model_base = os.path.join(sys._MEIPASS, 'en_core_web_sm')
+        if os.path.isdir(model_base):
+            # Prefer the versioned subfolder that contains config.cfg
+            model_path = None
+            for entry in os.listdir(model_base):
+                candidate = os.path.join(model_base, entry)
+                if os.path.isdir(candidate) and os.path.exists(
+                        os.path.join(candidate, 'config.cfg')):
+                    model_path = candidate
+                    break
+            # Fall back to the base folder itself if no versioned subfolder found
+            if model_path is None and os.path.exists(
+                    os.path.join(model_base, 'config.cfg')):
+                model_path = model_base
+
+            if model_path:
+                try:
+                    logger.info(f"Loading bundled spaCy model from: {model_path}")
+                    return spacy.load(model_path)
+                except Exception as _e:
+                    logger.warning(f"Bundled model load failed: {_e}")
+
+    # ── Attempt 3: live download (dev / venv mode only) ───────────────────────
+    logger.warning("spaCy model not found. Attempting download...")
+    try:
+        result = subprocess.run(
+            [sys.executable, "-m", "spacy", "download", "en_core_web_sm"],
+            capture_output=True, text=True, timeout=120
+        )
+        if result.returncode == 0:
+            logger.info("spaCy model downloaded successfully")
+            return spacy.load("en_core_web_sm")
+        else:
+            logger.error(f"Failed to download spaCy model: {result.stderr}")
+            st.error("spaCy model download failed. Run: python -m spacy download en_core_web_sm")
             st.stop()
+    except Exception as e:
+        logger.error(f"Error loading spaCy model: {e}")
+        st.error(f"Could not load spaCy model. Error: {e}")
+        st.stop()
 
 nlp = load_spacy_model()
+
 
 
 # ========================================================================================
@@ -387,7 +452,7 @@ class DomainLoader:
     def load_company_mapping(self, mapping_file: str = None) -> Dict:
         """Load company-to-industry mapping from JSON"""
         if mapping_file and os.path.exists(mapping_file):
-            with open(mapping_file, 'r') as f:
+            with open(mapping_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 self.company_mapping = data.get('industries', {})
                 logger.info(f"✅ Loaded company mapping with {len(self.company_mapping)} industries")
@@ -440,10 +505,10 @@ class DomainLoader:
     def load_from_files(self, rules_file: str, keywords_file: str, industry_name: str):
         """Load rules and keywords from files"""
         try:
-            with open(rules_file, 'r') as f:
+            with open(rules_file, 'r', encoding='utf-8') as f:
                 rules = json.load(f)
             
-            with open(keywords_file, 'r') as f:
+            with open(keywords_file, 'r', encoding='utf-8') as f:
                 keywords = json.load(f)
             
             self.industries[industry_name] = {
@@ -619,7 +684,7 @@ class VectorizedRuleEngine:
         return score
     
     def _validate_hierarchy(self, category_data: Dict) -> Dict:
-        """Simple passthrough: read L1-L4 from JSON, keep NA if not defined"""
+        """Simple passthrough: read L1-L4 directly from JSON. Keep NA if not defined."""
         l1 = category_data.get('category', 'Uncategorized')
         l2 = category_data.get('subcategory', 'NA')
         l3 = category_data.get('level_3', 'NA')
@@ -732,6 +797,7 @@ class VectorizedRuleEngine:
         # Validate hierarchy
         validated = self._validate_hierarchy(category_data)
         
+
         confidence = min(best_match['score'] / 100.0, 1.0)
         match_path = f"{validated['l1']} > {validated['l2']}"
         if validated['l3'] != 'NA':
@@ -845,6 +911,10 @@ class AdvancedVisualizer:
         # Aggregate data for speed
         sunburst_data = df_clean.groupby(['Category', 'Subcategory', 'L3', 'L4']).size().reset_index(name='count')
         
+        # Replace 'NA' with None so empty rings don't appear in the sunburst
+        for col in ['Subcategory', 'L3', 'L4']:
+            sunburst_data.loc[sunburst_data[col] == 'NA', col] = None
+            
         # Filter out extremely small segments for better visibility
         limit = len(df) * 0.005  # 0.5% threshold
         sunburst_data = sunburst_data[sunburst_data['count'] > limit]
@@ -2132,10 +2202,6 @@ def main():
             
             st.markdown("---")
             
-
-            
-            st.markdown("---")
-            
             # ============================================================================
             # CONCORDANCE ANALYSIS - KEYWORD IN CONTEXT (KWIC)
             # ============================================================================
@@ -2376,46 +2442,65 @@ def main():
             
             st.markdown("---")
             
-            # Category Distribution Tables
-            st.markdown("### 📋 Category Distribution Tables")
+            # Hierarchical Distribution Table
+            st.markdown("### 📋 Hierarchical Category Distribution")
+            st.markdown("Parent-child rollups showing segment breakdown.")
             
-            # Category Distribution
-            st.markdown("#### Category Distribution")
-            l1_dist = output_df['Category'].value_counts().reset_index()
-            l1_dist.columns = ['Category', 'Count']
-            l1_dist['Percentage'] = (l1_dist['Count'] / len(output_df) * 100).round(2)
-            l1_dist['Percentage'] = l1_dist['Percentage'].astype(str) + '%'
-            st.dataframe(l1_dist, width='stretch', hide_index=True)
+            # Generate hierarchical table
+            hierarchy_rows = []
+            total_count = len(output_df)
             
-            st.markdown("---")
-            
-            # Subcategory Distribution
-            st.markdown("#### Subcategory Distribution")
-            l2_dist = output_df['Subcategory'].value_counts().reset_index()
-            l2_dist.columns = ['Subcategory', 'Count']
-            l2_dist['Percentage'] = (l2_dist['Count'] / len(output_df) * 100).round(2)
-            l2_dist['Percentage'] = l2_dist['Percentage'].astype(str) + '%'
-            st.dataframe(l2_dist, width='stretch', hide_index=True)
-            
-            st.markdown("---")
-            
-            # L3 Distribution
-            st.markdown("#### L3 Distribution")
-            l3_dist = output_df['L3'].value_counts().reset_index()
-            l3_dist.columns = ['L3', 'Count']
-            l3_dist['Percentage'] = (l3_dist['Count'] / len(output_df) * 100).round(2)
-            l3_dist['Percentage'] = l3_dist['Percentage'].astype(str) + '%'
-            st.dataframe(l3_dist, width='stretch', hide_index=True)
-            
-            st.markdown("---")
-            
-            # L4 Distribution
-            st.markdown("#### L4 Distribution")
-            l4_dist = output_df['L4'].value_counts().reset_index()
-            l4_dist.columns = ['L4', 'Count']
-            l4_dist['Percentage'] = (l4_dist['Count'] / len(output_df) * 100).round(2)
-            l4_dist['Percentage'] = l4_dist['Percentage'].astype(str) + '%'
-            st.dataframe(l4_dist, width='stretch', hide_index=True)
+            if total_count > 0:
+                cat_counts = output_df['Category'].value_counts()
+                for cat, cat_count in cat_counts.items():
+                    hierarchy_rows.append({
+                        'Level': '1. Category',
+                        'Name': f"📁 {cat}",
+                        'Count': cat_count,
+                        '% of Parent': '100.0%',
+                        '% of Total': f"{(cat_count / total_count * 100):.2f}%"
+                    })
+                    
+                    cat_df = output_df[output_df['Category'] == cat]
+                    sub_counts = cat_df['Subcategory'].value_counts()
+                    for sub, sub_count in sub_counts.items():
+                        if sub == 'NA': continue
+                        hierarchy_rows.append({
+                            'Level': '2. Subcategory',
+                            'Name': f"  ├─ 📂 {sub}",
+                            'Count': sub_count,
+                            '% of Parent': f"{(sub_count / max(1, cat_count) * 100):.2f}%",
+                            '% of Total': f"{(sub_count / total_count * 100):.2f}%"
+                        })
+                        
+                        sub_df = cat_df[cat_df['Subcategory'] == sub]
+                        l3_counts = sub_df['L3'].value_counts()
+                        for l3, l3_count in l3_counts.items():
+                            if l3 == 'NA': continue
+                            hierarchy_rows.append({
+                                'Level': '3. Level 3',
+                                'Name': f"    ├─ 📄 {l3}",
+                                'Count': l3_count,
+                                '% of Parent': f"{(l3_count / max(1, sub_count) * 100):.2f}%",
+                                '% of Total': f"{(l3_count / total_count * 100):.2f}%"
+                            })
+                            
+                            l3_df = sub_df[sub_df['L3'] == l3]
+                            l4_counts = l3_df['L4'].value_counts()
+                            for l4, l4_count in l4_counts.items():
+                                if l4 == 'NA': continue
+                                hierarchy_rows.append({
+                                    'Level': '4. Level 4',
+                                    'Name': f"      └─ 🏷️ {l4}",
+                                    'Count': l4_count,
+                                    '% of Parent': f"{(l4_count / max(1, l3_count) * 100):.2f}%",
+                                    '% of Total': f"{(l4_count / total_count * 100):.2f}%"
+                                })
+                
+                hierarchical_df = pd.DataFrame(hierarchy_rows)
+                st.dataframe(hierarchical_df, width='stretch', hide_index=True)
+            else:
+                st.info("No data available to display distribution.")
             
             # Download Results
             st.subheader("💾 Download Results")
