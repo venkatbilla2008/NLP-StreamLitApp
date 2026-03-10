@@ -619,104 +619,20 @@ class VectorizedRuleEngine:
         return score
     
     def _validate_hierarchy(self, category_data: Dict) -> Dict:
-        """Ensure complete L1→L2→L3→L4 hierarchy"""
+        """Simple passthrough: read L1-L4 from JSON, keep NA if not defined"""
         l1 = category_data.get('category', 'Uncategorized')
         l2 = category_data.get('subcategory', 'NA')
         l3 = category_data.get('level_3', 'NA')
         l4 = category_data.get('level_4', 'NA')
         
-        if l3 == 'NA' and l4 != 'NA':
-            l3 = l2
-        if l4 == 'NA' and l3 != 'NA':
-            l4 = l3
-        if l3 == 'NA':
-            l3 = l2
-        if l4 == 'NA':
-            l4 = l3
-        
         return {'l1': l1, 'l2': l2, 'l3': l3, 'l4': l4}
     
     def _override_with_intent(self, primary_intent: str, has_resolution: bool) -> Dict:
         """
-        Create category based on detected intent
-        
-        COMPREHENSIVE MAPPING FOR STREAMING SERVICES
+        Intent override disabled — all classification comes from JSON rules only.
+        Kept as stub for backward compatibility.
         """
-        intent_mappings = {
-            # Subscription Management
-            'cancel_subscription': {
-                'l1': 'Cancellation',
-                'l2': 'Cancel Membership',
-                'l3': 'Issue Resolved' if has_resolution else 'Cancellation Request',
-                'l4': 'Professional Service' if has_resolution else 'Cancel Subscription'
-            },
-            'switch_plan': {
-                'l1': 'Billing & Subscription',
-                'l2': 'Subscription Issue',
-                'l3': 'Issue Resolved' if has_resolution else 'Plan Change',
-                'l4': 'Professional Service' if has_resolution else 'Switch Plan'
-            },
-            
-            # Billing & Payment
-            'billing_issue': {
-                'l1': 'Billing & Subscription',
-                'l2': 'Billing Issue',
-                'l3': 'Issue Resolved' if has_resolution else 'Payment Problem',
-                'l4': 'Professional Service' if has_resolution else 'Billing Error'
-            },
-            
-            # Technical & Quality
-            'playback_issue': {
-                'l1': 'Technology Driven',
-                'l2': 'Playback Issue',
-                'l3': 'Issue Resolved' if has_resolution else 'Streaming Problem',
-                'l4': 'Professional Service' if has_resolution else 'Playback Error'
-            },
-            'quality_issue': {
-                'l1': 'Technology Driven',
-                'l2': 'Streaming Quality',
-                'l3': 'Issue Resolved' if has_resolution else 'Quality Problem',
-                'l4': 'Professional Service' if has_resolution else 'Buffering/Lag'
-            },
-            
-            # Content
-            'content_unavailable': {
-                'l1': 'Products and Services',
-                'l2': 'Content Issue',
-                'l3': 'Issue Resolved' if has_resolution else 'Content Missing',
-                'l4': 'Professional Service' if has_resolution else 'Content Unavailable'
-            },
-            
-            # Device & Download
-            'device_issue': {
-                'l1': 'Technology Driven',
-                'l2': 'Device Issue',
-                'l3': 'Issue Resolved' if has_resolution else 'Connection Problem',
-                'l4': 'Professional Service' if has_resolution else 'Device Not Working'
-            },
-            'download_issue': {
-                'l1': 'Technology Driven',
-                'l2': 'Download Issue',
-                'l3': 'Issue Resolved' if has_resolution else 'Download Problem',
-                'l4': 'Professional Service' if has_resolution else 'Download Failed'
-            },
-            
-            # Account Access
-            'login_issue': {
-                'l1': 'Account Access',
-                'l2': 'Login Issue',
-                'l3': 'Issue Resolved' if has_resolution else 'Access Problem',
-                'l4': 'Professional Service' if has_resolution else 'Login Failed'
-            },
-            'account_issue': {
-                'l1': 'Account Management',
-                'l2': 'Account Issue',
-                'l3': 'Issue Resolved' if has_resolution else 'Account Problem',
-                'l4': 'Professional Service' if has_resolution else 'Account Error'
-            }
-        }
-        
-        return intent_mappings.get(primary_intent, None)
+        return None
     
     def classify_single(self, text: str) -> Dict:
         """
@@ -815,11 +731,6 @@ class VectorizedRuleEngine:
         
         # Validate hierarchy
         validated = self._validate_hierarchy(category_data)
-        
-        # Override L3/L4 with resolution if detected
-        if has_resolution and 'issue' in validated['l2'].lower():
-            validated['l3'] = 'Issue Resolved'
-            validated['l4'] = 'Professional Service'
         
         confidence = min(best_match['score'] / 100.0, 1.0)
         match_path = f"{validated['l1']} > {validated['l2']}"
