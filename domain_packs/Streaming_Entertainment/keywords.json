@@ -76,8 +76,8 @@
         ],
         "set": {
             "category": "Account Access",
-            "subcategory": "Password Reset",
-            "level_3": "System Error",
+            "subcategory": "Login Issue",
+            "level_3": "Password Reset Error",
             "level_4": "Password Reset Failure",
             "sentiment": "negative"
         }
@@ -144,7 +144,7 @@
         ],
         "set": {
             "category": "Billing Issues",
-            "subcategory": "Payment Error",
+            "subcategory": "Payment Problem",
             "level_3": "Duplicate Charge",
             "level_4": "Charged Twice",
             "sentiment": "negative"
@@ -160,7 +160,7 @@
         ],
         "set": {
             "category": "Billing Issues",
-            "subcategory": "Payment Error",
+            "subcategory": "Payment Problem",
             "level_3": "Charge Error",
             "level_4": "Incorrect Amount",
             "sentiment": "negative"
