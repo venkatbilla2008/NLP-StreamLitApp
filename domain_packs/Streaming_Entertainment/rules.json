@@ -39,7 +39,7 @@
             "category": "Subscription Management",
             "subcategory": "Subscription Issue",
             "level_3": "Plan Problem",
-            "level_4": "Subscription Issue",
+            "level_4": "Subscription Plan Issue",
             "sentiment": "neutral"
         }
     },
@@ -366,14 +366,45 @@
     },
     {
         "conditions": [
-            "account",
-            "profile"
+            "account settings",
+            "account preferences",
+            "account configuration"
         ],
         "set": {
             "category": "Account Management",
             "subcategory": "Account Issue",
-            "level_3": "Account Problem",
-            "level_4": "General Account Issue",
+            "level_3": "Account Settings",
+            "level_4": "Settings Update Request",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "update profile",
+            "profile update",
+            "edit profile",
+            "change profile"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Account Issue",
+            "level_3": "Profile Management",
+            "level_4": "Profile Update Request",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "account issue",
+            "account problem",
+            "account not working",
+            "account error"
+        ],
+        "set": {
+            "category": "Account Management",
+            "subcategory": "Account Issue",
+            "level_3": "Account Management Request",
+            "level_4": "General Account Query",
             "sentiment": "neutral"
         }
     },
@@ -408,10 +439,11 @@
     },
     {
         "conditions": [
-            "error",
-            "problem",
-            "issue",
-            "not working"
+            "not working",
+            "error code",
+            "system error",
+            "technical error",
+            "something went wrong"
         ],
         "set": {
             "category": "Technology Driven",
