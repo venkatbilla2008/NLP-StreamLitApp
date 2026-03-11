@@ -2009,8 +2009,8 @@ def main():
     """Main Streamlit application - ULTRA-OPTIMIZED"""
     
     st.set_page_config(
-        page_title="TextInsightMiner — NLP Text Analysis",
-        page_icon="🔬",
+        page_title="Intelli-CXMiner — NLP Text Analysis",
+        page_icon="🧐",
         layout="wide",
         initial_sidebar_state="expanded"
     )
@@ -2144,13 +2144,13 @@ footer, .stDeployButton { display: none !important; }
   gap: 20px;
   box-shadow: 0 4px 24px rgba(14,165,233,0.18);
 ">
-  <div style="font-size: 48px; line-height:1;">🔬</div>
+  <div style="font-size: 48px; line-height:1;">🧐</div>
   <div>
     <h1 style="margin:0; font-size:26px; color:#f8fafc !important; font-weight:700; letter-spacing:-0.3px;">
-      TextInsightMiner
+      Intelli-CXMiner
     </h1>
     <p style="margin:4px 0 10px; color:#94a3b8; font-size:14px; font-weight:400;">
-      Domain-Agnostic NLP Classification · Polars · DuckDB · Vectorized Engine
+      Intelligent Customer Experience Mining · Polars · DuckDB · Vectorized Engine
     </p>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
       <span class="badge b-ok">✅ Polars 10× faster I/O</span>
@@ -2483,19 +2483,50 @@ footer, .stDeployButton { display: none !important; }
             ])
 
             with viz_tab1:
-                st.markdown(
-                    "<p style='color:#64748b;font-size:13px;margin-bottom:8px'>"
-                    "Click any node to expand/collapse its children. "
-                    "Scroll to zoom · Drag to pan. "
-                    "Hover a node to highlight its full descendant path."
-                    "</p>",
-                    unsafe_allow_html=True
-                )
-                tree_data = build_tree_data(output_df)
+                # ─ Noise filter slider ────────────────────────────────
+                filter_col1, filter_col2 = st.columns([3, 1])
+                with filter_col1:
+                    st.markdown(
+                        "<p style='color:#64748b;font-size:13px;margin-bottom:4px'>"
+                        "Click any node to expand/collapse · Scroll to zoom · Drag to pan."
+                        " Hover to highlight the full descendant path."
+                        "</p>",
+                        unsafe_allow_html=True
+                    )
+                with filter_col2:
+                    category_counts = output_df['Category'].value_counts()
+                    max_count = int(category_counts.max())
+                    smart_default = min(10, max(1, int(max_count * 0.05)))
+                    min_count_threshold = st.slider(
+                        "Min Count",
+                        min_value=1,
+                        max_value=min(100, max_count),
+                        value=smart_default,
+                        help="Hide nodes with fewer records than this threshold",
+                        key="decomp_tree_slider"
+                    )
+
+                # Apply threshold filtering
+                filtered_tree_df = output_df.copy()
+                for col, vc_col in [
+                    ('Category', 'Category'),
+                    ('Subcategory', 'Subcategory'),
+                    ('L3', 'L3'),
+                    ('L4', 'L4'),
+                ]:
+                    vc = filtered_tree_df[col].value_counts()
+                    valid = vc[vc >= min_count_threshold].index.tolist()
+                    filtered_tree_df = filtered_tree_df[filtered_tree_df[col].isin(valid)]
+
+                removed = len(output_df) - len(filtered_tree_df)
+                if removed > 0:
+                    st.info(f"ℹ️ Filtered out {removed:,} low-count records. Showing {len(filtered_tree_df):,} in tree.")
+
+                tree_data = build_tree_data(filtered_tree_df)
                 tree_option = get_tree_option(tree_data)
                 st_echarts(
                     options=tree_option,
-                    height="750px",
+                    height="800px",
                     key="exec_decomp_tree"
                 )
 
@@ -2523,88 +2554,7 @@ footer, .stDeployButton { display: none !important; }
                 )
                 st.plotly_chart(fig_bar, use_container_width=True)
             
-            st.markdown("---")
-            
-            # ============================================================================
-            # WORD TREE - INTERACTIVE HIERARCHICAL VISUALIZATION
-            # ============================================================================
-            
-            st.subheader("🌳 Word Tree - Interactive Hierarchy")
-            
-            # Add filter controls
-            col_tree1, col_tree2 = st.columns([3, 1])
-            
-            with col_tree1:
-                st.markdown("**Filter out noise by setting minimum count threshold**")
-            
-            with col_tree2:
-                # Calculate smart default (5% of max count or 10, whichever is smaller)
-                category_counts = output_df['Category'].value_counts()
-                max_count = category_counts.max()
-                smart_default = min(10, max(1, int(max_count * 0.05)))
-                
-                min_count_threshold = st.slider(
-                    "Min Count",
-                    min_value=1,
-                    max_value=min(100, max_count),
-                    value=smart_default,
-                    help="Hide categories/subcategories with fewer items than this threshold"
-                )
-            
-            # Filter dataframe based on threshold
-            filtered_df = output_df.copy()
-            
-            # Filter L1 (Category)
-            l1_counts = filtered_df['Category'].value_counts()
-            valid_l1 = l1_counts[l1_counts >= min_count_threshold].index.tolist()
-            filtered_df = filtered_df[filtered_df['Category'].isin(valid_l1)]
-            
-            # Filter L2 (Subcategory)
-            l2_counts = filtered_df['Subcategory'].value_counts()
-            valid_l2 = l2_counts[l2_counts >= min_count_threshold].index.tolist()
-            filtered_df = filtered_df[filtered_df['Subcategory'].isin(valid_l2)]
-            
-            # Filter L3
-            l3_counts = filtered_df['L3'].value_counts()
-            valid_l3 = l3_counts[l3_counts >= min_count_threshold].index.tolist()
-            filtered_df = filtered_df[filtered_df['L3'].isin(valid_l3)]
-            
-            # Filter L4
-            l4_counts = filtered_df['L4'].value_counts()
-            valid_l4 = l4_counts[l4_counts >= min_count_threshold].index.tolist()
-            filtered_df = filtered_df[filtered_df['L4'].isin(valid_l4)]
-            
-            # Show filtering stats
-            removed_count = len(output_df) - len(filtered_df)
-            if removed_count > 0:
-                st.info(f"ℹ️ Filtered out {removed_count:,} items below threshold. Showing {len(filtered_df):,} items in tree.")
-            
-            # Initialize session state for navigation
-            if 'tree_l1' not in st.session_state:
-                st.session_state.tree_l1 = None
-            if 'tree_l2' not in st.session_state:
-                st.session_state.tree_l2 = None
-            if 'tree_l3' not in st.session_state:
-                st.session_state.tree_l3 = None
-            
-            # Initialize hierarchical tree with filtered data
-            tree_viz = HierarchicalCategoryTree(filtered_df)
-            
-            # Create and display PyEcharts interactive tree
-            echarts_option = tree_viz.create_echarts_tree(
-                selected_l1=st.session_state.tree_l1,
-                selected_l2=st.session_state.tree_l2,
-                selected_l3=st.session_state.tree_l3
-            )
-            
-            # Display with st_echarts
-            st_echarts(
-                options=echarts_option,
-                height="900px",  # Increased height for better spacing
-                key="pyecharts_word_tree"
-            )
-            
-            st.markdown("---")
+
             
             # ============================================================================
             # CONCORDANCE ANALYSIS - KEYWORD IN CONTEXT (KWIC)
