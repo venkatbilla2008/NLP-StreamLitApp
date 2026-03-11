@@ -1856,6 +1856,152 @@ def build_level_table(
 
 
 # ========================================================================================
+# ECHARTS DECOMPOSITION TREE HELPERS  (Power BI / app_new.py style)
+# ========================================================================================
+
+def build_tree_data(df: pd.DataFrame) -> dict:
+    """Build nested dict for ECharts horizontal LR decomposition tree."""
+    if df.empty:
+        return {"name": "No Data", "value": 0, "children": []}
+
+    total = len(df)
+    root = {"name": f"All ({total:,})", "value": total, "children": []}
+
+    for l1, l1d in df.groupby('Category'):
+        if l1 in ('Uncategorized', 'NA'):
+            continue
+        n1 = {"name": f"{l1} ({len(l1d):,})", "value": len(l1d), "children": []}
+        for l2, l2d in l1d.groupby('Subcategory'):
+            if l2 == 'NA':
+                continue
+            n2 = {"name": f"{l2} ({len(l2d):,})", "value": len(l2d), "children": []}
+            for l3, l3d in l2d.groupby('L3'):
+                if l3 == 'NA':
+                    continue
+                l4_children = [
+                    {"name": f"{v} ({c:,})", "value": c}
+                    for v, c in l3d['L4'].value_counts().items()
+                    if v != 'NA'
+                ]
+                if l4_children:
+                    n2["children"].append({
+                        "name": f"{l3} ({len(l3d):,})",
+                        "value": len(l3d),
+                        "children": l4_children
+                    })
+                else:
+                    n2["children"].append({
+                        "name": f"{l3} ({len(l3d):,})",
+                        "value": len(l3d)
+                    })
+            n1["children"].append(
+                n2 if n2.get("children") else
+                {"name": f"{l2} ({len(l2d):,})", "value": len(l2d)}
+            )
+        root["children"].append(n1)
+    return root
+
+
+def get_tree_option(data: dict) -> dict:
+    """Return ECharts option dict for a horizontal LR decomposition tree
+    with curved connectors, gradient node styling, and hover highlighting."""
+    return {
+        "backgroundColor": "rgba(248,250,252,0)",
+        "tooltip": {
+            "trigger": "item",
+            "triggerOn": "mousemove",
+            "backgroundColor": "rgba(26,35,50,0.95)",
+            "borderWidth": 0,
+            "textStyle": {
+                "color": "#e2e8f0",
+                "fontSize": 13,
+                "fontFamily": "DM Sans, sans-serif"
+            },
+            "formatter": "{b}",
+            "extraCssText": "border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);"
+        },
+        "series": [{
+            "type": "tree",
+            "data": [data],
+            "top": "3%",
+            "left": "8%",
+            "bottom": "3%",
+            "right": "22%",
+            "symbolSize": 10,
+            "orient": "LR",
+            "layout": "orthogonal",
+            "edgeShape": "curve",
+            "edgeForkPosition": "50%",
+            "roam": True,
+            "scaleLimit": {"min": 0.3, "max": 5},
+            "label": {
+                "show": True,
+                "position": "right",
+                "distance": 14,
+                "fontSize": 12,
+                "fontFamily": "DM Sans, sans-serif",
+                "color": "#1e293b",
+                "fontWeight": 500,
+                "backgroundColor": "rgba(255,255,255,0.95)",
+                "padding": [5, 10],
+                "borderRadius": 6,
+                "borderColor": "#e2e8f0",
+                "borderWidth": 1,
+                "shadowBlur": 4,
+                "shadowColor": "rgba(0,0,0,0.06)"
+            },
+            "leaves": {
+                "label": {
+                    "fontSize": 11,
+                    "color": "#475569",
+                    "fontWeight": 400,
+                    "backgroundColor": "rgba(241,245,249,0.95)",
+                    "padding": [4, 8],
+                    "borderRadius": 4,
+                    "borderColor": "#e2e8f0",
+                    "borderWidth": 1
+                }
+            },
+            "expandAndCollapse": True,
+            "animationDuration": 500,
+            "animationDurationUpdate": 700,
+            "animationEasingUpdate": "cubicInOut",
+            "initialTreeDepth": 2,
+            "lineStyle": {
+                "color": "#94a3b8",
+                "width": 1.5,
+                "curveness": 0.4
+            },
+            "itemStyle": {
+                "color": "#0ea5e9",
+                "borderColor": "#0284c7",
+                "borderWidth": 2,
+                "shadowBlur": 6,
+                "shadowColor": "rgba(14,165,233,0.25)"
+            },
+            "emphasis": {
+                "focus": "descendant",
+                "itemStyle": {
+                    "color": "#f59e0b",
+                    "borderColor": "#d97706",
+                    "borderWidth": 3,
+                    "shadowBlur": 12,
+                    "shadowColor": "rgba(245,158,11,0.4)"
+                },
+                "lineStyle": {"color": "#f59e0b", "width": 2.5},
+                "label": {
+                    "fontWeight": 700,
+                    "fontSize": 13,
+                    "color": "#0f172a",
+                    "backgroundColor": "rgba(254,243,199,0.95)",
+                    "borderColor": "#f59e0b"
+                }
+            }
+        }]
+    }
+
+
+# ========================================================================================
 # STREAMLIT UI - ULTRA-OPTIMIZED
 # ========================================================================================
 
@@ -2326,36 +2472,56 @@ footer, .stDeployButton { display: none !important; }
             st.subheader("📋 Results Preview (First 20 rows)")
             st.dataframe(output_df.head(20), width='stretch')
             
-            # Analytics using DuckDB & Plotly
+            # ── Executive Dashboard ─────────────────────────────────────────
             st.subheader("📊 Executive Dashboard")
-
-            # Overview tab only
             st.markdown("### 📈 Overview")
-            
-            # Hierarchical Category View (Full Width)
-            st.markdown("#### 🌍 Hierarchical Category View")
-            fig_sun = AdvancedVisualizer.create_sunburst_chart(output_df)
-            if fig_sun:
-                st.plotly_chart(fig_sun, width='stretch')
-            else:
-                st.info("Not enough data for hierarchical view.")
-            
-            # Bar Chart - Category Distribution
-            st.markdown("#### 📊 Category Distribution")
-            l1_counts = output_df['Category'].value_counts().reset_index()
-            l1_counts.columns = ['Category', 'Count']
-            fig_bar = px.bar(
-                l1_counts,
-                x='Category',
-                y='Count',
-                title='Category Distribution',
-                color='Count',
-                color_continuous_scale='Blues',
-                text='Count'
-            )
-            fig_bar.update_traces(texttemplate='%{text}', textposition='outside')
-            fig_bar.update_layout(showlegend=False, height=400)
-            st.plotly_chart(fig_bar, width='stretch')
+
+            # Two-tab view: Decomposition Tree + Bar Chart
+            viz_tab1, viz_tab2 = st.tabs([
+                "🌳 Decomposition Tree",
+                "📊 Bar Chart"
+            ])
+
+            with viz_tab1:
+                st.markdown(
+                    "<p style='color:#64748b;font-size:13px;margin-bottom:8px'>"
+                    "Click any node to expand/collapse its children. "
+                    "Scroll to zoom · Drag to pan. "
+                    "Hover a node to highlight its full descendant path."
+                    "</p>",
+                    unsafe_allow_html=True
+                )
+                tree_data = build_tree_data(output_df)
+                tree_option = get_tree_option(tree_data)
+                st_echarts(
+                    options=tree_option,
+                    height="750px",
+                    key="exec_decomp_tree"
+                )
+
+            with viz_tab2:
+                st.markdown("#### 📊 L1 Category Distribution")
+                l1_counts = output_df['Category'].value_counts().reset_index()
+                l1_counts.columns = ['Category', 'Count']
+                fig_bar = px.bar(
+                    l1_counts,
+                    x='Category',
+                    y='Count',
+                    title='L1 Category Distribution',
+                    color='Count',
+                    color_continuous_scale='Blues',
+                    text='Count'
+                )
+                fig_bar.update_traces(texttemplate='%{text}', textposition='outside')
+                fig_bar.update_layout(
+                    showlegend=False,
+                    height=420,
+                    font_family="DM Sans, sans-serif",
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    margin=dict(t=50, b=20, l=10, r=10)
+                )
+                st.plotly_chart(fig_bar, use_container_width=True)
             
             st.markdown("---")
             
