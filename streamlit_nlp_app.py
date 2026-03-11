@@ -1750,6 +1750,112 @@ class PolarsFileHandler:
 
 
 # ========================================================================================
+# DISTRIBUTION TABLE HELPER  (app_new.py style — HTML tables with inline bar charts)
+# ========================================================================================
+
+DIST_TABLE_CSS = """
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+:root{--accent:#0ea5e9;--accent2:#0284c7;--border:#e2e8f0;--muted:#64748b;--text:#1e293b;--bg-row:#f8fafc;}
+.lvl-tbl{width:100%;border-collapse:collapse;font-size:13px;font-family:'DM Sans',sans-serif;}
+.lvl-tbl th{background:#f1f5f9;color:var(--muted);font-weight:600;padding:9px 14px;
+  text-align:left;border-bottom:2px solid var(--border);font-size:11px;
+  text-transform:uppercase;letter-spacing:.5px;}
+.lvl-tbl td{padding:7px 14px;border-bottom:1px solid #f1f5f9;color:var(--text);}
+.lvl-tbl tr:hover td{background:var(--bg-row);}
+.lvl-tbl .num{text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);}
+.lvl-tbl .pct{text-align:right;font-size:12px;color:var(--muted);min-width:52px;}
+.lvl-tbl .bar-cell{min-width:110px;padding-right:16px;}
+.bar-wrap{background:#e2e8f0;border-radius:4px;height:7px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;}
+.dist-section{background:#fff;border:1px solid var(--border);border-radius:10px;
+  padding:18px 20px;margin-bottom:10px;
+  box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.dist-header{display:flex;align-items:center;gap:8px;font-size:14px;
+  font-weight:600;color:var(--text);margin-bottom:14px;}
+</style>
+"""
+
+_LEVEL_COLORS = {
+    'l1': '#0ea5e9',
+    'l2': '#8b5cf6',
+    'l3': '#06b6d4',
+    'l4': '#10b981',
+}
+
+def build_level_table(
+    df: pd.DataFrame,
+    level_col: str,
+    parent_col: str = None,
+    color_key: str = 'l1'
+) -> str:
+    """Render an HTML distribution table with inline progress bars.
+    Filters out NA values. Optionally groups by parent_col so the %
+    of parent is also shown."""
+    total = len(df)
+    bar_color = _LEVEL_COLORS.get(color_key, '#0ea5e9')
+
+    if parent_col:
+        agg = (
+            df[df[level_col] != 'NA']
+            .groupby([parent_col, level_col])
+            .size()
+            .reset_index(name='Count')
+            .sort_values('Count', ascending=False)
+        )
+        agg['% of Total'] = (agg['Count'] / max(1, total) * 100).round(1)
+        agg['% of Parent'] = agg.groupby(parent_col)['Count'].transform(
+            lambda x: (x / x.sum() * 100).round(1)
+        )
+        col_order = [parent_col, level_col, 'Count', '% of Parent', '% of Total']
+    else:
+        agg = df[df[level_col] != 'NA'][level_col].value_counts().reset_index()
+        agg.columns = [level_col, 'Count']
+        agg['% of Total'] = (agg['Count'] / max(1, total) * 100).round(1)
+        col_order = [level_col, 'Count', '% of Total']
+
+    if agg.empty:
+        return '<p style="color:#64748b;font-size:13px">No data for this level.</p>'
+
+    # Build header
+    hdr_cells = ''.join(
+        f'<th style="text-align:{"right" if c in ("Count", "% of Total", "% of Parent") else "left"}">{c}</th>'
+        for c in col_order
+    )
+    hdr_cells += '<th style="min-width:110px"></th>'  # bar column
+
+    # Build rows
+    max_count = int(agg['Count'].max())
+    rows_html = []
+    for _, row in agg.iterrows():
+        cells = ''
+        for c in col_order:
+            val = row[c]
+            if c == 'Count':
+                cells += f'<td class="num">{int(val):,}</td>'
+            elif c in ('% of Total', '% of Parent'):
+                cells += f'<td class="pct">{val}%</td>'
+            else:
+                cells += f'<td>{val}</td>'
+        # Proportional bar width based on max count in this level
+        bar_w = int(row['Count'] / max(1, max_count) * 100)
+        cells += (
+            f'<td class="bar-cell">'
+            f'<div class="bar-wrap">'
+            f'<div class="bar-fill" style="width:{bar_w}%;background:{bar_color}"></div>'
+            f'</div></td>'
+        )
+        rows_html.append(f'<tr>{cells}</tr>')
+
+    return (
+        f'<table class="lvl-tbl">'
+        f'<thead><tr>{hdr_cells}</tr></thead>'
+        f'<tbody>{chr(10).join(rows_html)}</tbody>'
+        f'</table>'
+    )
+
+
+# ========================================================================================
 # STREAMLIT UI - ULTRA-OPTIMIZED
 # ========================================================================================
 
@@ -2441,66 +2547,62 @@ def main():
                 st.warning("⚠️ Please enter a keyword or phrase to search")
             
             st.markdown("---")
-            
-            # Hierarchical Distribution Table
-            st.markdown("### 📋 Hierarchical Category Distribution")
-            st.markdown("Parent-child rollups showing segment breakdown.")
-            
-            # Generate hierarchical table
-            hierarchy_rows = []
-            total_count = len(output_df)
-            
-            if total_count > 0:
-                cat_counts = output_df['Category'].value_counts()
-                for cat, cat_count in cat_counts.items():
-                    hierarchy_rows.append({
-                        'Level': '1. Category',
-                        'Name': f"📁 {cat}",
-                        'Count': cat_count,
-                        '% of Parent': '100.0%',
-                        '% of Total': f"{(cat_count / total_count * 100):.2f}%"
-                    })
-                    
-                    cat_df = output_df[output_df['Category'] == cat]
-                    sub_counts = cat_df['Subcategory'].value_counts()
-                    for sub, sub_count in sub_counts.items():
-                        if sub == 'NA': continue
-                        hierarchy_rows.append({
-                            'Level': '2. Subcategory',
-                            'Name': f"  ├─ 📂 {sub}",
-                            'Count': sub_count,
-                            '% of Parent': f"{(sub_count / max(1, cat_count) * 100):.2f}%",
-                            '% of Total': f"{(sub_count / total_count * 100):.2f}%"
-                        })
-                        
-                        sub_df = cat_df[cat_df['Subcategory'] == sub]
-                        l3_counts = sub_df['L3'].value_counts()
-                        for l3, l3_count in l3_counts.items():
-                            if l3 == 'NA': continue
-                            hierarchy_rows.append({
-                                'Level': '3. Level 3',
-                                'Name': f"    ├─ 📄 {l3}",
-                                'Count': l3_count,
-                                '% of Parent': f"{(l3_count / max(1, sub_count) * 100):.2f}%",
-                                '% of Total': f"{(l3_count / total_count * 100):.2f}%"
-                            })
-                            
-                            l3_df = sub_df[sub_df['L3'] == l3]
-                            l4_counts = l3_df['L4'].value_counts()
-                            for l4, l4_count in l4_counts.items():
-                                if l4 == 'NA': continue
-                                hierarchy_rows.append({
-                                    'Level': '4. Level 4',
-                                    'Name': f"      └─ 🏷️ {l4}",
-                                    'Count': l4_count,
-                                    '% of Parent': f"{(l4_count / max(1, l3_count) * 100):.2f}%",
-                                    '% of Total': f"{(l4_count / total_count * 100):.2f}%"
-                                })
-                
-                hierarchical_df = pd.DataFrame(hierarchy_rows)
-                st.dataframe(hierarchical_df, width='stretch', hide_index=True)
-            else:
-                st.info("No data available to display distribution.")
+
+            # ── Premium Distribution Tables ──────────────────────────────
+            # Inject CSS (idempotent — safe to call multiple times)
+            st.markdown(DIST_TABLE_CSS, unsafe_allow_html=True)
+
+            st.markdown("### 📊 Category Distribution by Level")
+            st.markdown(
+                "<p style='color:#64748b;font-size:13px;margin-top:-8px'>" 
+                "Each tab counts that level independently — NA rows excluded. "
+                "Bar width = proportion of the largest segment at that level."
+                "</p>",
+                unsafe_allow_html=True
+            )
+
+            dist_tab1, dist_tab2, dist_tab3, dist_tab4 = st.tabs([
+                "📁 L1 — Category",
+                "📂 L2 — Subcategory",
+                "📄 L3",
+                "🏷️ L4"
+            ])
+
+            with dist_tab1:
+                st.markdown(
+                    "<div class='dist-section'>"
+                    "<div class='dist-header'>📁 L1 Category Distribution</div>"
+                    + build_level_table(output_df, 'Category', color_key='l1')
+                    + "</div>",
+                    unsafe_allow_html=True
+                )
+
+            with dist_tab2:
+                st.markdown(
+                    "<div class='dist-section'>"
+                    "<div class='dist-header'>📂 L2 Subcategory — grouped by parent L1</div>"
+                    + build_level_table(output_df, 'Subcategory', parent_col='Category', color_key='l2')
+                    + "</div>",
+                    unsafe_allow_html=True
+                )
+
+            with dist_tab3:
+                st.markdown(
+                    "<div class='dist-section'>"
+                    "<div class='dist-header'>📄 L3 Distribution — grouped by parent L2</div>"
+                    + build_level_table(output_df, 'L3', parent_col='Subcategory', color_key='l3')
+                    + "</div>",
+                    unsafe_allow_html=True
+                )
+
+            with dist_tab4:
+                st.markdown(
+                    "<div class='dist-section'>"
+                    "<div class='dist-header'>🏷️ L4 Distribution — grouped by parent L3</div>"
+                    + build_level_table(output_df, 'L4', parent_col='L3', color_key='l4')
+                    + "</div>",
+                    unsafe_allow_html=True
+                )
             
             # Download Results
             st.subheader("💾 Download Results")
