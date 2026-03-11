@@ -1863,28 +1863,160 @@ def main():
     """Main Streamlit application - ULTRA-OPTIMIZED"""
     
     st.set_page_config(
-        page_title="Dynamic Domain-Agnostic NLP Text Analysis Pipeline",
-        page_icon="🚀",
+        page_title="TextInsightMiner — NLP Text Analysis",
+        page_icon="🔬",
         layout="wide",
         initial_sidebar_state="expanded"
     )
-    
-    st.title("🚀 Dynamic Domain-Agnostic NLP Text Analysis Pipeline")
+
+    # ── Premium CSS & Typography ──────────────────────────────────────────────
+    st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── Global typography ── */
+:root {
+  --bg:       #f8fafc;
+  --card:     #ffffff;
+  --border:   #e2e8f0;
+  --text:     #1e293b;
+  --muted:    #64748b;
+  --accent:   #0ea5e9;
+  --accent2:  #0284c7;
+  --navy:     #1a2332;
+  --success:  #059669;
+  --warn:     #d97706;
+  --err:      #dc2626;
+}
+html, body, [class*="st-"], .stApp {
+  font-family: 'DM Sans', sans-serif !important;
+  background: var(--bg) !important;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'DM Sans', sans-serif !important;
+  font-weight: 600 !important;
+  color: var(--text) !important;
+  letter-spacing: -0.2px;
+}
+code, pre, .stCode { font-family: 'JetBrains Mono', monospace !important; }
+
+/* ── Sidebar ── */
+section[data-testid="stSidebar"] {
+  background: #f1f5f9 !important;
+  border-right: 1px solid var(--border);
+}
+section[data-testid="stSidebar"] * { color: #334155 !important; }
+section[data-testid="stSidebar"] label {
+  color: var(--muted) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+/* ── Metric cards ── */
+.mc {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 16px 14px;
+  text-align: center;
+  border-top: 3px solid var(--accent);
+  transition: box-shadow .15s ease;
+}
+.mc:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.07); }
+.mc .mv   { font-size: 24px; font-weight: 700; color: var(--text); margin: 0; line-height: 1.2; }
+.mc .ml   { font-size: 10px; font-weight: 600; color: var(--muted); margin: 5px 0 0;
+            text-transform: uppercase; letter-spacing: .7px; }
+
+/* ── Section header accent bar ── */
+.sh {
+  display: flex; align-items: center; gap: 8px;
+  margin: 26px 0 12px;
+  font-size: 15px; font-weight: 600; color: var(--text);
+  border-left: 3px solid var(--accent);
+  padding-left: 10px;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 11px; border-radius: 20px; font-size: 12px; font-weight: 600;
+}
+.b-ok   { background: #d1fae5; color: #065f46; }
+.b-warn { background: #fef3c7; color: #92400e; }
+.b-info { background: #e0f2fe; color: #0369a1; }
+.b-err  { background: #fee2e2; color: #991b1b; }
+
+/* ── Plotly charts — remove inner border ── */
+.stPlotlyChart { border: none !important; }
+
+/* ── Dataframe ── */
+.stDataFrame { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+
+/* ── Buttons ── */
+.stButton > button {
+  font-family: 'DM Sans', sans-serif !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+}
+
+/* ── Streamlit tab styling ── */
+.stTabs [data-baseweb="tab-list"] {
+  gap: 2px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 4px;
+}
+.stTabs [data-baseweb="tab"] {
+  border-radius: 6px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  padding: 6px 14px !important;
+}
+.stTabs [aria-selected="true"] {
+  background: white !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+  color: var(--accent) !important;
+  font-weight: 600 !important;
+}
+
+/* ── Hide Streamlit branding ── */
+footer, .stDeployButton { display: none !important; }
+#MainMenu { visibility: hidden; }
+</style>
+""", unsafe_allow_html=True)
+
+    # ── Hero Header ───────────────────────────────────────────────────────────
     st.markdown(f"""
-    **ULTRA-FAST Performance + Advanced Text Analytics:**
-    - 🚀 **Polars**: 10x faster data I/O than Pandas
-    - ⚡ **Auto-Parquet**: Automatic conversion for 10-50x faster reads
-    - 🔥 **Vectorized Operations**: Batch processing
-    - 💾 **DuckDB**: In-memory analytics
-    - 📦 **Chunking**: {CHUNK_SIZE:,} records per chunk
-    - 🌳 **Word Tree**: Interactive hierarchical exploration
-    - 🔍 **Concordance Analysis**: Keyword-in-context discovery (NEW!)
-    
-    ---
-    **Output Columns (6 essential):**
-    - Conversation_ID, Original_Text
-    - Category, Subcategory, L3, L4
-    """)
+<div style="
+  background: linear-gradient(135deg, #1a2332 0%, #0f3460 60%, #0ea5e9 100%);
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 24px rgba(14,165,233,0.18);
+">
+  <div style="font-size: 48px; line-height:1;">🔬</div>
+  <div>
+    <h1 style="margin:0; font-size:26px; color:#f8fafc !important; font-weight:700; letter-spacing:-0.3px;">
+      TextInsightMiner
+    </h1>
+    <p style="margin:4px 0 10px; color:#94a3b8; font-size:14px; font-weight:400;">
+      Domain-Agnostic NLP Classification · Polars · DuckDB · Vectorized Engine
+    </p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <span class="badge b-ok">✅ Polars 10× faster I/O</span>
+      <span class="badge b-info">⚡ Vectorized Engine</span>
+      <span class="badge b-info">💾 DuckDB Analytics</span>
+      <span class="badge b-info">🌳 Word Tree</span>
+      <span class="badge b-info">🔍 Concordance</span>
+      <span class="badge b-warn">📦 {CHUNK_SIZE:,} records/chunk</span>
+    </div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
     
     # Compliance badges
     cols = st.columns(4)
