@@ -2325,7 +2325,7 @@ footer, .stDeployButton { display: none !important; }
                     data_df = data_df.head(MAX_CLOUD_RECORDS)
             
             # Column detection
-            st.subheader("🔧 Column Configuration")
+            st.markdown("### 🎛️ Column Configuration")
             
             columns = data_df.columns
             
@@ -2364,7 +2364,7 @@ footer, .stDeployButton { display: none !important; }
                 )
             
             # Preview with Polars
-            with st.expander("👀 Preview (first 10 rows)", expanded=True):
+            with st.expander("Preview (First 10 Rows)", expanded=True):
                 preview_df = data_df.select([id_column, text_column]).head(10)
                 st.dataframe(preview_df.to_pandas(), width='stretch')
             
