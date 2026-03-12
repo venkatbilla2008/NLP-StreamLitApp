@@ -1849,31 +1849,45 @@ _LEVEL_COLORS = {
 def build_level_table(
     df: pd.DataFrame,
     level_col: str,
-    parent_col: str = None,
+    parent_cols: list = None,
     color_key: str = 'l1'
 ) -> str:
     """Render an HTML distribution table with inline progress bars.
-    Filters out NA values. Optionally groups by parent_col so the %
-    of parent is also shown."""
+    Filters out NA values and correctly calculates `% of Parent` using full parent paths
+    to avoid cross-contamination ghosting."""
     total = len(df)
     bar_color = _LEVEL_COLORS.get(color_key, '#0ea5e9')
 
-    if parent_col:
+    if parent_cols:
+        immediate_parent = parent_cols[-1]
+        
+        # 1. Calculate true denominator for each full parent path
+        # (This uses all rows, including those where the child is NA, for an accurate %)
+        parent_group = df.groupby(parent_cols).size().rename('ParentTotal').reset_index()
+        
+        # 2. Calculate the child counts along the exact same path
+        group_cols = parent_cols + [level_col]
         agg = (
             df[df[level_col] != 'NA']
-            .groupby([parent_col, level_col])
+            .groupby(group_cols)
             .size()
             .reset_index(name='Count')
-            .sort_values('Count', ascending=False)
         )
+        
+        # 3. Merge the true parent counts to prevent '100% inflation' bugs
+        agg = agg.merge(parent_group, on=parent_cols, how='left')
+        
+        # 4. Calculate accurate percentages
         agg['% of Total'] = (agg['Count'] / max(1, total) * 100).round(1)
-        agg['% of Parent'] = agg.groupby(parent_col)['Count'].transform(
-            lambda x: (x / x.sum() * 100).round(1)
-        )
-        col_order = [parent_col, level_col, 'Count', '% of Parent', '% of Total']
+        agg['% of Parent'] = (agg['Count'] / agg['ParentTotal'].replace(0, 1) * 100).round(1)
+        
+        # 5. Sort globally by Count to highlight biggest offenders
+        agg = agg.sort_values(by='Count', ascending=False)
+        
+        col_order = [immediate_parent, level_col, 'Count', '% of Parent', '% of Total']
     else:
-        agg = df[df[level_col] != 'NA'][level_col].value_counts().reset_index()
-        agg.columns = [level_col, 'Count']
+        agg = df[df[level_col] != 'NA'].groupby(level_col).size().reset_index(name='Count')
+        agg = agg.sort_values('Count', ascending=False)
         agg['% of Total'] = (agg['Count'] / max(1, total) * 100).round(1)
         col_order = [level_col, 'Count', '% of Total']
 
@@ -2898,7 +2912,7 @@ footer, .stDeployButton { display: none !important; }
                 st.markdown(
                     "<div class='dist-section'>"
                     "<div class='dist-header'>📂 L2 Subcategory — grouped by parent L1</div>"
-                    + build_level_table(output_df, 'Subcategory', parent_col='Category', color_key='l2')
+                    + build_level_table(output_df, 'Subcategory', parent_cols=['Category'], color_key='l2')
                     + "</div>",
                     unsafe_allow_html=True
                 )
@@ -2907,7 +2921,7 @@ footer, .stDeployButton { display: none !important; }
                 st.markdown(
                     "<div class='dist-section'>"
                     "<div class='dist-header'>📄 L3 Distribution — grouped by parent L2</div>"
-                    + build_level_table(output_df, 'L3', parent_col='Subcategory', color_key='l3')
+                    + build_level_table(output_df, 'L3', parent_cols=['Category', 'Subcategory'], color_key='l3')
                     + "</div>",
                     unsafe_allow_html=True
                 )
@@ -2916,7 +2930,7 @@ footer, .stDeployButton { display: none !important; }
                 st.markdown(
                     "<div class='dist-section'>"
                     "<div class='dist-header'>🏷️ L4 Distribution — grouped by parent L3</div>"
-                    + build_level_table(output_df, 'L4', parent_col='L3', color_key='l4')
+                    + build_level_table(output_df, 'L4', parent_cols=['Category', 'Subcategory', 'L3'], color_key='l4')
                     + "</div>",
                     unsafe_allow_html=True
                 )
