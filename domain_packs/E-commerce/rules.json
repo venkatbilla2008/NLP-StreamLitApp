@@ -1,9 +1,7 @@
 [
   {
     "conditions": [
-      "agent did not answer questions",
-      "lack of ownership",
-      "issue resolution"
+      "agent did not answer questions"
     ],
     "set": {
       "category": "People Driven",
@@ -15,9 +13,7 @@
   },
   {
     "conditions": [
-      "agent kept customer on long chat",
-      "chat duration",
-      "knowledge issues"
+      "agent kept customer on long chat"
     ],
     "set": {
       "category": "People Driven",
@@ -29,9 +25,7 @@
   },
   {
     "conditions": [
-      "agent provided wrong information",
-      "provided wrong information",
-      "knowledge issues"
+      "agent provided wrong information"
     ],
     "set": {
       "category": "People Driven",
@@ -43,8 +37,7 @@
   },
   {
     "conditions": [
-      "difficult to understand agent",
-      "communication issues"
+      "difficult to understand agent"
     ],
     "set": {
       "category": "People Driven",
@@ -56,9 +49,7 @@
   },
   {
     "conditions": [
-      "agent delayed response",
-      "response time",
-      "knowledge issues"
+      "agent delayed response"
     ],
     "set": {
       "category": "People Driven",
@@ -70,8 +61,7 @@
   },
   {
     "conditions": [
-      "agent not knowledgeable",
-      "knowledge issues"
+      "agent not knowledgeable"
     ],
     "set": {
       "category": "People Driven",
@@ -83,8 +73,7 @@
   },
   {
     "conditions": [
-      "agent was rude",
-      "behavioral issues"
+      "agent was rude"
     ],
     "set": {
       "category": "People Driven",
@@ -96,9 +85,7 @@
   },
   {
     "conditions": [
-      "agent did not followup",
-      "lack of ownership",
-      "issue resolution"
+      "agent did not followup"
     ],
     "set": {
       "category": "People Driven",
@@ -110,8 +97,7 @@
   },
   {
     "conditions": [
-      "agent did not listen",
-      "behavioral issues"
+      "agent did not listen"
     ],
     "set": {
       "category": "People Driven",
@@ -123,9 +109,7 @@
   },
   {
     "conditions": [
-      "agent stopped responding",
-      "lack of ownership",
-      "issue resolution"
+      "agent stopped responding"
     ],
     "set": {
       "category": "People Driven",
@@ -137,9 +121,7 @@
   },
   {
     "conditions": [
-      "agent not helpful",
-      "lack of ownership",
-      "issue resolution"
+      "agent not helpful"
     ],
     "set": {
       "category": "People Driven",
@@ -151,9 +133,7 @@
   },
   {
     "conditions": [
-      "agent provided wrong resolution",
-      "incorrect resolution",
-      "issue resolution"
+      "agent provided wrong resolution"
     ],
     "set": {
       "category": "People Driven",
@@ -165,9 +145,7 @@
   },
   {
     "conditions": [
-      "agent misunderstool the issue",
-      "misunderstanding issue",
-      "knowledge issues"
+      "agent misunderstool the issue"
     ],
     "set": {
       "category": "People Driven",
@@ -179,9 +157,7 @@
   },
   {
     "conditions": [
-      "agent did not understand the issue",
-      "issue understanding",
-      "knowledge issues"
+      "agent did not understand the issue"
     ],
     "set": {
       "category": "People Driven",
@@ -193,9 +169,7 @@
   },
   {
     "conditions": [
-      "agent did not fulfil promise",
-      "lack of ownership",
-      "issue resolution"
+      "agent did not fulfil promise"
     ],
     "set": {
       "category": "People Driven",
@@ -207,9 +181,7 @@
   },
   {
     "conditions": [
-      "agent did not read message",
-      "lack of ownership",
-      "issue resolution"
+      "agent did not read message"
     ],
     "set": {
       "category": "People Driven",
@@ -221,8 +193,7 @@
   },
   {
     "conditions": [
-      "agent lied",
-      "behavioral issues"
+      "agent lied"
     ],
     "set": {
       "category": "People Driven",
@@ -234,9 +205,7 @@
   },
   {
     "conditions": [
-      "agent did not understand english",
-      "agent language issue",
-      "communication issues"
+      "agent did not understand english"
     ],
     "set": {
       "category": "People Driven",
@@ -248,9 +217,7 @@
   },
   {
     "conditions": [
-      "agent did not provide complete information",
-      "incomplete information",
-      "knowledge issues"
+      "agent did not provide complete information"
     ],
     "set": {
       "category": "People Driven",
@@ -262,9 +229,7 @@
   },
   {
     "conditions": [
-      "agent was not people friendly",
-      "not people friendly",
-      "soft skills"
+      "agent was not people friendly"
     ],
     "set": {
       "category": "People Driven",
@@ -276,8 +241,7 @@
   },
   {
     "conditions": [
-      "agent needs training",
-      "knowledge issues"
+      "agent needs training"
     ],
     "set": {
       "category": "People Driven",
@@ -289,8 +253,7 @@
   },
   {
     "conditions": [
-      "agent was argumentative",
-      "behavioral issues"
+      "agent was argumentative"
     ],
     "set": {
       "category": "People Driven",
@@ -302,9 +265,7 @@
   },
   {
     "conditions": [
-      "repeat same information",
-      "repeated information",
-      "customer efforts"
+      "repeat same information"
     ],
     "set": {
       "category": "People Driven",
@@ -316,9 +277,7 @@
   },
   {
     "conditions": [
-      "had to interact multiple times",
-      "multiple interactions",
-      "customer efforts"
+      "had to interact multiple times"
     ],
     "set": {
       "category": "People Driven",
@@ -330,8 +289,7 @@
   },
   {
     "conditions": [
-      "agent was impressive",
-      "agent appreciation"
+      "agent was impressive"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -343,8 +301,7 @@
   },
   {
     "conditions": [
-      "agent resolved the issue",
-      "agent appreciation"
+      "agent resolved the issue"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -356,8 +313,7 @@
   },
   {
     "conditions": [
-      "agent was wonderful",
-      "agent appreciation"
+      "agent was wonderful"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -369,8 +325,7 @@
   },
   {
     "conditions": [
-      "agent was helpful",
-      "agent appreciation"
+      "agent was helpful"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -382,8 +337,7 @@
   },
   {
     "conditions": [
-      "agent was pleasant",
-      "agent appreciation"
+      "agent was pleasant"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -395,8 +349,7 @@
   },
   {
     "conditions": [
-      "agent was great",
-      "agent appreciation"
+      "agent was great"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -408,8 +361,7 @@
   },
   {
     "conditions": [
-      "agent was the best",
-      "agent appreciation"
+      "agent was the best"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -421,8 +373,7 @@
   },
   {
     "conditions": [
-      "agent was outstanding",
-      "agent appreciation"
+      "agent was outstanding"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -434,8 +385,7 @@
   },
   {
     "conditions": [
-      "agent was polite",
-      "agent appreciation"
+      "agent was polite"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -447,8 +397,7 @@
   },
   {
     "conditions": [
-      "agent was courteous",
-      "agent appreciation"
+      "agent was courteous"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -460,8 +409,7 @@
   },
   {
     "conditions": [
-      "agent was empathic",
-      "agent appreciation"
+      "agent was empathic"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -473,8 +421,7 @@
   },
   {
     "conditions": [
-      "agent was friendly",
-      "agent appreciation"
+      "agent was friendly"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -486,8 +433,7 @@
   },
   {
     "conditions": [
-      "agent was easy to work",
-      "agent appreciation"
+      "agent was easy to work"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -499,8 +445,7 @@
   },
   {
     "conditions": [
-      "agent was nice",
-      "agent appreciation"
+      "agent was nice"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -512,8 +457,7 @@
   },
   {
     "conditions": [
-      "agent was professional",
-      "agent appreciation"
+      "agent was professional"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -525,8 +469,7 @@
   },
   {
     "conditions": [
-      "agent was responsive",
-      "agent appreciation"
+      "agent was responsive"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -538,8 +481,7 @@
   },
   {
     "conditions": [
-      "agent was knowledgeabe",
-      "agent appreciation"
+      "agent was knowledgeabe"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -551,8 +493,7 @@
   },
   {
     "conditions": [
-      "agent was patient",
-      "agent appreciation"
+      "agent was patient"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -564,8 +505,7 @@
   },
   {
     "conditions": [
-      "agent was awesome",
-      "agent appreciation"
+      "agent was awesome"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -577,8 +517,7 @@
   },
   {
     "conditions": [
-      "agent was respectful",
-      "agent appreciation"
+      "agent was respectful"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -590,8 +529,7 @@
   },
   {
     "conditions": [
-      "agent was understanding",
-      "agent appreciation"
+      "agent was understanding"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -603,8 +541,7 @@
   },
   {
     "conditions": [
-      "agent was kind",
-      "agent appreciation"
+      "agent was kind"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -616,9 +553,7 @@
   },
   {
     "conditions": [
-      "agent did satisfactory job",
-      "agent did their job",
-      "agent appreciation"
+      "agent did satisfactory job"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -630,8 +565,7 @@
   },
   {
     "conditions": [
-      "agent was okay",
-      "agent appreciation"
+      "agent was okay"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -643,8 +577,7 @@
   },
   {
     "conditions": [
-      "agent was accomodating",
-      "agent appreciation"
+      "agent was accomodating"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -656,8 +589,7 @@
   },
   {
     "conditions": [
-      "agent was excellent",
-      "agent appreciation"
+      "agent was excellent"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -669,8 +601,7 @@
   },
   {
     "conditions": [
-      "agent was quick",
-      "agent appreciation"
+      "agent was quick"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -682,8 +613,7 @@
   },
   {
     "conditions": [
-      "agent was prompt",
-      "agent appreciation"
+      "agent was prompt"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -695,8 +625,7 @@
   },
   {
     "conditions": [
-      "agent was reassuring",
-      "agent appreciation"
+      "agent was reassuring"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -708,8 +637,7 @@
   },
   {
     "conditions": [
-      "agent was caring",
-      "agent appreciation"
+      "agent was caring"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -721,8 +649,7 @@
   },
   {
     "conditions": [
-      "agent was lovely",
-      "agent appreciation"
+      "agent was lovely"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -734,8 +661,7 @@
   },
   {
     "conditions": [
-      "agent was sensitive",
-      "agent appreciation"
+      "agent was sensitive"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -747,8 +673,7 @@
   },
   {
     "conditions": [
-      "agent went above  beyond expectation",
-      "agent appreciation"
+      "agent went above  beyond expectation"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -760,8 +685,7 @@
   },
   {
     "conditions": [
-      "agent was efficient",
-      "agent appreciation"
+      "agent was efficient"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -773,8 +697,7 @@
   },
   {
     "conditions": [
-      "agent was good",
-      "agent appreciation"
+      "agent was good"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -786,8 +709,7 @@
   },
   {
     "conditions": [
-      "unhappy with customer service",
-      "service dissatisfaction"
+      "unhappy with customer service"
     ],
     "set": {
       "category": "People Driven",
@@ -800,8 +722,7 @@
   {
     "conditions": [
       "not happy with overall experience",
-      "unhappy with experience",
-      "service dissatisfaction"
+      "unhappy with experience"
     ],
     "set": {
       "category": "Process Driven",
@@ -813,8 +734,7 @@
   },
   {
     "conditions": [
-      "unhappy with resolution",
-      "issue resolution"
+      "unhappy with resolution"
     ],
     "set": {
       "category": "People Driven",
@@ -826,8 +746,7 @@
   },
   {
     "conditions": [
-      "issue is not resolved",
-      "issue resolution"
+      "issue is not resolved"
     ],
     "set": {
       "category": "People Driven",
@@ -839,8 +758,7 @@
   },
   {
     "conditions": [
-      "satisfied with resolution",
-      "agent appreciation"
+      "satisfied with resolution"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -853,8 +771,7 @@
   {
     "conditions": [
       "long time to get refund",
-      "delayed refund",
-      "refund issues"
+      "delayed refund"
     ],
     "set": {
       "category": "Process Driven",
@@ -867,8 +784,7 @@
   {
     "conditions": [
       "refund was denied",
-      "refund denial",
-      "refund issues"
+      "refund denial"
     ],
     "set": {
       "category": "Process Driven",
@@ -881,8 +797,7 @@
   {
     "conditions": [
       "requesting for a refund",
-      "refund request",
-      "refund issues"
+      "refund request"
     ],
     "set": {
       "category": "Process Driven",
@@ -895,8 +810,7 @@
   {
     "conditions": [
       "received partial refund",
-      "partial refund",
-      "refund issues"
+      "partial refund"
     ],
     "set": {
       "category": "Process Driven",
@@ -909,8 +823,7 @@
   {
     "conditions": [
       "received wrong item or product",
-      "wrong item or product",
-      "delivery issues"
+      "wrong item or product"
     ],
     "set": {
       "category": "Process Driven",
@@ -923,8 +836,7 @@
   {
     "conditions": [
       "received damaged item or product",
-      "damaged item or product",
-      "delivery issues"
+      "damaged item or product"
     ],
     "set": {
       "category": "Process Driven",
@@ -937,8 +849,7 @@
   {
     "conditions": [
       "parts or items not received",
-      "failure to deliver parts",
-      "delivery issues"
+      "failure to deliver parts"
     ],
     "set": {
       "category": "Process Driven",
@@ -951,8 +862,7 @@
   {
     "conditions": [
       "items or parts were missing",
-      "missing items or parts",
-      "delivery issues"
+      "missing items or parts"
     ],
     "set": {
       "category": "Process Driven",
@@ -965,8 +875,7 @@
   {
     "conditions": [
       "order lost or missing",
-      "order missing or lost",
-      "delivery issues"
+      "order missing or lost"
     ],
     "set": {
       "category": "Process Driven",
@@ -979,8 +888,7 @@
   {
     "conditions": [
       "order deliveted to wrong address",
-      "delivered to wrong address",
-      "delivery issues"
+      "delivered to wrong address"
     ],
     "set": {
       "category": "Process Driven",
@@ -993,8 +901,7 @@
   {
     "conditions": [
       "defective item or product received",
-      "defective item or product",
-      "delivery issues"
+      "defective item or product"
     ],
     "set": {
       "category": "Process Driven",
@@ -1007,8 +914,7 @@
   {
     "conditions": [
       "no proper packing of order",
-      "inadequate packaging",
-      "delivery issues"
+      "inadequate packaging"
     ],
     "set": {
       "category": "Process Driven",
@@ -1062,8 +968,7 @@
   {
     "conditions": [
       "never received the order or product",
-      "ordernot delivered",
-      "delivery issues"
+      "ordernot delivered"
     ],
     "set": {
       "category": "Process Driven",
@@ -1283,9 +1188,7 @@
   },
   {
     "conditions": [
-      "difficult to navigate website",
-      "website navigation",
-      "website issues"
+      "difficult to navigate website"
     ],
     "set": {
       "category": "Technology Issues",
@@ -1312,7 +1215,6 @@
   {
     "conditions": [
       "not happy product quality",
-      "product quality",
       "product issues"
     ],
     "set": {
@@ -1354,8 +1256,7 @@
   {
     "conditions": [
       "not happy with discount applied",
-      "additional discount",
-      "discount issues"
+      "additional discount"
     ],
     "set": {
       "category": "Process Driven",
@@ -1368,8 +1269,7 @@
   {
     "conditions": [
       "no informaton on refund",
-      "refund status",
-      "refund issues"
+      "refund status"
     ],
     "set": {
       "category": "Process Driven",
@@ -1395,8 +1295,7 @@
   {
     "conditions": [
       "prefer to talk to the agent",
-      "virtual assistance",
-      "service dissatisfaction"
+      "virtual assistance"
     ],
     "set": {
       "category": "Process Driven",
@@ -1450,8 +1349,7 @@
   {
     "conditions": [
       "no compensation for inconvenience",
-      "no discount",
-      "discount issues"
+      "no discount"
     ],
     "set": {
       "category": "Process Driven",
@@ -1545,8 +1443,7 @@
   },
   {
     "conditions": [
-      "no reply from wayfair",
-      "email communication"
+      "no reply from wayfair"
     ],
     "set": {
       "category": "Process Driven",
@@ -1586,8 +1483,7 @@
   {
     "conditions": [
       "delay in getting discount",
-      "discount delayed",
-      "discount issues"
+      "discount delayed"
     ],
     "set": {
       "category": "Process Driven",
@@ -1599,8 +1495,7 @@
   },
   {
     "conditions": [
-      "received partial order or product",
-      "delivery issues"
+      "received partial order or product"
     ],
     "set": {
       "category": "Process Driven",
@@ -1627,8 +1522,7 @@
   {
     "conditions": [
       "never received email instructions",
-      "email instructions",
-      "email communication"
+      "email instructions"
     ],
     "set": {
       "category": "Process Driven",
@@ -1641,8 +1535,7 @@
   {
     "conditions": [
       "emails are not clear",
-      "emails confusing",
-      "email communication"
+      "emails confusing"
     ],
     "set": {
       "category": "Process Driven",
@@ -1669,8 +1562,7 @@
   {
     "conditions": [
       "not happy with agni service",
-      "service partner",
-      "service dissatisfaction"
+      "service partner"
     ],
     "set": {
       "category": "Process Driven",
@@ -1683,8 +1575,7 @@
   {
     "conditions": [
       "unhappy with winsome house",
-      "service partner",
-      "service dissatisfaction"
+      "service partner"
     ],
     "set": {
       "category": "Process Driven",
@@ -1696,8 +1587,7 @@
   },
   {
     "conditions": [
-      "unable to sign in",
-      "signing issues"
+      "unable to sign in"
     ],
     "set": {
       "category": "Technology Issues",
@@ -1724,8 +1614,7 @@
   {
     "conditions": [
       "unhappy with refunded amount",
-      "unhappy with refund amount",
-      "refund issues"
+      "unhappy with refund amount"
     ],
     "set": {
       "category": "Process Driven",
@@ -1750,8 +1639,7 @@
   },
   {
     "conditions": [
-      "refund not received",
-      "refund issues"
+      "refund not received"
     ],
     "set": {
       "category": "Process Driven",
@@ -1777,8 +1665,7 @@
   {
     "conditions": [
       "unhappy with email time",
-      "email timing",
-      "email communication"
+      "email timing"
     ],
     "set": {
       "category": "Process Driven",
@@ -1791,8 +1678,7 @@
   {
     "conditions": [
       "not easy to reach customer service",
-      "contact customer service",
-      "service dissatisfaction"
+      "contact customer service"
     ],
     "set": {
       "category": "Process Driven",
@@ -1816,9 +1702,7 @@
   },
   {
     "conditions": [
-      "callback not hohonered",
-      "lack of ownership",
-      "issue resolution"
+      "callback not hohonered"
     ],
     "set": {
       "category": "People Driven",
@@ -1858,8 +1742,7 @@
   {
     "conditions": [
       "issue resolved by customer",
-      "customer resolved",
-      "issue resolution"
+      "customer resolved"
     ],
     "set": {
       "category": "People Driven",
@@ -1872,8 +1755,7 @@
   {
     "conditions": [
       "long time to resolve",
-      "resolution time",
-      "issue resolution"
+      "resolution time"
     ],
     "set": {
       "category": "People Driven",
@@ -1899,9 +1781,7 @@
   },
   {
     "conditions": [
-      "interaction disonnected",
-      "lack of ownership",
-      "issue resolution"
+      "interaction disonnected"
     ],
     "set": {
       "category": "People Driven",
@@ -1942,8 +1822,7 @@
   {
     "conditions": [
       "need assembly service",
-      "assembly service request",
-      "service dissatisfaction"
+      "assembly service request"
     ],
     "set": {
       "category": "Process Driven",
@@ -2038,8 +1917,7 @@
   {
     "conditions": [
       "no way to respond to email",
-      "email response",
-      "email communication"
+      "email response"
     ],
     "set": {
       "category": "Process Driven",
@@ -2133,8 +2011,7 @@
   },
   {
     "conditions": [
-      "agent was amazing",
-      "agent appreciation"
+      "agent was amazing"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -2179,18 +2056,6 @@
       "level_3": "Resolution",
       "level_4": "No Solution / Issues - Not Resolved",
       "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "multiple interactions"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Resolution",
-      "level_4": "Multiple Interactions",
-      "sentiment": "neutral"
     }
   },
   {
@@ -2377,18 +2242,6 @@
   },
   {
     "conditions": [
-      "agent appreciation"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "People",
-      "level_3": "Appreciation",
-      "level_4": "Agent Appreciation",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
       "product appreciation",
       "excellent products"
     ],
@@ -2428,8 +2281,7 @@
   },
   {
     "conditions": [
-      "issue resolved",
-      "issue resolution"
+      "issue resolved"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -2441,7 +2293,6 @@
   },
   {
     "conditions": [
-      "service dissatisfaction",
       "unhappy with service"
     ],
     "set": {
@@ -2550,8 +2401,7 @@
   },
   {
     "conditions": [
-      "manufacturer issues",
-      "product quality"
+      "manufacturer issues"
     ],
     "set": {
       "category": "Negative feedback",
@@ -2575,8 +2425,7 @@
   },
   {
     "conditions": [
-      "product damaged/defective",
-      "product quality"
+      "product damaged/defective"
     ],
     "set": {
       "category": "Negative feedback",
@@ -2588,8 +2437,7 @@
   },
   {
     "conditions": [
-      "parts damaged/defective",
-      "product quality"
+      "parts damaged/defective"
     ],
     "set": {
       "category": "Negative feedback",
@@ -2650,8 +2498,7 @@
   },
   {
     "conditions": [
-      "rep not able to understand",
-      "communication and soft skills"
+      "rep not able to understand"
     ],
     "set": {
       "category": "Negative feedback",
