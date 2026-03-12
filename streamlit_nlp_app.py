@@ -1785,19 +1785,36 @@ class PolarsFileHandler:
         """Save Polars DataFrame to bytes (FAST!)"""
         buffer = io.BytesIO()
         
+        # EXCEL BUG FIXES:
+        # 1. Truncate long texts: Excel breaks cells > 32,767 chars
+        # 2. Strip double-quotes for CSV output: Excel gets hopelessly confused by nested ""
+        string_cols = [col for col, dtype in zip(df.columns, df.dtypes) if str(dtype) in ('String', 'Utf8')]
+        
+        df_safe = df
+        if string_cols:
+            if format == 'csv':
+                df_safe = df.with_columns([
+                    pl.col(c).str.slice(0, 31000).str.replace_all('"', "'") for c in string_cols
+                ])
+            elif format == 'xlsx':
+                df_safe = df.with_columns([
+                    pl.col(c).str.slice(0, 31000) for c in string_cols
+                ])
+        
         if format == 'csv':
-            df.write_csv(buffer)
+            # Force always quote for utmost safety
+            df_safe.write_csv(buffer, quote_style='always')
             buffer.seek(0)
             return buffer.getvalue()
         
         elif format == 'parquet':
-            df.write_parquet(buffer)
+            df_safe.write_parquet(buffer)
             buffer.seek(0)
             return buffer.getvalue()
         
         elif format == 'xlsx':
             # Convert to Pandas for Excel
-            pandas_df = df.to_pandas()
+            pandas_df = df_safe.to_pandas()
             with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
                 pandas_df.to_excel(writer, index=False, sheet_name='Results')
             buffer.seek(0)
