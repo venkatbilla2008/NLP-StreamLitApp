@@ -1,6 +1,26 @@
 [
   {
     "conditions": [
+      "no conversation",
+      "empty chat",
+      "blank transcript",
+      "no messages",
+      "no customer message",
+      "chat ended without message",
+      "system message only",
+      "bot interaction only",
+      "no meaningful content"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Account Management",
+      "level_3": "General Inquiry",
+      "level_4": "Unclassified Chat",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
       "agent did not answer questions"
     ],
     "set": {
@@ -13,7 +33,8 @@
   },
   {
     "conditions": [
-      "agent kept customer on long chat"
+      "agent kept customer on long chat",
+      "agent prolonged the chat"
     ],
     "set": {
       "category": "People Driven",
@@ -25,7 +46,8 @@
   },
   {
     "conditions": [
-      "agent provided wrong information"
+      "agent provided wrong information",
+      "agent gave incorrect information"
     ],
     "set": {
       "category": "People Driven",
@@ -37,7 +59,8 @@
   },
   {
     "conditions": [
-      "difficult to understand agent"
+      "difficult to understand agent",
+      "agent was hard to understand"
     ],
     "set": {
       "category": "People Driven",
@@ -49,7 +72,8 @@
   },
   {
     "conditions": [
-      "agent delayed response"
+      "agent delayed response",
+      "agent was slow to respond"
     ],
     "set": {
       "category": "People Driven",
@@ -61,7 +85,8 @@
   },
   {
     "conditions": [
-      "agent not knowledgeable"
+      "agent not knowledgeable",
+      "agent lacked knowledge"
     ],
     "set": {
       "category": "People Driven",
@@ -73,7 +98,9 @@
   },
   {
     "conditions": [
-      "agent was rude"
+      "agent was rude",
+      "agent was disrespectful",
+      "agent was aggressive"
     ],
     "set": {
       "category": "People Driven",
@@ -85,7 +112,9 @@
   },
   {
     "conditions": [
-      "agent did not followup"
+      "agent did not follow up",
+      "agent did not followup",
+      "no follow up from agent"
     ],
     "set": {
       "category": "People Driven",
@@ -97,7 +126,8 @@
   },
   {
     "conditions": [
-      "agent did not listen"
+      "agent did not listen",
+      "agent ignored customer"
     ],
     "set": {
       "category": "People Driven",
@@ -109,7 +139,9 @@
   },
   {
     "conditions": [
-      "agent stopped responding"
+      "agent stopped responding",
+      "agent went silent",
+      "agent disconnected"
     ],
     "set": {
       "category": "People Driven",
@@ -121,7 +153,9 @@
   },
   {
     "conditions": [
-      "agent not helpful"
+      "agent not helpful",
+      "agent was unhelpful",
+      "agent couldn't help"
     ],
     "set": {
       "category": "People Driven",
@@ -133,7 +167,8 @@
   },
   {
     "conditions": [
-      "agent provided wrong resolution"
+      "agent provided wrong resolution",
+      "agent gave wrong solution"
     ],
     "set": {
       "category": "People Driven",
@@ -145,19 +180,21 @@
   },
   {
     "conditions": [
+      "agent misunderstood the issue",
       "agent misunderstool the issue"
     ],
     "set": {
       "category": "People Driven",
       "subcategory": "Knowledge Issues",
       "level_3": "Misunderstanding Issue",
-      "level_4": "Agent Misunderstool The Issue",
+      "level_4": "Agent Misunderstood The Issue",
       "sentiment": "negative"
     }
   },
   {
     "conditions": [
-      "agent did not understand the issue"
+      "agent did not understand the issue",
+      "agent failed to understand"
     ],
     "set": {
       "category": "People Driven",
@@ -169,7 +206,9 @@
   },
   {
     "conditions": [
-      "agent did not fulfil promise"
+      "agent did not fulfil promise",
+      "agent broke promise",
+      "agent did not keep promise"
     ],
     "set": {
       "category": "People Driven",
@@ -181,7 +220,8 @@
   },
   {
     "conditions": [
-      "agent did not read message"
+      "agent did not read message",
+      "agent skipped customer message"
     ],
     "set": {
       "category": "People Driven",
@@ -193,7 +233,9 @@
   },
   {
     "conditions": [
-      "agent lied"
+      "agent lied",
+      "agent was dishonest",
+      "agent gave false information"
     ],
     "set": {
       "category": "People Driven",
@@ -205,7 +247,8 @@
   },
   {
     "conditions": [
-      "agent did not understand english"
+      "agent did not understand english",
+      "language barrier with agent"
     ],
     "set": {
       "category": "People Driven",
@@ -217,7 +260,8 @@
   },
   {
     "conditions": [
-      "agent did not provide complete information"
+      "agent did not provide complete information",
+      "agent gave incomplete information"
     ],
     "set": {
       "category": "People Driven",
@@ -229,7 +273,8 @@
   },
   {
     "conditions": [
-      "agent was not people friendly"
+      "agent was not people friendly",
+      "agent was cold"
     ],
     "set": {
       "category": "People Driven",
@@ -241,7 +286,8 @@
   },
   {
     "conditions": [
-      "agent needs training"
+      "agent needs training",
+      "agent was undertrained"
     ],
     "set": {
       "category": "People Driven",
@@ -253,7 +299,8 @@
   },
   {
     "conditions": [
-      "agent was argumentative"
+      "agent was argumentative",
+      "agent argued with customer"
     ],
     "set": {
       "category": "People Driven",
@@ -265,7 +312,8 @@
   },
   {
     "conditions": [
-      "repeat same information"
+      "repeat same information",
+      "customer had to repeat themselves"
     ],
     "set": {
       "category": "People Driven",
@@ -277,7 +325,8 @@
   },
   {
     "conditions": [
-      "had to interact multiple times"
+      "had to interact multiple times",
+      "contacted support multiple times"
     ],
     "set": {
       "category": "People Driven",
@@ -289,7 +338,101 @@
   },
   {
     "conditions": [
-      "agent was impressive"
+      "unhappy with customer service",
+      "dissatisfied with customer service"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Service Dissatisfaction",
+      "level_3": "Unhappy With Customer Service",
+      "level_4": "Unhappy With Customer Service",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "unhappy with resolution",
+      "not happy with the solution"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Issue Resolution",
+      "level_3": "Unhappy With Resolution",
+      "level_4": "Unhappy With Resolution",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "issue is not resolved",
+      "problem still not resolved"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Issue Resolution",
+      "level_3": "Issue Is Not Resolved",
+      "level_4": "Issue Is Not Resolved",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "callback not honored",
+      "callback not hohonered",
+      "no callback received"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Issue Resolution",
+      "level_3": "Lack Of Ownership",
+      "level_4": "Callback Not Honored",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "long time to resolve",
+      "resolution took too long"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Issue Resolution",
+      "level_3": "Resolution Time",
+      "level_4": "Long Time To Resolve",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "issue resolved by customer",
+      "customer self-resolved"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Issue Resolution",
+      "level_3": "Customer Resolved",
+      "level_4": "Issue Resolved By Customer",
+      "sentiment": "positive"
+    }
+  },
+  {
+    "conditions": [
+      "interaction disconnected",
+      "interaction disonnected",
+      "chat was disconnected"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Issue Resolution",
+      "level_3": "Lack Of Ownership",
+      "level_4": "Interaction Disconnected",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "agent was impressive",
+      "agent impressed the customer"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -301,7 +444,9 @@
   },
   {
     "conditions": [
-      "agent resolved the issue"
+      "agent resolved the issue",
+      "agent fixed the problem",
+      "issue resolved by agent"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -313,7 +458,9 @@
   },
   {
     "conditions": [
-      "agent was wonderful"
+      "agent was wonderful",
+      "agent was amazing",
+      "agent was fantastic"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -325,7 +472,8 @@
   },
   {
     "conditions": [
-      "agent was helpful"
+      "agent was helpful",
+      "agent helped the customer"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -349,7 +497,9 @@
   },
   {
     "conditions": [
-      "agent was great"
+      "agent was great",
+      "agent was excellent",
+      "agent was outstanding"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -361,31 +511,9 @@
   },
   {
     "conditions": [
-      "agent was the best"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was The Best",
-      "level_4": "Agent Was The Best",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was outstanding"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Outstanding",
-      "level_4": "Agent Was Outstanding",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was polite"
+      "agent was polite",
+      "agent was courteous",
+      "agent was respectful"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -397,19 +525,9 @@
   },
   {
     "conditions": [
-      "agent was courteous"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Courteous",
-      "level_4": "Agent Was Courteous",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was empathic"
+      "agent was empathetic",
+      "agent was empathic",
+      "agent showed empathy"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -421,37 +539,15 @@
   },
   {
     "conditions": [
-      "agent was friendly"
+      "agent was friendly",
+      "agent was nice",
+      "agent was kind"
     ],
     "set": {
       "category": "Positive Feedback",
       "subcategory": "Agent Appreciation",
       "level_3": "Agent Was Friendly",
       "level_4": "Agent Was Friendly",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was easy to work"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Easy To Work",
-      "level_4": "Agent Was Easy To Work",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was nice"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Nice",
-      "level_4": "Agent Was Nice",
       "sentiment": "positive"
     }
   },
@@ -469,7 +565,9 @@
   },
   {
     "conditions": [
-      "agent was responsive"
+      "agent was responsive",
+      "agent was quick",
+      "agent was prompt"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -481,14 +579,16 @@
   },
   {
     "conditions": [
-      "agent was knowledgeabe"
+      "agent was knowledgeable",
+      "agent was knowledgeabe",
+      "agent was well informed"
     ],
     "set": {
       "category": "Positive Feedback",
       "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Knowledgeabe",
-      "level_4": "Agent Was Knowledgeabe",
-      "sentiment": "neutral"
+      "level_3": "Agent Was Knowledgeable",
+      "level_4": "Agent Was Knowledgeable",
+      "sentiment": "positive"
     }
   },
   {
@@ -517,19 +617,8 @@
   },
   {
     "conditions": [
-      "agent was respectful"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Respectful",
-      "level_4": "Agent Was Respectful",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was understanding"
+      "agent was understanding",
+      "agent was compassionate"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -541,19 +630,9 @@
   },
   {
     "conditions": [
-      "agent was kind"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Kind",
-      "level_4": "Agent Was Kind",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent did satisfactory job"
+      "agent did satisfactory job",
+      "agent was okay",
+      "agent was decent"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -565,121 +644,15 @@
   },
   {
     "conditions": [
-      "agent was okay"
+      "agent was accommodating",
+      "agent was accomodating",
+      "agent was flexible"
     ],
     "set": {
       "category": "Positive Feedback",
       "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Okay",
-      "level_4": "Agent Was Okay",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was accomodating"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Accomodating",
-      "level_4": "Agent Was Accomodating",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was excellent"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Excellent",
-      "level_4": "Agent Was Excellent",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was quick"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Quick",
-      "level_4": "Agent Was Quick",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was prompt"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Prompt",
-      "level_4": "Agent Was Prompt",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was reassuring"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Reassuring",
-      "level_4": "Agent Was Reassuring",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was caring"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Caring",
-      "level_4": "Agent Was Caring",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was lovely"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Lovely",
-      "level_4": "Agent Was Lovely",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent was sensitive"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Sensitive",
-      "level_4": "Agent Was Sensitive",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "agent went above  beyond expectation"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Went Above & Beyond Expectation",
-      "level_4": "Agent Went Above & Beyond Expectation",
+      "level_3": "Agent Was Accommodating",
+      "level_4": "Agent Was Accommodating",
       "sentiment": "positive"
     }
   },
@@ -697,68 +670,38 @@
   },
   {
     "conditions": [
-      "agent was good"
+      "agent went above and beyond",
+      "agent went above  beyond expectation",
+      "agent exceeded expectations"
     ],
     "set": {
       "category": "Positive Feedback",
       "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Good",
-      "level_4": "Agent Was Good",
+      "level_3": "Agent Went Above And Beyond",
+      "level_4": "Agent Went Above & Beyond Expectation",
       "sentiment": "positive"
     }
   },
   {
     "conditions": [
-      "unhappy with customer service"
+      "agent was reassuring",
+      "agent was caring",
+      "agent was lovely",
+      "agent was sensitive"
     ],
     "set": {
-      "category": "People Driven",
-      "subcategory": "Service Dissatisfaction",
-      "level_3": "Unhappy With Customer Service",
-      "level_4": "Unhappy With Customer Service",
-      "sentiment": "neutral"
+      "category": "Positive Feedback",
+      "subcategory": "Agent Appreciation",
+      "level_3": "Agent Was Caring",
+      "level_4": "Agent Was Reassuring",
+      "sentiment": "positive"
     }
   },
   {
     "conditions": [
-      "not happy with overall experience",
-      "unhappy with experience"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Service Dissatisfaction",
-      "level_3": "Unhappy With Experience",
-      "level_4": "Not Happy With Overall Experience",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "unhappy with resolution"
-    ],
-    "set": {
-      "category": "People Driven",
-      "subcategory": "Issue Resolution",
-      "level_3": "Unhappy With Resolution",
-      "level_4": "Unhappy With Resolution",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "issue is not resolved"
-    ],
-    "set": {
-      "category": "People Driven",
-      "subcategory": "Issue Resolution",
-      "level_3": "Issue Is Not Resolved",
-      "level_4": "Issue Is Not Resolved",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "satisfied with resolution"
+      "satisfied with resolution",
+      "happy with the resolution",
+      "satisfied with outcome"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -770,573 +713,9 @@
   },
   {
     "conditions": [
-      "long time to get refund",
-      "delayed refund"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Refund Issues",
-      "level_3": "Delayed Refund",
-      "level_4": "Long Time To Get Refund",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "refund was denied",
-      "refund denial"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Refund Issues",
-      "level_3": "Refund Denial",
-      "level_4": "Refund Was Denied",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "requesting for a refund",
-      "refund request"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Refund Issues",
-      "level_3": "Refund Request",
-      "level_4": "Requesting For A Refund",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "received partial refund",
-      "partial refund"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Refund Issues",
-      "level_3": "Partial Refund",
-      "level_4": "Received Partial Refund",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "received wrong item or product",
-      "wrong item or product"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Delivery Issues",
-      "level_3": "Wrong Item Or Product",
-      "level_4": "Received Wrong Item Or Product",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "received damaged item or product",
-      "damaged item or product"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Delivery Issues",
-      "level_3": "Damaged Item Or Product",
-      "level_4": "Received Damaged Item Or Product",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "parts or items not received",
-      "failure to deliver parts"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Delivery Issues",
-      "level_3": "Failure To Deliver Parts",
-      "level_4": "Parts Or Items Not Received",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "items or parts were missing",
-      "missing items or parts"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Delivery Issues",
-      "level_3": "Missing Items Or Parts",
-      "level_4": "Items Or Parts Were Missing",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "order lost or missing",
-      "order missing or lost"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Delivery Issues",
-      "level_3": "Order Missing Or Lost",
-      "level_4": "Order Lost Or Missing",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "order deliveted to wrong address",
-      "delivered to wrong address"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Delivery Issues",
-      "level_3": "Delivered To Wrong Address",
-      "level_4": "Order Deliveted To Wrong Address",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "defective item or product received",
-      "defective item or product"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Delivery Issues",
-      "level_3": "Defective Item Or Product",
-      "level_4": "Defective Item Or Product Received",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "no proper packing of order",
-      "inadequate packaging"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Delivery Issues",
-      "level_3": "Inadequate Packaging",
-      "level_4": "No Proper Packing Of Order",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "unhappy with shipping cost",
-      "shipping charges",
-      "shipping issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Shipping Issues",
-      "level_3": "Shipping Charges",
-      "level_4": "Unhappy With Shipping Cost",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "delay in shipping",
-      "shipping delays",
-      "shipping issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Shipping Issues",
-      "level_3": "Shipping Delays",
-      "level_4": "Delay In Shipping",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "no shipping label",
-      "shipping issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Shipping Issues",
-      "level_3": "No Shipping Label",
-      "level_4": "No Shipping Label",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "never received the order or product",
-      "ordernot delivered"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Delivery Issues",
-      "level_3": "OrderNot Delivered",
-      "level_4": "Never Received The Order Or Product",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "unable to fulfill request",
-      "inventory issues",
-      "manufacturer issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Manufacturer Issues",
-      "level_3": "Inventory Issues",
-      "level_4": "Unable to Fulfill Request",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "no information from manufacturer",
-      "communication gap",
-      "manufacturer issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Manufacturer Issues",
-      "level_3": "Communication Gap",
-      "level_4": "No Information From Manufacturer",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "manufacturer was not helpful",
-      "no help from manufacturer",
-      "manufacturer issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Manufacturer Issues",
-      "level_3": "No Help From Manufacturer",
-      "level_4": "Manufacturer Was Not Helpful",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "no manual instructions in package",
-      "manual instructions",
-      "manufacturer issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Manufacturer Issues",
-      "level_3": "Manual Instructions",
-      "level_4": "No Manual Instructions In Package",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "long time for the return",
-      "return duration",
-      "return issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Return Issues",
-      "level_3": "Return Duration",
-      "level_4": "Long Time For The Return",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "no return label",
-      "return issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Return Issues",
-      "level_3": "No Return Label",
-      "level_4": "No Return Label",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "difficult to pack return item",
-      "difficulty packing",
-      "return issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Return Issues",
-      "level_3": "Difficulty Packing",
-      "level_4": "Difficult To Pack Return Item",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "no return instructions",
-      "return issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Return Issues",
-      "level_3": "No Return Instructions",
-      "level_4": "No Return Instructions",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "return process complex",
-      "return process not easy",
-      "return issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Return Issues",
-      "level_3": "Return Process Not Easy",
-      "level_4": "Return Process Complex",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "not happy with return charges",
-      "return charges",
-      "return issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Return Issues",
-      "level_3": "Return Charges",
-      "level_4": "Not Happy With Return Charges",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "no tracking details",
-      "track shipment",
-      "shipping issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Shipping Issues",
-      "level_3": "Track Shipment",
-      "level_4": "No Tracking Details",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "replacement not received",
-      "replacement delay",
-      "replacement issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Replacement Issues",
-      "level_3": "Replacement Delay",
-      "level_4": "Replacement Not Received",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "received wrong replacement items or parts",
-      "wrong replacement parts",
-      "replacement issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Replacement Issues",
-      "level_3": "Wrong Replacement Parts",
-      "level_4": "Received Wrong Replacement Items Or Parts",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "long time for replacement",
-      "replacement duration",
-      "replacement issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Replacement Issues",
-      "level_3": "Replacement Duration",
-      "level_4": "Long Time For Replacement",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "prefer to get new product for replacement",
-      "prefer new product",
-      "replacement issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Replacement Issues",
-      "level_3": "Prefer New Product",
-      "level_4": "Prefer To Get New Product For Replacement",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "difficult to navigate website"
-    ],
-    "set": {
-      "category": "Technology Issues",
-      "subcategory": "Website Issues",
-      "level_3": "Website Navigation",
-      "level_4": "Difficult To Navigate Website",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "product not similar as advertised",
-      "product mismatch",
-      "product issues"
-    ],
-    "set": {
-      "category": "Product Driven",
-      "subcategory": "Product Issues",
-      "level_3": "Product Mismatch",
-      "level_4": "Product Not Similar As Advertised",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "not happy product quality",
-      "product issues"
-    ],
-    "set": {
-      "category": "Product Driven",
-      "subcategory": "Product Issues",
-      "level_3": "Product Quality",
-      "level_4": "Not Happy Product Quality",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "not happy with product design",
-      "product design",
-      "product issues"
-    ],
-    "set": {
-      "category": "Product Driven",
-      "subcategory": "Product Issues",
-      "level_3": "Product Design",
-      "level_4": "Not Happy With Product Design",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "unable to use product",
-      "product usage",
-      "product issues"
-    ],
-    "set": {
-      "category": "Product Driven",
-      "subcategory": "Product Issues",
-      "level_3": "Product Usage",
-      "level_4": "Unable To Use Product",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "not happy with discount applied",
-      "additional discount"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Discount Issues",
-      "level_3": "Additional Discount",
-      "level_4": "Not Happy With Discount Applied",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "no informaton on refund",
-      "refund status"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Refund Issues",
-      "level_3": "Refund Status",
-      "level_4": "No Informaton On Refund",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "difficulty sending pictures or videos",
-      "download issues"
-    ],
-    "set": {
-      "category": "Technology Issues",
-      "subcategory": "Download Issues",
-      "level_3": "Difficulty Sending Pictures Or Videos",
-      "level_4": "Difficulty Sending Pictures Or Videos",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "prefer to talk to the agent",
-      "virtual assistance"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Service Dissatisfaction",
-      "level_3": "Virtual Assistance",
-      "level_4": "Prefer To Talk To The Agent",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "communication gap between wayfair  manufacturer",
-      "communication disconnect",
-      "communication gap"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Communication Gap",
-      "level_3": "Communication Disconnect",
-      "level_4": "Communication Gap Between Wayfair & Manufacturer",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "never buy from wayfair",
-      "brand dissatisfaction"
-    ],
-    "set": {
-      "category": "Product Driven",
-      "subcategory": "Brand Dissatisfaction",
-      "level_3": "Never Buy From Wayfair",
-      "level_4": "Never Buy From Wayfair",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
+      "recommend service to friends and family",
       "recommend service to friends  family",
-      "recommend service",
-      "service satisfaction"
+      "would recommend the service"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -1348,428 +727,9 @@
   },
   {
     "conditions": [
-      "no compensation for inconvenience",
-      "no discount"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Discount Issues",
-      "level_3": "No Discount",
-      "level_4": "No Compensation For Inconvenience",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "prefer to get replacement instead new product",
-      "prefer replacement",
-      "replacement issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Replacement Issues",
-      "level_3": "Prefer Replacement",
-      "level_4": "Prefer To Get Replacement Instead New Product",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "wanted to return item or product",
-      "like to return",
-      "return issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Return Issues",
-      "level_3": "Like To Return",
-      "level_4": "Wanted To Return Item Or Product",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "unable to use app",
-      "app issues"
-    ],
-    "set": {
-      "category": "Technology Issues",
-      "subcategory": "App Issues",
-      "level_3": "Unable To Use App",
-      "level_4": "Unable To Use App",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "waiting for delivery partner to pickup",
-      "delivery partner",
-      "return issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Return Issues",
-      "level_3": "Delivery Partner",
-      "level_4": "Waiting For Delivery Partner To Pickup",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "replacement was denied",
-      "denied replacement",
-      "replacement issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Replacement Issues",
-      "level_3": "Denied Replacement",
-      "level_4": "Replacement Was Denied",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "unhappy with outsourcing",
-      "partner dissatisfaction"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Partner Dissatisfaction",
-      "level_3": "Outsourcing",
-      "level_4": "Unhappy With Outsourcing",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "no reply from wayfair"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Email Communication",
-      "level_3": "No Reply From Wayfair",
-      "level_4": "No Reply From Wayfair",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "not happy with product warrenty",
-      "warrenty issues",
-      "manufacturer issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Manufacturer Issues",
-      "level_3": "Warrenty Issues",
-      "level_4": "Not Happy With Product Warrenty",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "unable to reply using link",
-      "ling usage"
-    ],
-    "set": {
-      "category": "Technology Issues",
-      "subcategory": "Ling Usage",
-      "level_3": "Unable To Reply Using Link",
-      "level_4": "Unable To Reply Using Link",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "delay in getting discount",
-      "discount delayed"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Discount Issues",
-      "level_3": "Discount Delayed",
-      "level_4": "Delay In Getting Discount",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "received partial order or product"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Delivery Issues",
-      "level_3": "Received Partial Order Or Product",
-      "level_4": "Received Partial Order Or Product",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "unhappy with product durability",
-      "product durability",
-      "product issues"
-    ],
-    "set": {
-      "category": "Product Driven",
-      "subcategory": "Product Issues",
-      "level_3": "Product Durability",
-      "level_4": "Unhappy With Product Durability",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "never received email instructions",
-      "email instructions"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Email Communication",
-      "level_3": "Email Instructions",
-      "level_4": "Never Received Email Instructions",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "emails are not clear",
-      "emails confusing"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Email Communication",
-      "level_3": "Emails Confusing",
-      "level_4": "Emails Are Not Clear",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "not happy with the manufacturer",
-      "unhappy with manufacturer",
-      "partner dissatisfaction"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Partner Dissatisfaction",
-      "level_3": "Unhappy With Manufacturer",
-      "level_4": "Not Happy With The Manufacturer",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "not happy with agni service",
-      "service partner"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Service Dissatisfaction",
-      "level_3": "Service Partner",
-      "level_4": "Not Happy With Agni Service",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "unhappy with winsome house",
-      "service partner"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Service Dissatisfaction",
-      "level_3": "Service Partner",
-      "level_4": "Unhappy With Winsome House",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "unable to sign in"
-    ],
-    "set": {
-      "category": "Technology Issues",
-      "subcategory": "Signing Issues",
-      "level_3": "Unable To Sign In",
-      "level_4": "Unable To Sign In",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "request for white glove service",
-      "service partner",
-      "service request"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Service Request",
-      "level_3": "Service Partner",
-      "level_4": "Request For White Glove Service",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "unhappy with refunded amount",
-      "unhappy with refund amount"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Refund Issues",
-      "level_3": "Unhappy With Refund Amount",
-      "level_4": "Unhappy With Refunded Amount",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "confused with replacement process",
-      "replacement issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Replacement Issues",
-      "level_3": "Confused With Replacement Process",
-      "level_4": "Confused With Replacement Process",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "refund not received"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Refund Issues",
-      "level_3": "Refund Not Received",
-      "level_4": "Refund Not Received",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "happy with wayfair",
-      "brand satisfaction"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Brand Satisfaction",
-      "level_3": "Happy With Wayfair",
-      "level_4": "Happy With Wayfair",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "unhappy with email time",
-      "email timing"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Email Communication",
-      "level_3": "Email Timing",
-      "level_4": "Unhappy With Email Time",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "not easy to reach customer service",
-      "contact customer service"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Service Dissatisfaction",
-      "level_3": "Contact Customer Service",
-      "level_4": "Not Easy To Reach Customer Service",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "legal complaints"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Legal Complaints",
-      "level_3": "Legal Complaints",
-      "level_4": "Legal Complaints",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "callback not hohonered"
-    ],
-    "set": {
-      "category": "People Driven",
-      "subcategory": "Issue Resolution",
-      "level_3": "Lack Of Ownership",
-      "level_4": "Callback Not Hohonered",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "not happy with warranty",
-      "warranty issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Warranty Issues",
-      "level_3": "Not Happy With Warranty",
-      "level_4": "Not Happy With Warranty",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "no clarity on warranty",
-      "warrenty unclear",
-      "warranty issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Warranty Issues",
-      "level_3": "Warrenty Unclear",
-      "level_4": "No Clarity On Warranty",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "issue resolved by customer",
-      "customer resolved"
-    ],
-    "set": {
-      "category": "People Driven",
-      "subcategory": "Issue Resolution",
-      "level_3": "Customer Resolved",
-      "level_4": "Issue Resolved By Customer",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "long time to resolve",
-      "resolution time"
-    ],
-    "set": {
-      "category": "People Driven",
-      "subcategory": "Issue Resolution",
-      "level_3": "Resolution Time",
-      "level_4": "Long Time To Resolve",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
       "happy with the service",
-      "appreciating service",
-      "service satisfaction"
+      "satisfied with the service",
+      "appreciating service"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -1781,225 +741,9 @@
   },
   {
     "conditions": [
-      "interaction disonnected"
-    ],
-    "set": {
-      "category": "People Driven",
-      "subcategory": "Issue Resolution",
-      "level_3": "Lack Of Ownership",
-      "level_4": "Interaction Disonnected",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "assembly instruction not clear",
-      "manual instruction unclear",
-      "manufacturer issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Manufacturer Issues",
-      "level_3": "Manual Instruction Unclear",
-      "level_4": "Assembly Instruction Not Clear",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "dont like fedex for delivery",
-      "dont like fedex",
-      "partner dissatisfaction"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Partner Dissatisfaction",
-      "level_3": "Don't Like Fedex",
-      "level_4": "Don't Like Fedex For Delivery",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "need assembly service",
-      "assembly service request"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Service Dissatisfaction",
-      "level_3": "Assembly Service Request",
-      "level_4": "Need Assembly Service",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "happy with manufacturer",
-      "partner satisfaction"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Partner Satisfaction",
-      "level_3": "Happy With Manufacturer",
-      "level_4": "Happy With Manufacturer",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "general product dissatisfaction",
-      "product issues"
-    ],
-    "set": {
-      "category": "Product Driven",
-      "subcategory": "Product Issues",
-      "level_3": "General Product Dissatisfaction",
-      "level_4": "General Product Dissatisfaction",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "not happy with rep from manufacturer",
-      "unhappy with rep from manufacturer",
-      "manufacturer issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Manufacturer Issues",
-      "level_3": "Unhappy With Rep From Manufacturer",
-      "level_4": "Not Happy With Rep From Manufacturer",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "callback not hohonered by manufacturer",
-      "no calback by manufacturer",
-      "manufacturer issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Manufacturer Issues",
-      "level_3": "No Calback By Manufacturer",
-      "level_4": "Callback Not Hohonered By Manufacturer",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "resolution process is easy",
-      "process is easy",
-      "process satisfaction"
-    ],
-    "set": {
-      "category": "Positive Feedback",
-      "subcategory": "Process Satisfaction",
-      "level_3": "Process Is Easy",
-      "level_4": "Resolution Process Is Easy",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "no information on product ordered",
-      "no information on order",
-      "order issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Order Issues",
-      "level_3": "No Information On Order",
-      "level_4": "No Information On Product Ordered",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "no way to respond to email",
-      "email response"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Email Communication",
-      "level_3": "Email Response",
-      "level_4": "No Way To Respond To Email",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "not happy with product price",
-      "product pricing",
-      "product issues"
-    ],
-    "set": {
-      "category": "Product Driven",
-      "subcategory": "Product Issues",
-      "level_3": "Product Pricing",
-      "level_4": "Not Happy with Product Price",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "order is delayed",
-      "order delayed",
-      "order issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Order Issues",
-      "level_3": "Order Delayed",
-      "level_4": "Order Is Delayed",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "order is cancelled",
-      "order cancelled",
-      "order issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Order Issues",
-      "level_3": "Order Cancelled",
-      "level_4": "Order Is Cancelled",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "survey triggered before resolution",
-      "survey triggers"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Survey Triggers",
-      "level_3": "Survey Triggered Before Resolution",
-      "level_4": "Survey Triggered Before Resolution",
-      "sentiment": "positive"
-    }
-  },
-  {
-    "conditions": [
-      "where is my order",
-      "order status inquiry",
-      "order issues"
-    ],
-    "set": {
-      "category": "Process Driven",
-      "subcategory": "Order Issues",
-      "level_3": "Order Status Inquiry",
-      "level_4": "Where Is My Order",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
       "happy with the product",
-      "product satisfaction"
+      "satisfied with the product",
+      "product appreciation"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -2011,245 +755,29 @@
   },
   {
     "conditions": [
-      "agent was amazing"
+      "quick resolution",
+      "fast resolution",
+      "issue resolved quickly"
     ],
     "set": {
       "category": "Positive Feedback",
-      "subcategory": "Agent Appreciation",
-      "level_3": "Agent Was Amazing",
-      "level_4": "Agent Was Amazing",
+      "subcategory": "People",
+      "level_3": "Timely service",
+      "level_4": "Quick Resolution",
       "sentiment": "positive"
     }
   },
   {
     "conditions": [
-      "active reading",
-      "agent behaviour"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "People",
-      "level_3": "Agent Behaviour",
-      "level_4": "Active Reading",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "long time to resolve"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Resolution",
-      "level_4": "Long Time to resolve",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "no solution / issues  not resolved"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Resolution",
-      "level_4": "No Solution / Issues - Not Resolved",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "inconsistent information shared",
-      "accuracy  knowledge"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "People",
-      "level_3": "Accuracy - Knowledge",
-      "level_4": "Inconsistent Information Shared",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "product not received",
-      "shipping  delivery"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Shipping - Delivery",
-      "level_4": "Product Not received",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "product pricing / rate issue"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Product",
-      "level_3": "billing",
-      "level_4": "Product Pricing / Rate Issue",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "complicated service"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Service",
-      "level_4": "Complicated Service",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "property damage"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "People",
-      "level_3": "Damage",
-      "level_4": "Property Damage",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "refund request"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Refund",
-      "level_4": "Refund Request",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "refund not received"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Refund",
-      "level_4": "Refund Not Received",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "incorrect refund"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Refund",
-      "level_4": "Incorrect Refund",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "replacement not received"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Replacements",
-      "level_4": "Replacement not Received",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "parts not received"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Replacements",
-      "level_4": "Parts not Received",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "unhappy with solution"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "People",
-      "level_3": "Resolution",
-      "level_4": "Unhappy with Solution",
-      "sentiment": "neutral"
-    }
-  },
-  {
-    "conditions": [
-      "shipment / delivery information"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Product",
-      "level_3": "Shipping",
-      "level_4": "Shipment / Delivery Information",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "tracking information  not received"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Product",
-      "level_3": "Shipping",
-      "level_4": "Tracking Information - Not Received",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "replacement inquiry"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Replacements",
-      "level_4": "Replacement Inquiry",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "order status"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Order",
-      "level_4": "Order status",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "product appreciation",
-      "excellent products"
+      "issue resolved",
+      "problem resolved",
+      "problem solved by agent"
     ],
     "set": {
       "category": "Positive Feedback",
-      "subcategory": "Product",
-      "level_3": "Excellent Products",
-      "level_4": "Product Appreciation",
+      "subcategory": "People",
+      "level_3": "Issue Resolution",
+      "level_4": "Issue Resolved",
       "sentiment": "positive"
     }
   },
@@ -2268,213 +796,49 @@
   },
   {
     "conditions": [
-      "quick resolution",
-      "timely service"
+      "product appreciation",
+      "excellent products",
+      "great product quality"
     ],
     "set": {
       "category": "Positive Feedback",
-      "subcategory": "People",
-      "level_3": "Timely service",
-      "level_4": "Quick Resolution",
+      "subcategory": "Product",
+      "level_3": "Excellent Products",
+      "level_4": "Product Appreciation",
       "sentiment": "positive"
     }
   },
   {
     "conditions": [
-      "issue resolved"
+      "happy with manufacturer",
+      "satisfied with manufacturer"
     ],
     "set": {
       "category": "Positive Feedback",
-      "subcategory": "People",
-      "level_3": "Issue Resolution",
-      "level_4": "issue Resolved",
+      "subcategory": "Partner Satisfaction",
+      "level_3": "Happy With Manufacturer",
+      "level_4": "Happy With Manufacturer",
       "sentiment": "positive"
     }
   },
   {
     "conditions": [
-      "unhappy with service"
+      "resolution process is easy",
+      "process was easy",
+      "easy to resolve"
     ],
     "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Unhappy with Service",
-      "level_4": "Service Dissatisfaction",
-      "sentiment": "negative"
+      "category": "Positive Feedback",
+      "subcategory": "Process Satisfaction",
+      "level_3": "Process Is Easy",
+      "level_4": "Resolution Process Is Easy",
+      "sentiment": "positive"
     }
   },
   {
     "conditions": [
-      "return labels"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Returns",
-      "level_4": "Return labels",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "return process disatisfaction"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Returns",
-      "level_4": "Return Process disatisfaction",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "improve / change policy"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Policy",
-      "level_4": "Improve / Change Policy",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "order cancellation"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Order",
-      "level_4": "Order Cancellation",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "changing service provider"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Churn",
-      "level_4": "Changing Service Provider",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "losing customers"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Churn",
-      "level_4": "Losing customers",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "not recommending service"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Churn",
-      "level_4": "Not recommending Service",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "prefer competitors"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Churn",
-      "level_4": "Prefer Competitors",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "manufacturer issues"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Product",
-      "level_3": "Product Quality",
-      "level_4": "Manufacturer Issues",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "app issues"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Technology",
-      "level_3": "App",
-      "level_4": "App issues",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "product damaged/defective"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Product",
-      "level_3": "Product Quality",
-      "level_4": "Product Damaged/Defective",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "parts damaged/defective"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Product",
-      "level_3": "Product Quality",
-      "level_4": "Parts Damaged/Defective",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "app difficult to use"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Technology",
-      "level_3": "App",
-      "level_4": "App Difficult to Use",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "discount/coupons request",
-      "discounts / coupons"
-    ],
-    "set": {
-      "category": "Negative feedback",
-      "subcategory": "Process",
-      "level_3": "Discounts / Coupons",
-      "level_4": "Discount/Coupons Request",
-      "sentiment": "negative"
-    }
-  },
-  {
-    "conditions": [
-      "recommending service"
+      "recommending service",
+      "will recommend this service"
     ],
     "set": {
       "category": "Positive Feedback",
@@ -2486,7 +850,1201 @@
   },
   {
     "conditions": [
-      "return request"
+      "long time to get refund",
+      "delayed refund",
+      "refund is taking too long"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Refund Issues",
+      "level_3": "Delayed Refund",
+      "level_4": "Long Time To Get Refund",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "refund was denied",
+      "refund denial",
+      "refund rejected"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Refund Issues",
+      "level_3": "Refund Denial",
+      "level_4": "Refund Was Denied",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "requesting for a refund",
+      "refund request",
+      "customer wants a refund"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Refund Issues",
+      "level_3": "Refund Request",
+      "level_4": "Requesting For A Refund",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "received partial refund",
+      "partial refund issued"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Refund Issues",
+      "level_3": "Partial Refund",
+      "level_4": "Received Partial Refund",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "unhappy with refunded amount",
+      "unhappy with refund amount",
+      "refund amount is incorrect"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Refund Issues",
+      "level_3": "Unhappy With Refund Amount",
+      "level_4": "Unhappy With Refunded Amount",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no information on refund",
+      "refund status unknown",
+      "no refund update"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Refund Issues",
+      "level_3": "Refund Status",
+      "level_4": "No Information On Refund",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "refund not received",
+      "refund has not arrived"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Refund Issues",
+      "level_3": "Refund Not Received",
+      "level_4": "Refund Not Received",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "received wrong item or product",
+      "wrong item or product delivered"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Wrong Item Or Product",
+      "level_4": "Received Wrong Item Or Product",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "received damaged item or product",
+      "item arrived damaged"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Damaged Item Or Product",
+      "level_4": "Received Damaged Item Or Product",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "parts or items not received",
+      "failure to deliver parts",
+      "missing parts"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Failure To Deliver Parts",
+      "level_4": "Parts Or Items Not Received",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "items or parts were missing",
+      "missing items from order"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Missing Items Or Parts",
+      "level_4": "Items Or Parts Were Missing",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "order lost or missing",
+      "package is lost",
+      "order went missing"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Order Missing Or Lost",
+      "level_4": "Order Lost Or Missing",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "order delivered to wrong address",
+      "delivered to wrong address"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Delivered To Wrong Address",
+      "level_4": "Order Delivered To Wrong Address",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "defective item or product received",
+      "product arrived defective"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Defective Item Or Product",
+      "level_4": "Defective Item Or Product Received",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no proper packing of order",
+      "inadequate packaging",
+      "poor packaging"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Inadequate Packaging",
+      "level_4": "No Proper Packing Of Order",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "never received the order or product",
+      "order not delivered",
+      "product never arrived"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Order Not Delivered",
+      "level_4": "Never Received The Order Or Product",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "received partial order or product",
+      "incomplete delivery"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Received Partial Order Or Product",
+      "level_4": "Received Partial Order Or Product",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "unhappy with shipping cost",
+      "shipping charges too high",
+      "delivery charge complaint"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Shipping Issues",
+      "level_3": "Shipping Charges",
+      "level_4": "Unhappy With Shipping Cost",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "delay in shipping",
+      "shipping delayed",
+      "shipping is taking too long"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Shipping Issues",
+      "level_3": "Shipping Delays",
+      "level_4": "Delay In Shipping",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no shipping label",
+      "missing return label",
+      "no tracking label"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Shipping Issues",
+      "level_3": "No Shipping Label",
+      "level_4": "No Shipping Label",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no tracking details",
+      "no tracking information",
+      "tracking not available"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Shipping Issues",
+      "level_3": "Track Shipment",
+      "level_4": "No Tracking Details",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "wanted to return item or product",
+      "customer wants to return"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Return Issues",
+      "level_3": "Like To Return",
+      "level_4": "Wanted To Return Item Or Product",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "long time for the return",
+      "return is taking too long",
+      "return duration issue"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Return Issues",
+      "level_3": "Return Duration",
+      "level_4": "Long Time For The Return",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no return label",
+      "missing return label"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Return Issues",
+      "level_3": "No Return Label",
+      "level_4": "No Return Label",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "return process complex",
+      "return process not easy",
+      "difficult return process"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Return Issues",
+      "level_3": "Return Process Not Easy",
+      "level_4": "Return Process Complex",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "not happy with return charges",
+      "return charges too high"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Return Issues",
+      "level_3": "Return Charges",
+      "level_4": "Not Happy With Return Charges",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "waiting for delivery partner to pickup",
+      "delivery partner not arrived for pickup"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Return Issues",
+      "level_3": "Delivery Partner",
+      "level_4": "Waiting For Delivery Partner To Pickup",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "where is my order",
+      "order status inquiry",
+      "customer inquiring about order status"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Order Issues",
+      "level_3": "Order Status Inquiry",
+      "level_4": "Where Is My Order",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "order is delayed",
+      "order delay"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Order Issues",
+      "level_3": "Order Delayed",
+      "level_4": "Order Is Delayed",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "order is cancelled",
+      "order was cancelled",
+      "order cancellation"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Order Issues",
+      "level_3": "Order Cancelled",
+      "level_4": "Order Is Cancelled",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no information on product ordered",
+      "no order update"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Order Issues",
+      "level_3": "No Information On Order",
+      "level_4": "No Information On Product Ordered",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "replacement not received",
+      "replacement has not arrived"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Replacement Issues",
+      "level_3": "Replacement Delay",
+      "level_4": "Replacement Not Received",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "received wrong replacement items or parts",
+      "wrong replacement sent"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Replacement Issues",
+      "level_3": "Wrong Replacement Parts",
+      "level_4": "Received Wrong Replacement Items Or Parts",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "long time for replacement",
+      "replacement is taking too long"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Replacement Issues",
+      "level_3": "Replacement Duration",
+      "level_4": "Long Time For Replacement",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "replacement was denied",
+      "replacement rejected"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Replacement Issues",
+      "level_3": "Denied Replacement",
+      "level_4": "Replacement Was Denied",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "confused with replacement process",
+      "unclear replacement process"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Replacement Issues",
+      "level_3": "Confused With Replacement Process",
+      "level_4": "Confused With Replacement Process",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "prefer to get new product for replacement",
+      "wants new product not replacement"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Replacement Issues",
+      "level_3": "Prefer New Product",
+      "level_4": "Prefer To Get New Product For Replacement",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "prefer to get replacement instead new product",
+      "prefers replacement over new"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Replacement Issues",
+      "level_3": "Prefer Replacement",
+      "level_4": "Prefer To Get Replacement Instead New Product",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "product not similar as advertised",
+      "product differs from listing"
+    ],
+    "set": {
+      "category": "Product Driven",
+      "subcategory": "Product Issues",
+      "level_3": "Product Mismatch",
+      "level_4": "Product Not Similar As Advertised",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "not happy product quality",
+      "unhappy with product quality"
+    ],
+    "set": {
+      "category": "Product Driven",
+      "subcategory": "Product Issues",
+      "level_3": "Product Quality",
+      "level_4": "Not Happy Product Quality",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "not happy with product design",
+      "unhappy with product design"
+    ],
+    "set": {
+      "category": "Product Driven",
+      "subcategory": "Product Issues",
+      "level_3": "Product Design",
+      "level_4": "Not Happy With Product Design",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "unable to use product",
+      "doesn't know how to use product"
+    ],
+    "set": {
+      "category": "Product Driven",
+      "subcategory": "Product Issues",
+      "level_3": "Product Usage",
+      "level_4": "Unable To Use Product",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "unhappy with product durability",
+      "product broke too soon"
+    ],
+    "set": {
+      "category": "Product Driven",
+      "subcategory": "Product Issues",
+      "level_3": "Product Durability",
+      "level_4": "Unhappy With Product Durability",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "not happy with product price",
+      "product is too expensive"
+    ],
+    "set": {
+      "category": "Product Driven",
+      "subcategory": "Product Issues",
+      "level_3": "Product Pricing",
+      "level_4": "Not Happy with Product Price",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "general product dissatisfaction",
+      "overall product disappointment"
+    ],
+    "set": {
+      "category": "Product Driven",
+      "subcategory": "Product Issues",
+      "level_3": "General Product Dissatisfaction",
+      "level_4": "General Product Dissatisfaction",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "product damaged or defective",
+      "product damaged/defective",
+      "item is defective"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Product",
+      "level_3": "Product Quality",
+      "level_4": "Product Damaged/Defective",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "manufacturer issues",
+      "problem with manufacturer"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Product",
+      "level_3": "Product Quality",
+      "level_4": "Manufacturer Issues",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "unable to fulfill request",
+      "inventory issue with fulfillment"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Manufacturer Issues",
+      "level_3": "Inventory Issues",
+      "level_4": "Unable to Fulfill Request",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no information from manufacturer",
+      "manufacturer did not communicate"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Manufacturer Issues",
+      "level_3": "Communication Gap",
+      "level_4": "No Information From Manufacturer",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "manufacturer was not helpful",
+      "no help from manufacturer"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Manufacturer Issues",
+      "level_3": "No Help From Manufacturer",
+      "level_4": "Manufacturer Was Not Helpful",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no manual instructions in package",
+      "assembly instructions missing"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Manufacturer Issues",
+      "level_3": "Manual Instructions",
+      "level_4": "No Manual Instructions In Package",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "assembly instruction not clear",
+      "manual instruction unclear"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Manufacturer Issues",
+      "level_3": "Manual Instruction Unclear",
+      "level_4": "Assembly Instruction Not Clear",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "not happy with product warranty",
+      "not happy with product warrenty"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Manufacturer Issues",
+      "level_3": "Warranty Issues",
+      "level_4": "Not Happy With Product Warranty",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "callback not honored by manufacturer",
+      "manufacturer didn't call back"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Manufacturer Issues",
+      "level_3": "No Callback By Manufacturer",
+      "level_4": "Callback Not Honored By Manufacturer",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "not happy with rep from manufacturer",
+      "manufacturer rep was unhelpful"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Manufacturer Issues",
+      "level_3": "Unhappy With Rep From Manufacturer",
+      "level_4": "Not Happy With Rep From Manufacturer",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "not happy with discount applied",
+      "discount applied incorrectly"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Discount Issues",
+      "level_3": "Additional Discount",
+      "level_4": "Not Happy With Discount Applied",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no compensation for inconvenience",
+      "no discount offered"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Discount Issues",
+      "level_3": "No Discount",
+      "level_4": "No Compensation For Inconvenience",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "delay in getting discount",
+      "discount was delayed"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Discount Issues",
+      "level_3": "Discount Delayed",
+      "level_4": "Delay In Getting Discount",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "not happy with warranty",
+      "warranty is insufficient"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Warranty Issues",
+      "level_3": "Not Happy With Warranty",
+      "level_4": "Not Happy With Warranty",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no clarity on warranty",
+      "warranty is unclear"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Warranty Issues",
+      "level_3": "Warranty Unclear",
+      "level_4": "No Clarity On Warranty",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "not happy with overall experience",
+      "unhappy with experience"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Service Dissatisfaction",
+      "level_3": "Unhappy With Experience",
+      "level_4": "Not Happy With Overall Experience",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "prefer to talk to the agent",
+      "doesn't want virtual assistant"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Service Dissatisfaction",
+      "level_3": "Virtual Assistance",
+      "level_4": "Prefer To Talk To The Agent",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "not easy to reach customer service",
+      "hard to contact support"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Service Dissatisfaction",
+      "level_3": "Contact Customer Service",
+      "level_4": "Not Easy To Reach Customer Service",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "need assembly service",
+      "requesting assembly help"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Service Dissatisfaction",
+      "level_3": "Assembly Service Request",
+      "level_4": "Need Assembly Service",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "not happy with agni service",
+      "unhappy with third party service"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Service Dissatisfaction",
+      "level_3": "Service Partner",
+      "level_4": "Not Happy With Agni Service",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "unhappy with service",
+      "dissatisfied with service"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Unhappy with Service",
+      "level_4": "Service Dissatisfaction",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "changing service provider",
+      "switching provider",
+      "going to competitor"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Churn",
+      "level_4": "Changing Service Provider",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "not recommending service",
+      "will not recommend"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Churn",
+      "level_4": "Not recommending Service",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "prefer competitors",
+      "customer prefers competition"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Churn",
+      "level_4": "Prefer Competitors",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "legal complaints",
+      "filing legal action",
+      "consumer court complaint"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Legal Complaints",
+      "level_3": "Legal Complaints",
+      "level_4": "Legal Complaints",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "difficult to navigate website",
+      "website is hard to navigate"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Website Navigation",
+      "level_4": "Difficult To Navigate Website",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "unable to use app",
+      "app is not working",
+      "app crash"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "App Issues",
+      "level_3": "Unable To Use App",
+      "level_4": "Unable To Use App",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "difficulty sending pictures or videos",
+      "can't upload images"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Download Issues",
+      "level_3": "Difficulty Sending Pictures Or Videos",
+      "level_4": "Difficulty Sending Pictures Or Videos",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "unable to sign in",
+      "can't sign in",
+      "sign in failure"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Signing Issues",
+      "level_3": "Unable To Sign In",
+      "level_4": "Unable To Sign In",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "app issues",
+      "mobile app problems"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Technology",
+      "level_3": "App",
+      "level_4": "App issues",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "app difficult to use",
+      "app is confusing"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Technology",
+      "level_3": "App",
+      "level_4": "App Difficult to Use",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no reply from wayfair",
+      "company did not respond to email"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Email Communication",
+      "level_3": "No Reply From Wayfair",
+      "level_4": "No Reply From Wayfair",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "never received email instructions",
+      "no instructions sent via email"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Email Communication",
+      "level_3": "Email Instructions",
+      "level_4": "Never Received Email Instructions",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "emails are not clear",
+      "email communication is confusing"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Email Communication",
+      "level_3": "Emails Confusing",
+      "level_4": "Emails Are Not Clear",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "unable to reply using link",
+      "email link not working"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Link Usage",
+      "level_3": "Unable To Reply Using Link",
+      "level_4": "Unable To Reply Using Link",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "communication gap between wayfair and manufacturer",
+      "disconnect between company and supplier"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Communication Gap",
+      "level_3": "Communication Disconnect",
+      "level_4": "Communication Gap Between Wayfair & Manufacturer",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "no way to respond to email",
+      "can't reply to email"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Email Communication",
+      "level_3": "Email Response",
+      "level_4": "No Way To Respond To Email",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "survey triggered before resolution",
+      "survey sent too early"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Survey Triggers",
+      "level_3": "Survey Triggered Before Resolution",
+      "level_4": "Survey Triggered Before Resolution",
+      "sentiment": "positive"
+    }
+  },
+  {
+    "conditions": [
+      "never buy from wayfair",
+      "will never shop here again"
+    ],
+    "set": {
+      "category": "Product Driven",
+      "subcategory": "Brand Dissatisfaction",
+      "level_3": "Never Buy From Wayfair",
+      "level_4": "Never Buy From Wayfair",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "happy with wayfair",
+      "loves wayfair",
+      "great experience with brand"
+    ],
+    "set": {
+      "category": "Positive Feedback",
+      "subcategory": "Brand Satisfaction",
+      "level_3": "Happy With Wayfair",
+      "level_4": "Happy With Wayfair",
+      "sentiment": "positive"
+    }
+  },
+  {
+    "conditions": [
+      "don't like fedex for delivery",
+      "unhappy with fedex"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Partner Dissatisfaction",
+      "level_3": "Don't Like Fedex",
+      "level_4": "Don't Like Fedex For Delivery",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "unhappy with outsourcing",
+      "not happy with third party handling"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Partner Dissatisfaction",
+      "level_3": "Outsourcing",
+      "level_4": "Unhappy With Outsourcing",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "not happy with the manufacturer",
+      "unhappy with manufacturer"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Partner Dissatisfaction",
+      "level_3": "Unhappy With Manufacturer",
+      "level_4": "Not Happy With The Manufacturer",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "request for white glove service",
+      "requesting premium delivery service"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Service Request",
+      "level_3": "Service Partner",
+      "level_4": "Request For White Glove Service",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "discount or coupons request",
+      "discount/coupons request"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Discounts / Coupons",
+      "level_4": "Discount/Coupons Request",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "return request",
+      "customer requested a return"
     ],
     "set": {
       "category": "Negative feedback",
@@ -2498,7 +2056,164 @@
   },
   {
     "conditions": [
-      "rep not able to understand"
+      "return labels needed",
+      "needs return label"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Returns",
+      "level_4": "Return labels",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "return process dissatisfaction",
+      "return process disatisfaction"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Returns",
+      "level_4": "Return Process Dissatisfaction",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "improve or change policy",
+      "policy should be changed"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Policy",
+      "level_4": "Improve / Change Policy",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "property damage",
+      "customer property damaged"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "People",
+      "level_3": "Damage",
+      "level_4": "Property Damage",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "active reading",
+      "agent behaviour concern"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "People",
+      "level_3": "Agent Behaviour",
+      "level_4": "Active Reading",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "inconsistent information shared",
+      "agent gave different information each time"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "People",
+      "level_3": "Accuracy - Knowledge",
+      "level_4": "Inconsistent Information Shared",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "complicated service",
+      "service process is too complicated"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Service",
+      "level_4": "Complicated Service",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "product not received",
+      "product hasn't been received"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Shipping - Delivery",
+      "level_4": "Product Not received",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "product pricing or rate issue",
+      "product pricing / rate issue"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Product",
+      "level_3": "billing",
+      "level_4": "Product Pricing / Rate Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "tracking information not received",
+      "tracking information - not received"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Product",
+      "level_3": "Shipping",
+      "level_4": "Tracking Information - Not Received",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "shipment or delivery information needed",
+      "requesting shipment information"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Product",
+      "level_3": "Shipping",
+      "level_4": "Shipment / Delivery Information",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "unhappy with solution",
+      "not happy with provided solution"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "People",
+      "level_3": "Resolution",
+      "level_4": "Unhappy with Solution",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "rep not able to understand",
+      "rep couldn't understand customer"
     ],
     "set": {
       "category": "Negative feedback",
@@ -2506,6 +2221,58 @@
       "level_3": "Communication and Soft Skills",
       "level_4": "Rep not able to understand",
       "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "incorrect refund amount",
+      "wrong refund issued"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Refund",
+      "level_4": "Incorrect Refund",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "replacement inquiry",
+      "asking about replacement"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Replacements",
+      "level_4": "Replacement Inquiry",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "parts not received",
+      "missing parts from package"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Replacements",
+      "level_4": "Parts not Received",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "change ownership",
+      "transfer account ownership"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Account Management",
+      "level_3": "Plan Change",
+      "level_4": "Ownership Change",
+      "sentiment": "neutral"
     }
   }
 ]

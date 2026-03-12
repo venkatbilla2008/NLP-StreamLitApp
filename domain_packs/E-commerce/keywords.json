@@ -1,286 +1,1531 @@
 [
   {
-    "conditions": ["domain not showing", "website not showing", "coming soon page", "domain not live", "domain offline", "domain looks unavailable"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Domain/Hosting", "level_4": "Domain Not Resolving", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["dns settings", "dns information", "dns records", "change dns", "edit dns", "update dns", "dns locked", "dns not updated"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Domain/Hosting", "level_4": "DNS Configuration", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["a record", "cname record", "mx record", "nameserver", "nameservers", "name server", "point domain"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Domain/Hosting", "level_4": "DNS Record Update", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["domain expired", "domain renewal", "renew domain", "renew my domain", "domain expiring"],
-    "set": {"category": "Process Driven", "subcategory": "Domain Management", "level_3": "Domain Transfer", "level_4": "Domain Renewal", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["transfer domain", "domain transfer", "transfer my domain", "transferring domain", "move domain", "transfer to hostinger", "transfer to cloudflare", "transfer to namecheap"],
-    "set": {"category": "Process Driven", "subcategory": "Domain Management", "level_3": "Domain Transfer", "level_4": "Domain Transfer Out", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["transfer authorization", "transfer code", "auth code", "epp code", "unlock domain", "domain locked"],
-    "set": {"category": "Process Driven", "subcategory": "Domain Management", "level_3": "Domain Transfer", "level_4": "Transfer Authorization Code", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["speed up transfer", "transfer taking long", "transfer process", "domain transfer slow"],
-    "set": {"category": "Process Driven", "subcategory": "Domain Management", "level_3": "Domain Transfer", "level_4": "Transfer Delay", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["buy domain", "purchase domain", "register domain", "new domain", "search domain", "domain available", "domain registration"],
-    "set": {"category": "Process Driven", "subcategory": "Domain Management", "level_3": "Domain Transfer", "level_4": "Domain Purchase", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["connect domain", "connect to shopify", "connect to squarespace", "connect to wix", "connect to google sites", "connect to wordpress", "map domain", "link domain"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Domain/Hosting", "level_4": "Domain Mapping", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["hosting problem", "hosting issue", "hosting not working", "server issue", "server error", "server down", "hosting down", "cpanel", "cpanel access"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Domain/Hosting", "level_4": "Hosting Issue", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["ssl certificate", "ssl expired", "install ssl", "ssl not working", "https not working", "ssl issue", "renew ssl", "ssl from third party", "ssl error"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Domain/Hosting", "level_4": "SSL Certificate Issue", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["website builder", "build website", "create website", "edit website", "edit my site", "website editor", "start new site", "access my website builder"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Website Creation", "level_4": "Website Builder Access", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["website not loading", "site not loading", "page not loading", "website slow", "site down", "website error", "page error", "503 error", "500 error", "404 error"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Website Creation", "level_4": "Website Loading Issue", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["wordpress admin", "wp admin", "wordpress dashboard", "install wordpress", "wordpress hosting", "wordpress login", "wordpress issue", "wordpress site"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Website Creation", "level_4": "WordPress Issue", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["website migration", "migrate website", "move website", "transfer website", "move site"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Website Creation", "level_4": "Website Migration", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["email not working", "email issue", "email problem", "cannot receive emails", "cannot send email", "email error", "email not receiving", "unable to receive email"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Email", "level_4": "Email Not Working", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["email setup", "setup email", "professional email", "business email", "email hosting", "email essentials", "workspace email", "microsoft 365 email", "office 365"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Email", "level_4": "Email Setup", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["email validation", "email verify", "email verification", "validate email", "confirm email"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Email", "level_4": "Email Validation Issue", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["spf error", "spf record", "dkim", "dmarc", "email deliverability", "email bouncing", "emails going to spam"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Email", "level_4": "Email Authentication/SPF", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["email login", "email password", "forgot email password", "email credential", "email access", "cannot access email"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Email", "level_4": "Email Access Issue", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["login issue", "cannot login", "cant log in", "login problem", "unable to login", "cant sign in", "sign in issue"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Account Access", "level_4": "Login Failed", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["forgot password", "reset password", "password reset", "change password", "update password", "lost password"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Account Access", "level_4": "Password Reset", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["two factor", "2fa", "two step", "verification code", "one time code", "pin code", "phone verification", "phone number changed"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Account Access", "level_4": "Two-Factor Auth Issue", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["account locked", "account blocked", "account suspended", "account disabled", "account hacked", "unauthorized access"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Account Access", "level_4": "Account Locked/Suspended", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["recover account", "account recovery", "recover my account", "get back my account"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Account Access", "level_4": "Account Recovery", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["cancel subscription", "cancel my plan", "cancel service", "cancel renewal", "cancel account", "want to cancel", "stop subscription", "stop service", "discontinue"],
-    "set": {"category": "Process Driven", "subcategory": "Cancellation", "level_3": "Subscription Cancellation", "level_4": "Cancel Subscription Request", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["cancel website", "cancel websites marketing", "cancel hosting plan", "cancel marketing plan"],
-    "set": {"category": "Process Driven", "subcategory": "Cancellation", "level_3": "Subscription Cancellation", "level_4": "Cancel Product/Plan", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["delete account", "close account", "remove account", "deactivate account"],
-    "set": {"category": "Process Driven", "subcategory": "Cancellation", "level_3": "Subscription Cancellation", "level_4": "Delete/Close Account", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["refund request", "want refund", "request refund", "get refund", "refund process", "refund my money", "money back", "get my money back"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "Refund", "level_4": "Refund Request", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["refund not received", "refund pending", "where is my refund", "waiting for refund", "refund delayed", "refund status"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "Refund", "level_4": "Refund Not Received", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["refund denied", "refund rejected", "cannot get refund", "no refund"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "Refund", "level_4": "Refund Denied", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["auto renewal", "auto renew", "renewed automatically", "renewal charge", "auto renewed without consent", "stop auto renewal", "disable renewal", "turn off auto renew"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "Renewal", "level_4": "Auto-Renewal Complaint", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["renewal price", "renewal cost", "renewal expensive", "renewal too high", "renewal pricing"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "Renewal", "level_4": "Renewal Price Concern", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["renew plan", "renew hosting", "renew email", "renew subscription", "renewal process"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "Renewal", "level_4": "Manual Renewal Request", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["unexpected charge", "wrong charge", "overcharged", "double charged", "charged incorrectly", "billing error", "extra charge", "unauthorized charge"],
-    "set": {"category": "Negative feedback", "subcategory": "Process", "level_3": "Billing", "level_4": "Incorrect Billing", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["payment failed", "payment issue", "payment not going through", "unable to pay", "checkout error", "transaction failed", "payment declined"],
-    "set": {"category": "Negative feedback", "subcategory": "Technology", "level_3": "Payment", "level_4": "Payment Failed", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["change payment method", "update card", "new credit card", "payment method", "update payment"],
-    "set": {"category": "Negative feedback", "subcategory": "Technology", "level_3": "Payment", "level_4": "Payment Method Update", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["invoice", "receipt", "billing statement", "billing history", "payment history"],
-    "set": {"category": "Negative feedback", "subcategory": "Technology", "level_3": "Payment", "level_4": "Invoice/Receipt Request", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["discount code", "promo code", "coupon", "coupon not working", "discount", "special offer", "promotional pricing", "can i get a discount"],
-    "set": {"category": "Negative feedback", "subcategory": "Process", "level_3": "Discounts / Coupons", "level_4": "Discount Request", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["discount on renewal", "renewal discount", "loyalty discount", "good client discount"],
-    "set": {"category": "Negative feedback", "subcategory": "Process", "level_3": "Discounts / Coupons", "level_4": "Renewal Discount Request", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["return request", "want to return", "send back", "return my order", "return product"],
-    "set": {"category": "Negative feedback", "subcategory": "Process", "level_3": "Returns", "level_4": "Return Request", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["return policy", "refund policy", "return period"],
-    "set": {"category": "Negative feedback", "subcategory": "Process", "level_3": "Returns", "level_4": "Return Policy Query", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["upgrade plan", "upgrade hosting", "upgrade account", "upgrade subscription", "upgrade to premium", "upgrade website builder"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "Plan Change", "level_4": "Upgrade Request", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["downgrade plan", "downgrade hosting", "change to basic", "cheaper plan", "reduce plan"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "Plan Change", "level_4": "Downgrade Request", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["change plan", "switch plan", "different plan", "compare plans", "which plan", "plan options"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "Plan Change", "level_4": "Plan Comparison", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["seo package", "seo service", "marketing tool", "marketing plan", "online marketing", "google ads"],
-    "set": {"category": "Process Driven", "subcategory": "Website Setup", "level_3": "Website Creation", "level_4": "SEO/Marketing Service", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["website design", "design help", "professional services", "build my site", "design service", "website redesign"],
-    "set": {"category": "Process Driven", "subcategory": "Website Setup", "level_3": "Website Creation", "level_4": "Design Service Request", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["speak to agent", "talk to human", "live agent", "real person", "talk to representative", "human agent", "real agent", "connect me to agent"],
-    "set": {"category": "People Driven", "subcategory": "Customer Efforts", "level_3": "Multiple Interactions", "level_4": "Request For Live Agent", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["long wait", "waiting too long", "been waiting", "no response", "still waiting", "taking too long", "how long do i wait"],
-    "set": {"category": "People Driven", "subcategory": "Customer Efforts", "level_3": "Multiple Interactions", "level_4": "Long Wait Time", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["issue not resolved", "problem not fixed", "not resolved", "still having issue", "same problem", "no resolution", "didnt fix"],
-    "set": {"category": "People Driven", "subcategory": "Issue Resolution", "level_3": "Issue Is Not Resolved", "level_4": "Unresolved Issue", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["contacted before", "called before", "messaged yesterday", "reached out before", "second time", "third time", "multiple times"],
-    "set": {"category": "People Driven", "subcategory": "Customer Efforts", "level_3": "Repeated Information", "level_4": "Repeated Contact", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["online store", "ecommerce store", "sell online", "add products", "shopping cart", "online shop", "godaddy payments"],
-    "set": {"category": "Process Driven", "subcategory": "Website Setup", "level_3": "Website Creation", "level_4": "Online Store Setup", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["change ownership", "transfer ownership", "account ownership", "change account owner"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "Plan Change", "level_4": "Ownership Change", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["backup website", "restore website", "website backup", "site backup", "restore my site"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Website Creation", "level_4": "Backup/Restore Request", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["website hacked", "site hacked", "malware", "security scan", "security issue", "website security", "suspicious activity"],
-    "set": {"category": "Technology Issues", "subcategory": "Website Issues", "level_3": "Website Creation", "level_4": "Security/Malware Issue", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["thank you", "thanks for helping", "appreciate your help", "you were very helpful", "great job", "amazing support", "excellent service"],
-    "set": {"category": "Positive Feedback", "subcategory": "Agent Appreciation", "level_3": "Agent Was Helpful", "level_4": "General Appreciation", "sentiment": "positive"}
-  },
-  {
-    "conditions": ["resolved my issue", "fixed my problem", "issue resolved", "problem solved", "everything works now"],
-    "set": {"category": "Positive Feedback", "subcategory": "Agent Appreciation", "level_3": "Agent Was Helpful", "level_4": "Issue Resolution Acknowledged", "sentiment": "positive"}
-  },
-  {
-    "conditions": ["quick resolution", "fast response", "prompt help", "responded quickly"],
-    "set": {"category": "Positive Feedback", "subcategory": "Agent Appreciation", "level_3": "Agent Was Helpful", "level_4": "Fast Resolution Praised", "sentiment": "positive"}
-  },
-  {
-    "conditions": ["very patient", "patient with me", "took the time", "explained everything"],
-    "set": {"category": "Positive Feedback", "subcategory": "Agent Appreciation", "level_3": "Agent Was Helpful", "level_4": "Patience Appreciated", "sentiment": "positive"}
-  },
-  {
-    "conditions": ["recommend godaddy", "love godaddy", "great service overall", "happy with service"],
-    "set": {"category": "Positive Feedback", "subcategory": "People", "level_3": "Service Appreciation", "level_4": "Brand Recommendation", "sentiment": "positive"}
-  },
-  {
-    "conditions": ["need help", "can you help", "assist me", "help me with", "guide me", "how do i", "how can i", "i need assistance"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "General Inquiry", "level_4": "General Help Request", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["pricing", "how much", "cost of", "price for", "what does it cost", "subscription price", "plan cost"],
-    "set": {"category": "Process Driven", "subcategory": "Account Management", "level_3": "General Inquiry", "level_4": "Pricing Inquiry", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["navigate website", "difficult to navigate", "confusing website", "hard to find", "website navigation"],
-    "set": {"category": "Negative feedback", "subcategory": "Technology", "level_3": "Website Navigation", "level_4": "Navigation Difficulty", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["godaddy app", "mobile app", "app not working", "app issue", "app error"],
-    "set": {"category": "Negative feedback", "subcategory": "Technology", "level_3": "Website Navigation", "level_4": "Mobile App Issue", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["wrong item", "received wrong", "wrong product", "sent wrong item", "wrong order"],
-    "set": {"category": "Negative feedback", "subcategory": "Process", "level_3": "Wrong Item Or Product", "level_4": "Received Wrong Item", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["missing item", "item not received", "never received", "not delivered", "delivery missing"],
-    "set": {"category": "Negative feedback", "subcategory": "Process", "level_3": "Wrong Item Or Product", "level_4": "Missing/Not Delivered", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["damaged product", "defective", "broken", "product damaged", "arrived damaged"],
-    "set": {"category": "Negative feedback", "subcategory": "Process", "level_3": "Wrong Item Or Product", "level_4": "Damaged/Defective Product", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["delivery issue", "late delivery", "delivery delayed", "shipping issue","shipping delayed", "where is my order", "tracking"],
-    "set": {"category": "Process Driven", "subcategory": "Delivery Issues", "level_3": "Delivery Issue", "level_4": "Delivery Delayed", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["delivery status", "order status", "shipment status", "order tracking"],
-    "set": {"category": "Process Driven", "subcategory": "Delivery Issues", "level_3": "Delivery Issue", "level_4": "Delivery Status Inquiry", "sentiment": "neutral"}
-  },
-  {
-    "conditions": ["signing issue", "checkout issue", "signup error", "registration error", "cannot register", "cannot sign up"],
-    "set": {"category": "Technology Issues", "subcategory": "Signing Issues", "level_3": "Signing Issues", "level_4": "Registration/Signup Error", "sentiment": "negative"}
-  },
-  {
-    "conditions": ["email communication", "notification email", "marketing emails", "unsubscribe emails", "stop sending emails"],
-    "set": {"category": "Process Driven", "subcategory": "Email Communication", "level_3": "Email Communication", "level_4": "Communication Preference", "sentiment": "neutral"}
+    "priority": 1,
+    "conditions": [
+      "where is my order",
+      "where's my order",
+      "track my order",
+      "track my package",
+      "order not delivered",
+      "order tracking",
+      "tracking number",
+      "tracking link",
+      "track my shipment",
+      "shipment status",
+      "delivery status",
+      "order status",
+      "still waiting for my order",
+      "where is my package",
+      "where is my parcel",
+      "order not arrived",
+      "hasn't arrived",
+      "still not received",
+      "when will it arrive",
+      "when will it be delivered",
+      "estimated delivery",
+      "expected delivery date",
+      "in transit",
+      "out for delivery",
+      "dispatched",
+      "order dispatched"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Order Issues",
+      "level_3": "Order Status Inquiry",
+      "level_4": "Where Is My Order",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "cancel my order",
+      "cancel order",
+      "want to cancel",
+      "i want to cancel",
+      "please cancel",
+      "cancel purchase",
+      "stop my order",
+      "undo my order",
+      "don't want this order",
+      "no longer want",
+      "cancel before delivery",
+      "cancel before shipping",
+      "cancel the order"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Order Issues",
+      "level_3": "Order Cancelled",
+      "level_4": "Order Is Cancelled",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "change my order",
+      "modify my order",
+      "edit my order",
+      "update my order",
+      "ordered wrong size",
+      "ordered wrong color",
+      "wrong item ordered",
+      "add to my order",
+      "remove from my order",
+      "change quantity",
+      "can i change my order",
+      "change the order"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Order Issues",
+      "level_3": "Order Modification",
+      "level_4": "Change Order Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "delivery delayed",
+      "delivery late",
+      "late delivery",
+      "delay in delivery",
+      "shipping delayed",
+      "shipping delay",
+      "shipping is late",
+      "delivery issue",
+      "delivery problem",
+      "expected date passed",
+      "not delivered on time",
+      "delivery taking too long",
+      "where is my delivery",
+      "my delivery is late"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Delivery Issue",
+      "level_4": "Delivery Delayed",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "wrong item",
+      "wrong product",
+      "received wrong",
+      "sent wrong item",
+      "wrong order",
+      "not what i ordered",
+      "got the wrong",
+      "delivered wrong",
+      "wrong size delivered",
+      "wrong color delivered",
+      "incorrect item received",
+      "wrong item in package",
+      "different item than ordered"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Wrong Item Or Product",
+      "level_4": "Received Wrong Item Or Product",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "damaged product",
+      "product damaged",
+      "defective product",
+      "broken product",
+      "item arrived damaged",
+      "arrived broken",
+      "cracked",
+      "shattered",
+      "dented",
+      "bent item",
+      "defective item",
+      "item not working",
+      "product not working",
+      "stopped working",
+      "faulty product",
+      "arrived defective",
+      "broken on arrival",
+      "product is damaged",
+      "damaged item",
+      "item damaged"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Damaged Item Or Product",
+      "level_4": "Received Damaged Item Or Product",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "missing item",
+      "item not received",
+      "never received",
+      "not delivered",
+      "delivery missing",
+      "item missing from order",
+      "partial order",
+      "incomplete order",
+      "parts missing",
+      "some items missing",
+      "never got my order",
+      "order never arrived",
+      "package never arrived",
+      "didn't receive my order",
+      "did not receive"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Delivery Issues",
+      "level_3": "Failure To Deliver Parts",
+      "level_4": "Parts Or Items Not Received",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "want to return",
+      "return my order",
+      "return my item",
+      "return my product",
+      "how do i return",
+      "return request",
+      "initiate return",
+      "start a return",
+      "send it back",
+      "send back the item",
+      "return this product",
+      "can i return",
+      "return process",
+      "return instructions",
+      "return policy",
+      "return window",
+      "return period",
+      "eligible for return",
+      "30 day return",
+      "7 day return",
+      "return label"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Return Issues",
+      "level_3": "Like To Return",
+      "level_4": "Wanted To Return Item Or Product",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "refund request",
+      "want a refund",
+      "request a refund",
+      "get my refund",
+      "refund my money",
+      "money back",
+      "get my money back",
+      "i want a refund",
+      "asking for refund",
+      "need a refund",
+      "requesting refund"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Refund Issues",
+      "level_3": "Refund Request",
+      "level_4": "Requesting For A Refund",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "refund status",
+      "where is my refund",
+      "when will i get my refund",
+      "refund not received",
+      "waiting for refund",
+      "refund pending",
+      "refund delayed",
+      "refund not credited",
+      "refund not processed",
+      "no information on refund",
+      "refund not in account"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Refund Issues",
+      "level_3": "Refund Status",
+      "level_4": "No Informaton On Refund",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "unexpected charge",
+      "wrong charge",
+      "overcharged",
+      "double charged",
+      "charged twice",
+      "billing error",
+      "extra charge",
+      "unauthorized charge",
+      "charged incorrectly",
+      "incorrect amount charged",
+      "wrong amount",
+      "shouldn't have been charged",
+      "incorrect billing"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Billing",
+      "level_4": "Incorrect Billing",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "payment failed",
+      "payment issue",
+      "payment not going through",
+      "unable to pay",
+      "checkout error",
+      "transaction failed",
+      "payment declined",
+      "card declined",
+      "payment error",
+      "payment not accepted",
+      "payment stuck",
+      "can't complete payment",
+      "payment problem",
+      "order not placing",
+      "unable to place order",
+      "can't checkout",
+      "checkout not working",
+      "checkout issue",
+      "stuck at checkout"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Technology",
+      "level_3": "Payment",
+      "level_4": "Payment Failed",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "coupon not working",
+      "promo code not working",
+      "discount code not working",
+      "voucher not working",
+      "coupon invalid",
+      "promo code invalid",
+      "coupon expired",
+      "code not applying",
+      "discount not applied",
+      "promo code",
+      "coupon code",
+      "discount code",
+      "voucher code",
+      "offer code",
+      "referral code",
+      "apply coupon",
+      "enter promo"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Discount Issues",
+      "level_3": "Additional Discount",
+      "level_4": "Not Happy With Discount Applied",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "not as described",
+      "product not as shown",
+      "not as advertised",
+      "different from picture",
+      "looks different",
+      "product mismatch",
+      "not what was shown",
+      "misleading description",
+      "picture was different",
+      "product image wrong",
+      "doesn't match description",
+      "misrepresented"
+    ],
+    "set": {
+      "category": "Product Driven",
+      "subcategory": "Product Issues",
+      "level_3": "Product Mismatch",
+      "level_4": "Product Not Similar As Advertised",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "exchange",
+      "swap",
+      "replace product",
+      "want replacement",
+      "send a replacement",
+      "exchange for different size",
+      "exchange for different color",
+      "swap this item",
+      "replacement request",
+      "i want to exchange",
+      "can i exchange",
+      "replacement for damaged",
+      "replacement item"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Replacement Issues",
+      "level_3": "Replacement Delay",
+      "level_4": "Replacement Not Received",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "change delivery address",
+      "update delivery address",
+      "wrong address",
+      "change shipping address",
+      "update address",
+      "address correction",
+      "redirect my package",
+      "different delivery address",
+      "new address",
+      "address on my order is wrong",
+      "wrong address on order",
+      "change my address"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Order Issues",
+      "level_3": "Order Modification",
+      "level_4": "Change Order Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "cancel subscription",
+      "cancel my plan",
+      "cancel service",
+      "cancel renewal",
+      "cancel account",
+      "want to cancel",
+      "stop subscription",
+      "stop service",
+      "discontinue",
+      "unsubscribe",
+      "cancel recurring",
+      "stop auto renew",
+      "disable auto renewal",
+      "turn off auto renew"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Cancellation",
+      "level_3": "Subscription Cancellation",
+      "level_4": "Cancel Subscription Request",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "auto renewal",
+      "auto renew",
+      "renewed automatically",
+      "renewal charge",
+      "auto renewed without consent",
+      "charged for renewal",
+      "unexpected renewal charge",
+      "renewed without permission",
+      "auto charge"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Account Management",
+      "level_3": "Renewal",
+      "level_4": "Auto-Renewal Complaint",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "login issue",
+      "cannot login",
+      "cant log in",
+      "login problem",
+      "unable to login",
+      "cant sign in",
+      "sign in issue",
+      "forgot password",
+      "reset password",
+      "password reset",
+      "change password",
+      "lost password",
+      "account locked",
+      "account blocked",
+      "account suspended",
+      "two factor",
+      "2fa issue",
+      "verification code not received",
+      "otp not received"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Account Access",
+      "level_4": "Login Failed",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "speak to agent",
+      "talk to human",
+      "live agent",
+      "real person",
+      "talk to representative",
+      "human agent",
+      "real agent",
+      "connect me to agent",
+      "escalate",
+      "speak to manager",
+      "talk to supervisor",
+      "get a human",
+      "customer service rep",
+      "i want to speak to someone",
+      "agent please"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Customer Efforts",
+      "level_3": "Multiple Interactions",
+      "level_4": "Request For Live Agent",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "long wait",
+      "waiting too long",
+      "been waiting",
+      "no response",
+      "still waiting",
+      "taking too long",
+      "how long do i wait",
+      "no reply",
+      "no answer",
+      "waiting for reply"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Customer Efforts",
+      "level_3": "Multiple Interactions",
+      "level_4": "Long Wait Time",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "issue not resolved",
+      "problem not fixed",
+      "not resolved",
+      "still having issue",
+      "same problem",
+      "no resolution",
+      "didn't fix",
+      "still not fixed",
+      "problem persists",
+      "still facing same issue"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Issue Resolution",
+      "level_3": "Issue Is Not Resolved",
+      "level_4": "Unresolved Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "contacted before",
+      "called before",
+      "messaged yesterday",
+      "reached out before",
+      "second time contacting",
+      "third time",
+      "multiple times",
+      "already spoke to",
+      "contacted multiple times",
+      "this is my second time",
+      "i called yesterday"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Customer Efforts",
+      "level_3": "Repeated Information",
+      "level_4": "Repeated Contact",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "domain not showing",
+      "website not showing",
+      "coming soon page",
+      "domain not live",
+      "domain offline",
+      "domain looks unavailable"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Domain/Hosting",
+      "level_4": "Domain Not Resolving",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "dns settings",
+      "dns information",
+      "dns records",
+      "change dns",
+      "edit dns",
+      "update dns",
+      "dns locked",
+      "dns not updated"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Domain/Hosting",
+      "level_4": "DNS Configuration",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "a record",
+      "cname record",
+      "mx record",
+      "nameserver",
+      "nameservers",
+      "name server",
+      "point domain"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Domain/Hosting",
+      "level_4": "DNS Record Update",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "domain expired",
+      "domain renewal",
+      "renew domain",
+      "renew my domain",
+      "domain expiring"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Domain Management",
+      "level_3": "Domain Transfer",
+      "level_4": "Domain Renewal",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "transfer domain",
+      "domain transfer",
+      "transfer my domain",
+      "transferring domain",
+      "move domain",
+      "transfer to hostinger",
+      "transfer to cloudflare",
+      "transfer to namecheap"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Domain Management",
+      "level_3": "Domain Transfer",
+      "level_4": "Domain Transfer Out",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "transfer authorization",
+      "transfer code",
+      "auth code",
+      "epp code",
+      "unlock domain",
+      "domain locked"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Domain Management",
+      "level_3": "Domain Transfer",
+      "level_4": "Transfer Authorization Code",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "ssl certificate",
+      "ssl expired",
+      "install ssl",
+      "ssl not working",
+      "https not working",
+      "ssl issue",
+      "renew ssl",
+      "ssl error"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Domain/Hosting",
+      "level_4": "SSL Certificate Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "email not working",
+      "email issue",
+      "email problem",
+      "cannot receive emails",
+      "cannot send email",
+      "email error",
+      "email not receiving",
+      "unable to receive email"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Email",
+      "level_4": "Email Not Working",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 1,
+    "conditions": [
+      "spf error",
+      "spf record",
+      "dkim",
+      "dmarc",
+      "email deliverability",
+      "email bouncing",
+      "emails going to spam"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Email",
+      "level_4": "Email Authentication/SPF",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "poor quality",
+      "bad quality",
+      "low quality",
+      "cheap quality",
+      "not durable",
+      "broke easily",
+      "broke after",
+      "fell apart",
+      "not worth the money",
+      "waste of money",
+      "poor build quality",
+      "quality is bad",
+      "not good quality",
+      "product quality issue",
+      "unhappy with quality",
+      "disappointed with quality"
+    ],
+    "set": {
+      "category": "Product Driven",
+      "subcategory": "Product Issues",
+      "level_3": "Product Quality",
+      "level_4": "Not Happy Product Quality",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "wrong size",
+      "size doesn't fit",
+      "too big",
+      "too small",
+      "size issue",
+      "size problem",
+      "doesn't fit",
+      "wrong fit",
+      "size chart",
+      "what size should i order",
+      "size guide",
+      "size recommendation",
+      "which size",
+      "size too large",
+      "size too small",
+      "doesn't fit properly",
+      "size mismatch"
+    ],
+    "set": {
+      "category": "Product Driven",
+      "subcategory": "Product Issues",
+      "level_3": "Product Design",
+      "level_4": "Not Happy With Product Design",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "out of stock",
+      "not in stock",
+      "when will it be available",
+      "back in stock",
+      "notify me when available",
+      "stock alert",
+      "item unavailable",
+      "product unavailable",
+      "sold out",
+      "when will you restock",
+      "restock date",
+      "when can i order",
+      "pre-order",
+      "pre order"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Order Issues",
+      "level_3": "No Information On Order",
+      "level_4": "No Information On Product Ordered",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "create account",
+      "register account",
+      "sign up",
+      "signup",
+      "new account",
+      "account creation",
+      "registration error",
+      "cannot register",
+      "can't sign up",
+      "unable to register",
+      "register on your website",
+      "how to create account",
+      "make an account",
+      "account setup"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Signing Issues",
+      "level_3": "Signing Issues",
+      "level_4": "Registration/Signup Error",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "loyalty points",
+      "reward points",
+      "cashback",
+      "cash back",
+      "points not credited",
+      "points missing",
+      "reward not received",
+      "cashback not received",
+      "store credit",
+      "wallet balance",
+      "how to redeem points",
+      "redeem rewards",
+      "points balance",
+      "my points",
+      "earn points",
+      "loyalty program"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Discount Issues",
+      "level_3": "Additional Discount",
+      "level_4": "No Compensation For Inconvenience",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "gift card",
+      "gift voucher",
+      "e-gift card",
+      "redeem gift card",
+      "gift card balance",
+      "gift card not working",
+      "apply gift card",
+      "use gift card",
+      "gift certificate",
+      "gift card code"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Discount Issues",
+      "level_3": "Additional Discount",
+      "level_4": "Not Happy With Discount Applied",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "cash on delivery",
+      "cod",
+      "pay on delivery",
+      "cash payment",
+      "cod not available",
+      "cod option",
+      "cod order",
+      "pay cash",
+      "is cod available",
+      "want to pay cash"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Technology",
+      "level_3": "Payment",
+      "level_4": "Payment Method Update",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "emi",
+      "installment",
+      "pay in installments",
+      "monthly payment",
+      "no cost emi",
+      "easy emi",
+      "emi option",
+      "emi plan",
+      "emi not available",
+      "equated monthly",
+      "split payment",
+      "buy now pay later",
+      "bnpl",
+      "pay later"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Technology",
+      "level_3": "Payment",
+      "level_4": "Payment Method Update",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "invoice",
+      "tax invoice",
+      "gst invoice",
+      "receipt",
+      "billing statement",
+      "need invoice",
+      "send invoice",
+      "download invoice",
+      "where is my invoice",
+      "proof of purchase",
+      "purchase receipt",
+      "vat invoice",
+      "get invoice"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Technology",
+      "level_3": "Payment",
+      "level_4": "Invoice/Receipt Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "how to assemble",
+      "assembly help",
+      "assembly instructions",
+      "installation help",
+      "how to install",
+      "how to set up",
+      "assembly guide",
+      "putting together",
+      "assembling",
+      "need help assembling",
+      "assembly manual"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Manufacturer Issues",
+      "level_3": "Manual Instructions",
+      "level_4": "No Manual Instructions In Package",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "warranty",
+      "product warranty",
+      "warranty claim",
+      "warranty period",
+      "warranty not honored",
+      "under warranty",
+      "warranty coverage",
+      "warranty expired",
+      "claim warranty",
+      "warranty issue",
+      "warranty problem"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Warranty Issues",
+      "level_3": "Not Happy With Warranty",
+      "level_4": "Not Happy With Warranty",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "seller not responding",
+      "vendor issue",
+      "third party seller",
+      "marketplace seller",
+      "seller hasn't shipped",
+      "seller problem",
+      "supplier issue",
+      "seller review",
+      "bad seller"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Partner Dissatisfaction",
+      "level_3": "Unhappy With Manufacturer",
+      "level_4": "Not Happy With The Manufacturer",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "change payment method",
+      "update card",
+      "new credit card",
+      "update payment",
+      "change payment",
+      "add payment method",
+      "payment method",
+      "update billing",
+      "change card details",
+      "upi payment",
+      "net banking",
+      "google pay",
+      "phone pe",
+      "paytm"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Technology",
+      "level_3": "Payment",
+      "level_4": "Payment Method Update",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "what is the price",
+      "how much does it cost",
+      "price of",
+      "cost of the product",
+      "what does this cost",
+      "product price",
+      "price inquiry",
+      "pricing information",
+      "subscription price",
+      "plan cost",
+      "how much is",
+      "price list"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Account Management",
+      "level_3": "General Inquiry",
+      "level_4": "Pricing Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "never buying again",
+      "will not buy again",
+      "last time shopping here",
+      "closing my account",
+      "going to competitor",
+      "switching to amazon",
+      "switching to flipkart",
+      "prefer competitor",
+      "not recommending",
+      "will leave bad review",
+      "posting on social media",
+      "consumer court",
+      "legal action",
+      "fraud",
+      "cheated",
+      "scam"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Churn",
+      "level_4": "Changing Service Provider",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "buy domain",
+      "purchase domain",
+      "register domain",
+      "new domain",
+      "search domain",
+      "domain available",
+      "domain registration"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Domain Management",
+      "level_3": "Domain Transfer",
+      "level_4": "Domain Purchase",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "connect domain",
+      "connect to shopify",
+      "connect to squarespace",
+      "connect to wix",
+      "connect to wordpress",
+      "map domain",
+      "link domain"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Domain/Hosting",
+      "level_4": "Domain Mapping",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "website builder",
+      "build website",
+      "create website",
+      "edit website",
+      "website editor",
+      "access my website builder"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Website Creation",
+      "level_4": "Website Builder Access",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "email setup",
+      "setup email",
+      "professional email",
+      "business email",
+      "email hosting",
+      "workspace email",
+      "microsoft 365",
+      "office 365"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Email",
+      "level_4": "Email Setup",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "upgrade plan",
+      "upgrade hosting",
+      "upgrade account",
+      "upgrade subscription",
+      "upgrade to premium"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Account Management",
+      "level_3": "Plan Change",
+      "level_4": "Upgrade Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "downgrade plan",
+      "change to basic",
+      "cheaper plan",
+      "reduce plan"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Account Management",
+      "level_3": "Plan Change",
+      "level_4": "Downgrade Request",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "online store",
+      "ecommerce store",
+      "sell online",
+      "add products",
+      "shopping cart setup",
+      "online shop",
+      "godaddy payments"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Website Setup",
+      "level_3": "Website Creation",
+      "level_4": "Online Store Setup",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "website hacked",
+      "site hacked",
+      "malware",
+      "security scan",
+      "security issue",
+      "website security",
+      "suspicious activity"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Website Creation",
+      "level_4": "Security/Malware Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "email communication",
+      "notification email",
+      "marketing emails",
+      "unsubscribe emails",
+      "stop sending emails"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Email Communication",
+      "level_3": "Email Communication",
+      "level_4": "Communication Preference",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 2,
+    "conditions": [
+      "discount code",
+      "can i get a discount",
+      "special offer",
+      "promotional pricing",
+      "renewal discount",
+      "loyalty discount"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Process",
+      "level_3": "Discounts / Coupons",
+      "level_4": "Discount Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 3,
+    "conditions": [
+      "add to cart",
+      "cart not working",
+      "cart error",
+      "wishlist",
+      "save for later",
+      "can't add to cart",
+      "item removed from cart",
+      "cart is empty",
+      "shopping cart issue",
+      "cart not loading",
+      "add to wishlist",
+      "wishlist not saving"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Website Creation",
+      "level_4": "Website Loading Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 3,
+    "conditions": [
+      "can't find product",
+      "search not working",
+      "no search results",
+      "looking for product",
+      "searching for item",
+      "product not found",
+      "filter not working",
+      "sort not working",
+      "browse products",
+      "search results wrong",
+      "can't locate item"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Website Issues",
+      "level_3": "Website Creation",
+      "level_4": "Website Loading Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 3,
+    "conditions": [
+      "recommend a product",
+      "suggest a product",
+      "best product for",
+      "what do you recommend",
+      "help me choose",
+      "which product",
+      "product suggestion",
+      "looking for recommendation",
+      "which one should i buy",
+      "product advice"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Account Management",
+      "level_3": "General Inquiry",
+      "level_4": "Pricing Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 3,
+    "conditions": [
+      "any deals",
+      "current offers",
+      "ongoing sale",
+      "flash sale",
+      "sale price",
+      "discount offer",
+      "special offer",
+      "best price",
+      "cheapest price",
+      "lowest price",
+      "seasonal sale",
+      "clearance sale",
+      "any discounts available",
+      "what deals do you have",
+      "today's deals"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Discount Issues",
+      "level_3": "Additional Discount",
+      "level_4": "No Compensation For Inconvenience",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 3,
+    "conditions": [
+      "bulk order",
+      "wholesale",
+      "bulk purchase",
+      "large quantity",
+      "business order",
+      "corporate order",
+      "bulk discount",
+      "order in bulk",
+      "wholesale price",
+      "volume discount"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Order Issues",
+      "level_3": "No Information On Order",
+      "level_4": "No Information On Product Ordered",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "priority": 3,
+    "conditions": [
+      "thank you",
+      "thanks for helping",
+      "appreciate your help",
+      "you were very helpful",
+      "great job",
+      "amazing support",
+      "excellent service",
+      "resolved my issue",
+      "fixed my problem",
+      "issue resolved",
+      "problem solved",
+      "everything works now",
+      "quick resolution",
+      "fast response",
+      "very patient"
+    ],
+    "set": {
+      "category": "Positive Feedback",
+      "subcategory": "Agent Appreciation",
+      "level_3": "Agent Was Helpful",
+      "level_4": "General Appreciation",
+      "sentiment": "positive"
+    }
+  },
+  {
+    "priority": 3,
+    "conditions": [
+      "navigate website",
+      "difficult to navigate",
+      "confusing website",
+      "hard to find",
+      "website navigation",
+      "website not loading",
+      "site not loading",
+      "page not loading",
+      "website slow",
+      "site down",
+      "website error",
+      "503 error",
+      "500 error",
+      "404 error",
+      "godaddy app",
+      "mobile app",
+      "app not working",
+      "app issue"
+    ],
+    "set": {
+      "category": "Negative feedback",
+      "subcategory": "Technology",
+      "level_3": "Website Navigation",
+      "level_4": "Navigation Difficulty",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "priority": 99,
+    "conditions": [
+      "i need assistance with my account",
+      "i need help with my subscription",
+      "i need help with billing",
+      "i need help with my order",
+      "i need help with delivery",
+      "i need help with payment"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Account Management",
+      "level_3": "General Inquiry",
+      "level_4": "General Help Request",
+      "sentiment": "neutral"
+    }
   }
 ]
