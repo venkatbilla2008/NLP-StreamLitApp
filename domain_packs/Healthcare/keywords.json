@@ -801,5 +801,98 @@
             "level_4": "Cancel or Switch Plan",
             "sentiment": "neutral"
         }
+    },
+    {
+        "conditions": [
+            "queue continue wait",
+            "continue wait queue",
+            "wait queue chat",
+            "thank you for holding",
+            "bthank holding currently",
+            "you are currently number",
+            "currently number",
+            "number in queue",
+            "Whenever youre ready",
+            "youre ready prefer",
+            "still here help"
+        ],
+        "set": {
+            "category": "Agent Opportunity",
+            "subcategory": "Communication and Soft Skills",
+            "level_3": "Long Hold on Call / Chat",
+            "level_4": "Long Wait on Call / Chat",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "schedule evaluation",
+            "physical therapy evaluation",
+            "make an appointment",
+            "book an appointment",
+            "schedule an appointment",
+            "evaluation schedule",
+            "need to schedule",
+            "would like to schedule",
+            "looking to schedule",
+            "set up an appointment",
+            "appointment for physical therapy",
+            "professional physical therapy"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "Scheduling Appointments",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "verify insurance",
+            "insurance benefits",
+            "check coverage",
+            "verify coverage",
+            "insurance verification",
+            "check my insurance",
+            "verify my insurance",
+            "verify benefits",
+            "verify my benefits",
+            "what is covered",
+            "do you accept",
+            "in network or out",
+            "insurance check"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Checking Benefits",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "conditions": [
+            "date of birth",
+            "zip code",
+            "verify your identity",
+            "first and last name",
+            "full name",
+            "your date of birth",
+            "verify demographic",
+            "demographic verify",
+            "verify phone number",
+            "what is your zip code",
+            "can i have your date of birth",
+            "first name and last name",
+            "verify the account"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Patient Administration",
+            "level_4": "ID Verification",
+            "sentiment": "neutral"
+        }
     }
 ]

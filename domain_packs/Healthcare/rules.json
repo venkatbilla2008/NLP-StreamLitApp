@@ -2631,5 +2631,213 @@
             "level_4": "Unresolved Issues",
             "sentiment": "negative"
         }
+    },
+    {
+        "rule_name": "HC Routine: Queue Continue Wait",
+        "conditions": [
+            "queue continue wait"
+        ],
+        "set": {
+            "category": "Agent Opportunity",
+            "subcategory": "Communication and Soft Skills",
+            "level_3": "Long Hold on Call / Chat",
+            "level_4": "Long Wait on Call / Chat",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Continue Wait Queue",
+        "conditions": [
+            "continue wait queue"
+        ],
+        "set": {
+            "category": "Agent Opportunity",
+            "subcategory": "Communication and Soft Skills",
+            "level_3": "Long Hold on Call / Chat",
+            "level_4": "Long Wait on Call / Chat",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Wait Queue Chat",
+        "conditions": [
+            "wait queue chat"
+        ],
+        "set": {
+            "category": "Agent Opportunity",
+            "subcategory": "Communication and Soft Skills",
+            "level_3": "Long Hold on Call / Chat",
+            "level_4": "Long Wait on Call / Chat",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Thank You For Holding",
+        "conditions": [
+            "thank you for holding"
+        ],
+        "set": {
+            "category": "Agent Opportunity",
+            "subcategory": "Communication and Soft Skills",
+            "level_3": "Long Hold on Call / Chat",
+            "level_4": "Long Wait on Call / Chat",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Schedule Evaluation",
+        "conditions": [
+            "schedule evaluation"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "Scheduling Appointments",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Physical Therapy Evaluation",
+        "conditions": [
+            "physical therapy evaluation"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "Scheduling Appointments",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Make An Appointment",
+        "conditions": [
+            "make an appointment"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "Scheduling Appointments",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Book An Appointment",
+        "conditions": [
+            "book an appointment"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "Scheduling Appointments",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Verify Insurance",
+        "conditions": [
+            "verify insurance"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Checking Benefits",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Insurance Benefits",
+        "conditions": [
+            "insurance benefits"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Checking Benefits",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Check Coverage",
+        "conditions": [
+            "check coverage"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Checking Benefits",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Verify Coverage",
+        "conditions": [
+            "verify coverage"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Checking Benefits",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Date Of Birth",
+        "conditions": [
+            "date of birth"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Patient Administration",
+            "level_4": "ID Verification",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Zip Code",
+        "conditions": [
+            "zip code"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Patient Administration",
+            "level_4": "ID Verification",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: Verify Your Identity",
+        "conditions": [
+            "verify your identity"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Patient Administration",
+            "level_4": "ID Verification",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Routine: First And Last Name",
+        "conditions": [
+            "first and last name"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Patient Administration",
+            "level_4": "ID Verification",
+            "sentiment": "neutral"
+        }
     }
 ]
