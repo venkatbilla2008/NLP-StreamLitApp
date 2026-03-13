@@ -3296,5 +3296,811 @@
             "level_4": "Audio Connection Issue",
             "sentiment": "negative"
         }
+    },
+    {
+        "rule_name": "HC Rule: Money Is Debited",
+        "conditions": [
+            "money is debited"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Billing Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Money Was Debited",
+        "conditions": [
+            "money was debited"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Billing Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Money Was Withdrawn",
+        "conditions": [
+            "money was withdrawn"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Billing Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Payment Not Going Through",
+        "conditions": [
+            "payment not going through"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Payment Failure",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Unable To Do Payment",
+        "conditions": [
+            "unable to do payment"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Payment Failure",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Payment Is Pending",
+        "conditions": [
+            "payment is pending"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Payment Failure",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Refund Not Received",
+        "conditions": [
+            "refund not received"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Refund Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Still Waiting For Refund",
+        "conditions": [
+            "still waiting for refund"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Refund Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Where Is My Refund",
+        "conditions": [
+            "where is my refund"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Refund Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Copay Too High",
+        "conditions": [
+            "copay too high"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Cost Concerns",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Can'T Afford",
+        "conditions": [
+            "can't afford"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Cost Concerns",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Too Expensive",
+        "conditions": [
+            "too expensive"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Cost Concerns",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Not Covered",
+        "conditions": [
+            "not covered"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Coverage Denied",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Isn'T Covered",
+        "conditions": [
+            "isn't covered"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Coverage Denied",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Not On Formulary",
+        "conditions": [
+            "not on formulary"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Coverage Denied",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Out Of Network",
+        "conditions": [
+            "out of network"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Network Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Not In Network",
+        "conditions": [
+            "not in network"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Network Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Network Issue",
+        "conditions": [
+            "network issue"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Network Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Prior Authorization Required",
+        "conditions": [
+            "prior authorization required"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Prior Authorization",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Need Prior Auth",
+        "conditions": [
+            "need prior auth"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Prior Authorization",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Prior Auth Denied",
+        "conditions": [
+            "prior auth denied"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Prior Authorization",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Can'T Get Medication",
+        "conditions": [
+            "can't get medication"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Medication Availability",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Medication Not Available",
+        "conditions": [
+            "medication not available"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Medication Availability",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Out Of Stock",
+        "conditions": [
+            "out of stock"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Medication Availability",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Wrong Medication",
+        "conditions": [
+            "wrong medication"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Medication Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Incorrect Prescription",
+        "conditions": [
+            "incorrect prescription"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Medication Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Medication Error",
+        "conditions": [
+            "medication error"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Medication Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Side Effects",
+        "conditions": [
+            "side effects"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Adverse Reactons",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Adverse Reaction",
+        "conditions": [
+            "adverse reaction"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Adverse Reactons",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Allergic Reaction",
+        "conditions": [
+            "allergic reaction"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Adverse Reactons",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Doesn'T Work",
+        "conditions": [
+            "doesn't work"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Ineffectiveness",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Not Working",
+        "conditions": [
+            "not working"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Ineffectiveness",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Treatment Didn'T Work",
+        "conditions": [
+            "treatment didn't work"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Ineffectiveness",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Pharmacy Won'T Fill",
+        "conditions": [
+            "pharmacy won't fill"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Pharmacy Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Refused To Fill",
+        "conditions": [
+            "refused to fill"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Pharmacy Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Can'T Fill",
+        "conditions": [
+            "can't fill"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Pharmacy Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Cannot Access",
+        "conditions": [
+            "cannot access"
+        ],
+        "set": {
+            "category": "Technology Issues",
+            "subcategory": "System Access",
+            "level_3": "Account Access",
+            "level_4": "Login Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Cant Access",
+        "conditions": [
+            "cant access"
+        ],
+        "set": {
+            "category": "Technology Issues",
+            "subcategory": "System Access",
+            "level_3": "Account Access",
+            "level_4": "Login Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Can'T Access",
+        "conditions": [
+            "can't access"
+        ],
+        "set": {
+            "category": "Technology Issues",
+            "subcategory": "System Access",
+            "level_3": "Account Access",
+            "level_4": "Login Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Not Working Properly",
+        "conditions": [
+            "not working properly"
+        ],
+        "set": {
+            "category": "Technology Issues",
+            "subcategory": "System Access",
+            "level_3": "Account Access",
+            "level_4": "Portal Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Stopped Working",
+        "conditions": [
+            "stopped working"
+        ],
+        "set": {
+            "category": "Technology Issues",
+            "subcategory": "System Access",
+            "level_3": "Account Access",
+            "level_4": "Portal Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Missed Appointment",
+        "conditions": [
+            "missed appointment"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "Scheduling Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Late Appointment",
+        "conditions": [
+            "late appointment"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "Scheduling Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Wrong Appointment",
+        "conditions": [
+            "wrong appointment"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "Scheduling Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: No Show",
+        "conditions": [
+            "no show"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "No-Shows/Delays",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Didn'T Show Up",
+        "conditions": [
+            "didn't show up"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "No-Shows/Delays",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Never Showed",
+        "conditions": [
+            "never showed"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "No-Shows/Delays",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Long Wait Time",
+        "conditions": [
+            "long wait time"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Wait Times",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Waiting Too Long",
+        "conditions": [
+            "waiting too long"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Wait Times",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Waited Forever",
+        "conditions": [
+            "waited forever"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Wait Times",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Can'T Reach Anyone",
+        "conditions": [
+            "can't reach anyone"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Communication",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: No One Answers",
+        "conditions": [
+            "no one answers"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Communication",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: No Callback",
+        "conditions": [
+            "no callback"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Communication",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Poor Customer Service",
+        "conditions": [
+            "poor customer service"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Staff Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Bad Service",
+        "conditions": [
+            "bad service"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Staff Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Terrible Service",
+        "conditions": [
+            "terrible service"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Staff Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Fed Up",
+        "conditions": [
+            "fed up"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Member Sentiment",
+            "level_4": "Frustration",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Sick Of",
+        "conditions": [
+            "sick of"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Member Sentiment",
+            "level_4": "Frustration",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Tired Of",
+        "conditions": [
+            "tired of"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Member Sentiment",
+            "level_4": "Frustration",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Not Resolved",
+        "conditions": [
+            "not resolved"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Member Sentiment",
+            "level_4": "Unresolved Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: Still Not Resolved",
+        "conditions": [
+            "still not resolved"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Member Sentiment",
+            "level_4": "Unresolved Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Rule: No Solution",
+        "conditions": [
+            "no solution"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Member Sentiment",
+            "level_4": "Unresolved Issues",
+            "sentiment": "negative"
+        }
     }
 ]

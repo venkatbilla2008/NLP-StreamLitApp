@@ -1376,54 +1376,6 @@ class ConcordanceAnalyzer:
             raise ValueError(f"Unsupported format: {format}")
 
 
-# ========================================================================================
-# CONSUMER TURN EXTRACTION  (GoDaddy / timestamped transcript format)
-# ========================================================================================
-
-# Pattern 1: GoDaddy format  —  "HH:MM:SS-consumer: text"
-_GODADDY_CONSUMER = re.compile(
-    r'^\d{1,2}:\d{2}:\d{2}-(?:consumer|customer|client|caller|user):\s*(.+?)'
-    r'(?=\n\d{1,2}:\d{2}:\d{2}-|\Z)',
-    re.I | re.M | re.S
-)
-
-# Pattern 2: Generic labelled format  —  "Customer: text" / "Consumer: text"
-_GENERIC_CONSUMER = re.compile(
-    r'^(?:consumer|customer|client|caller|user):\s*(.+?)'
-    r'(?=\n(?:consumer|customer|client|caller|user|agent|rep|representative|support):|\Z)',
-    re.I | re.M | re.S
-)
-
-
-def extract_consumer_text(raw_text: str) -> str:
-    """Extract only the CONSUMER/CUSTOMER turns from a chat transcript.
-
-    Supports two formats:
-    - GoDaddy   : ``HH:MM:SS-consumer: text``
-    - Generic   : ``consumer: text`` (no timestamp)
-
-    Returns the consumer turns joined as a single string.
-    If no consumer turns are found, falls back to the full raw text so
-    classification still has something to work with.
-    """
-    if not raw_text or not isinstance(raw_text, str):
-        return ""
-
-    # Try GoDaddy timestamped format first
-    matches = _GODADDY_CONSUMER.findall(raw_text)
-
-    # Fall back to generic labeled format
-    if not matches:
-        matches = _GENERIC_CONSUMER.findall(raw_text)
-
-    if matches:
-        # Strip leading/trailing whitespace from each turn
-        turns = [m.strip() for m in matches if m.strip()]
-        return " ".join(turns)
-
-    # No speaker labels found — return the full text so we don't lose data
-    return raw_text.strip()
-
 
 # ========================================================================================
 # ULTRA-FAST NLP PIPELINE WITH DUCKDB
@@ -1463,19 +1415,13 @@ class UltraFastNLPPipeline:
         self,
         chunk_df: pl.DataFrame,
         text_column: str,
-        redaction_mode: str,
-        consumer_only: bool = False
+        redaction_mode: str
     ) -> pl.DataFrame:
         """Process a single chunk with vectorized operations.
-
-        If *consumer_only* is True, each transcript is first filtered down
-        to consumer/customer turns only before PII-redaction and classification.
+        
+        The entire conversation transcript is analyzed simultaneously for classifications.
         """
         texts = chunk_df[text_column].to_list()
-
-        # 0. OPTIONAL: Extract consumer turns from multi-speaker transcripts
-        if consumer_only:
-            texts = [extract_consumer_text(t) for t in texts]
         
         # 1. Vectorized PII Redaction (for compliance, but not in output)
         if self.enable_pii_redaction:
@@ -1517,8 +1463,7 @@ class UltraFastNLPPipeline:
         text_column: str,
         id_column: str,
         redaction_mode: str = 'hash',
-        progress_callback=None,
-        consumer_only: bool = False
+        progress_callback=None
     ) -> pl.DataFrame:
         """
         ULTRA-FAST batch processing with DuckDB and chunking
@@ -1542,8 +1487,8 @@ class UltraFastNLPPipeline:
             
             logger.info(f"⚡ Processing chunk {chunk_num}/{num_chunks} ({len(chunk_df):,} records)")
             
-            # Process chunk with vectorized operations
-            result_chunk = self.process_chunk(chunk_df, text_column, redaction_mode, consumer_only)
+            # Process chunk with vectorized operations (entire conversation)
+            result_chunk = self.process_chunk(chunk_df, text_column, redaction_mode)
             chunks.append(result_chunk)
             
             if progress_callback:

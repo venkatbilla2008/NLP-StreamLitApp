@@ -61,5 +61,416 @@
             "subcategory": "Change Plan / Program",
             "sentiment": "neutral"
         }
+    },
+    {
+        "conditions": [
+            "money is debited",
+            "money was debited",
+            "money was withdrawn",
+            "charged double",
+            "being charged double",
+            "double charged",
+            "unauthorized charge",
+            "charged without permission",
+            "charged incorrectly",
+            "incorrect charge",
+            "wrong amount charged",
+            "overcharged",
+            "surprise bill",
+            "hidden fee"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Billing Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "payment not going through",
+            "unable to do payment",
+            "payment is pending",
+            "payment failed",
+            "payment issue"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Payment Failure",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "refund not received",
+            "still waiting for refund",
+            "where is my refund",
+            "need a refund",
+            "issue a refund",
+            "requesting refund"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Refund Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "copay too high",
+            "can't afford",
+            "too expensive"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Cost Concerns",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "not covered",
+            "isn't covered",
+            "not on formulary",
+            "insurance won't cover",
+            "insurance denied",
+            "denied coverage",
+            "coverage denied",
+            "claim denied"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Coverage Denied",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "out of network",
+            "not in network",
+            "network issue",
+            "network pharmacy",
+            "find pharmacy",
+            "insurance not accepted"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Network Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "prior authorization required",
+            "need prior auth",
+            "prior auth denied",
+            "authorization denied",
+            "auth rejected",
+            "waiting for approval",
+            "still waiting for auth",
+            "prior auth taking too long",
+            "auth delay",
+            "requires prior auth"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Coverage & Network",
+            "level_4": "Prior Authorization",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "can't get medication",
+            "medication not available",
+            "out of stock",
+            "no stock",
+            "unavailable"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Medication Availability",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "wrong medication",
+            "incorrect prescription",
+            "medication error",
+            "wrong dosage",
+            "wrong dose"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Medication Error",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "side effects",
+            "adverse reaction",
+            "allergic reaction"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Adverse Reactons",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "doesn't work",
+            "not working",
+            "ineffective",
+            "treatment didn't work",
+            "no improvement",
+            "getting worse",
+            "not getting better",
+            "not helping"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Ineffectiveness",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "pharmacy won't fill",
+            "refused to fill",
+            "can't fill",
+            "pharmacy error",
+            "wrong pharmacy",
+            "pharmacy mistake",
+            "long wait at pharmacy",
+            "pharmacy delay",
+            "pharmacy not in network",
+            "can't use pharmacy"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Medication & Pharmacy",
+            "level_4": "Pharmacy Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "cannot access",
+            "cant access",
+            "can't access",
+            "unable to access",
+            "locked out",
+            "account locked",
+            "suspended account",
+            "login issue",
+            "login problem",
+            "can't login",
+            "cannot login"
+        ],
+        "set": {
+            "category": "Technology Issues",
+            "subcategory": "System Access",
+            "level_3": "Account Access",
+            "level_4": "Login Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "not working properly",
+            "doesn't work",
+            "stopped working",
+            "no longer works",
+            "portal not working",
+            "website down",
+            "app not working",
+            "getting stuck",
+            "system error",
+            "technical issue",
+            "glitch",
+            "keeps crashing",
+            "page not loading"
+        ],
+        "set": {
+            "category": "Technology Issues",
+            "subcategory": "System Access",
+            "level_3": "Account Access",
+            "level_4": "Portal Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "missed appointment",
+            "late appointment",
+            "wrong appointment",
+            "appointment not scheduled",
+            "double booked",
+            "no appointment available",
+            "cancelled my appointment",
+            "rescheduled without notice",
+            "changed without telling me"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "Scheduling Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "no show",
+            "didn't show up",
+            "never showed",
+            "therapist didn't show",
+            "no therapist available",
+            "running late",
+            "always late",
+            "never on time"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Appointment Process",
+            "level_3": "Appointment Management",
+            "level_4": "No-Shows/Delays",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "long wait time",
+            "waiting too long",
+            "waited forever",
+            "on hold forever"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Wait Times",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "can't reach anyone",
+            "no one answers",
+            "no callback",
+            "never called back",
+            "ignored my request",
+            "no follow up",
+            "poor communication",
+            "didn't respond",
+            "never heard back",
+            "unreachable"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Communication",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "poor customer service",
+            "bad service",
+            "terrible service",
+            "rude representative",
+            "unhelpful agent",
+            "dismissive",
+            "staff",
+            "unprofessional",
+            "rude staff",
+            "incompetent",
+            "careless"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Service Delivery",
+            "level_4": "Staff Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "frustrating",
+            "frustrated",
+            "annoyed",
+            "angry",
+            "disappointed",
+            "upset",
+            "irritated",
+            "furious",
+            "unacceptable",
+            "ridiculous",
+            "terrible",
+            "horrible",
+            "worst",
+            "pathetic",
+            "useless",
+            "awful",
+            "disgusted",
+            "fed up",
+            "sick of",
+            "tired of",
+            "unhappy",
+            "dissatisfied"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Member Sentiment",
+            "level_4": "Frustration",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "conditions": [
+            "not resolved",
+            "still not resolved",
+            "unresolved",
+            "no solution",
+            "not fixed",
+            "still broken",
+            "problem persists",
+            "issue continues",
+            "ongoing issue"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Member Sentiment",
+            "level_4": "Unresolved Issues",
+            "sentiment": "negative"
+        }
     }
 ]
