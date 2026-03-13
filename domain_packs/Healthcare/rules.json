@@ -1,2434 +1,1056 @@
 [
     {
+        "rule_name": "Cancel Appointment - Explicit",
         "conditions": [
-            "clear explanation by rep",
-            "appreciating communication and soft skills"
+            "cancel my appointment"
         ],
         "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Appreciating Communication and Soft Skills",
-            "level_4": "Clear Explanation by Rep",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "appreciating communication and soft skills"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Appreciating Communication and Soft Skills",
-            "level_4": "Empathetic Rep",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "appreciating communication and soft skills"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Appreciating Communication and Soft Skills",
-            "level_4": "Excellent communication",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "appreciating communication and soft skills"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Appreciating Communication and Soft Skills",
-            "level_4": "Excellent tone",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "good listening skills",
-            "appreciating communication and soft skills"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Appreciating Communication and Soft Skills",
-            "level_4": "Good Listening Skills",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "appreciating communication and soft skills"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Appreciating Communication and Soft Skills",
-            "level_4": "Patient Rep",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "rep has clear understanding",
-            "appreciating communication and soft skills"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Appreciating Communication and Soft Skills",
-            "level_4": "Rep has Clear Understanding",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "good attention by rep"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Appreciating Ownership",
-            "level_4": "Good Attention by Rep",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "quick / prompt rep"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Appreciating Resolution",
-            "level_4": "Quick / Prompt Rep",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "appreciating product  service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Appreciating Product",
-            "level_4": "Excellent Products",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "appreciating product  service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Appreciating Product",
-            "level_4": "Good plans",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "good promotion / offer",
-            "appreciating product  service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Appreciating Product",
-            "level_4": "Good Promotion / Offer",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "good calling service",
-            "appreciating product  service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Appreciating Product",
-            "level_4": "Good calling service",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "customer will recommend service",
-            "appreciating product  service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Appreciating Service",
-            "level_4": "Customer Will Recommend Service",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "excellent / good service",
-            "appreciating product  service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Appreciating Service",
-            "level_4": "Excellent / Good service",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "appreciating website / app",
-            "appreciating product  service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Appreciating Website / App",
-            "level_4": "Good Website",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "appreciating website / app",
-            "appreciating product  service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Appreciating Website / App",
-            "level_4": "Nice APP",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "appreciating product  service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Appreciating Service",
-            "level_4": "Professional service",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "appreciating product  service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Appreciating Service",
-            "level_4": "Reliable Service",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "appreciating product  service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Product & Service",
-            "level_3": "Appreciating Service",
-            "level_4": "Timely service",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "communication and soft skills"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Communication Issues",
-            "level_4": "General Communication Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "dead air on call",
-            "communication and soft skills"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Hold & Wait Issues",
-            "level_4": "Dead Air on Call",
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Appointment Cancellation",
+            "level_4": "Patient Initiated Cancellation",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Cancel Appointment - Need to",
         "conditions": [
-            "excessive talking by rep",
-            "communication and soft skills"
+            "need to cancel"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Communication Issues",
-            "level_4": "Excessive Talking by Rep",
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Appointment Cancellation",
+            "level_4": "Patient Initiated Cancellation",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Cancel Appointment - Want to",
         "conditions": [
-            "hard to understand rep",
-            "communication and soft skills"
+            "want to cancel"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Communication Issues",
-            "level_4": "Hard to Understand Rep",
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Appointment Cancellation",
+            "level_4": "Patient Initiated Cancellation",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Cancel Appointment - Would Like to",
         "conditions": [
-            "communication and soft skills"
+            "would like to cancel"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Communication Issues",
-            "level_4": "Language / Accent Barrier",
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Appointment Cancellation",
+            "level_4": "Patient Initiated Cancellation",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Cancel Appointment - Please",
         "conditions": [
-            "long hold on call / chat",
-            "communication and soft skills"
+            "please cancel"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Hold & Wait Issues",
-            "level_4": "Long Hold on Call / Chat",
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Appointment Cancellation",
+            "level_4": "Patient Initiated Cancellation",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Cancel Appointment - Can I",
         "conditions": [
-            "communication and soft skills"
+            "can i cancel"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Hold & Wait Issues",
-            "level_4": "Multiple Holds During Call",
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Appointment Cancellation",
+            "level_4": "Patient Initiated Cancellation",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Cancel Appointment - Cancelling",
         "conditions": [
-            "communication and soft skills"
+            "cancelling my appointment"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Communication Issues",
-            "level_4": "Lack of Assurance",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "no empathy by rep",
-            "communication and soft skills"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "No empathy by Rep",
-            "level_4": "No empathy by Rep",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "communication and soft skills"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Communication Issues",
-            "level_4": "Rep Showed No Patience",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "communication and soft skills"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Communication Issues",
-            "level_4": "Pushy / Aggressive Sales",
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Appointment Cancellation",
+            "level_4": "Patient Initiated Cancellation",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Reschedule Appointment - Need to",
         "conditions": [
-            "rate of speech",
-            "communication and soft skills"
+            "need to reschedule"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rate of Speech",
-            "level_4": "Rate of Speech",
+            "category": "Appointment Management",
+            "subcategory": "Rescheduling",
+            "level_3": "Appointment Rescheduling",
+            "level_4": "Patient Initiated Reschedule",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Reschedule Appointment - Would Like to",
         "conditions": [
-            "rep accent issues",
-            "communication and soft skills"
+            "would like to reschedule"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep Accent Issues",
-            "level_4": "Rep Accent Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep could not explain",
-            "communication and soft skills"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep Could Not Explain",
-            "level_4": "Rep Could Not Explain",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep hung up the call",
-            "communication and soft skills"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep Hung up the call",
-            "level_4": "Rep Hung up the call",
+            "category": "Appointment Management",
+            "subcategory": "Rescheduling",
+            "level_3": "Appointment Rescheduling",
+            "level_4": "Patient Initiated Reschedule",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Reschedule Appointment - Want to",
         "conditions": [
-            "rep in rush",
-            "communication and soft skills"
+            "want to reschedule"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep In Rush",
-            "level_4": "Rep In Rush",
+            "category": "Appointment Management",
+            "subcategory": "Rescheduling",
+            "level_3": "Appointment Rescheduling",
+            "level_4": "Patient Initiated Reschedule",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Reschedule Appointment - I'd Like",
         "conditions": [
-            "rep interrupting customer",
-            "communication and soft skills"
+            "i'd like to reschedule"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep Interrupting Customer",
-            "level_4": "Rep Interrupting Customer",
+            "category": "Appointment Management",
+            "subcategory": "Rescheduling",
+            "level_3": "Appointment Rescheduling",
+            "level_4": "Patient Initiated Reschedule",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Reschedule Appointment - Move",
         "conditions": [
-            "rep laughing / shout on call",
-            "communication and soft skills"
+            "move my appointment"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep Laughing / Shout on call",
-            "level_4": "Rep Laughing / Shout on call",
+            "category": "Appointment Management",
+            "subcategory": "Rescheduling",
+            "level_3": "Appointment Rescheduling",
+            "level_4": "Patient Initiated Reschedule",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Reschedule Appointment - Change",
         "conditions": [
-            "rep had listening issues",
-            "rep listening issues",
-            "communication and soft skills"
+            "change my appointment"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep Listening Issues",
-            "level_4": "Rep Had Listening Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep mocked customer",
-            "rep mocking customer",
-            "communication and soft skills"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep Mocking customer",
-            "level_4": "Rep Mocked customer",
+            "category": "Appointment Management",
+            "subcategory": "Rescheduling",
+            "level_3": "Appointment Rescheduling",
+            "level_4": "Patient Initiated Reschedule",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Schedule New - Make Appointment",
         "conditions": [
-            "rep not able to understand",
-            "communication and soft skills"
+            "make an appointment"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep not able to understand",
-            "level_4": "Rep not able to understand",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep pronunciation issue",
-            "communication and soft skills"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep Pronunciation Issue",
-            "level_4": "Rep Pronunciation Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep sounded robotic",
-            "rep sound robotic",
-            "communication and soft skills"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep Sound Robotic",
-            "level_4": "Rep Sounded Robotic",
+            "category": "Appointment Management",
+            "subcategory": "Scheduling",
+            "level_3": "New Appointment Request",
+            "level_4": "Appointment Booking",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Schedule New - Book Appointment",
         "conditions": [
-            "rep used jargon",
-            "rep using jargon",
-            "communication and soft skills"
+            "book an appointment"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep Using Jargon",
-            "level_4": "Rep Used Jargon",
+            "category": "Appointment Management",
+            "subcategory": "Scheduling",
+            "level_3": "New Appointment Request",
+            "level_4": "Appointment Booking",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Schedule New - Schedule Appointment",
         "conditions": [
-            "rep yawning / sleeping",
-            "communication and soft skills"
+            "schedule an appointment"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Rep Yawning / Sleeping",
-            "level_4": "Rep Yawning / Sleeping",
+            "category": "Appointment Management",
+            "subcategory": "Scheduling",
+            "level_3": "New Appointment Request",
+            "level_4": "Appointment Booking",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Schedule New - Want to Schedule",
         "conditions": [
-            "voice tone issue",
-            "communication and soft skills"
+            "want to schedule"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Voice tone issue",
-            "level_4": "Voice tone issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "wrong documentation by rep",
-            "communication and soft skills"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Wrong Documentation by Rep",
-            "level_4": "Wrong Documentation by Rep",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "customer not getting information"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Knowledge",
-            "level_3": "Customer Not Getting Information",
-            "level_4": "Customer Not Getting Information",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "inconsistent information shared"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Knowledge",
-            "level_3": "Inconsistent information shared",
-            "level_4": "Inconsistent information shared",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep didnt understand issue"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Knowledge",
-            "level_3": "Issue understanding",
-            "level_4": "Rep didn't understand issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep provided misleading information"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Knowledge",
-            "level_3": "Misleading Information",
-            "level_4": "Rep provided misleading Information",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "no customer education"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Knowledge",
-            "level_3": "No Customer Education",
-            "level_4": "No Customer Education",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep asked irrelevant questions",
-            "rep asking irrelevant questions"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Knowledge",
-            "level_3": "Rep Asking Irrelevant Questions",
-            "level_4": "Rep Asked Irrelevant Questions",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep had no knowledge"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Knowledge",
-            "level_3": "Rep had No Knowledge",
-            "level_4": "Rep had No Knowledge",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep need training"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Knowledge",
-            "level_3": "Rep Need Training",
-            "level_4": "Rep Need Training",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep provided incomplete explanation"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Knowledge",
-            "level_3": "Rep Provided Incomplete Explanation",
-            "level_4": "Rep Provided Incomplete Explanation",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep share wrong / incomplete information"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Knowledge",
-            "level_3": "Rep share wrong / incomplete information",
-            "level_4": "Rep share wrong / incomplete information",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "need call back",
-            "call back issue",
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "Call Back Issue",
-            "level_4": "Need Call Back",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "no call back",
-            "call back issue",
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "Call Back Issue",
-            "level_4": "No Call Back",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "Dishonest Rep",
-            "level_4": "Dishonest Rep",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "no attention by rep",
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "No Attention by Rep",
-            "level_4": "No Attention by Rep",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "No Follow-up",
-            "level_4": "No Follow-up",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "no ownership by rep",
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "No Ownership by Rep",
-            "level_4": "No Ownership by Rep",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "promised not fulfilled",
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "Promised Not fulfilled",
-            "level_4": "Promised Not fulfilled",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep did not acknowledge",
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "Rep Did Not Acknowledge",
-            "level_4": "Rep Did Not Acknowledge",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep not accommodating / argumentive",
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "Rep Not accommodating / Argumentive",
-            "level_4": "Rep Not accommodating / Argumentive",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep not helpful",
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "Rep Not Helpful",
-            "level_4": "Rep Not Helpful",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "rep was not courteous",
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "Rep was not courteous",
-            "level_4": "Rep was not courteous",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "Rude - Rep",
-            "level_4": "Rude - Rep",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "lack of ownership"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Lack of Ownership",
-            "level_3": "Unprofessional - Rep",
-            "level_4": "Unprofessional - Rep",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "call transfer issue"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Resolution",
-            "level_3": "Call Transfer Issue",
-            "level_4": "Call Transfer Issue",
+            "category": "Appointment Management",
+            "subcategory": "Scheduling",
+            "level_3": "New Appointment Request",
+            "level_4": "Appointment Booking",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Schedule New - Start Therapy",
         "conditions": [
-            "connected / transfer to wrong department"
+            "start therapy",
+            "start physical therapy",
+            "start pt"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Resolution",
-            "level_3": "Connected / Transfer to Wrong Department",
-            "level_4": "Connected / Transfer to Wrong Department",
+            "category": "Appointment Management",
+            "subcategory": "Scheduling",
+            "level_3": "New Appointment Request",
+            "level_4": "Appointment Booking",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Schedule New - Initial Evaluation",
         "conditions": [
-            "customer directed to store / vendor / depart"
+            "initial evaluation",
+            "initial eval",
+            "initial appointment"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Resolution",
-            "level_3": "Customer directed to store / vendor / depart",
-            "level_4": "Customer directed to store / vendor / depart",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "long time to resolve"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Resolution",
-            "level_3": "Long Time to resolve",
-            "level_4": "Long Time to Resolve",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "long wait on call / chat"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Resolution",
-            "level_3": "Long Wait on Call / Chat",
-            "level_4": "Long Wait on Call / Chat",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "no solution / issues  not resolved"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Resolution",
-            "level_3": "No Solution / Issues - Not Resolved",
-            "level_4": "No Solution / Issues - Not Resolved",
+            "category": "Appointment Management",
+            "subcategory": "Scheduling",
+            "level_3": "New Appointment Request",
+            "level_4": "Initial Evaluation Scheduling",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Appointment Check - Check Upcoming",
         "conditions": [
-            "not happy with solution"
+            "check my appointment",
+            "check my upcoming appointment"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Resolution",
-            "level_3": "Not happy with Solution",
-            "level_4": "Not happy with Solution",
+            "category": "Appointment Management",
+            "subcategory": "Appointment Inquiry",
+            "level_3": "Appointment Status Check",
+            "level_4": "Appointment Verification",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Appointment Check - When Is",
         "conditions": [
-            "standard / scripted response by rep"
+            "when is my appointment",
+            "what time is my appointment"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Resolution",
-            "level_3": "Standard / Scripted Response by Rep",
-            "level_4": "Standard / Scripted Response by Rep",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "conditions": [
-            "account access issue",
-            "account management issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Account Management Issue",
-            "level_3": "Account Access Issue",
-            "level_4": "Account Access Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "account cancellation issue",
-            "account management issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Account Management Issue",
-            "level_3": "Account Cancellation Issue",
-            "level_4": "Account Cancellation Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "account management issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Account Management Issue",
-            "level_3": "Account Suspended",
-            "level_4": "Account Suspended",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "address change related",
-            "account management issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Account Management Issue",
-            "level_3": "Address Change Related",
-            "level_4": "Address Change Related",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "account management issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Account Management Issue",
-            "level_3": "Application Related",
-            "level_4": "Application Related",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "account management issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Account Management Issue",
-            "level_3": "Password Issue",
-            "level_4": "Password Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "billing  invoice related issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Billing Issue",
-            "level_3": "Billing - Invoice Related Issue",
-            "level_4": "Billing - Invoice Related Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "incorrect fees / charges"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Billing Issue",
-            "level_3": "Incorrect Fees / Charges",
-            "level_4": "Incorrect Fees / Charges",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "cancelling the product / service"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Cancelation Issue",
-            "level_3": "Cancelling the Product / service",
-            "level_4": "Cancelling the Product / service",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "change plan / program"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Change Plan / Program",
-            "level_3": "Change Plan / Program",
-            "level_4": "Change Plan / Program",
+            "category": "Appointment Management",
+            "subcategory": "Appointment Inquiry",
+            "level_3": "Appointment Status Check",
+            "level_4": "Appointment Verification",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Appointment Check - Confirm",
         "conditions": [
-            "dissatisfied with process"
+            "confirm my appointment",
+            "appointment confirmation"
         ],
         "set": {
-            "category": "Process",
-            "subcategory": "Dissatisfied with Process",
-            "level_3": "Unfair Practices",
-            "level_4": "Unfair Practices",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "dissatisfied with process"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Dissatisfied with Process",
-            "level_3": "Unfriendly process",
-            "level_4": "Unfriendly process",
+            "category": "Appointment Management",
+            "subcategory": "Appointment Inquiry",
+            "level_3": "Appointment Status Check",
+            "level_4": "Appointment Confirmation",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Appointment Check - Is Still On",
         "conditions": [
-            "want to talk a phone rep"
+            "is the appointment still on",
+            "is my appointment still scheduled"
         ],
         "set": {
-            "category": "Process",
-            "subcategory": "Improve Process",
-            "level_3": "Want to Talk a Phone Rep",
-            "level_4": "Want to Talk a Phone Rep",
+            "category": "Appointment Management",
+            "subcategory": "Appointment Inquiry",
+            "level_3": "Appointment Status Check",
+            "level_4": "Appointment Confirmation",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Appointment Check - Online",
         "conditions": [
-            "issue with survey"
+            "check my appointments online",
+            "check appointments online",
+            "view appointments online"
         ],
         "set": {
-            "category": "Process",
-            "subcategory": "Issue with Survey",
-            "level_3": "Issue with Survey",
-            "level_4": "Issue with Survey",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "issues for new customers"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Issues for New Customers",
-            "level_3": "Issues for New Customers",
-            "level_4": "Issues for New Customers",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "no way / hard to contact customer care",
-            "difficult to contact customer care"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Difficult to Contact Customer Care",
-            "level_3": "Difficult to Contact Customer Care",
-            "level_4": "No way / Hard to Contact Customer Care",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "payment history / statement"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Payment Issue",
-            "level_3": "Payment History / Statement",
-            "level_4": "Payment History / Statement",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "issue in making payment"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Payment Issue",
-            "level_3": "Issue in making payment",
-            "level_4": "Issue in making payment",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "improve / change policy"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Policy Issue",
-            "level_3": "Improve / Change Policy",
-            "level_4": "Improve / Change Policy",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "not happy with policy"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Policy Issue",
-            "level_3": "Not happy with Policy",
-            "level_4": "Not happy with Policy",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "refund policy issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Policy Issue",
-            "level_3": "Refund Policy Issue",
-            "level_4": "Refund Policy Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "scam / fraud",
-            "scam / fraud issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Scam / fraud Issue",
-            "level_3": "Scam / fraud",
-            "level_4": "Scam / fraud",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "product not received"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Shipping - Delivery",
-            "level_3": "Product Not received",
-            "level_4": "Product Not received",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "no communication received",
-            "updates / notification issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Updates / Notification Issue",
-            "level_3": "No Communication Received",
-            "level_4": "No Communication Received",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "not received email",
-            "updates / notification issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Updates / Notification Issue",
-            "level_3": "Not received Email",
-            "level_4": "Not received Email",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "account management issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Account Management Issue",
-            "level_3": "Transferring Service",
-            "level_4": "Transferring Service",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "difficulty placing order"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Order Issue",
-            "level_3": "Placing Order",
-            "level_4": "Difficulty placing order",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "out of stock product listed online"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Order Issue",
-            "level_3": "Placing Order",
-            "level_4": "Out of stock product listed online",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "unable to cancel order  website"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Order Issue",
-            "level_3": "Cancel Order",
-            "level_4": "Unable to cancel order - website",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "unable to checkout  address"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Order Issue",
-            "level_3": "Placing Order",
-            "level_4": "Unable to checkout - Address",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "unable to checkout  credit card payment"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Order Issue",
-            "level_3": "Placing Order",
-            "level_4": "Unable to checkout - Credit Card Payment",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "unable to modify order"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Order Issue",
-            "level_3": "Modify Order",
-            "level_4": "Unable to modify order",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "product not delivered"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Order Issue",
-            "level_3": "Product Not Delivered",
-            "level_4": "Product Not Delivered",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "cancelling your services",
-            "cancelling the product / service"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Cancelation Issue",
-            "level_3": "Cancelling the Product / service",
-            "level_4": "Cancelling Your Services",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "reward not received"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Order Issue",
-            "level_3": "Reward Not Received",
-            "level_4": "Reward Not Received",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "cancelling the product / service"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Subscription Issue",
-            "level_3": "Cancelling the Product / service",
-            "level_4": "Subscription Cancelation",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "cancelling the product / service"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Cancelation Issue",
-            "level_3": "Cancelling the Product / service",
-            "level_4": "Cancellation Charges",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "do not need annual subscription",
-            "cancelling the product / service"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Subscription Issue",
-            "level_3": "Cancelling the Product / service",
-            "level_4": "Do Not Need Annual Subscription",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "issue with annual subscription",
-            "annual subscription issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Subscription Issue",
-            "level_3": "Annual Subscription Issue",
-            "level_4": "Issue with Annual Subscription",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "issue related to premium"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Billing Issue",
-            "level_3": "Premium Issue",
-            "level_4": "Issue related to Premium",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "pharmacy order issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Order Issue",
-            "level_3": "Pharmacy Order",
-            "level_4": "Pharmacy Order Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "issue in getting plan benefits"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Benefits Issue",
-            "level_3": "Benefits Issue",
-            "level_4": "Issue in getting plan Benefits",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "received no medical facility"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Medical facility",
-            "level_3": "Received No Medical facility",
-            "level_4": "Received No Medical facility",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "home health care issue"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Healthcare Issue",
-            "level_3": "Healthcare Issue",
-            "level_4": "Home Health Care Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "supplies / medicine out of stock",
-            "out of stock"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Order Issue",
-            "level_3": "Out of Stock",
-            "level_4": "Supplies / Medicine out of stock",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "issue with doctor availability"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Doctor Availability",
-            "level_3": "Doctor Availability",
-            "level_4": "Issue with Doctor availability",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "dissatisfied with product"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Product Dissatisfaction",
-            "level_3": "Dissatisfied with Product",
-            "level_4": "Dissatisfied with product",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "dissatisfied with plan"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Product Plan",
-            "level_3": "Dissatisfied with Plan",
-            "level_4": "Dissatisfied with Plan",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "bad / poor  service"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Service Dissatisfaction",
-            "level_3": "Bad / Poor - Service",
-            "level_4": "Bad / Poor - Service",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "not reliable service"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Service Dissatisfaction",
-            "level_3": "Not Reliable Service",
-            "level_4": "Not Reliable Service",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "service not helpful"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Service Dissatisfaction",
-            "level_3": "Service Not helpful",
-            "level_4": "Service Not helpful",
+            "category": "Appointment Management",
+            "subcategory": "Appointment Inquiry",
+            "level_3": "Appointment Status Check",
+            "level_4": "Online Access Request",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Insurance - Accept My Insurance",
         "conditions": [
-            "app error / improve app",
-            "website / app issue"
+            "accept my insurance",
+            "do you accept my insurance",
+            "do you take my insurance"
         ],
         "set": {
-            "category": "Products and Services",
-            "subcategory": "Website / App Issue",
-            "level_3": "App Error / Improve App",
-            "level_4": "App Error / Improve App",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "website / app issue"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Website / App Issue",
-            "level_3": "Browser Issue",
-            "level_4": "Browser Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "difficult to use / navigate",
-            "website / app issue"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Website / App Issue",
-            "level_3": "Difficult To Use / Navigate",
-            "level_4": "Difficult To Use / Navigate",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "issue with information on site",
-            "website / app issue"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Website / App Issue",
-            "level_3": "Issue with Information on Site",
-            "level_4": "Issue with Information on Site",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "website difficult to understand",
-            "website / app issue"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Website / App Issue",
-            "level_3": "Website Difficult To Understand",
-            "level_4": "Website Difficult To Understand",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "website / app issue"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Website / App Issue",
-            "level_3": "Website Error",
-            "level_4": "Website Error",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "website  multiple charges",
-            "website / app issue"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Website / App Issue",
-            "level_3": "Website Error",
-            "level_4": "Website - Multiple charges",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "website / app issue"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Website / App Issue",
-            "level_3": "Website Error",
-            "level_4": "Website slow",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "customer self resolved issue"
-        ],
-        "set": {
-            "category": "Others",
-            "subcategory": "Customer",
-            "level_3": "Customer self resolved issue",
-            "level_4": "Customer self resolved issue",
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Insurance Network Check",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Insurance - In Network",
         "conditions": [
-            "impacting client / business"
+            "in-network",
+            "in network",
+            "are you in network"
         ],
         "set": {
-            "category": "Others",
-            "subcategory": "Customer",
-            "level_3": "Impacting Client / Business",
-            "level_4": "Impacting Client / Business",
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Network Status Check",
             "sentiment": "neutral"
         }
     },
     {
+        "rule_name": "Insurance - Out of Network",
         "conditions": [
-            "dissatisfied with previous rep",
-            "issue with previous rep"
-        ],
-        "set": {
-            "category": "Others",
-            "subcategory": "Issue with Previous Rep",
-            "level_3": "Dissatisfied with Previous rep",
-            "level_4": "Dissatisfied with Previous rep",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "customer will take legal action"
-        ],
-        "set": {
-            "category": "Others",
-            "subcategory": "Legal Issue",
-            "level_3": "Customer will take legal action",
-            "level_4": "Customer will take legal action",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "background noise on call"
-        ],
-        "set": {
-            "category": "Others",
-            "subcategory": "Audio Quality",
-            "level_3": "Background Noise on Call",
-            "level_4": "Background Noise on Call",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "hearing issue on call"
-        ],
-        "set": {
-            "category": "Others",
-            "subcategory": "Audio Quality",
-            "level_3": "Hearing Issue on call",
-            "level_4": "Hearing Issue on call",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "voice breaking issue"
-        ],
-        "set": {
-            "category": "Others",
-            "subcategory": "Audio Quality",
-            "level_3": "Voice Breaking Issue",
-            "level_4": "Voice Breaking Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "call / chat / email not answered"
-        ],
-        "set": {
-            "category": "Others",
-            "subcategory": "Call / Chat / Email Not Answered",
-            "level_3": "Call / Chat / Email Not Answered",
-            "level_4": "Call / Chat / Email Not Answered",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "audio connection issue"
-        ],
-        "set": {
-            "category": "Others",
-            "subcategory": "Audio Quality",
-            "level_3": "Audio Connection Issue",
-            "level_4": "Audio Connection Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Money Is Debited",
-        "conditions": [
-            "money is debited"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Billing Error",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Money Was Debited",
-        "conditions": [
-            "money was debited"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Billing Error",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Money Was Withdrawn",
-        "conditions": [
-            "money was withdrawn"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Billing Error",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Payment Not Going Through",
-        "conditions": [
-            "payment not going through"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Payment Failure",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Unable To Do Payment",
-        "conditions": [
-            "unable to do payment"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Payment Failure",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Payment Is Pending",
-        "conditions": [
-            "payment is pending"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Payment Failure",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Refund Not Received",
-        "conditions": [
-            "refund not received"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Refund Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Still Waiting For Refund",
-        "conditions": [
-            "still waiting for refund"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Refund Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Where Is My Refund",
-        "conditions": [
-            "where is my refund"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Refund Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Copay Too High",
-        "conditions": [
-            "copay too high"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Cost Concerns",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Can'T Afford",
-        "conditions": [
-            "can't afford"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Cost Concerns",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Too Expensive",
-        "conditions": [
-            "too expensive"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Cost Concerns",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Not Covered",
-        "conditions": [
-            "not covered"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Coverage Denied",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Isn'T Covered",
-        "conditions": [
-            "isn't covered"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Coverage Denied",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Not On Formulary",
-        "conditions": [
-            "not on formulary"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Coverage Denied",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Out Of Network",
-        "conditions": [
-            "out of network"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Network Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Not In Network",
-        "conditions": [
+            "out of network",
+            "out-of-network",
             "not in network"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Network Issues",
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Out-of-Network Concern",
             "sentiment": "negative"
         }
     },
     {
-        "rule_name": "HC Rule: Network Issue",
+        "rule_name": "Insurance - United Healthcare",
         "conditions": [
-            "network issue"
+            "accept united healthcare",
+            "do you accept united",
+            "united healthcare"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Network Issues",
-            "sentiment": "negative"
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Insurance Network Check",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Prior Authorization Required",
+        "rule_name": "Insurance - Aetna",
         "conditions": [
-            "prior authorization required"
+            "accept aetna",
+            "do you accept aetna",
+            "aetna insurance"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Prior Authorization",
-            "sentiment": "negative"
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Insurance Network Check",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Need Prior Auth",
+        "rule_name": "Insurance - Medicare",
         "conditions": [
-            "need prior auth"
+            "accept medicare",
+            "do you accept medicare",
+            "medicare insurance",
+            "take medicare"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Prior Authorization",
-            "sentiment": "negative"
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Medicare Inquiry",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Prior Auth Denied",
+        "rule_name": "Insurance - Medicaid",
         "conditions": [
-            "prior auth denied"
+            "accept medicaid",
+            "do you accept medicaid",
+            "medicaid insurance"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Prior Authorization",
-            "sentiment": "negative"
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Medicaid Inquiry",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Can'T Get Medication",
+        "rule_name": "Insurance - Oscar",
         "conditions": [
-            "can't get medication"
+            "accept oscar",
+            "oscar insurance",
+            "do you take oscar"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Medication Availability",
-            "sentiment": "negative"
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Insurance Network Check",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Medication Not Available",
+        "rule_name": "Insurance - BCBS",
         "conditions": [
-            "medication not available"
+            "accept blue cross",
+            "blue cross blue shield",
+            "bcbs",
+            "do you accept bcbs"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Medication Availability",
-            "sentiment": "negative"
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Insurance Network Check",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Out Of Stock",
+        "rule_name": "Insurance - Cigna",
         "conditions": [
-            "out of stock"
+            "accept cigna",
+            "cigna insurance",
+            "do you take cigna"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Medication Availability",
-            "sentiment": "negative"
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Insurance Network Check",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Wrong Medication",
+        "rule_name": "Insurance - Visits Remaining",
         "conditions": [
-            "wrong medication"
+            "visits left on my insurance",
+            "how many visits do i have",
+            "visits remaining",
+            "visits left"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Medication Error",
-            "sentiment": "negative"
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Visit Authorization",
+            "level_4": "Authorized Visits Check",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Incorrect Prescription",
+        "rule_name": "Insurance - Coverage Copay",
         "conditions": [
-            "incorrect prescription"
+            "insurance coverage copay",
+            "know insurance coverage",
+            "insurance coverage amounts",
+            "copay amounts"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Medication Error",
-            "sentiment": "negative"
+            "category": "Insurance & Coverage",
+            "subcategory": "Billing & Cost Inquiry",
+            "level_3": "Cost and Copay Inquiry",
+            "level_4": "Copay Inquiry",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Medication Error",
+        "rule_name": "Insurance - How Much Does It Cost",
         "conditions": [
-            "medication error"
+            "how much does it cost",
+            "how much will it cost",
+            "how much do you charge",
+            "what is the cost"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Medication Error",
-            "sentiment": "negative"
+            "category": "Insurance & Coverage",
+            "subcategory": "Billing & Cost Inquiry",
+            "level_3": "Cost and Copay Inquiry",
+            "level_4": "Session Cost Question",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Side Effects",
+        "rule_name": "Insurance - Self Pay",
         "conditions": [
-            "side effects"
+            "self pay",
+            "self-pay",
+            "paying out of pocket",
+            "no insurance",
+            "cash pay"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Adverse Reactons",
-            "sentiment": "negative"
+            "category": "Insurance & Coverage",
+            "subcategory": "Billing & Cost Inquiry",
+            "level_3": "Cost and Copay Inquiry",
+            "level_4": "Self-Pay Inquiry",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Adverse Reaction",
+        "rule_name": "Prescription - New RX",
         "conditions": [
-            "adverse reaction"
+            "new rx",
+            "new prescription",
+            "another rx",
+            "new rx to continue"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Adverse Reactons",
-            "sentiment": "negative"
+            "category": "Clinical & Treatment",
+            "subcategory": "Prescription & Referral",
+            "level_3": "Prescription Management",
+            "level_4": "New Prescription",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Allergic Reaction",
+        "rule_name": "Prescription - Check Received",
         "conditions": [
-            "allergic reaction"
+            "check if you received",
+            "received the prescription",
+            "received my prescription",
+            "prescription was sent",
+            "prescription was faxed"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Adverse Reactons",
-            "sentiment": "negative"
+            "category": "Clinical & Treatment",
+            "subcategory": "Prescription & Referral",
+            "level_3": "Prescription Management",
+            "level_4": "Prescription Verification",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Doesn'T Work",
+        "rule_name": "Prescription - Have Referral",
         "conditions": [
-            "doesn't work"
+            "have a referral",
+            "i have a referral",
+            "i have a prescription",
+            "have a script",
+            "have a prescription"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Ineffectiveness",
-            "sentiment": "negative"
+            "category": "Clinical & Treatment",
+            "subcategory": "Prescription & Referral",
+            "level_3": "Prescription Management",
+            "level_4": "Referral Submission",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Not Working",
+        "rule_name": "Prescription - Need Referral",
         "conditions": [
-            "not working"
+            "need a referral",
+            "do i need a referral",
+            "do i need a prescription",
+            "is a referral required"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Ineffectiveness",
-            "sentiment": "negative"
+            "category": "Clinical & Treatment",
+            "subcategory": "Prescription & Referral",
+            "level_3": "Prescription Management",
+            "level_4": "Referral Requirement Inquiry",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Treatment Didn'T Work",
+        "rule_name": "Prescription - Doctor Referral",
         "conditions": [
-            "treatment didn't work"
+            "doctor referral",
+            "referral from my doctor",
+            "physician referral",
+            "my doctor referred me"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Ineffectiveness",
-            "sentiment": "negative"
+            "category": "Clinical & Treatment",
+            "subcategory": "Prescription & Referral",
+            "level_3": "Prescription Management",
+            "level_4": "Referral Submission",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Pharmacy Won'T Fill",
+        "rule_name": "New Patient - First Time",
         "conditions": [
-            "pharmacy won't fill"
+            "first time",
+            "first time patient",
+            "never been there",
+            "never been a patient"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Pharmacy Issues",
-            "sentiment": "negative"
+            "category": "Patient Onboarding",
+            "subcategory": "New Patient",
+            "level_3": "New Patient Inquiry",
+            "level_4": "New Patient Registration",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Refused To Fill",
+        "rule_name": "New Patient - Looking for PT",
         "conditions": [
-            "refused to fill"
+            "looking for physical therapy",
+            "looking for pt",
+            "interested in physical therapy"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Pharmacy Issues",
-            "sentiment": "negative"
+            "category": "Patient Onboarding",
+            "subcategory": "New Patient",
+            "level_3": "New Patient Inquiry",
+            "level_4": "New Patient Registration",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Can'T Fill",
+        "rule_name": "New Patient - Inquiring",
         "conditions": [
-            "can't fill"
+            "inquiring about physical therapy",
+            "inquiring about pt",
+            "inquiry about starting"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Medication & Pharmacy",
-            "level_4": "Pharmacy Issues",
-            "sentiment": "negative"
+            "category": "Patient Onboarding",
+            "subcategory": "New Patient",
+            "level_3": "New Patient Inquiry",
+            "level_4": "New Patient Registration",
+            "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Rule: Cannot Access",
+        "rule_name": "New Patient - Doctor Recommended",
         "conditions": [
-            "cannot access"
+            "doctor recommended",
+            "doctor told me to",
+            "my doctor recommended",
+            "surgeon recommended"
+        ],
+        "set": {
+            "category": "Patient Onboarding",
+            "subcategory": "New Patient",
+            "level_3": "New Patient Inquiry",
+            "level_4": "Physician Referred Patient",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Location - Nearest Office",
+        "conditions": [
+            "nearest location",
+            "nearest office",
+            "closest location",
+            "closest office",
+            "near me"
+        ],
+        "set": {
+            "category": "Location & Access",
+            "subcategory": "Office Information",
+            "level_3": "Location Inquiry",
+            "level_4": "Nearest Office Request",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Location - Office Hours",
+        "conditions": [
+            "office hours",
+            "hours of operation",
+            "what are your hours",
+            "when are you open",
+            "are you open"
+        ],
+        "set": {
+            "category": "Location & Access",
+            "subcategory": "Office Information",
+            "level_3": "Location Inquiry",
+            "level_4": "Office Hours Inquiry",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Location - Specific Location",
+        "conditions": [
+            "specific office",
+            "specific location",
+            "do you have an office in",
+            "do you have a location in"
+        ],
+        "set": {
+            "category": "Location & Access",
+            "subcategory": "Office Information",
+            "level_3": "Location Inquiry",
+            "level_4": "Specific Location Inquiry",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Location - Address",
+        "conditions": [
+            "office address",
+            "address of the office",
+            "where is the office",
+            "where are you located"
+        ],
+        "set": {
+            "category": "Location & Access",
+            "subcategory": "Office Information",
+            "level_3": "Location Inquiry",
+            "level_4": "Office Address Request",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Therapist - Specific Therapist",
+        "conditions": [
+            "specific therapist",
+            "want to see",
+            "want to work with",
+            "prefer to see",
+            "work with my therapist"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Therapist Assignment",
+            "level_3": "Specific Therapist Request",
+            "level_4": "Therapist Selection",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Therapist - Taking New Patients",
+        "conditions": [
+            "taking new patients",
+            "is she taking new patients",
+            "is he taking new patients",
+            "accepting new patients"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Therapist Assignment",
+            "level_3": "Specific Therapist Request",
+            "level_4": "Therapist Availability",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Treatment - Back Pain",
+        "conditions": [
+            "back pain",
+            "lower back pain",
+            "back injury"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Treatment Inquiry",
+            "level_3": "Condition and Treatment",
+            "level_4": "Back Pain Treatment",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Treatment - Knee",
+        "conditions": [
+            "knee pain",
+            "knee injury",
+            "knee surgery",
+            "knee replacement"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Treatment Inquiry",
+            "level_3": "Condition and Treatment",
+            "level_4": "Knee Treatment",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Treatment - Shoulder",
+        "conditions": [
+            "shoulder pain",
+            "shoulder injury",
+            "rotator cuff",
+            "frozen shoulder",
+            "adhesive capsulitis"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Treatment Inquiry",
+            "level_3": "Condition and Treatment",
+            "level_4": "Shoulder Treatment",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Treatment - Hip",
+        "conditions": [
+            "hip pain",
+            "hip injury",
+            "hip replacement",
+            "hip surgery"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Treatment Inquiry",
+            "level_3": "Condition and Treatment",
+            "level_4": "Hip Treatment",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Treatment - Ankle / Foot",
+        "conditions": [
+            "ankle pain",
+            "ankle injury",
+            "ankle surgery",
+            "foot pain",
+            "plantar fasciitis"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Treatment Inquiry",
+            "level_3": "Condition and Treatment",
+            "level_4": "Ankle and Foot Treatment",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Treatment - Post Surgery",
+        "conditions": [
+            "post surgery",
+            "post-surgery",
+            "post op",
+            "post-op",
+            "after surgery",
+            "recovering from surgery"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Treatment Inquiry",
+            "level_3": "Condition and Treatment",
+            "level_4": "Post-Surgical Rehabilitation",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Treatment - Workers Comp",
+        "conditions": [
+            "workers comp",
+            "worker's compensation",
+            "work injury",
+            "workplace injury",
+            "work-related injury"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Treatment Inquiry",
+            "level_3": "Condition and Treatment",
+            "level_4": "Workers Compensation",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Treatment - No Fault / Auto",
+        "conditions": [
+            "no fault",
+            "no-fault",
+            "car accident",
+            "auto accident",
+            "auto injury",
+            "motor vehicle"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Treatment Inquiry",
+            "level_3": "Condition and Treatment",
+            "level_4": "No-Fault / Auto Accident",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Telehealth - Virtual Visit Request",
+        "conditions": [
+            "virtual visit",
+            "virtual appointment",
+            "telehealth",
+            "video call appointment",
+            "video visit"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Care Delivery Mode",
+            "level_3": "Telehealth & Virtual Care",
+            "level_4": "Virtual Visit Request",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Telehealth - Home PT",
+        "conditions": [
+            "in home pt",
+            "home physical therapy",
+            "home pt",
+            "at home therapy",
+            "home visit"
+        ],
+        "set": {
+            "category": "Clinical & Treatment",
+            "subcategory": "Care Delivery Mode",
+            "level_3": "Telehealth & Virtual Care",
+            "level_4": "Home Physical Therapy",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Documents - Intake Form",
+        "conditions": [
+            "intake form",
+            "new patient form",
+            "fill out form",
+            "intake paperwork"
+        ],
+        "set": {
+            "category": "Administrative",
+            "subcategory": "Documentation",
+            "level_3": "Forms and Paperwork",
+            "level_4": "New Patient Form",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Documents - Insurance Card",
+        "conditions": [
+            "insurance card",
+            "upload insurance card",
+            "send insurance card",
+            "attach insurance card"
+        ],
+        "set": {
+            "category": "Administrative",
+            "subcategory": "Documentation",
+            "level_3": "Forms and Paperwork",
+            "level_4": "Insurance Document Upload",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Documents - Medical Records",
+        "conditions": [
+            "medical records",
+            "request records",
+            "records request",
+            "send medical records"
+        ],
+        "set": {
+            "category": "Administrative",
+            "subcategory": "Documentation",
+            "level_3": "Forms and Paperwork",
+            "level_4": "Medical Records Request",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Disconnect - Chat Got Disconnected",
+        "conditions": [
+            "got disconnected",
+            "we got disconnected",
+            "chat was disconnected",
+            "got cut off"
         ],
         "set": {
             "category": "Technology Issues",
-            "subcategory": "System Access",
-            "level_3": "Account Access",
-            "level_4": "Login Issues",
+            "subcategory": "Chat & Technical",
+            "level_3": "Connection Issues",
+            "level_4": "Chat Disconnection",
             "sentiment": "negative"
         }
     },
     {
-        "rule_name": "HC Rule: Cant Access",
+        "rule_name": "Disconnect - Reconnecting",
         "conditions": [
-            "cant access"
+            "reaching back out",
+            "calling back because",
+            "following up from earlier",
+            "was speaking with someone and got disconnected"
         ],
         "set": {
             "category": "Technology Issues",
-            "subcategory": "System Access",
-            "level_3": "Account Access",
-            "level_4": "Login Issues",
+            "subcategory": "Chat & Technical",
+            "level_3": "Connection Issues",
+            "level_4": "Reconnection After Drop",
             "sentiment": "negative"
         }
     },
     {
-        "rule_name": "HC Rule: Can'T Access",
+        "rule_name": "Disconnect - Chat Not Working",
         "conditions": [
-            "can't access"
+            "chat won't work",
+            "chat is not working",
+            "chat box won't",
+            "chat issue"
         ],
         "set": {
             "category": "Technology Issues",
-            "subcategory": "System Access",
-            "level_3": "Account Access",
-            "level_4": "Login Issues",
+            "subcategory": "Chat & Technical",
+            "level_3": "Connection Issues",
+            "level_4": "Chat Technical Issue",
             "sentiment": "negative"
         }
     },
     {
-        "rule_name": "HC Rule: Not Working Properly",
+        "rule_name": "Wait - Still Waiting",
         "conditions": [
-            "not working properly"
-        ],
-        "set": {
-            "category": "Technology Issues",
-            "subcategory": "System Access",
-            "level_3": "Account Access",
-            "level_4": "Portal Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Stopped Working",
-        "conditions": [
-            "stopped working"
-        ],
-        "set": {
-            "category": "Technology Issues",
-            "subcategory": "System Access",
-            "level_3": "Account Access",
-            "level_4": "Portal Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Missed Appointment",
-        "conditions": [
-            "missed appointment"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Appointment Process",
-            "level_3": "Appointment Management",
-            "level_4": "Scheduling Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Late Appointment",
-        "conditions": [
-            "late appointment"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Appointment Process",
-            "level_3": "Appointment Management",
-            "level_4": "Scheduling Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Wrong Appointment",
-        "conditions": [
-            "wrong appointment"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Appointment Process",
-            "level_3": "Appointment Management",
-            "level_4": "Scheduling Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: No Show",
-        "conditions": [
-            "no show"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Appointment Process",
-            "level_3": "Appointment Management",
-            "level_4": "No-Shows/Delays",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Didn'T Show Up",
-        "conditions": [
-            "didn't show up"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Appointment Process",
-            "level_3": "Appointment Management",
-            "level_4": "No-Shows/Delays",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Never Showed",
-        "conditions": [
-            "never showed"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Appointment Process",
-            "level_3": "Appointment Management",
-            "level_4": "No-Shows/Delays",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Long Wait Time",
-        "conditions": [
-            "long wait time"
+            "still waiting",
+            "been waiting",
+            "still in queue"
         ],
         "set": {
             "category": "People Driven",
@@ -2439,9 +1061,12 @@
         }
     },
     {
-        "rule_name": "HC Rule: Waiting Too Long",
+        "rule_name": "Wait - On Hold Too Long",
         "conditions": [
-            "waiting too long"
+            "on hold for",
+            "been on hold",
+            "on hold too long",
+            "long hold"
         ],
         "set": {
             "category": "People Driven",
@@ -2452,9 +1077,12 @@
         }
     },
     {
-        "rule_name": "HC Rule: Can'T Reach Anyone",
+        "rule_name": "Wait - No Response",
         "conditions": [
-            "can't reach anyone"
+            "no response",
+            "did not respond",
+            "still waiting for a response",
+            "not responsive"
         ],
         "set": {
             "category": "People Driven",
@@ -2465,22 +1093,43 @@
         }
     },
     {
-        "rule_name": "HC Rule: No One Answers",
+        "rule_name": "Complaint - Terrible Service",
         "conditions": [
-            "no one answers"
+            "terrible service",
+            "terrible customer service"
         ],
         "set": {
             "category": "People Driven",
             "subcategory": "Customer Experience",
-            "level_3": "Service Delivery",
-            "level_4": "Communication",
+            "level_3": "Member Sentiment",
+            "level_4": "Negative Experience",
             "sentiment": "negative"
         }
     },
     {
-        "rule_name": "HC Rule: Poor Customer Service",
+        "rule_name": "Complaint - Not Satisfied",
         "conditions": [
-            "poor customer service"
+            "not happy with",
+            "not satisfied with",
+            "very unhappy",
+            "very frustrated"
+        ],
+        "set": {
+            "category": "People Driven",
+            "subcategory": "Customer Experience",
+            "level_3": "Member Sentiment",
+            "level_4": "Frustration",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "Complaint - Therapist No Show",
+        "conditions": [
+            "therapist never showed",
+            "therapist never came",
+            "pt never came",
+            "no one showed up",
+            "nobody showed up"
         ],
         "set": {
             "category": "People Driven",
@@ -2491,483 +1140,535 @@
         }
     },
     {
-        "rule_name": "HC Rule: Still Not Resolved",
+        "rule_name": "Complaint - Speak to Manager",
         "conditions": [
-            "still not resolved"
+            "speak to a manager",
+            "speak with a manager",
+            "want to speak to a supervisor",
+            "supervisor please",
+            "escalate this"
         ],
         "set": {
             "category": "People Driven",
             "subcategory": "Customer Experience",
             "level_3": "Member Sentiment",
-            "level_4": "Unresolved Issues",
+            "level_4": "Escalation Request",
             "sentiment": "negative"
         }
     },
     {
-        "rule_name": "HC Routine: Queue Continue Wait",
+        "rule_name": "Positive - Thank You",
         "conditions": [
-            "queue continue wait"
+            "thank you so much",
+            "thank you very much",
+            "thanks so much"
         ],
         "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Long Hold on Call / Chat",
-            "level_4": "Long Wait on Call / Chat",
+            "category": "Positive Feedback",
+            "subcategory": "Appreciating Agent",
+            "level_3": "Appreciating Ownership",
+            "level_4": "Professional Rep",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "rule_name": "Positive - Great Help",
+        "conditions": [
+            "very helpful",
+            "so helpful",
+            "extremely helpful",
+            "really helpful"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Appreciating Agent",
+            "level_3": "Appreciating Ownership",
+            "level_4": "Professional Rep",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "rule_name": "Positive - Great Service",
+        "conditions": [
+            "great service",
+            "excellent service",
+            "wonderful service",
+            "amazing service"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Appreciating Service",
+            "level_3": "Appreciating Product",
+            "level_4": "Excellent Service",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "rule_name": "Positive - Great Therapist",
+        "conditions": [
+            "great therapist",
+            "excellent therapist",
+            "therapist is amazing",
+            "love my therapist"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Appreciating Service",
+            "level_3": "Appreciating Product",
+            "level_4": "Therapist Appreciation",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "rule_name": "Positive - Would Recommend",
+        "conditions": [
+            "would recommend",
+            "highly recommend",
+            "recommend to others"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Appreciating Service",
+            "level_3": "Appreciating Product",
+            "level_4": "Patient Advocacy",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "rule_name": "Cancellation Policy Inquiry",
+        "conditions": [
+            "cancellation policy",
+            "what is the cancellation policy",
+            "cancellation fee",
+            "late cancellation fee",
+            "no show fee"
+        ],
+        "set": {
+            "category": "Administrative",
+            "subcategory": "Policy Inquiry",
+            "level_3": "Cancellation Policy",
+            "level_4": "Late Cancel and No-Show Policy",
             "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Routine: Continue Wait Queue",
+        "rule_name": "Billing Error",
         "conditions": [
-            "continue wait queue"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Long Hold on Call / Chat",
-            "level_4": "Long Wait on Call / Chat",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Routine: Wait Queue Chat",
-        "conditions": [
-            "wait queue chat"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Long Hold on Call / Chat",
-            "level_4": "Long Wait on Call / Chat",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Routine: Thank You For Holding",
-        "conditions": [
-            "thank you for holding"
-        ],
-        "set": {
-            "category": "Agent Opportunity",
-            "subcategory": "Communication and Soft Skills",
-            "level_3": "Long Hold on Call / Chat",
-            "level_4": "Long Wait on Call / Chat",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Routine: Schedule Evaluation",
-        "conditions": [
-            "schedule evaluation"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Appointment Process",
-            "level_3": "Appointment Management",
-            "level_4": "Scheduling Appointments",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Routine: Physical Therapy Evaluation",
-        "conditions": [
-            "physical therapy evaluation"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Appointment Process",
-            "level_3": "Appointment Management",
-            "level_4": "Scheduling Appointments",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Routine: Make An Appointment",
-        "conditions": [
-            "make an appointment"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Appointment Process",
-            "level_3": "Appointment Management",
-            "level_4": "Scheduling Appointments",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Routine: Book An Appointment",
-        "conditions": [
-            "book an appointment"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Appointment Process",
-            "level_3": "Appointment Management",
-            "level_4": "Scheduling Appointments",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Routine: Verify Insurance",
-        "conditions": [
-            "verify insurance"
+            "billing error",
+            "billing issue",
+            "wrong bill",
+            "overcharged",
+            "charged incorrectly"
         ],
         "set": {
             "category": "Process Driven",
             "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Checking Benefits",
-            "sentiment": "neutral"
+            "level_3": "Payment & Billing",
+            "level_4": "Billing Error",
+            "sentiment": "negative"
         }
     },
     {
-        "rule_name": "HC Routine: Insurance Benefits",
+        "rule_name": "Payment Failed",
         "conditions": [
-            "insurance benefits"
+            "payment failed",
+            "payment not processed",
+            "payment issue",
+            "unable to pay"
         ],
         "set": {
             "category": "Process Driven",
             "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Checking Benefits",
-            "sentiment": "neutral"
+            "level_3": "Payment & Billing",
+            "level_4": "Payment Failure",
+            "sentiment": "negative"
         }
     },
     {
-        "rule_name": "HC Routine: Check Coverage",
+        "rule_name": "Refund Request",
         "conditions": [
-            "check coverage"
+            "need a refund",
+            "want a refund",
+            "requesting a refund"
         ],
         "set": {
             "category": "Process Driven",
             "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Checking Benefits",
+            "level_3": "Payment & Billing",
+            "level_4": "Refund Issues",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "Cancel - Can't Make It Today",
+        "conditions": [
+            "wont be able to make my appointment",
+            "won't be able to make my appointment",
+            "not going to be able to make my appointment",
+            "not able to make my appointment",
+            "unable to make my appointment",
+            "can't make my appointment",
+            "cannot make my appointment",
+            "not able to make it",
+            "can't make it today",
+            "cannot make it today"
+        ],
+        "set": {
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Appointment Cancellation",
+            "level_4": "Patient Initiated Cancellation",
             "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Routine: Verify Coverage",
+        "rule_name": "Cancel - Sick",
         "conditions": [
-            "verify coverage"
+            "still sick",
+            "i am sick",
+            "i'm sick",
+            "sick today",
+            "not feeling well",
+            "feeling ill",
+            "coming down with",
+            "got sick",
+            "sick with",
+            "snowed in",
+            "can't come in today",
+            "cannot come in today",
+            "unable to come in",
+            "won't be coming",
+            "will not be coming",
+            "not coming in"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Coverage & Network",
-            "level_4": "Checking Benefits",
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Appointment Cancellation",
+            "level_4": "Medical/Emergency Cancellation",
             "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Routine: Date Of Birth",
+        "rule_name": "Cancel - Already Requested",
         "conditions": [
-            "date of birth"
+            "already requested an appointment",
+            "already made an appointment",
+            "already booked",
+            "already scheduled",
+            "already have an appointment"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Patient Administration",
-            "level_4": "ID Verification",
+            "category": "Appointment Management",
+            "subcategory": "Appointment Inquiry",
+            "level_3": "Appointment Status Check",
+            "level_4": "Appointment Verification",
             "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Routine: Zip Code",
+        "rule_name": "Confirm Cancellation",
         "conditions": [
-            "zip code"
+            "confirm cancellation",
+            "confirm you cancelled",
+            "just confirming you cancelled",
+            "confirm my appointment is cancelled",
+            "confirm my appointment is canceled",
+            "is my appointment cancelled",
+            "was it cancelled"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Patient Administration",
-            "level_4": "ID Verification",
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Appointment Cancellation",
+            "level_4": "Cancellation Confirmation",
             "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Routine: Verify Your Identity",
+        "rule_name": "Reschedule - Change to Specific Time",
         "conditions": [
-            "verify your identity"
+            "reschedule to",
+            "change it to",
+            "change to",
+            "change the time to",
+            "move it to",
+            "move to",
+            "would like to change it to"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Patient Administration",
-            "level_4": "ID Verification",
+            "category": "Appointment Management",
+            "subcategory": "Rescheduling",
+            "level_3": "Appointment Rescheduling",
+            "level_4": "Patient Initiated Reschedule",
             "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Routine: First And Last Name",
+        "rule_name": "Portal - Login Issue",
         "conditions": [
-            "first and last name"
+            "log in to the portal",
+            "login to the portal",
+            "portal log in",
+            "tried to log in",
+            "temporary password",
+            "patient portal login",
+            "can't log into the portal",
+            "portal access",
+            "sign in to the portal",
+            "sign into the portal"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Patient Administration",
-            "level_4": "ID Verification",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Password Reset",
-        "conditions": [
-            "password reset"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Technical Support",
+            "category": "Technology Issues",
+            "subcategory": "Chat & Technical",
             "level_3": "Patient Portal",
-            "level_4": "Portal Access/Passwords",
+            "level_4": "Portal Login Issue",
             "sentiment": "negative"
         }
     },
     {
-        "rule_name": "HC Expand: Reset My Password",
+        "rule_name": "Portal - Wrong Info",
         "conditions": [
-            "reset my password"
+            "email is not correct",
+            "email is wrong",
+            "address is wrong",
+            "wrong email",
+            "wrong address",
+            "incorrect email",
+            "incorrect address",
+            "update my email",
+            "update my address",
+            "change my email",
+            "change my address",
+            "email on file is wrong"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Technical Support",
-            "level_3": "Patient Portal",
-            "level_4": "Portal Access/Passwords",
+            "category": "Administrative",
+            "subcategory": "Account Management",
+            "level_3": "Account Information",
+            "level_4": "Incorrect Account Details",
             "sentiment": "negative"
         }
     },
     {
-        "rule_name": "HC Expand: Forgot Password",
+        "rule_name": "Pay Bill",
         "conditions": [
-            "forgot password"
+            "pay my bill",
+            "want to pay",
+            "how do i pay",
+            "pay for my treatment",
+            "pay for my therapy",
+            "make a payment",
+            "pay online",
+            "pay my balance",
+            "pay my copay"
         ],
         "set": {
             "category": "Process Driven",
-            "subcategory": "Technical Support",
-            "level_3": "Patient Portal",
-            "level_4": "Portal Access/Passwords",
+            "subcategory": "Healthcare Operations",
+            "level_3": "Payment & Billing",
+            "level_4": "Payment Processing",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Discharge / End of Treatment",
+        "conditions": [
+            "can be discharged",
+            "i am discharged",
+            "therapy is finished",
+            "therapy days are finished",
+            "done with therapy",
+            "completed therapy",
+            "finished my therapy",
+            "no longer need therapy",
+            "going elsewhere",
+            "will not be coming back",
+            "not coming back as a patient",
+            "ending treatment",
+            "discontinuing treatment"
+        ],
+        "set": {
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Treatment Conclusion",
+            "level_4": "Patient Discharge",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Sick - Can't Come In",
+        "conditions": [
+            "sick need to cancel",
+            "sick need move",
+            "sick need to reschedule",
+            "too sick to come",
+            "too sick to make it",
+            "not well enough to come",
+            "not feeling well enough",
+            "feeling too ill",
+            "under the weather",
+            "have a fever",
+            "strep throat",
+            "vertigo",
+            "in pain today",
+            "car won't start",
+            "car broke down",
+            "stuck in traffic",
+            "running late"
+        ],
+        "set": {
+            "category": "Appointment Management",
+            "subcategory": "Cancellation",
+            "level_3": "Appointment Cancellation",
+            "level_4": "Medical/Emergency Cancellation",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Insurance - Health First",
+        "conditions": [
+            "health first",
+            "healthfirst",
+            "health first insurance",
+            "does it take health first",
+            "accept health first"
+        ],
+        "set": {
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Insurance Network Check",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Insurance - UMR / UnitedHealthcare Choice",
+        "conditions": [
+            "umr",
+            "unitedhealthcare choice",
+            "united healthcare choice",
+            "umr by unitedhealthcare"
+        ],
+        "set": {
+            "category": "Insurance & Coverage",
+            "subcategory": "Insurance Verification",
+            "level_3": "Insurance Acceptance",
+            "level_4": "Insurance Network Check",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Address / Directions to Appointment",
+        "conditions": [
+            "address of my appointment",
+            "address for my appointment",
+            "send me the address",
+            "office address for",
+            "directions to my appointment"
+        ],
+        "set": {
+            "category": "Location & Access",
+            "subcategory": "Office Information",
+            "level_3": "Location Inquiry",
+            "level_4": "Office Address Request",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Therapist Availability - Specific Slot",
+        "conditions": [
+            "does she have availability",
+            "does he have availability",
+            "any availability with",
+            "is there an opening",
+            "has any appointment",
+            "has an opening",
+            "has openings",
+            "any openings with",
+            "available tomorrow",
+            "available next week",
+            "any time slots",
+            "any slots available",
+            "any slots open"
+        ],
+        "set": {
+            "category": "Appointment Management",
+            "subcategory": "Scheduling",
+            "level_3": "New Appointment Request",
+            "level_4": "Therapist Availability Check",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "Review / Feedback Request",
+        "conditions": [
+            "write a review",
+            "send me a link to write a review",
+            "leave a review",
+            "google review",
+            "review for you",
+            "feedback form"
+        ],
+        "set": {
+            "category": "Positive Feedback",
+            "subcategory": "Appreciating Service",
+            "level_3": "Appreciating Product",
+            "level_4": "Patient Advocacy",
+            "sentiment": "positive"
+        }
+    },
+    {
+        "rule_name": "New Patient Forms Error",
+        "conditions": [
+            "filling out the forms",
+            "forms have my address wrong",
+            "forms have my information wrong",
+            "patient portal forms",
+            "trouble with forms",
+            "issue with forms"
+        ],
+        "set": {
+            "category": "Administrative",
+            "subcategory": "Documentation",
+            "level_3": "Forms and Paperwork",
+            "level_4": "Form Error or Issue",
             "sentiment": "negative"
         }
     },
     {
-        "rule_name": "HC Expand: Assistance With Portal",
+        "rule_name": "Phone Number Request",
         "conditions": [
-            "assistance with portal"
+            "phone number",
+            "give me the phone number",
+            "can i get a phone number",
+            "what is the phone number",
+            "your phone number",
+            "office phone number",
+            "call the office"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Technical Support",
-            "level_3": "Patient Portal",
-            "level_4": "Portal Access/Passwords",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Update My Address",
-        "conditions": [
-            "update my address"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Administrative",
-            "level_3": "Intake Forms",
-            "level_4": "Demographic Updates",
+            "category": "Location & Access",
+            "subcategory": "Office Information",
+            "level_3": "Location Inquiry",
+            "level_4": "Contact Information Request",
             "sentiment": "neutral"
         }
     },
     {
-        "rule_name": "HC Expand: Change My Address",
+        "rule_name": "In Home Treatment",
         "conditions": [
-            "change my address"
+            "in home treatment",
+            "do you provide in home",
+            "home treatment",
+            "do you do home visits",
+            "home therapy available"
         ],
         "set": {
-            "category": "Process Driven",
-            "subcategory": "Administrative",
-            "level_3": "Intake Forms",
-            "level_4": "Demographic Updates",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: New Address",
-        "conditions": [
-            "new address"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Administrative",
-            "level_3": "Intake Forms",
-            "level_4": "Demographic Updates",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Update Phone Number",
-        "conditions": [
-            "update phone number"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Administrative",
-            "level_3": "Intake Forms",
-            "level_4": "Demographic Updates",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Need A Referral",
-        "conditions": [
-            "need a referral"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Referrals",
-            "level_3": "Doctor Referrals",
-            "level_4": "Requesting Referral",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Fax A Referral",
-        "conditions": [
-            "fax a referral"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Referrals",
-            "level_3": "Doctor Referrals",
-            "level_4": "Requesting Referral",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Fax Referral",
-        "conditions": [
-            "fax referral"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Referrals",
-            "level_3": "Doctor Referrals",
-            "level_4": "Requesting Referral",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Send A Referral",
-        "conditions": [
-            "send a referral"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Referrals",
-            "level_3": "Doctor Referrals",
-            "level_4": "Requesting Referral",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Copy Of My Records",
-        "conditions": [
-            "copy of my records"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Medical Records",
-            "level_3": "File Requests",
-            "level_4": "Requesting Medical Records",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Test Results",
-        "conditions": [
-            "test results"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Medical Records",
-            "level_3": "File Requests",
-            "level_4": "Requesting Medical Records",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Release Of Information",
-        "conditions": [
-            "release of information"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Medical Records",
-            "level_3": "File Requests",
-            "level_4": "Requesting Medical Records",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Medical Records",
-        "conditions": [
-            "medical records"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Medical Records",
-            "level_3": "File Requests",
-            "level_4": "Requesting Medical Records",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Need A Bill",
-        "conditions": [
-            "need a bill"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Billing",
-            "level_3": "Invoices",
-            "level_4": "Requesting Invoice",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Copy Of Invoice",
-        "conditions": [
-            "copy of invoice"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Billing",
-            "level_3": "Invoices",
-            "level_4": "Requesting Invoice",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Receipt For Visit",
-        "conditions": [
-            "receipt for visit"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Billing",
-            "level_3": "Invoices",
-            "level_4": "Requesting Invoice",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "HC Expand: Need A Receipt",
-        "conditions": [
-            "need a receipt"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Billing",
-            "level_3": "Invoices",
-            "level_4": "Requesting Invoice",
+            "category": "Clinical & Treatment",
+            "subcategory": "Care Delivery Mode",
+            "level_3": "Telehealth & Virtual Care",
+            "level_4": "Home Physical Therapy",
             "sentiment": "neutral"
         }
     }
