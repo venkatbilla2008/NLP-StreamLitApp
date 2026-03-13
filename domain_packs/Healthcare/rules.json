@@ -1374,18 +1374,6 @@
     },
     {
         "conditions": [
-            "could not schedule appointment"
-        ],
-        "set": {
-            "category": "Process",
-            "subcategory": "Scheduling Issue",
-            "level_3": "Scheduling Appointment",
-            "level_4": "Could not Schedule Appointment",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
             "product not delivered"
         ],
         "set": {
@@ -2464,19 +2452,6 @@
         }
     },
     {
-        "rule_name": "HC Rule: Waited Forever",
-        "conditions": [
-            "waited forever"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Service Delivery",
-            "level_4": "Wait Times",
-            "sentiment": "negative"
-        }
-    },
-    {
         "rule_name": "HC Rule: Can'T Reach Anyone",
         "conditions": [
             "can't reach anyone"
@@ -2503,19 +2478,6 @@
         }
     },
     {
-        "rule_name": "HC Rule: No Callback",
-        "conditions": [
-            "no callback"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Service Delivery",
-            "level_4": "Communication",
-            "sentiment": "negative"
-        }
-    },
-    {
         "rule_name": "HC Rule: Poor Customer Service",
         "conditions": [
             "poor customer service"
@@ -2529,100 +2491,9 @@
         }
     },
     {
-        "rule_name": "HC Rule: Bad Service",
-        "conditions": [
-            "bad service"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Service Delivery",
-            "level_4": "Staff Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Terrible Service",
-        "conditions": [
-            "terrible service"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Service Delivery",
-            "level_4": "Staff Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Fed Up",
-        "conditions": [
-            "fed up"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Member Sentiment",
-            "level_4": "Frustration",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Sick Of",
-        "conditions": [
-            "sick of"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Member Sentiment",
-            "level_4": "Frustration",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Tired Of",
-        "conditions": [
-            "tired of"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Member Sentiment",
-            "level_4": "Frustration",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: Not Resolved",
-        "conditions": [
-            "not resolved"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Member Sentiment",
-            "level_4": "Unresolved Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
         "rule_name": "HC Rule: Still Not Resolved",
         "conditions": [
             "still not resolved"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Member Sentiment",
-            "level_4": "Unresolved Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "HC Rule: No Solution",
-        "conditions": [
-            "no solution"
         ],
         "set": {
             "category": "People Driven",
@@ -2837,6 +2708,266 @@
             "subcategory": "Healthcare Operations",
             "level_3": "Patient Administration",
             "level_4": "ID Verification",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Password Reset",
+        "conditions": [
+            "password reset"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Technical Support",
+            "level_3": "Patient Portal",
+            "level_4": "Portal Access/Passwords",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Reset My Password",
+        "conditions": [
+            "reset my password"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Technical Support",
+            "level_3": "Patient Portal",
+            "level_4": "Portal Access/Passwords",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Forgot Password",
+        "conditions": [
+            "forgot password"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Technical Support",
+            "level_3": "Patient Portal",
+            "level_4": "Portal Access/Passwords",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Assistance With Portal",
+        "conditions": [
+            "assistance with portal"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Technical Support",
+            "level_3": "Patient Portal",
+            "level_4": "Portal Access/Passwords",
+            "sentiment": "negative"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Update My Address",
+        "conditions": [
+            "update my address"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Administrative",
+            "level_3": "Intake Forms",
+            "level_4": "Demographic Updates",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Change My Address",
+        "conditions": [
+            "change my address"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Administrative",
+            "level_3": "Intake Forms",
+            "level_4": "Demographic Updates",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: New Address",
+        "conditions": [
+            "new address"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Administrative",
+            "level_3": "Intake Forms",
+            "level_4": "Demographic Updates",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Update Phone Number",
+        "conditions": [
+            "update phone number"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Administrative",
+            "level_3": "Intake Forms",
+            "level_4": "Demographic Updates",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Need A Referral",
+        "conditions": [
+            "need a referral"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Referrals",
+            "level_3": "Doctor Referrals",
+            "level_4": "Requesting Referral",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Fax A Referral",
+        "conditions": [
+            "fax a referral"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Referrals",
+            "level_3": "Doctor Referrals",
+            "level_4": "Requesting Referral",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Fax Referral",
+        "conditions": [
+            "fax referral"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Referrals",
+            "level_3": "Doctor Referrals",
+            "level_4": "Requesting Referral",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Send A Referral",
+        "conditions": [
+            "send a referral"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Referrals",
+            "level_3": "Doctor Referrals",
+            "level_4": "Requesting Referral",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Copy Of My Records",
+        "conditions": [
+            "copy of my records"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Medical Records",
+            "level_3": "File Requests",
+            "level_4": "Requesting Medical Records",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Test Results",
+        "conditions": [
+            "test results"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Medical Records",
+            "level_3": "File Requests",
+            "level_4": "Requesting Medical Records",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Release Of Information",
+        "conditions": [
+            "release of information"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Medical Records",
+            "level_3": "File Requests",
+            "level_4": "Requesting Medical Records",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Medical Records",
+        "conditions": [
+            "medical records"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Medical Records",
+            "level_3": "File Requests",
+            "level_4": "Requesting Medical Records",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Need A Bill",
+        "conditions": [
+            "need a bill"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing",
+            "level_3": "Invoices",
+            "level_4": "Requesting Invoice",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Copy Of Invoice",
+        "conditions": [
+            "copy of invoice"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing",
+            "level_3": "Invoices",
+            "level_4": "Requesting Invoice",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Receipt For Visit",
+        "conditions": [
+            "receipt for visit"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing",
+            "level_3": "Invoices",
+            "level_4": "Requesting Invoice",
+            "sentiment": "neutral"
+        }
+    },
+    {
+        "rule_name": "HC Expand: Need A Receipt",
+        "conditions": [
+            "need a receipt"
+        ],
+        "set": {
+            "category": "Process Driven",
+            "subcategory": "Billing",
+            "level_3": "Invoices",
+            "level_4": "Requesting Invoice",
             "sentiment": "neutral"
         }
     }
