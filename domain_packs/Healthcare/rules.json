@@ -255,8 +255,8 @@
         "set": {
             "category": "Agent Opportunity",
             "subcategory": "Communication and Soft Skills",
-            "level_3": "Communication problem",
-            "level_4": "General Communication Issue",
+            "level_3": "Communication Issues",
+            "level_4": "General Communication Problem",
             "sentiment": "negative"
         }
     },
@@ -268,8 +268,8 @@
         "set": {
             "category": "Agent Opportunity",
             "subcategory": "Communication and Soft Skills",
-            "level_3": "Dead Air on call",
-            "level_4": "Dead Air on call",
+            "level_3": "Hold & Wait Issues",
+            "level_4": "Dead Air on Call",
             "sentiment": "neutral"
         }
     },
@@ -281,7 +281,7 @@
         "set": {
             "category": "Agent Opportunity",
             "subcategory": "Communication and Soft Skills",
-            "level_3": "Excessive Talking by Rep",
+            "level_3": "Communication Issues",
             "level_4": "Excessive Talking by Rep",
             "sentiment": "neutral"
         }
@@ -294,7 +294,7 @@
         "set": {
             "category": "Agent Opportunity",
             "subcategory": "Communication and Soft Skills",
-            "level_3": "Hard to Understand Rep",
+            "level_3": "Communication Issues",
             "level_4": "Hard to Understand Rep",
             "sentiment": "neutral"
         }
@@ -306,7 +306,7 @@
         "set": {
             "category": "Agent Opportunity",
             "subcategory": "Communication and Soft Skills",
-            "level_3": "Language Barrier",
+            "level_3": "Communication Issues",
             "level_4": "Language / Accent Barrier",
             "sentiment": "neutral"
         }
@@ -319,7 +319,7 @@
         "set": {
             "category": "Agent Opportunity",
             "subcategory": "Communication and Soft Skills",
-            "level_3": "Long Hold on Call / Chat",
+            "level_3": "Hold & Wait Issues",
             "level_4": "Long Hold on Call / Chat",
             "sentiment": "neutral"
         }
@@ -331,8 +331,8 @@
         "set": {
             "category": "Agent Opportunity",
             "subcategory": "Communication and Soft Skills",
-            "level_3": "Multiple Holds",
-            "level_4": "Multiple Holds",
+            "level_3": "Hold & Wait Issues",
+            "level_4": "Multiple Holds During Call",
             "sentiment": "neutral"
         }
     },
@@ -343,7 +343,7 @@
         "set": {
             "category": "Agent Opportunity",
             "subcategory": "Communication and Soft Skills",
-            "level_3": "No Assurance",
+            "level_3": "Communication Issues",
             "level_4": "Lack of Assurance",
             "sentiment": "negative"
         }
@@ -368,7 +368,7 @@
         "set": {
             "category": "Agent Opportunity",
             "subcategory": "Communication and Soft Skills",
-            "level_3": "No patience",
+            "level_3": "Communication Issues",
             "level_4": "Rep Showed No Patience",
             "sentiment": "negative"
         }
@@ -380,7 +380,7 @@
         "set": {
             "category": "Agent Opportunity",
             "subcategory": "Communication and Soft Skills",
-            "level_3": "Pushy Sales",
+            "level_3": "Communication Issues",
             "level_4": "Pushy / Aggressive Sales",
             "sentiment": "neutral"
         }
