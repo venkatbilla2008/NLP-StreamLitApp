@@ -1860,21 +1860,6 @@
     }
   },
   {
-    "rule_name": "closure - still here to help",
-    "conditions": [
-      "we are still here to help you",
-      "still here to help you whenever",
-      "here to help whenever you are ready"
-    ],
-    "set": {
-      "category": "Opt-Out / Aborted Contact",
-      "subcategory": "No Customer Response",
-      "level_3": "Agent Acknowledgment and Closure",
-      "level_4": "No Further Assistance Offered",
-      "sentiment": "neutral"
-    }
-  },
-  {
     "rule_name": "followup - time and date of next (priority override)",
     "conditions": [
       "can you please let me know the time and date",
@@ -1891,6 +1876,137 @@
       "subcategory": "Follow-Up Scheduling",
       "level_3": "Follow-Up Appointment",
       "level_4": "Follow-Up Check and Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "exercise - locate exercises in program",
+    "conditions": [
+      "don't remember the name and how to locate the exercises",
+      "don't remember how to locate the exercises",
+      "locate the exercises",
+      "had exercise in a program",
+      "exercise in a program portal"
+    ],
+    "set": {
+      "category": "Logistical / Portal Support",
+      "subcategory": "Exercise Instructions Access",
+      "level_3": "Navigation Assistance",
+      "level_4": "Post-Evaluation Follow-up",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "exercise - medbridge account setup",
+    "conditions": [
+      "medbridge is used for viewing appointments and exercises",
+      "assist in creating a medbridge account",
+      "create a medbridge account",
+      "how to use medbridge",
+      "set up medbridge",
+      "setup medbridge"
+    ],
+    "set": {
+      "category": "Logistical / Portal Support",
+      "subcategory": "Exercise Instructions Access",
+      "level_3": "Navigation Assistance",
+      "level_4": "Post-Evaluation Follow-up",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "exercise - can't access app exercises",
+    "conditions": [
+      "can't access the exercises on the app",
+      "cannot access the exercises on the app",
+      "old exercises on the app"
+    ],
+    "set": {
+      "category": "Logistical / Portal Support",
+      "subcategory": "Exercise Instructions Access",
+      "level_3": "Navigation Assistance",
+      "level_4": "Post-Evaluation Follow-up",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "multiloc - use both medford and smithtown",
+    "conditions": [
+      "use both your medford office and smithtown office",
+      "use both medford and smithtown",
+      "medford office and smithtown office",
+      "both the medford and smithtown",
+      "both medford and smithtown"
+    ],
+    "set": {
+      "category": "Logistical / Multi-Location Policy",
+      "subcategory": "Visiting Multiple Clinics",
+      "level_3": "Policy Confirmation",
+      "level_4": "Account-Verified Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "multiloc - go to watertown instead",
+    "conditions": [
+      "we will go to the watertown location instead",
+      "going to the watertown location instead",
+      "going to a different location instead",
+      "switch to the other location"
+    ],
+    "set": {
+      "category": "Logistical / Multi-Location Policy",
+      "subcategory": "Visiting Multiple Clinics",
+      "level_3": "Policy Confirmation",
+      "level_4": "Account-Verified Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "multiloc - refill paperwork new location",
+    "conditions": [
+      "fill out paperwork again",
+      "fill out new paperwork for the"
+    ],
+    "set": {
+      "category": "Logistical / Multi-Location Policy",
+      "subcategory": "Visiting Multiple Clinics",
+      "level_3": "Policy Confirmation",
+      "level_4": "Account-Verified Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "multiloc - location instead switch",
+    "conditions": [
+      "will go to the watertown location",
+      "will go to a different location instead",
+      "will go to another location instead",
+      "going to the watertown instead"
+    ],
+    "set": {
+      "category": "Logistical / Multi-Location Policy",
+      "subcategory": "Visiting Multiple Clinics",
+      "level_3": "Policy Confirmation",
+      "level_4": "Account-Verified Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "exercise - medbridge for viewing appointments and exercises",
+    "conditions": [
+      "medbridge is used for viewing",
+      "assist in creating a medbridge",
+      "set up a medbridge",
+      "access medbridge",
+      "medbridge portal",
+      "medbridge app"
+    ],
+    "set": {
+      "category": "Logistical / Portal Support",
+      "subcategory": "Exercise Instructions Access",
+      "level_3": "Navigation Assistance",
+      "level_4": "Post-Evaluation Follow-up",
       "sentiment": "neutral"
     }
   }
