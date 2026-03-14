@@ -1,1675 +1,1897 @@
 [
-    {
-        "rule_name": "Cancel Appointment - Explicit",
-        "conditions": [
-            "cancel my appointment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Appointment Cancellation",
-            "level_4": "Patient Initiated Cancellation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Cancel Appointment - Need to",
-        "conditions": [
-            "need to cancel"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Appointment Cancellation",
-            "level_4": "Patient Initiated Cancellation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Cancel Appointment - Want to",
-        "conditions": [
-            "want to cancel"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Appointment Cancellation",
-            "level_4": "Patient Initiated Cancellation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Cancel Appointment - Would Like to",
-        "conditions": [
-            "would like to cancel"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Appointment Cancellation",
-            "level_4": "Patient Initiated Cancellation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Cancel Appointment - Please",
-        "conditions": [
-            "please cancel"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Appointment Cancellation",
-            "level_4": "Patient Initiated Cancellation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Cancel Appointment - Can I",
-        "conditions": [
-            "can i cancel"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Appointment Cancellation",
-            "level_4": "Patient Initiated Cancellation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Cancel Appointment - Cancelling",
-        "conditions": [
-            "cancelling my appointment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Appointment Cancellation",
-            "level_4": "Patient Initiated Cancellation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Reschedule Appointment - Need to",
-        "conditions": [
-            "need to reschedule"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Rescheduling",
-            "level_3": "Appointment Rescheduling",
-            "level_4": "Patient Initiated Reschedule",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Reschedule Appointment - Would Like to",
-        "conditions": [
-            "would like to reschedule"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Rescheduling",
-            "level_3": "Appointment Rescheduling",
-            "level_4": "Patient Initiated Reschedule",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Reschedule Appointment - Want to",
-        "conditions": [
-            "want to reschedule"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Rescheduling",
-            "level_3": "Appointment Rescheduling",
-            "level_4": "Patient Initiated Reschedule",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Reschedule Appointment - I'd Like",
-        "conditions": [
-            "i'd like to reschedule"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Rescheduling",
-            "level_3": "Appointment Rescheduling",
-            "level_4": "Patient Initiated Reschedule",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Reschedule Appointment - Move",
-        "conditions": [
-            "move my appointment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Rescheduling",
-            "level_3": "Appointment Rescheduling",
-            "level_4": "Patient Initiated Reschedule",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Reschedule Appointment - Change",
-        "conditions": [
-            "change my appointment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Rescheduling",
-            "level_3": "Appointment Rescheduling",
-            "level_4": "Patient Initiated Reschedule",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Schedule New - Make Appointment",
-        "conditions": [
-            "make an appointment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Scheduling",
-            "level_3": "New Appointment Request",
-            "level_4": "Appointment Booking",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Schedule New - Book Appointment",
-        "conditions": [
-            "book an appointment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Scheduling",
-            "level_3": "New Appointment Request",
-            "level_4": "Appointment Booking",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Schedule New - Schedule Appointment",
-        "conditions": [
-            "schedule an appointment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Scheduling",
-            "level_3": "New Appointment Request",
-            "level_4": "Appointment Booking",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Schedule New - Want to Schedule",
-        "conditions": [
-            "want to schedule"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Scheduling",
-            "level_3": "New Appointment Request",
-            "level_4": "Appointment Booking",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Schedule New - Start Therapy",
-        "conditions": [
-            "start therapy",
-            "start physical therapy",
-            "start pt"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Scheduling",
-            "level_3": "New Appointment Request",
-            "level_4": "Appointment Booking",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Schedule New - Initial Evaluation",
-        "conditions": [
-            "initial evaluation",
-            "initial eval",
-            "initial appointment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Scheduling",
-            "level_3": "New Appointment Request",
-            "level_4": "Initial Evaluation Scheduling",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Appointment Check - Check Upcoming",
-        "conditions": [
-            "check my appointment",
-            "check my upcoming appointment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Appointment Inquiry",
-            "level_3": "Appointment Status Check",
-            "level_4": "Appointment Verification",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Appointment Check - When Is",
-        "conditions": [
-            "when is my appointment",
-            "what time is my appointment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Appointment Inquiry",
-            "level_3": "Appointment Status Check",
-            "level_4": "Appointment Verification",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Appointment Check - Confirm",
-        "conditions": [
-            "confirm my appointment",
-            "appointment confirmation"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Appointment Inquiry",
-            "level_3": "Appointment Status Check",
-            "level_4": "Appointment Confirmation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Appointment Check - Is Still On",
-        "conditions": [
-            "is the appointment still on",
-            "is my appointment still scheduled"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Appointment Inquiry",
-            "level_3": "Appointment Status Check",
-            "level_4": "Appointment Confirmation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Appointment Check - Online",
-        "conditions": [
-            "check my appointments online",
-            "check appointments online",
-            "view appointments online"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Appointment Inquiry",
-            "level_3": "Appointment Status Check",
-            "level_4": "Online Access Request",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - Accept My Insurance",
-        "conditions": [
-            "accept my insurance",
-            "do you accept my insurance",
-            "do you take my insurance"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Insurance Network Check",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - In Network",
-        "conditions": [
-            "in-network",
-            "in network",
-            "are you in network"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Network Status Check",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - Out of Network",
-        "conditions": [
-            "out of network",
-            "out-of-network",
-            "not in network"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Out-of-Network Concern",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Insurance - United Healthcare",
-        "conditions": [
-            "accept united healthcare",
-            "do you accept united",
-            "united healthcare"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Insurance Network Check",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - Aetna",
-        "conditions": [
-            "accept aetna",
-            "do you accept aetna",
-            "aetna insurance"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Insurance Network Check",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - Medicare",
-        "conditions": [
-            "accept medicare",
-            "do you accept medicare",
-            "medicare insurance",
-            "take medicare"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Medicare Inquiry",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - Medicaid",
-        "conditions": [
-            "accept medicaid",
-            "do you accept medicaid",
-            "medicaid insurance"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Medicaid Inquiry",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - Oscar",
-        "conditions": [
-            "accept oscar",
-            "oscar insurance",
-            "do you take oscar"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Insurance Network Check",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - BCBS",
-        "conditions": [
-            "accept blue cross",
-            "blue cross blue shield",
-            "bcbs",
-            "do you accept bcbs"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Insurance Network Check",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - Cigna",
-        "conditions": [
-            "accept cigna",
-            "cigna insurance",
-            "do you take cigna"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Insurance Network Check",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - Visits Remaining",
-        "conditions": [
-            "visits left on my insurance",
-            "how many visits do i have",
-            "visits remaining",
-            "visits left"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Visit Authorization",
-            "level_4": "Authorized Visits Check",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - Coverage Copay",
-        "conditions": [
-            "insurance coverage copay",
-            "know insurance coverage",
-            "insurance coverage amounts",
-            "copay amounts"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Billing & Cost Inquiry",
-            "level_3": "Cost and Copay Inquiry",
-            "level_4": "Copay Inquiry",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - How Much Does It Cost",
-        "conditions": [
-            "how much does it cost",
-            "how much will it cost",
-            "how much do you charge",
-            "what is the cost"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Billing & Cost Inquiry",
-            "level_3": "Cost and Copay Inquiry",
-            "level_4": "Session Cost Question",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - Self Pay",
-        "conditions": [
-            "self pay",
-            "self-pay",
-            "paying out of pocket",
-            "no insurance",
-            "cash pay"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Billing & Cost Inquiry",
-            "level_3": "Cost and Copay Inquiry",
-            "level_4": "Self-Pay Inquiry",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Prescription - New RX",
-        "conditions": [
-            "new rx",
-            "new prescription",
-            "another rx",
-            "new rx to continue"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Prescription & Referral",
-            "level_3": "Prescription Management",
-            "level_4": "New Prescription",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Prescription - Check Received",
-        "conditions": [
-            "check if you received",
-            "received the prescription",
-            "received my prescription",
-            "prescription was sent",
-            "prescription was faxed"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Prescription & Referral",
-            "level_3": "Prescription Management",
-            "level_4": "Prescription Verification",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Prescription - Have Referral",
-        "conditions": [
-            "have a referral",
-            "i have a referral",
-            "i have a prescription",
-            "have a script",
-            "have a prescription"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Prescription & Referral",
-            "level_3": "Prescription Management",
-            "level_4": "Referral Submission",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Prescription - Need Referral",
-        "conditions": [
-            "need a referral",
-            "do i need a referral",
-            "do i need a prescription",
-            "is a referral required"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Prescription & Referral",
-            "level_3": "Prescription Management",
-            "level_4": "Referral Requirement Inquiry",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Prescription - Doctor Referral",
-        "conditions": [
-            "doctor referral",
-            "referral from my doctor",
-            "physician referral",
-            "my doctor referred me"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Prescription & Referral",
-            "level_3": "Prescription Management",
-            "level_4": "Referral Submission",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "New Patient - First Time",
-        "conditions": [
-            "first time",
-            "first time patient",
-            "never been there",
-            "never been a patient"
-        ],
-        "set": {
-            "category": "Patient Onboarding",
-            "subcategory": "New Patient",
-            "level_3": "New Patient Inquiry",
-            "level_4": "New Patient Registration",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "New Patient - Looking for PT",
-        "conditions": [
-            "looking for physical therapy",
-            "looking for pt",
-            "interested in physical therapy"
-        ],
-        "set": {
-            "category": "Patient Onboarding",
-            "subcategory": "New Patient",
-            "level_3": "New Patient Inquiry",
-            "level_4": "New Patient Registration",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "New Patient - Inquiring",
-        "conditions": [
-            "inquiring about physical therapy",
-            "inquiring about pt",
-            "inquiry about starting"
-        ],
-        "set": {
-            "category": "Patient Onboarding",
-            "subcategory": "New Patient",
-            "level_3": "New Patient Inquiry",
-            "level_4": "New Patient Registration",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "New Patient - Doctor Recommended",
-        "conditions": [
-            "doctor recommended",
-            "doctor told me to",
-            "my doctor recommended",
-            "surgeon recommended"
-        ],
-        "set": {
-            "category": "Patient Onboarding",
-            "subcategory": "New Patient",
-            "level_3": "New Patient Inquiry",
-            "level_4": "Physician Referred Patient",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Location - Nearest Office",
-        "conditions": [
-            "nearest location",
-            "nearest office",
-            "closest location",
-            "closest office",
-            "near me"
-        ],
-        "set": {
-            "category": "Location & Access",
-            "subcategory": "Office Information",
-            "level_3": "Location Inquiry",
-            "level_4": "Nearest Office Request",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Location - Office Hours",
-        "conditions": [
-            "office hours",
-            "hours of operation",
-            "what are your hours",
-            "when are you open",
-            "are you open"
-        ],
-        "set": {
-            "category": "Location & Access",
-            "subcategory": "Office Information",
-            "level_3": "Location Inquiry",
-            "level_4": "Office Hours Inquiry",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Location - Specific Location",
-        "conditions": [
-            "specific office",
-            "specific location",
-            "do you have an office in",
-            "do you have a location in"
-        ],
-        "set": {
-            "category": "Location & Access",
-            "subcategory": "Office Information",
-            "level_3": "Location Inquiry",
-            "level_4": "Specific Location Inquiry",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Location - Address",
-        "conditions": [
-            "office address",
-            "address of the office",
-            "where is the office",
-            "where are you located"
-        ],
-        "set": {
-            "category": "Location & Access",
-            "subcategory": "Office Information",
-            "level_3": "Location Inquiry",
-            "level_4": "Office Address Request",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Therapist - Specific Therapist",
-        "conditions": [
-            "specific therapist",
-            "want to see",
-            "want to work with",
-            "prefer to see",
-            "work with my therapist"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Therapist Assignment",
-            "level_3": "Specific Therapist Request",
-            "level_4": "Therapist Selection",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Therapist - Taking New Patients",
-        "conditions": [
-            "taking new patients",
-            "is she taking new patients",
-            "is he taking new patients",
-            "accepting new patients"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Therapist Assignment",
-            "level_3": "Specific Therapist Request",
-            "level_4": "Therapist Availability",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Treatment - Back Pain",
-        "conditions": [
-            "back pain",
-            "lower back pain",
-            "back injury"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Treatment Inquiry",
-            "level_3": "Condition and Treatment",
-            "level_4": "Back Pain Treatment",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Treatment - Knee",
-        "conditions": [
-            "knee pain",
-            "knee injury",
-            "knee surgery",
-            "knee replacement"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Treatment Inquiry",
-            "level_3": "Condition and Treatment",
-            "level_4": "Knee Treatment",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Treatment - Shoulder",
-        "conditions": [
-            "shoulder pain",
-            "shoulder injury",
-            "rotator cuff",
-            "frozen shoulder",
-            "adhesive capsulitis"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Treatment Inquiry",
-            "level_3": "Condition and Treatment",
-            "level_4": "Shoulder Treatment",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Treatment - Hip",
-        "conditions": [
-            "hip pain",
-            "hip injury",
-            "hip replacement",
-            "hip surgery"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Treatment Inquiry",
-            "level_3": "Condition and Treatment",
-            "level_4": "Hip Treatment",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Treatment - Ankle / Foot",
-        "conditions": [
-            "ankle pain",
-            "ankle injury",
-            "ankle surgery",
-            "foot pain",
-            "plantar fasciitis"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Treatment Inquiry",
-            "level_3": "Condition and Treatment",
-            "level_4": "Ankle and Foot Treatment",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Treatment - Post Surgery",
-        "conditions": [
-            "post surgery",
-            "post-surgery",
-            "post op",
-            "post-op",
-            "after surgery",
-            "recovering from surgery"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Treatment Inquiry",
-            "level_3": "Condition and Treatment",
-            "level_4": "Post-Surgical Rehabilitation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Treatment - Workers Comp",
-        "conditions": [
-            "workers comp",
-            "worker's compensation",
-            "work injury",
-            "workplace injury",
-            "work-related injury"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Treatment Inquiry",
-            "level_3": "Condition and Treatment",
-            "level_4": "Workers Compensation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Treatment - No Fault / Auto",
-        "conditions": [
-            "no fault",
-            "no-fault",
-            "car accident",
-            "auto accident",
-            "auto injury",
-            "motor vehicle"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Treatment Inquiry",
-            "level_3": "Condition and Treatment",
-            "level_4": "No-Fault / Auto Accident",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Telehealth - Virtual Visit Request",
-        "conditions": [
-            "virtual visit",
-            "virtual appointment",
-            "telehealth",
-            "video call appointment",
-            "video visit"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Care Delivery Mode",
-            "level_3": "Telehealth & Virtual Care",
-            "level_4": "Virtual Visit Request",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Telehealth - Home PT",
-        "conditions": [
-            "in home pt",
-            "home physical therapy",
-            "home pt",
-            "at home therapy",
-            "home visit"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Care Delivery Mode",
-            "level_3": "Telehealth & Virtual Care",
-            "level_4": "Home Physical Therapy",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Documents - Intake Form",
-        "conditions": [
-            "intake form",
-            "new patient form",
-            "fill out form",
-            "intake paperwork"
-        ],
-        "set": {
-            "category": "Administrative",
-            "subcategory": "Documentation",
-            "level_3": "Forms and Paperwork",
-            "level_4": "New Patient Form",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Documents - Insurance Card",
-        "conditions": [
-            "insurance card",
-            "upload insurance card",
-            "send insurance card",
-            "attach insurance card"
-        ],
-        "set": {
-            "category": "Administrative",
-            "subcategory": "Documentation",
-            "level_3": "Forms and Paperwork",
-            "level_4": "Insurance Document Upload",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Documents - Medical Records",
-        "conditions": [
-            "medical records",
-            "request records",
-            "records request",
-            "send medical records"
-        ],
-        "set": {
-            "category": "Administrative",
-            "subcategory": "Documentation",
-            "level_3": "Forms and Paperwork",
-            "level_4": "Medical Records Request",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Disconnect - Chat Got Disconnected",
-        "conditions": [
-            "got disconnected",
-            "we got disconnected",
-            "chat was disconnected",
-            "got cut off"
-        ],
-        "set": {
-            "category": "Technology Issues",
-            "subcategory": "Chat & Technical",
-            "level_3": "Connection Issues",
-            "level_4": "Chat Disconnection",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Disconnect - Reconnecting",
-        "conditions": [
-            "reaching back out",
-            "calling back because",
-            "following up from earlier",
-            "was speaking with someone and got disconnected"
-        ],
-        "set": {
-            "category": "Technology Issues",
-            "subcategory": "Chat & Technical",
-            "level_3": "Connection Issues",
-            "level_4": "Reconnection After Drop",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Disconnect - Chat Not Working",
-        "conditions": [
-            "chat won't work",
-            "chat is not working",
-            "chat box won't",
-            "chat issue"
-        ],
-        "set": {
-            "category": "Technology Issues",
-            "subcategory": "Chat & Technical",
-            "level_3": "Connection Issues",
-            "level_4": "Chat Technical Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Wait - Still Waiting",
-        "conditions": [
-            "still waiting",
-            "been waiting",
-            "still in queue"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Service Delivery",
-            "level_4": "Wait Times",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Wait - On Hold Too Long",
-        "conditions": [
-            "on hold for",
-            "been on hold",
-            "on hold too long",
-            "long hold"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Service Delivery",
-            "level_4": "Wait Times",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Wait - No Response",
-        "conditions": [
-            "no response",
-            "did not respond",
-            "still waiting for a response",
-            "not responsive"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Service Delivery",
-            "level_4": "Communication",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Complaint - Terrible Service",
-        "conditions": [
-            "terrible service",
-            "terrible customer service"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Member Sentiment",
-            "level_4": "Negative Experience",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Complaint - Not Satisfied",
-        "conditions": [
-            "not happy with",
-            "not satisfied with",
-            "very unhappy",
-            "very frustrated"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Member Sentiment",
-            "level_4": "Frustration",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Complaint - Therapist No Show",
-        "conditions": [
-            "therapist never showed",
-            "therapist never came",
-            "pt never came",
-            "no one showed up",
-            "nobody showed up"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Service Delivery",
-            "level_4": "Staff Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Complaint - Speak to Manager",
-        "conditions": [
-            "speak to a manager",
-            "speak with a manager",
-            "want to speak to a supervisor",
-            "supervisor please",
-            "escalate this"
-        ],
-        "set": {
-            "category": "People Driven",
-            "subcategory": "Customer Experience",
-            "level_3": "Member Sentiment",
-            "level_4": "Escalation Request",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Positive - Thank You",
-        "conditions": [
-            "thank you so much",
-            "thank you very much",
-            "thanks so much"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Appreciating Ownership",
-            "level_4": "Professional Rep",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "rule_name": "Positive - Great Help",
-        "conditions": [
-            "very helpful",
-            "so helpful",
-            "extremely helpful",
-            "really helpful"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Agent",
-            "level_3": "Appreciating Ownership",
-            "level_4": "Professional Rep",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "rule_name": "Positive - Great Service",
-        "conditions": [
-            "great service",
-            "excellent service",
-            "wonderful service",
-            "amazing service"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Service",
-            "level_3": "Appreciating Product",
-            "level_4": "Excellent Service",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "rule_name": "Positive - Great Therapist",
-        "conditions": [
-            "great therapist",
-            "excellent therapist",
-            "therapist is amazing",
-            "love my therapist"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Service",
-            "level_3": "Appreciating Product",
-            "level_4": "Therapist Appreciation",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "rule_name": "Positive - Would Recommend",
-        "conditions": [
-            "would recommend",
-            "highly recommend",
-            "recommend to others"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Service",
-            "level_3": "Appreciating Product",
-            "level_4": "Patient Advocacy",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "rule_name": "Cancellation Policy Inquiry",
-        "conditions": [
-            "cancellation policy",
-            "what is the cancellation policy",
-            "cancellation fee",
-            "late cancellation fee",
-            "no show fee"
-        ],
-        "set": {
-            "category": "Administrative",
-            "subcategory": "Policy Inquiry",
-            "level_3": "Cancellation Policy",
-            "level_4": "Late Cancel and No-Show Policy",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Billing Error",
-        "conditions": [
-            "billing error",
-            "billing issue",
-            "wrong bill",
-            "overcharged",
-            "charged incorrectly"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Billing Error",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Payment Failed",
-        "conditions": [
-            "payment failed",
-            "payment not processed",
-            "payment issue",
-            "unable to pay"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Payment Failure",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Refund Request",
-        "conditions": [
-            "need a refund",
-            "want a refund",
-            "requesting a refund"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Refund Issues",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Cancel - Can't Make It Today",
-        "conditions": [
-            "wont be able to make my appointment",
-            "won't be able to make my appointment",
-            "not going to be able to make my appointment",
-            "not able to make my appointment",
-            "unable to make my appointment",
-            "can't make my appointment",
-            "cannot make my appointment",
-            "not able to make it",
-            "can't make it today",
-            "cannot make it today"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Appointment Cancellation",
-            "level_4": "Patient Initiated Cancellation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Cancel - Sick",
-        "conditions": [
-            "still sick",
-            "i am sick",
-            "i'm sick",
-            "sick today",
-            "not feeling well",
-            "feeling ill",
-            "coming down with",
-            "got sick",
-            "sick with",
-            "snowed in",
-            "can't come in today",
-            "cannot come in today",
-            "unable to come in",
-            "won't be coming",
-            "will not be coming",
-            "not coming in"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Appointment Cancellation",
-            "level_4": "Medical/Emergency Cancellation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Cancel - Already Requested",
-        "conditions": [
-            "already requested an appointment",
-            "already made an appointment",
-            "already booked",
-            "already scheduled",
-            "already have an appointment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Appointment Inquiry",
-            "level_3": "Appointment Status Check",
-            "level_4": "Appointment Verification",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Confirm Cancellation",
-        "conditions": [
-            "confirm cancellation",
-            "confirm you cancelled",
-            "just confirming you cancelled",
-            "confirm my appointment is cancelled",
-            "confirm my appointment is canceled",
-            "is my appointment cancelled",
-            "was it cancelled"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Appointment Cancellation",
-            "level_4": "Cancellation Confirmation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Reschedule - Change to Specific Time",
-        "conditions": [
-            "reschedule to",
-            "change it to",
-            "change to",
-            "change the time to",
-            "move it to",
-            "move to",
-            "would like to change it to"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Rescheduling",
-            "level_3": "Appointment Rescheduling",
-            "level_4": "Patient Initiated Reschedule",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Portal - Login Issue",
-        "conditions": [
-            "log in to the portal",
-            "login to the portal",
-            "portal log in",
-            "tried to log in",
-            "temporary password",
-            "patient portal login",
-            "can't log into the portal",
-            "portal access",
-            "sign in to the portal",
-            "sign into the portal"
-        ],
-        "set": {
-            "category": "Technology Issues",
-            "subcategory": "Chat & Technical",
-            "level_3": "Patient Portal",
-            "level_4": "Portal Login Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Portal - Wrong Info",
-        "conditions": [
-            "email is not correct",
-            "email is wrong",
-            "address is wrong",
-            "wrong email",
-            "wrong address",
-            "incorrect email",
-            "incorrect address",
-            "update my email",
-            "update my address",
-            "change my email",
-            "change my address",
-            "email on file is wrong"
-        ],
-        "set": {
-            "category": "Administrative",
-            "subcategory": "Account Management",
-            "level_3": "Account Information",
-            "level_4": "Incorrect Account Details",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Pay Bill",
-        "conditions": [
-            "pay my bill",
-            "want to pay",
-            "how do i pay",
-            "pay for my treatment",
-            "pay for my therapy",
-            "make a payment",
-            "pay online",
-            "pay my balance",
-            "pay my copay"
-        ],
-        "set": {
-            "category": "Process Driven",
-            "subcategory": "Healthcare Operations",
-            "level_3": "Payment & Billing",
-            "level_4": "Payment Processing",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Discharge / End of Treatment",
-        "conditions": [
-            "can be discharged",
-            "i am discharged",
-            "therapy is finished",
-            "therapy days are finished",
-            "done with therapy",
-            "completed therapy",
-            "finished my therapy",
-            "no longer need therapy",
-            "going elsewhere",
-            "will not be coming back",
-            "not coming back as a patient",
-            "ending treatment",
-            "discontinuing treatment"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Treatment Conclusion",
-            "level_4": "Patient Discharge",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Sick - Can't Come In",
-        "conditions": [
-            "sick need to cancel",
-            "sick need move",
-            "sick need to reschedule",
-            "too sick to come",
-            "too sick to make it",
-            "not well enough to come",
-            "not feeling well enough",
-            "feeling too ill",
-            "under the weather",
-            "have a fever",
-            "strep throat",
-            "vertigo",
-            "in pain today",
-            "car won't start",
-            "car broke down",
-            "stuck in traffic",
-            "running late"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Cancellation",
-            "level_3": "Appointment Cancellation",
-            "level_4": "Medical/Emergency Cancellation",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - Health First",
-        "conditions": [
-            "health first",
-            "healthfirst",
-            "health first insurance",
-            "does it take health first",
-            "accept health first"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Insurance Network Check",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Insurance - UMR / UnitedHealthcare Choice",
-        "conditions": [
-            "umr",
-            "unitedhealthcare choice",
-            "united healthcare choice",
-            "umr by unitedhealthcare"
-        ],
-        "set": {
-            "category": "Insurance & Coverage",
-            "subcategory": "Insurance Verification",
-            "level_3": "Insurance Acceptance",
-            "level_4": "Insurance Network Check",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Address / Directions to Appointment",
-        "conditions": [
-            "address of my appointment",
-            "address for my appointment",
-            "send me the address",
-            "office address for",
-            "directions to my appointment"
-        ],
-        "set": {
-            "category": "Location & Access",
-            "subcategory": "Office Information",
-            "level_3": "Location Inquiry",
-            "level_4": "Office Address Request",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Therapist Availability - Specific Slot",
-        "conditions": [
-            "does she have availability",
-            "does he have availability",
-            "any availability with",
-            "is there an opening",
-            "has any appointment",
-            "has an opening",
-            "has openings",
-            "any openings with",
-            "available tomorrow",
-            "available next week",
-            "any time slots",
-            "any slots available",
-            "any slots open"
-        ],
-        "set": {
-            "category": "Appointment Management",
-            "subcategory": "Scheduling",
-            "level_3": "New Appointment Request",
-            "level_4": "Therapist Availability Check",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "Review / Feedback Request",
-        "conditions": [
-            "write a review",
-            "send me a link to write a review",
-            "leave a review",
-            "google review",
-            "review for you",
-            "feedback form"
-        ],
-        "set": {
-            "category": "Positive Feedback",
-            "subcategory": "Appreciating Service",
-            "level_3": "Appreciating Product",
-            "level_4": "Patient Advocacy",
-            "sentiment": "positive"
-        }
-    },
-    {
-        "rule_name": "New Patient Forms Error",
-        "conditions": [
-            "filling out the forms",
-            "forms have my address wrong",
-            "forms have my information wrong",
-            "patient portal forms",
-            "trouble with forms",
-            "issue with forms"
-        ],
-        "set": {
-            "category": "Administrative",
-            "subcategory": "Documentation",
-            "level_3": "Forms and Paperwork",
-            "level_4": "Form Error or Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "rule_name": "Phone Number Request",
-        "conditions": [
-            "phone number",
-            "give me the phone number",
-            "can i get a phone number",
-            "what is the phone number",
-            "your phone number",
-            "office phone number",
-            "call the office"
-        ],
-        "set": {
-            "category": "Location & Access",
-            "subcategory": "Office Information",
-            "level_3": "Location Inquiry",
-            "level_4": "Contact Information Request",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "rule_name": "In Home Treatment",
-        "conditions": [
-            "in home treatment",
-            "do you provide in home",
-            "home treatment",
-            "do you do home visits",
-            "home therapy available"
-        ],
-        "set": {
-            "category": "Clinical & Treatment",
-            "subcategory": "Care Delivery Mode",
-            "level_3": "Telehealth & Virtual Care",
-            "level_4": "Home Physical Therapy",
-            "sentiment": "neutral"
-        }
+  {
+    "rule_name": "cancel - need to",
+    "conditions": [
+      "need to cancel"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Cancellation",
+      "level_3": "Appointment Cancellation",
+      "level_4": "Patient Initiated Cancellation",
+      "sentiment": "neutral"
     }
+  },
+  {
+    "rule_name": "cancel - want to",
+    "conditions": [
+      "want to cancel"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Cancellation",
+      "level_3": "Appointment Cancellation",
+      "level_4": "Patient Initiated Cancellation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - would like",
+    "conditions": [
+      "would like to cancel"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Cancellation",
+      "level_3": "Appointment Cancellation",
+      "level_4": "Patient Initiated Cancellation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - i need to cancel",
+    "conditions": [
+      "i need to cancel"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Cancellation",
+      "level_3": "Appointment Cancellation",
+      "level_4": "Patient Initiated Cancellation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - please",
+    "conditions": [
+      "please cancel"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Cancellation",
+      "level_3": "Appointment Cancellation",
+      "level_4": "Patient Initiated Cancellation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - can i",
+    "conditions": [
+      "can i cancel"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Cancellation",
+      "level_3": "Appointment Cancellation",
+      "level_4": "Patient Initiated Cancellation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - cacel typo",
+    "conditions": [
+      "need to cacel",
+      "like to cacel"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Cancellation",
+      "level_3": "Appointment Cancellation",
+      "level_4": "Patient Initiated Cancellation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "reschedule - need",
+    "conditions": [
+      "need to reschedule"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Rescheduling",
+      "level_3": "Appointment Rescheduling",
+      "level_4": "Patient Initiated Reschedule",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "reschedule - would like",
+    "conditions": [
+      "would like to reschedule"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Rescheduling",
+      "level_3": "Appointment Rescheduling",
+      "level_4": "Patient Initiated Reschedule",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "reschedule - i'd like",
+    "conditions": [
+      "i'd like to reschedule"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Rescheduling",
+      "level_3": "Appointment Rescheduling",
+      "level_4": "Patient Initiated Reschedule",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "reschedule - hoping to",
+    "conditions": [
+      "hoping to reschedule"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Rescheduling",
+      "level_3": "Appointment Rescheduling",
+      "level_4": "Patient Initiated Reschedule",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "reschedule - reschedule daughters",
+    "conditions": [
+      "reschedule my daughter's appointment",
+      "reschedule my daughters appointment"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Rescheduling",
+      "level_3": "Appointment Rescheduling",
+      "level_4": "Patient Initiated Reschedule",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "schedule - make appt",
+    "conditions": [
+      "make an appointment",
+      "make a new appointment",
+      "make appointments",
+      "make two appointments",
+      "make three appointments",
+      "make some appointments",
+      "make more appointments"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Scheduling",
+      "level_3": "New Appointment Request",
+      "level_4": "Appointment Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "schedule - book appt",
+    "conditions": [
+      "book an appointment",
+      "book a new appointment",
+      "book appointments",
+      "book two",
+      "book three"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Scheduling",
+      "level_3": "New Appointment Request",
+      "level_4": "Appointment Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "schedule - schedule appt",
+    "conditions": [
+      "schedule an appointment",
+      "schedule a new appointment",
+      "schedule appointments",
+      "schedule two",
+      "schedule three"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Scheduling",
+      "level_3": "New Appointment Request",
+      "level_4": "Appointment Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "schedule - set up appts",
+    "conditions": [
+      "set up appointments",
+      "set up more appointments",
+      "set up appts",
+      "set up more appts",
+      "set up two",
+      "set up three"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Scheduling",
+      "level_3": "New Appointment Request",
+      "level_4": "Appointment Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "schedule - two more appointments",
+    "conditions": [
+      "two more appointments",
+      "three more appointments",
+      "two appointments",
+      "three appointments",
+      "two appts",
+      "three appts"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Scheduling",
+      "level_3": "New Appointment Request",
+      "level_4": "Appointment Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "schedule - next week appts",
+    "conditions": [
+      "appointments for next week",
+      "appointments next week",
+      "appointments for monday",
+      "appointments for tuesday",
+      "appointments for wednesday",
+      "appointments for thursday",
+      "appointments for friday"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Scheduling",
+      "level_3": "New Appointment Request",
+      "level_4": "Appointment Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "schedule - any availability",
+    "conditions": [
+      "any availability",
+      "do you have availability",
+      "do you have any availability",
+      "is there availability",
+      "any available slots",
+      "any open slots"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Scheduling",
+      "level_3": "New Appointment Request",
+      "level_4": "Appointment Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "schedule - initial eval",
+    "conditions": [
+      "initial evaluation",
+      "initial eval",
+      "initial appointment",
+      "initial visit",
+      "eval appointment",
+      "evaluation appointment"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Scheduling",
+      "level_3": "New Appointment Request",
+      "level_4": "Initial Evaluation Scheduling",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "schedule - pt eval",
+    "conditions": [
+      "pt eval",
+      "pt evaluation",
+      "physical therapy eval",
+      "physical therapy evaluation"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Scheduling",
+      "level_3": "New Appointment Request",
+      "level_4": "Initial Evaluation Scheduling",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "appt check - check next appt",
+    "conditions": [
+      "check my next appointment",
+      "check my next appt",
+      "what are my next appointments",
+      "when are my next appointments"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Appointment Inquiry",
+      "level_3": "Appointment Status Check",
+      "level_4": "Appointment Verification",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "appt check - let me know time",
+    "conditions": [
+      "let me know the time and date",
+      "let me know when my appointment",
+      "let me know my appointment",
+      "please let me know when",
+      "please let me know my appointment"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Appointment Inquiry",
+      "level_3": "Appointment Status Check",
+      "level_4": "Appointment Verification",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "appt check - confirm appointment",
+    "conditions": [
+      "confirm my appointment",
+      "please confirm my appointment",
+      "confirm that i have an appointment",
+      "confirm i have an appointment",
+      "please confirm if i have"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Appointment Inquiry",
+      "level_3": "Appointment Status Check",
+      "level_4": "Appointment Confirmation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "appt check - i want to confirm",
+    "conditions": [
+      "i want to confirm",
+      "i would like to confirm",
+      "just want to confirm",
+      "wanted to confirm",
+      "just confirming"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Appointment Inquiry",
+      "level_3": "Appointment Status Check",
+      "level_4": "Appointment Confirmation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "appt check - view online",
+    "conditions": [
+      "check my appointments online",
+      "check appointments online",
+      "view appointments online",
+      "check my appts online",
+      "how do i check my upcoming appointments"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Appointment Inquiry",
+      "level_3": "Appointment Status Check",
+      "level_4": "Online Access Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - in network check",
+    "conditions": [
+      "in-network",
+      "in network",
+      "are you in network",
+      "in network with",
+      "are you in-network",
+      "check if in network"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Network Status Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - out of network",
+    "conditions": [
+      "out of network",
+      "out-of-network",
+      "not in network",
+      "not in my network"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Out-of-Network Concern",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "insurance - do you take",
+    "conditions": [
+      "do you take",
+      "do you accept",
+      "you accept",
+      "you take"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Insurance Network Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - fidelis",
+    "conditions": [
+      "fidelis",
+      "fidelis essential",
+      "fidelis care",
+      "fidelis insurance",
+      "take fidelis",
+      "accept fidelis",
+      "do you accept fidelis",
+      "do you take fidelis"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Fidelis Insurance Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - nyship",
+    "conditions": [
+      "nyship",
+      "ny ship",
+      "new york state health insurance",
+      "new york state insurance"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Insurance Network Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - emblem",
+    "conditions": [
+      "emblem",
+      "emblem health",
+      "emblemhealth",
+      "accept emblem",
+      "take emblem",
+      "do you take emblem",
+      "do you accept emblem"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Insurance Network Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - horizon",
+    "conditions": [
+      "horizon",
+      "horizon bcbs",
+      "horizon blue cross",
+      "accept horizon",
+      "take horizon"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Insurance Network Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - 1199",
+    "conditions": [
+      "1199",
+      "1199 seiu",
+      "accept 1199",
+      "take 1199"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Insurance Network Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - workers comp",
+    "conditions": [
+      "workers comp",
+      "worker's compensation",
+      "work comp",
+      "workers' comp"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Workers Compensation Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - no fault",
+    "conditions": [
+      "no fault",
+      "no-fault",
+      "no fault insurance"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "No-Fault Insurance Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "prescription - new rx",
+    "conditions": [
+      "new rx",
+      "new prescription",
+      "another rx",
+      "another prescription"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Prescription & Referral",
+      "level_3": "Prescription Management",
+      "level_4": "New Prescription",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "prescription - need referral",
+    "conditions": [
+      "do i need a referral",
+      "need a referral",
+      "need a prescription",
+      "is a referral required",
+      "is a prescription required",
+      "do i need a script"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Prescription & Referral",
+      "level_3": "Prescription Management",
+      "level_4": "Referral Requirement",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "prescription - have referral",
+    "conditions": [
+      "have a referral",
+      "have a prescription",
+      "have a script",
+      "i have a referral",
+      "i have a prescription",
+      "i have a script"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Prescription & Referral",
+      "level_3": "Prescription Management",
+      "level_4": "Referral Submission",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "prescription - prescription faxed",
+    "conditions": [
+      "prescription was faxed",
+      "prescription was sent",
+      "rx was faxed",
+      "rx was sent",
+      "referral was faxed",
+      "referral was sent"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Prescription & Referral",
+      "level_3": "Prescription Management",
+      "level_4": "Prescription Verification",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "prescription - npi number",
+    "conditions": [
+      "npi number",
+      "npi",
+      "practice npi",
+      "provider npi",
+      "nid number",
+      "npi for the practice"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Prescription & Referral",
+      "level_3": "Prescription Management",
+      "level_4": "Provider Information Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "portal - log in",
+    "conditions": [
+      "log in to the patient portal",
+      "login to the patient portal",
+      "log into patient portal",
+      "how do i login to patient portal",
+      "how do i log into patient portal",
+      "patient portal login",
+      "sign in to patient portal"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Patient Portal",
+      "level_3": "Portal Access",
+      "level_4": "Portal Login Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "portal - forgot password",
+    "conditions": [
+      "forgot password",
+      "forgot my password",
+      "forgot the password",
+      "reset my password",
+      "password reset"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Patient Portal",
+      "level_3": "Portal Access",
+      "level_4": "Password Reset",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "portal - temp password",
+    "conditions": [
+      "temporary password",
+      "temp password",
+      "temporary portal password",
+      "was sent a temp password",
+      "received a temp password"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Patient Portal",
+      "level_3": "Portal Access",
+      "level_4": "Temporary Password Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "portal - register",
+    "conditions": [
+      "register for portal",
+      "set up patient portal",
+      "setup patient portal",
+      "register on the portal",
+      "sign up for portal",
+      "patient portal registration",
+      "complete my registration"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subscategory": "Patient Portal",
+      "level_3": "Portal Access",
+      "level_4": "Portal Registration",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "portal - link broken",
+    "conditions": [
+      "portal link",
+      "link to portal",
+      "link doesn't work",
+      "link doesn't open",
+      "bad link",
+      "link is not working",
+      "the link doesn't open to portal",
+      "the link doesn't work",
+      "link texted",
+      "link in the text"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Patient Portal",
+      "level_3": "Portal Access",
+      "level_4": "Portal Link Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "portal - can't access",
+    "conditions": [
+      "can't log into portal",
+      "cannot log into portal",
+      "can't access the portal",
+      "cannot access the portal",
+      "can't get into portal",
+      "cannot get into portal",
+      "trouble accessing portal",
+      "having trouble logging into portal"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Patient Portal",
+      "level_3": "Portal Access",
+      "level_4": "Portal Login Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "new patient - first time",
+    "conditions": [
+      "first time",
+      "first time patient",
+      "never been there",
+      "never been a patient",
+      "first visit",
+      "first session"
+    ],
+    "set": {
+      "category": "Patient Onboarding",
+      "subcategory": "New Patient",
+      "level_3": "New Patient Inquiry",
+      "level_4": "New Patient Registration",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "new patient - looking for pt",
+    "conditions": [
+      "looking for physical therapy",
+      "looking for pt",
+      "interested in physical therapy",
+      "interested in pt",
+      "interested in getting pt"
+    ],
+    "set": {
+      "category": "Patient Onboarding",
+      "subcategory": "New Patient",
+      "level_3": "New Patient Inquiry",
+      "level_4": "New Patient Registration",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "new patient - doctor told me",
+    "conditions": [
+      "doctor recommended",
+      "doctor told me to",
+      "my doctor recommended",
+      "surgeon recommended",
+      "doctor sent me",
+      "my doctor sent me",
+      "my doctor referred me",
+      "my surgeon referred me"
+    ],
+    "set": {
+      "category": "Patient Onboarding",
+      "subcategory": "New Patient",
+      "level_3": "New Patient Inquiry",
+      "level_4": "Physician Referred Patient",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "billing - received a bill",
+    "conditions": [
+      "received a bill",
+      "i got a bill",
+      "i received a bill",
+      "got a bill",
+      "bill for my session",
+      "bill for my appointment",
+      "question about my bill",
+      "dispute this bill"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Healthcare Operations",
+      "level_3": "Payment & Billing",
+      "level_4": "Billing Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "billing - pay my bill",
+    "conditions": [
+      "pay my bill",
+      "want to pay my bill",
+      "i want to pay",
+      "i need to pay",
+      "how do i pay my bill",
+      "how can i pay",
+      "make a payment",
+      "pay online"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Healthcare Operations",
+      "level_3": "Payment & Billing",
+      "level_4": "Payment Processing",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "callback - no one called",
+    "conditions": [
+      "no one called me",
+      "no one called me back",
+      "nobody called me back",
+      "never received a call",
+      "never got a call",
+      "was supposed to call me",
+      "someone was supposed to call"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Customer Experience",
+      "level_3": "Service Delivery",
+      "level_4": "Missed Callback",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "disconnect - got disconnected",
+    "conditions": [
+      "got disconnected",
+      "i got disconnected",
+      "we got disconnected",
+      "we were disconnected",
+      "i was disconnected"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Chat & Technical",
+      "level_3": "Connection Issues",
+      "level_4": "Chat Disconnection",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "disconnect - lost you",
+    "conditions": [
+      "lost you",
+      "lost connection",
+      "lost contact",
+      "got cut off",
+      "got booted out",
+      "got kicked out"
+    ],
+    "set": {
+      "category": "Technology Issues",
+      "subcategory": "Chat & Technical",
+      "level_3": "Connection Issues",
+      "level_4": "Chat Disconnection",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "positive - thank you",
+    "conditions": [
+      "thank you so much",
+      "thank you very much",
+      "thanks so much",
+      "thank you for your help",
+      "thanks for your help",
+      "thank you for all your help"
+    ],
+    "set": {
+      "category": "Positive Feedback",
+      "subcategory": "Appreciating Agent",
+      "level_3": "Appreciating Ownership",
+      "level_4": "Professional Rep",
+      "sentiment": "positive"
+    }
+  },
+  {
+    "rule_name": "positive - very helpful",
+    "conditions": [
+      "very helpful",
+      "so helpful",
+      "extremely helpful",
+      "really helpful",
+      "you were very helpful",
+      "you've been very helpful"
+    ],
+    "set": {
+      "category": "Positive Feedback",
+      "subcategory": "Appreciating Agent",
+      "level_3": "Appreciating Ownership",
+      "level_4": "Professional Rep",
+      "sentiment": "positive"
+    }
+  },
+  {
+    "rule_name": "positive - great therapist",
+    "conditions": [
+      "great therapist",
+      "excellent therapist",
+      "therapist is amazing",
+      "love my therapist",
+      "therapists are great",
+      "physical therapists are great",
+      "the therapist is great",
+      "my therapist is great"
+    ],
+    "set": {
+      "category": "Positive Feedback",
+      "subcategory": "Appreciating Service",
+      "level_3": "Appreciating Product",
+      "level_4": "Therapist Appreciation",
+      "sentiment": "positive"
+    }
+  },
+  {
+    "rule_name": "positive - recommend",
+    "conditions": [
+      "would recommend",
+      "highly recommend",
+      "recommend to others",
+      "recommend your services",
+      "i would recommend you",
+      "i would highly recommend"
+    ],
+    "set": {
+      "category": "Positive Feedback",
+      "subcategory": "Appreciating Service",
+      "level_3": "Appreciating Product",
+      "level_4": "Patient Advocacy",
+      "sentiment": "positive"
+    }
+  },
+  {
+    "rule_name": "complaint - terrible phone service",
+    "conditions": [
+      "terrible phone service",
+      "terrible service",
+      "phone service is terrible",
+      "truly terrible service",
+      "they have truly terrible service"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Customer Experience",
+      "level_3": "Member Sentiment",
+      "level_4": "Service Quality Complaint",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "complaint - not responsive",
+    "conditions": [
+      "not responsive",
+      "even the company cannot reach them",
+      "cannot reach anyone",
+      "can't get through to anyone"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Customer Experience",
+      "level_3": "Service Delivery",
+      "level_4": "Communication Failure",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "location - phone number",
+    "conditions": [
+      "phone number",
+      "give me the phone number",
+      "can i get the phone number",
+      "what is the phone number for",
+      "phone number for",
+      "number for the office",
+      "number to call"
+    ],
+    "set": {
+      "category": "Location & Access",
+      "subcategory": "Office Information",
+      "level_3": "Location Inquiry",
+      "level_4": "Contact Information Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "location - address of appointment",
+    "conditions": [
+      "address of my appointment",
+      "address for my appointment",
+      "send me the address",
+      "what is the address",
+      "the office address",
+      "address for the office"
+    ],
+    "set": {
+      "category": "Location & Access",
+      "subcategory": "Office Information",
+      "level_3": "Location Inquiry",
+      "level_4": "Office Address Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "clinical - pelvic floor",
+    "conditions": [
+      "pelvic floor",
+      "pelvic floor therapy",
+      "male pelvic floor",
+      "female pelvic floor",
+      "pelvic floor physical therapy",
+      "pelvic pt"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Treatment Inquiry",
+      "level_3": "Condition and Treatment",
+      "level_4": "Pelvic Floor Therapy",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "clinical - hand therapy",
+    "conditions": [
+      "hand rehab",
+      "hand therapy",
+      "hand rehabilitation",
+      "post surgical hand",
+      "hand surgery rehab",
+      "hand pt"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Treatment Inquiry",
+      "level_3": "Condition and Treatment",
+      "level_4": "Hand Therapy",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "clinical - aquatic",
+    "conditions": [
+      "hydrotherapy",
+      "aquatic therapy",
+      "aquatic physical therapy",
+      "pool therapy",
+      "water therapy"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Treatment Inquiry",
+      "level_3": "Condition and Treatment",
+      "level_4": "Aquatic Therapy",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "clinical - pediatric",
+    "conditions": [
+      "pediatric",
+      "children's therapy",
+      "kids therapy",
+      "children physical therapy",
+      "child therapy",
+      "pediatric physical therapy",
+      "pediatric pt",
+      "therapy for children",
+      "therapy for kids",
+      "do they do children",
+      "do you treat children",
+      "do you treat kids"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Treatment Inquiry",
+      "level_3": "Condition and Treatment",
+      "level_4": "Pediatric Physical Therapy",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "clinical - homebound",
+    "conditions": [
+      "homebound",
+      "home bound",
+      "home-bound",
+      "unable to travel to office",
+      "can't travel to office",
+      "confined to home",
+      "i am homebound"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Care Delivery Mode",
+      "level_3": "Telehealth & Virtual Care",
+      "level_4": "Home Physical Therapy",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "clinical - wrist",
+    "conditions": [
+      "wrist pain",
+      "wrist injury",
+      "wrist surgery",
+      "wrist problem",
+      "wrist issue",
+      "wrist treatment",
+      "wrist therapy",
+      "wrist pt",
+      "wrist rehabilitation"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Treatment Inquiry",
+      "level_3": "Condition and Treatment",
+      "level_4": "Wrist Treatment",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "clinical - cervical",
+    "conditions": [
+      "cervical",
+      "cervical pain",
+      "cervical injury",
+      "cervical disc",
+      "cervical stenosis",
+      "cervical treatment",
+      "cervical therapy",
+      "neck and cervical"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Treatment Inquiry",
+      "level_3": "Condition and Treatment",
+      "level_4": "Cervical Treatment",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "account - returning patient",
+    "conditions": [
+      "returning patient",
+      "past patient",
+      "i've been a patient",
+      "previous patient",
+      "existing patient",
+      "established patient",
+      "i was a patient",
+      "i used to go there",
+      "i'm a returning patient",
+      "been going there",
+      "been a patient there"
+    ],
+    "set": {
+      "category": "Patient Onboarding",
+      "subcategory": "Returning Patient",
+      "level_3": "Existing Patient",
+      "level_4": "Returning Patient Check-In",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "account - update info",
+    "conditions": [
+      "update my information",
+      "update my email",
+      "update my address",
+      "update my phone",
+      "change my email",
+      "change my address",
+      "change my phone number",
+      "correct my information",
+      "information is wrong",
+      "details are wrong"
+    ],
+    "set": {
+      "category": "Administrative",
+      "subcategory": "Account Management",
+      "level_3": "Account Information",
+      "level_4": "Account Update",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "forms - get records",
+    "conditions": [
+      "copy of my records",
+      "copy of my report",
+      "copy of my notes",
+      "report notes",
+      "progress notes",
+      "treatment notes",
+      "get a copy",
+      "who do i contact for records",
+      "get my records",
+      "obtain my records"
+    ],
+    "set": {
+      "category": "Administrative",
+      "subcategory": "Documentation",
+      "level_3": "Forms and Paperwork",
+      "level_4": "Medical Records Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancellation policy",
+    "conditions": [
+      "cancellation policy",
+      "cancellation fee",
+      "what is the cancellation policy",
+      "late cancel fee",
+      "no show fee",
+      "late cancellation fee"
+    ],
+    "set": {
+      "category": "Administrative",
+      "subcategory": "Policy Inquiry",
+      "level_3": "Cancellation Policy",
+      "level_4": "Late Cancel and No-Show Policy",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "appt - have session today",
+    "conditions": [
+      "have a session today",
+      "have session today",
+      "have an appt today",
+      "have an appointment today",
+      "i have a session",
+      "i have an appt",
+      "session today",
+      "session tomorrow",
+      "my session today",
+      "my session tomorrow"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Appointment Inquiry",
+      "level_3": "Appointment Status Check",
+      "level_4": "Appointment Verification",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - will not be able to make",
+    "conditions": [
+      "will not be able to make",
+      "i will not be able to make",
+      "i won't be able to make",
+      "i will not make",
+      "i won't make",
+      "will not make it",
+      "will not make my appointment",
+      "i am not able to make my appointment",
+      "i cannot make my appointment"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Cancellation",
+      "level_3": "Appointment Cancellation",
+      "level_4": "Patient Initiated Cancellation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - come down with illness",
+    "conditions": [
+      "come down with",
+      "come down with an illness",
+      "come down with a cold",
+      "come down with something",
+      "ill today",
+      "ill this morning",
+      "illness today",
+      "sick this morning",
+      "under the weather today",
+      "feeling unwell"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Cancellation",
+      "level_3": "Appointment Cancellation",
+      "level_4": "Medical/Emergency Cancellation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - calling but no answer",
+    "conditions": [
+      "calling at office but no answer",
+      "calling the office but no answer",
+      "called the office no answer",
+      "no one answering",
+      "office not answering",
+      "calling but no answer"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Customer Experience",
+      "level_3": "Service Delivery",
+      "level_4": "Missed Callback",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "appt - list of appointments",
+    "conditions": [
+      "list of my appointments",
+      "list of appointments",
+      "list of appts",
+      "send me my appointments",
+      "email my appointments",
+      "text my appointments",
+      "get a list of appointments",
+      "emailed to me",
+      "can i have a list"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Appointment Inquiry",
+      "level_3": "Appointment Status Check",
+      "level_4": "Appointment List Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "appt - forgot time",
+    "conditions": [
+      "forgot what time",
+      "forgot the time",
+      "forgot my appointment time",
+      "forgot my appt time",
+      "what time is my appointment",
+      "what time is my appt",
+      "what time do i come in",
+      "remind me of my appointment",
+      "appointment time on"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Appointment Inquiry",
+      "level_3": "Appointment Status Check",
+      "level_4": "Appointment Verification",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "appt - morning availability",
+    "conditions": [
+      "morning availability",
+      "afternoon availability",
+      "evening availability",
+      "morning appointments",
+      "afternoon appointments",
+      "evening appointments",
+      "open monday",
+      "open tuesday",
+      "open wednesday",
+      "open thursday",
+      "open friday",
+      "monday availability",
+      "tuesday availability",
+      "wednesday availability",
+      "thursday availability",
+      "friday availability",
+      "saturday availability"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Scheduling",
+      "level_3": "New Appointment Request",
+      "level_4": "Appointment Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - heathfirst typo",
+    "conditions": [
+      "heathfirst",
+      "heath first",
+      "healthfirst",
+      "health first",
+      "health first insurance",
+      "health first essential",
+      "do you take health first",
+      "do you accept health first"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Insurance Network Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - ghi",
+    "conditions": [
+      "ghi insurance",
+      "ghi",
+      "emblem ghi",
+      "do you take ghi",
+      "do you accept ghi",
+      "takes ghi"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Insurance Network Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - meritain",
+    "conditions": [
+      "meritain",
+      "meritain health",
+      "do you accept meritain",
+      "do you except meritain"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Insurance Verification",
+      "level_3": "Insurance Acceptance",
+      "level_4": "Insurance Network Check",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "billing - account balance",
+    "conditions": [
+      "balance on account",
+      "account balance",
+      "balance on my account",
+      "what is my balance",
+      "how much do i owe",
+      "outstanding balance",
+      "current balance"
+    ],
+    "set": {
+      "category": "Process Driven",
+      "subcategory": "Healthcare Operations",
+      "level_3": "Payment & Billing",
+      "level_4": "Account Balance Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "billing - post op tka",
+    "conditions": [
+      "post operative",
+      "post op tka",
+      "post op knee",
+      "post operative therapy",
+      "post operative pt",
+      "post operative physical therapy",
+      "tka",
+      "tkr",
+      "total knee",
+      "total hip",
+      "thr"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Treatment Inquiry",
+      "level_3": "Condition and Treatment",
+      "level_4": "Post-Surgical Rehabilitation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "general - jaw pain",
+    "conditions": [
+      "jaw pain",
+      "tmj",
+      "jaw therapy",
+      "temporomandibular",
+      "jaw treatment",
+      "jaw pt"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Treatment Inquiry",
+      "level_3": "Condition and Treatment",
+      "level_4": "Jaw / TMJ Therapy",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "general - how many appointments per week",
+    "conditions": [
+      "how many appointments per week",
+      "how many sessions per week",
+      "how often do patients come",
+      "how many times per week",
+      "how many days per week",
+      "frequency of appointments",
+      "frequency of sessions"
+    ],
+    "set": {
+      "category": "General Inquiry",
+      "subcategory": "Information Request",
+      "level_3": "Treatment Planning",
+      "level_4": "Treatment Frequency Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "general - staff inquiry",
+    "conditions": [
+      "still works at",
+      "does she still work",
+      "does he still work",
+      "does still work",
+      "is still at",
+      "ekta still works",
+      "is working at",
+      "who works at"
+    ],
+    "set": {
+      "category": "General Inquiry",
+      "subcategory": "Information Request",
+      "level_3": "Staff Information",
+      "level_4": "Staff Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - i'll have to cancel",
+    "conditions": [
+      "have to cancel",
+      "i'll have to cancel",
+      "i will have to cancel",
+      "i need to cancel all",
+      "need to cancel all",
+      "i'd like to cancel all",
+      "cancel all"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Cancellation",
+      "level_3": "Appointment Cancellation",
+      "level_4": "Patient Initiated Cancellation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "positive - you're the best",
+    "conditions": [
+      "you're the best",
+      "you are the best",
+      "great job ernie",
+      "great job rasul",
+      "great job anna",
+      "you handled this well",
+      "well done",
+      "nicely done",
+      "perfect",
+      "sounds good",
+      "great thank you",
+      "great thanks"
+    ],
+    "set": {
+      "category": "Positive Feedback",
+      "subcategory": "Appreciating Agent",
+      "level_3": "Appreciating Ownership",
+      "level_4": "Professional Rep",
+      "sentiment": "positive"
+    }
+  },
+  {
+    "rule_name": "check - make sure cancelled",
+    "conditions": [
+      "make sure it's cancelled",
+      "make sure it is cancelled",
+      "just wanted to make sure it's cancelled",
+      "make sure it's canceled",
+      "want to make sure it's cancelled",
+      "confirm it's cancelled",
+      "confirm it is cancelled",
+      "checking it was cancelled"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Cancellation",
+      "level_3": "Appointment Cancellation",
+      "level_4": "Cancellation Confirmation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "followup - time and date of next",
+    "conditions": [
+      "time and date of my next appointments",
+      "time and date of my next appt",
+      "let me know my next appointment",
+      "let me know my follow up"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Follow-Up Scheduling",
+      "level_3": "Follow-Up Appointment",
+      "level_4": "Follow-Up Check and Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "followup - please let me know next appt",
+    "conditions": [
+      "please let me know when is my next scheduled appointment",
+      "please let me know my next appointment",
+      "please let me know the time of my next",
+      "please let me know my upcoming appointments"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Follow-Up Scheduling",
+      "level_3": "Follow-Up Appointment",
+      "level_4": "Follow-Up Check and Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "followup - what are my next",
+    "conditions": [
+      "what are my upcoming appointments",
+      "what is my next appointment",
+      "what is my upcoming appointment",
+      "what appointments do i have coming up"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Follow-Up Scheduling",
+      "level_3": "Follow-Up Appointment",
+      "level_4": "Follow-Up Check and Booking",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "avail - do you have later availability",
+    "conditions": [
+      "do you have later availability",
+      "do u have later availability",
+      "any later times",
+      "any earlier times",
+      "is there a later time",
+      "is there an earlier time"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Follow-Up Scheduling",
+      "level_3": "Availability Check",
+      "level_4": "Time Slot Availability",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "avail - do you have 6:30 / 9:30 pm specific",
+    "conditions": [
+      "do you have 6:30",
+      "do you have 9:30",
+      "do you have 10am",
+      "is 6:30 available",
+      "is 9:30 available",
+      "is 10am available",
+      "6:30 available",
+      "9:30 available",
+      "10am available",
+      "6:30 pm available",
+      "9:30 am available"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Follow-Up Scheduling",
+      "level_3": "Availability Check",
+      "level_4": "Time Slot Availability",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "avail - put me down for",
+    "conditions": [
+      "sign me up for",
+      "please put me down",
+      "can you put me down"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Follow-Up Scheduling",
+      "level_3": "Availability Check",
+      "level_4": "Time Slot Confirmation",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "optout - stop command",
+    "conditions": [
+      "stop"
+    ],
+    "set": {
+      "category": "Opt-Out / Aborted Contact",
+      "subcategory": "SMS Opt-Out",
+      "level_3": "Agent Acknowledgment and Closure",
+      "level_4": "Patient SMS Opt-Out",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "optout - unstop",
+    "conditions": [
+      "start receiving texts again",
+      "opt back in"
+    ],
+    "set": {
+      "category": "Opt-Out / Aborted Contact",
+      "subcategory": "SMS Re-Opt-In",
+      "level_3": "Agent Acknowledgment and Closure",
+      "level_4": "Patient SMS Re-Opt-In",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "optout - do not contact",
+    "conditions": [
+      "do not contact",
+      "do not text me",
+      "do not message me",
+      "remove me from your list",
+      "take me off your list",
+      "unsubscribe me",
+      "please unsubscribe"
+    ],
+    "set": {
+      "category": "Opt-Out / Aborted Contact",
+      "subcategory": "SMS Opt-Out",
+      "level_3": "Agent Acknowledgment and Closure",
+      "level_4": "Patient SMS Opt-Out",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "sms-optin - replied y",
+    "conditions": [
+      "i replied y",
+      "i said y",
+      "texting y",
+      "i sent y"
+    ],
+    "set": {
+      "category": "Patient Onboarding",
+      "subcategory": "SMS Opt-In",
+      "level_3": "SMS Channel Engagement",
+      "level_4": "Patient SMS Opt-In",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "multi-appt - set up for the week",
+    "conditions": [
+      "set up for the week of",
+      "schedule for the week of",
+      "schedule the whole week",
+      "book for next week"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Follow-Up Scheduling",
+      "level_3": "Bulk Appointment Scheduling",
+      "level_4": "Multiple Appointments Booked",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "multi-appt - two appointments for",
+    "conditions": [
+      "two appointments for",
+      "three appointments for",
+      "make two appointments for",
+      "make three appointments for",
+      "schedule two appointments",
+      "schedule three appointments",
+      "book two appointments",
+      "book three appointments"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Follow-Up Scheduling",
+      "level_3": "Bulk Appointment Scheduling",
+      "level_4": "Multiple Appointments Booked",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "closure - still here to help",
+    "conditions": [
+      "we are still here to help you",
+      "still here to help you whenever",
+      "here to help whenever you are ready"
+    ],
+    "set": {
+      "category": "Opt-Out / Aborted Contact",
+      "subcategory": "No Customer Response",
+      "level_3": "Agent Acknowledgment and Closure",
+      "level_4": "No Further Assistance Offered",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "followup - time and date of next (priority override)",
+    "conditions": [
+      "can you please let me know the time and date",
+      "let me know the time and date of my next",
+      "what are the times and dates of my",
+      "later vision 4/1",
+      "do u have later vision",
+      "do you have later vision",
+      "availability on 4/",
+      "availability on april"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "Follow-Up Scheduling",
+      "level_3": "Follow-Up Appointment",
+      "level_4": "Follow-Up Check and Booking",
+      "sentiment": "neutral"
+    }
+  }
 ]
