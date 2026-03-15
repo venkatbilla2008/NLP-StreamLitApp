@@ -2822,9 +2822,9 @@
       "terapia de manos",
       "terapia fisica",
       "no hablo ingles",
-      "hablo espa\u00f1ol",
-      "en espa\u00f1ol",
-      "habla espa\u00f1ol",
+      "hablo español",
+      "en español",
+      "habla español",
       "hola necesito",
       "hola quiero",
       "hola estoy",
@@ -3055,6 +3055,322 @@
       "subcategory": "No Customer Response",
       "level_3": "Agent Acknowledgment and Closure",
       "level_4": "No Further Assistance Offered",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "physical therapy follow-up",
+      "pt follow up",
+      "follow up for physical therapy",
+      "follow up after pt",
+      "therapist available",
+      "which therapist will i see",
+      "who is my therapist",
+      "therapist assigned to me",
+      "do you have time slots",
+      "what time slots are available",
+      "check availability for my follow-up",
+      "confirm my follow-up",
+      "follow-up appointment available",
+      "next available slot",
+      "available times for follow-up"
+    ],
+    "set": {
+      "category": "Logistical / Appointments & Scheduling",
+      "subcategory": "Physical Therapy Follow-Ups",
+      "level_3": "Availability Check and Confirmation",
+      "level_4": "Therapist Assignment Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "can i come in later",
+      "can i come at a later time",
+      "prefer a later time for my follow-up",
+      "need a later appointment",
+      "add more dates for pt",
+      "additional follow-up dates",
+      "add another follow-up",
+      "schedule more follow-ups",
+      "add dates to my pt schedule",
+      "reschedule my follow-up to a later time",
+      "change my follow-up time",
+      "move my follow-up to later"
+    ],
+    "set": {
+      "category": "Logistical / Appointments & Scheduling",
+      "subcategory": "Physical Therapy Follow-Ups",
+      "level_3": "Availability Check and Confirmation",
+      "level_4": "Patient-Initiated Changes",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "stop",
+      "please stop",
+      "stop texting",
+      "stop messaging",
+      "stop contacting me",
+      "end this chat",
+      "end the chat",
+      "close this chat",
+      "stop all messages"
+    ],
+    "set": {
+      "category": "Opt-Out / Aborted Contact",
+      "subcategory": "STOP Command / Customer-Initiated End",
+      "level_3": "Agent Acknowledgment and Closure",
+      "level_4": "No Further Assistance Offered",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "reschedule to a different time today",
+      "change my appointment time today",
+      "move my appointment to earlier today",
+      "can i come in earlier today",
+      "can i come in later today",
+      "switch to a different time same day",
+      "change the time for today",
+      "move today's appointment",
+      "different time today",
+      "another time slot today",
+      "earlier time today",
+      "later time today"
+    ],
+    "set": {
+      "category": "Appointments / Scheduling",
+      "subcategory": "Reschedule Existing Appointment",
+      "level_3": "Time Change – Same Provider / Same Day",
+      "level_4": "Patient-Initiated Reschedule for Convenience",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "cancel today due to work",
+      "can't make it because of work",
+      "have to work today",
+      "work schedule conflict today",
+      "work got in the way",
+      "stuck at work today",
+      "called in to work",
+      "have work today",
+      "working today can't come",
+      "work conflict today",
+      "work came up today",
+      "cancel same day work"
+    ],
+    "set": {
+      "category": "Appointments / Scheduling",
+      "subcategory": "Cancellation",
+      "level_3": "Same-Day Cancellation",
+      "level_4": "Work Schedule Conflict",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "cancel tomorrow due to work",
+      "cancel next appointment because of work",
+      "work schedule conflict tomorrow",
+      "work conflict for tomorrow",
+      "advance notice work conflict",
+      "giving notice i can't make it due to work",
+      "giving advance notice",
+      "can't make it tomorrow work",
+      "have work tomorrow can't come",
+      "work came up for tomorrow",
+      "need to cancel advance",
+      "cancel with advance notice"
+    ],
+    "set": {
+      "category": "Appointments / Scheduling",
+      "subcategory": "Cancellation",
+      "level_3": "Advance Cancellation (Next-Day Notice)",
+      "level_4": "Work Conflict Reason",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "been on hold",
+      "been waiting",
+      "no one picked up",
+      "no one answered",
+      "waited too long",
+      "on hold for a long time",
+      "holding too long",
+      "no one connected",
+      "agent never connected",
+      "still waiting for an agent",
+      "still on hold",
+      "on hold with no answer",
+      "abandoned the call",
+      "gave up waiting",
+      "nobody picked up the phone",
+      "no response from agent",
+      "disconnected after hold"
+    ],
+    "set": {
+      "category": "System / Queue Issues",
+      "subcategory": "Abandoned Session",
+      "level_3": "Prolonged Hold (No Agent Connection)",
+      "level_4": "Patient Timeout (No User Input)",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "pain getting worse",
+      "my pain is increasing",
+      "exercises are making it worse",
+      "therapy is not helping my pain",
+      "still in pain",
+      "pain level is high",
+      "experiencing more pain",
+      "pain after session",
+      "pain flared up",
+      "hurts more after pt",
+      "pain is worse after therapy",
+      "my pain isn't getting better"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Pain & Symptom Management",
+      "level_3": "Treatment Response",
+      "level_4": "Pain Worsening After Therapy",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "home exercise",
+      "exercises to do at home",
+      "home program",
+      "exercises i should do",
+      "my exercise plan",
+      "exercise routine",
+      "what exercises should i do",
+      "exercises for home",
+      "home pt exercises",
+      "at home exercises",
+      "exercise instructions",
+      "how to do my exercises",
+      "exercise video",
+      "exercise handout"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Home Exercise Program",
+      "level_3": "Exercise Instruction Request",
+      "level_4": "Patient Home Program Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "fell at home",
+      "i fell",
+      "i had a fall",
+      "fell and hurt myself",
+      "slipped and fell",
+      "new injury",
+      "i injured myself",
+      "hurt myself",
+      "re-injured",
+      "i got hurt",
+      "emergency",
+      "urgent concern",
+      "something happened",
+      "serious pain",
+      "severe pain",
+      "can't move"
+    ],
+    "set": {
+      "category": "Patient Wellbeing",
+      "subcategory": "Safety Concern",
+      "level_3": "Injury or Fall Reported",
+      "level_4": "Patient-Reported Incident",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "missed my appointment",
+      "i missed my appointment",
+      "i forgot my appointment",
+      "didn't make it to my appointment",
+      "did not show up",
+      "no show",
+      "i was a no show",
+      "i missed it",
+      "forgot to cancel",
+      "forgot to come",
+      "forgot about my appointment",
+      "slipped my mind"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "No-Show / Missed Appointment",
+      "level_3": "Patient-Reported Missed Visit",
+      "level_4": "Unintentional No-Show",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "calling for my mother",
+      "calling for my father",
+      "calling for my husband",
+      "calling for my wife",
+      "calling for my son",
+      "calling for my daughter",
+      "i am the caregiver",
+      "i'm the caregiver",
+      "i am calling on behalf of",
+      "calling on behalf of",
+      "scheduling for my",
+      "booking for my",
+      "making an appointment for my",
+      "my parent's appointment",
+      "my child's appointment",
+      "my spouse's appointment"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Caregiver / Third-Party Contact",
+      "level_3": "Proxy Scheduling",
+      "level_4": "Family Member or Caregiver Initiated",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "prior authorization",
+      "prior auth",
+      "need authorization",
+      "waiting for authorization",
+      "insurance authorization",
+      "auth pending",
+      "authorization approved",
+      "authorization denied",
+      "need pre-authorization",
+      "pre-auth required",
+      "waiting for insurance approval",
+      "insurance hasn't approved",
+      "approval pending",
+      "insurance is reviewing"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Prior Authorization",
+      "level_3": "Authorization Status Inquiry",
+      "level_4": "Patient Authorization Follow-Up",
       "sentiment": "neutral"
     }
   }

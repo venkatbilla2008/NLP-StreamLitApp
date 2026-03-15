@@ -2009,5 +2009,205 @@
       "level_4": "Post-Evaluation Follow-up",
       "sentiment": "neutral"
     }
+  },
+  {
+    "rule_name": "pt-followup - availability check",
+    "conditions": [
+      "check availability for my follow-up",
+      "follow-up time slot",
+      "therapist availability for follow-up"
+    ],
+    "set": {
+      "category": "Logistical / Appointments & Scheduling",
+      "subcategory": "Physical Therapy Follow-Ups",
+      "level_3": "Availability Check and Confirmation",
+      "level_4": "Therapist Assignment Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "pt-followup - patient initiated change",
+    "conditions": [
+      "later time for follow-up",
+      "additional pt dates",
+      "add follow-up dates"
+    ],
+    "set": {
+      "category": "Logistical / Appointments & Scheduling",
+      "subcategory": "Physical Therapy Follow-Ups",
+      "level_3": "Availability Check and Confirmation",
+      "level_4": "Patient-Initiated Changes",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "optout - stop command customer initiated end",
+    "conditions": [
+      "stop all messages",
+      "end this chat now",
+      "please stop contacting me"
+    ],
+    "set": {
+      "category": "Opt-Out / Aborted Contact",
+      "subcategory": "STOP Command / Customer-Initiated End",
+      "level_3": "Agent Acknowledgment and Closure",
+      "level_4": "No Further Assistance Offered",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "reschedule - same day time change",
+    "conditions": [
+      "reschedule to a different time today",
+      "change my appointment time for today",
+      "move today's appointment to later",
+      "move today's appointment to earlier"
+    ],
+    "set": {
+      "category": "Appointments / Scheduling",
+      "subcategory": "Reschedule Existing Appointment",
+      "level_3": "Time Change – Same Provider / Same Day",
+      "level_4": "Patient-Initiated Reschedule for Convenience",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - same day work conflict",
+    "conditions": [
+      "cancel today due to work",
+      "work conflict today",
+      "have to work today can't make it"
+    ],
+    "set": {
+      "category": "Appointments / Scheduling",
+      "subcategory": "Cancellation",
+      "level_3": "Same-Day Cancellation",
+      "level_4": "Work Schedule Conflict",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - advance notice work conflict",
+    "conditions": [
+      "cancel tomorrow due to work",
+      "work conflict for tomorrow",
+      "advance notice work conflict"
+    ],
+    "set": {
+      "category": "Appointments / Scheduling",
+      "subcategory": "Cancellation",
+      "level_3": "Advance Cancellation (Next-Day Notice)",
+      "level_4": "Work Conflict Reason",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "queue - prolonged hold abandoned",
+    "conditions": [
+      "been on hold too long",
+      "no one connected after hold",
+      "waited and no one answered",
+      "on hold with no response"
+    ],
+    "set": {
+      "category": "System / Queue Issues",
+      "subcategory": "Abandoned Session",
+      "level_3": "Prolonged Hold (No Agent Connection)",
+      "level_4": "Patient Timeout (No User Input)",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "clinical - pain worsening after therapy",
+    "conditions": [
+      "pain is worse after therapy",
+      "pain getting worse after pt",
+      "hurts more after physical therapy"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Pain & Symptom Management",
+      "level_3": "Treatment Response",
+      "level_4": "Pain Worsening After Therapy",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "clinical - home exercise program",
+    "conditions": [
+      "home exercise program",
+      "exercises to do at home",
+      "what exercises should i do at home"
+    ],
+    "set": {
+      "category": "Clinical & Treatment",
+      "subcategory": "Home Exercise Program",
+      "level_3": "Exercise Instruction Request",
+      "level_4": "Patient Home Program Inquiry",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "safety - fall or injury reported",
+    "conditions": [
+      "i fell and hurt myself",
+      "i had a fall",
+      "injured myself",
+      "fell at home"
+    ],
+    "set": {
+      "category": "Patient Wellbeing",
+      "subcategory": "Safety Concern",
+      "level_3": "Injury or Fall Reported",
+      "level_4": "Patient-Reported Incident",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "no-show - patient reported missed visit",
+    "conditions": [
+      "missed my appointment",
+      "i forgot my appointment",
+      "i was a no show",
+      "forgot to come to my appointment"
+    ],
+    "set": {
+      "category": "Appointment Management",
+      "subcategory": "No-Show / Missed Appointment",
+      "level_3": "Patient-Reported Missed Visit",
+      "level_4": "Unintentional No-Show",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "rule_name": "caregiver - scheduling on behalf of patient",
+    "conditions": [
+      "calling on behalf of",
+      "i am the caregiver",
+      "scheduling for my family member",
+      "making an appointment for my parent"
+    ],
+    "set": {
+      "category": "People Driven",
+      "subcategory": "Caregiver / Third-Party Contact",
+      "level_3": "Proxy Scheduling",
+      "level_4": "Family Member or Caregiver Initiated",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "insurance - prior authorization inquiry",
+    "conditions": [
+      "prior authorization needed",
+      "waiting for insurance authorization",
+      "pre-authorization required"
+    ],
+    "set": {
+      "category": "Insurance & Coverage",
+      "subcategory": "Prior Authorization",
+      "level_3": "Authorization Status Inquiry",
+      "level_4": "Patient Authorization Follow-Up",
+      "sentiment": "neutral"
+    }
   }
 ]
