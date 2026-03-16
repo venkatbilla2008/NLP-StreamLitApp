@@ -3074,7 +3074,13 @@
       "confirm my follow-up",
       "follow-up appointment available",
       "next available slot",
-      "available times for follow-up"
+      "available times for follow-up",
+      "does there happen to be",
+      "has an appt instead",
+      "has an appointment instead",
+      "checking therapist availability",
+      "see if my therapist has",
+      "check therapist schedule"
     ],
     "set": {
       "category": "Logistical / Appointments & Scheduling",
@@ -3097,7 +3103,15 @@
       "add dates to my pt schedule",
       "reschedule my follow-up to a later time",
       "change my follow-up time",
-      "move my follow-up to later"
+      "move my follow-up to later",
+      "call back to reschedule after follow up",
+      "will call back to reschedule after follow up",
+      "reschedule after follow up doctors appointment",
+      "reschedule after follow up doctor",
+      "reschedule after my follow up",
+      "call back after follow up",
+      "reschedule once i have my follow up",
+      "get back to you after my follow up"
     ],
     "set": {
       "category": "Logistical / Appointments & Scheduling",
@@ -3140,7 +3154,23 @@
       "different time today",
       "another time slot today",
       "earlier time today",
-      "later time today"
+      "later time today",
+      "seeing if",
+      "by chance has an appt",
+      "by chance have an appt",
+      "instead of 3",
+      "instead of 1",
+      "instead of 2",
+      "instead of 4",
+      "1 pm instead",
+      "2 pm instead",
+      "3 pm instead",
+      "does there happen to be a 2pm appt",
+      "does there happen to be a 1pm appt",
+      "does there happen to be a 3pm appt",
+      "does there happen to be a 2pm available",
+      "does there happen to be a 1pm available",
+      "pm appt available instead"
     ],
     "set": {
       "category": "Appointments / Scheduling",
@@ -3163,7 +3193,15 @@
       "working today can't come",
       "work conflict today",
       "work came up today",
-      "cancel same day work"
+      "cancel same day work",
+      "yes for canceling, work schedule change",
+      "work schedule change",
+      "canceling work schedule",
+      "cancellation work schedule",
+      "cancel due to work schedule change",
+      "work schedule changed",
+      "schedule conflict at work",
+      "work got in the way today"
     ],
     "set": {
       "category": "Appointments / Scheduling",
@@ -3186,7 +3224,18 @@
       "have work tomorrow can't come",
       "work came up for tomorrow",
       "need to cancel advance",
-      "cancel with advance notice"
+      "cancel with advance notice",
+      "7 am tomorrow",
+      "7am tomorrow",
+      "cancel due to a work conflict",
+      "need to cancel due to a work conflict",
+      "cancel tomorrow due to work conflict",
+      "appointment tomorrow work conflict",
+      "tomorrow work conflict cancel",
+      "cancel for work conflict",
+      "cancel it work conflict",
+      "work conflict need to cancel tomorrow",
+      "due to a work conflict"
     ],
     "set": {
       "category": "Appointments / Scheduling",
@@ -3214,7 +3263,14 @@
       "gave up waiting",
       "nobody picked up the phone",
       "no response from agent",
-      "disconnected after hold"
+      "disconnected after hold",
+      "currently number 1 in queue",
+      "you are currently number 1 in queue",
+      "number 1 in queue no response",
+      "prolonged hold no agent",
+      "queue timeout",
+      "queue no agent connection",
+      "session timed out in queue"
     ],
     "set": {
       "category": "System / Queue Issues",

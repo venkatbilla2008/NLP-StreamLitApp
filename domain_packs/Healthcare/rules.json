@@ -2091,7 +2091,13 @@
     "conditions": [
       "cancel tomorrow due to work",
       "work conflict for tomorrow",
-      "advance notice work conflict"
+      "advance notice work conflict",
+      "cancel due to a work conflict",
+      "need to cancel due to a work conflict",
+      "7 am tomorrow",
+      "7am tomorrow",
+      "cancel for a work conflict",
+      "due to a work conflict"
     ],
     "set": {
       "category": "Appointments / Scheduling",
@@ -2207,6 +2213,34 @@
       "subcategory": "Prior Authorization",
       "level_3": "Authorization Status Inquiry",
       "level_4": "Patient Authorization Follow-Up",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "reschedule - seeing if therapist has slot instead",
+    "conditions": [
+      "seeing if steve has",
+      "seeing if my therapist has",
+      "seeing if there is an earlier time"
+    ],
+    "set": {
+      "category": "Appointments / Scheduling",
+      "subcategory": "Reschedule Existing Appointment",
+      "level_3": "Time Change – Same Provider / Same Day",
+      "level_4": "Patient-Initiated Reschedule for Convenience",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "rule_name": "cancel - work schedule change same day",
+    "conditions": [
+      "yes for canceling work schedule change"
+    ],
+    "set": {
+      "category": "Appointments / Scheduling",
+      "subcategory": "Cancellation",
+      "level_3": "Same-Day Cancellation",
+      "level_4": "Work Schedule Conflict",
       "sentiment": "neutral"
     }
   }
