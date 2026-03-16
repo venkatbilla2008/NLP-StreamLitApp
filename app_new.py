@@ -452,13 +452,18 @@ class RunHistory:
 class Pipeline:
     def __init__(self,eng,pii=True): self.eng=eng;self.pii=pii;self.pii_n=0
     def process(self,df,tc,ic,mode='hash',cb=None):
-        df=df.select([ic,tc]); n=len(df)
+        n=len(df)
+        # Keep all original columns — only classify on text column
         if self.pii: PIIRedactor.redact_polars(df[tc].cast(pl.Utf8).fill_null(""),mode)
         if cb: cb(int(n*0.1),n)
         cls=self.eng.classify_batch(df,tc)
         if cb: cb(int(n*0.9),n)
         f=pl.concat([df,cls],how='horizontal')
-        f=f.rename({ic:'Conversation_ID',tc:'Original_Text','l1':'Category','l2':'Subcategory','l3':'L3','l4':'L4'})
+        # Rename ID and text columns to standard names; keep all others intact
+        rename_map={ic:'Conversation_ID',tc:'Original_Text','l1':'Category','l2':'Subcategory','l3':'L3','l4':'L4'}
+        # Only rename if source != target (avoid error when column name already matches)
+        rename_map={k:v for k,v in rename_map.items() if k in f.columns and k!=v}
+        f=f.rename(rename_map)
         if cb: cb(n,n)
         return f
 
@@ -889,7 +894,7 @@ def render_rule_builder(industry_rules):
                     st.session_state.custom_rules=new_rules; st.success(f"Applied {len(new_rules)} rules"); st.rerun()
 
             ec1,ec2=st.columns(2)
-            with ec1: st.download_button("Save to File",json.dumps([r.to_dict() for r in cr],indent=2,default=str),"rules.json","application/json",use_container_width=True)
+            with ec1: st.download_button("Save to File",json.dumps([r.to_dict() for r in cr],indent=2,default=str),"rules.json","application/json",use_container_width=True,key="rb_dl_rules")
             with ec2:
                 if st.button("Clear All",key="rb_clr"): st.session_state.custom_rules=[]; st.rerun()
         else: st.info("No custom rules. Upload or create rules first.")
@@ -1219,6 +1224,7 @@ def main_app():
         _nav_pages = [
             "Upload & Analyse",
             "Reports & Insights",
+            "Narrative Intelligence",
             "Rule Builder",
             "Concordance",
             "Audit Trail",
@@ -1226,13 +1232,17 @@ def main_app():
             "Projects",
         ]
         _nav_target = st.session_state.pop('_nav_target', None)
-        _nav_idx = _nav_pages.index(_nav_target) if _nav_target and _nav_target in _nav_pages else None
-        page = st.radio("nav", _nav_pages, label_visibility="collapsed", key="nav_radio",
-            index=_nav_idx if _nav_idx is not None else 0 if 'nav_radio' not in st.session_state else _nav_pages.index(st.session_state.nav_radio))
+        if _nav_target and _nav_target in _nav_pages:
+            _default_idx = _nav_pages.index(_nav_target)
+        elif 'nav_radio' in st.session_state and st.session_state.nav_radio in _nav_pages:
+            _default_idx = _nav_pages.index(st.session_state.nav_radio)
+        else:
+            _default_idx = 0
+        page = st.radio("nav", _nav_pages, label_visibility="collapsed", key="nav_radio", index=_default_idx)
 
         # Icon legend below radio
         icon_map = [
-            (IC.UPLOAD,"Upload & Analyse"),(IC.REPORT,"Reports & Insights"),(IC.TOOL,"Rule Builder"),
+            (IC.UPLOAD,"Upload & Analyse"),(IC.REPORT,"Reports & Insights"),(IC.TRENDING,"Narrative Intelligence"),(IC.TOOL,"Rule Builder"),
             (IC.SEARCH,"Concordance"),(IC.EYE,"Audit Trail"),(IC.ACTIVITY,"Rule Performance"),(IC.GLOBE,"Projects")]
         selected_icon = next((svg for svg,name in icon_map if name==page), IC.UPLOAD)
         st.markdown(f'<div style="margin-top:8px;padding:8px 10px;background:#D6E8EE;border-radius:8px;font-size:12px;color:#2D5F6E;display:flex;align-items:center;gap:6px">{IC.icon(selected_icon,"#2D5F6E",16)}<strong>{page}</strong></div>', unsafe_allow_html=True)
@@ -1257,7 +1267,12 @@ def main_app():
         st.markdown(f'<span class="badge b-warn">{IC.icon(IC.ALERT,"#7A6620",13)}No rules loaded</span>', unsafe_allow_html=True)
 
     if len(all_rules) > 1:
-        eng_tmp = DSLEngine(all_rules); conf = eng_tmp.detect_conflicts()
+        _rules_sig=hashlib.md5(json.dumps([r.to_dict() for r in all_rules],default=str).encode()).hexdigest()
+        if st.session_state.get('_eng_sig')!=_rules_sig:
+            st.session_state._eng_cached=DSLEngine(all_rules)
+            st.session_state._conf_cached=st.session_state._eng_cached.detect_conflicts()
+            st.session_state._eng_sig=_rules_sig
+        conf=st.session_state._conf_cached
         if conf:
             with st.expander(f"Rule Conflicts ({len(conf)})"):
                 for c in conf:
@@ -1269,39 +1284,66 @@ def main_app():
     # ═══════════════════════════════════════════════════════════════════════════
     if page == "Upload & Analyse":
         shdr(IC.UPLOAD, "Upload & Analyse")
+
+        # Show existing results status if available
+        if 'out' in st.session_state and st.session_state.get('_uploaded_name'):
+            _uname=st.session_state._uploaded_name
+            _urows=len(st.session_state.out)
+            _upt=st.session_state.get('pt',0)
+            st.markdown(f'<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:12px;border-left:3px solid var(--success)">'
+                f'{IC.icon(IC.CHECK,"var(--success)",16)}<b style="color:var(--text)">{_uname}</b> — '
+                f'<span style="color:var(--muted);font-size:13px">{_urows:,} records classified in {_upt:.1f}s. Results available in Reports.</span></div>',unsafe_allow_html=True)
+
         df_file = st.file_uploader("Upload data file", type=SUPPORTED_FORMATS, label_visibility="collapsed")
-        if df_file and all_rules:
-            data_df = FH.read(df_file)
-            if data_df is not None:
-                cols = data_df.columns
-                c1, c2 = st.columns(2)
-                lid = [c for c in cols if any(k in c.lower() for k in ['id','conversation','ticket'])]
-                with c1: ic = st.selectbox("ID Column", cols, index=cols.index(lid[0]) if lid else 0)
-                with c2: tc = st.selectbox("Text Column", [c for c in cols if c != ic])
-                with st.expander(f"Preview ({len(data_df):,} records)", expanded=False):
-                    st.dataframe(data_df.select([ic,tc]).head(10).to_pandas(), hide_index=True, use_container_width=True)
-                if len(data_df) > 10000:
-                    opt = st.radio("Scope", [f"First 10K", f"All {len(data_df):,}"], horizontal=True)
-                    if "First" in opt: data_df = data_df.head(10000)
-                st.markdown("---")
-                _, rc, _ = st.columns([1,2,1])
-                with rc:
-                    run_btn = st.button(f"Run Analysis ({len(data_df):,} x {len(all_rules)} rules)", type="primary", use_container_width=True)
-                if run_btn:
-                    eng = DSLEngine(all_rules); pipe = Pipeline(eng, en_pii)
-                    prog = st.progress(0, text="Starting vectorized engine...")
-                    t0 = datetime.now()
-                    def upd(d, t):
-                        p = d/t; e = (datetime.now()-t0).total_seconds(); s = d/e if e>0 else 0
-                        prog.progress(p, text=f"{d:,}/{t:,} ({p*100:.0f}%) | {s:.0f} rec/s")
-                    res = pipe.process(data_df, tc, ic, rd_mode, upd)
-                    pt = (datetime.now()-t0).total_seconds()
-                    prog.progress(1.0, text=f"Done: {len(res):,} in {pt:.1f}s ({len(res)/pt:.0f} rec/s)")
-                    out_df = res.to_pandas()
-                    st.session_state.out = out_df; st.session_state.pt = pt; st.session_state.of = out_fmt
-                    st.session_state.rh.record(out_df, pt, len(all_rules), pipe.pii_n)
-                    st.session_state.pop('_cache_sig', None)
-                    st.toast(f"Complete: {len(out_df):,} records in {pt:.1f}s")
+
+        # Cache the read data to avoid re-parsing on every rerun
+        if df_file:
+            _file_key=f"{df_file.name}_{df_file.size}"
+            if st.session_state.get('_file_cache_key')!=_file_key:
+                st.session_state._file_cache_data=FH.read(df_file)
+                st.session_state._file_cache_key=_file_key
+                st.session_state._uploaded_name=df_file.name
+            data_df=st.session_state._file_cache_data
+        else:
+            data_df=None
+
+        if data_df is not None and all_rules:
+            cols = data_df.columns
+            c1, c2 = st.columns(2)
+            lid = [c for c in cols if any(k in c.lower() for k in ['id','conversation','ticket'])]
+            with c1: ic = st.selectbox("ID Column", cols, index=cols.index(lid[0]) if lid else 0)
+            with c2: tc = st.selectbox("Text Column", [c for c in cols if c != ic])
+            with st.expander(f"Preview ({len(data_df):,} records)", expanded=False):
+                st.dataframe(data_df.select([ic,tc]).head(10).to_pandas(), hide_index=True, use_container_width=True)
+            if len(data_df) > 10000:
+                opt = st.radio("Scope", [f"First 10K", f"All {len(data_df):,}"], horizontal=True)
+                if "First" in opt: data_df = data_df.head(10000)
+            st.markdown("---")
+            _, rc, _ = st.columns([1,2,1])
+            with rc:
+                run_btn = st.button(f"Run Analysis ({len(data_df):,} x {len(all_rules)} rules)", type="primary", use_container_width=True)
+            if run_btn:
+                # Use cached engine if available, else build fresh
+                if st.session_state.get('_eng_cached'):
+                    eng=st.session_state._eng_cached
+                else:
+                    eng = DSLEngine(all_rules)
+                pipe = Pipeline(eng, en_pii)
+                prog = st.progress(0, text="Starting vectorized engine...")
+                t0 = datetime.now()
+                def upd(d, t):
+                    p = d/t; e = (datetime.now()-t0).total_seconds(); s = d/e if e>0 else 0
+                    prog.progress(p, text=f"{d:,}/{t:,} ({p*100:.0f}%) | {s:.0f} rec/s")
+                res = pipe.process(data_df, tc, ic, rd_mode, upd)
+                pt = (datetime.now()-t0).total_seconds()
+                prog.progress(1.0, text=f"Done: {len(res):,} in {pt:.1f}s ({len(res)/pt:.0f} rec/s)")
+                out_df = res.to_pandas()
+                st.session_state.out = out_df; st.session_state.pt = pt; st.session_state.of = out_fmt
+                st.session_state._uploaded_name=df_file.name if df_file else "data"
+                st.session_state.rh.record(out_df, pt, len(all_rules), pipe.pii_n)
+                st.session_state.pop('_cache_sig', None)
+                st.session_state.pop('_export_cache', None)  # Clear export cache
+                st.toast(f"Complete: {len(out_df):,} records in {pt:.1f}s")
         elif df_file and not all_rules:
             st.warning("Select an industry domain or upload rules first.")
 
@@ -1329,7 +1371,7 @@ def main_app():
                 d = drift['d_pct']; a = "+" if d>=0 else ""; cl = "var(--success)" if d>=0 else "var(--err)"
                 st.markdown(f'<div style="font-size:12px;color:{cl};margin:6px 0">{IC.icon(IC.TRENDING,cl,14)}Drift: <strong>{a}{d:.1f}%</strong></div>', unsafe_allow_html=True)
             st.markdown("---")
-            rpt = st.tabs(["Data","Distribution","Top Drivers","Heatmap","Visualizations","Uncategorized","Summary","Custom Report"])
+            rpt = st.tabs(["Data","Distribution","Top Drivers","Heatmap","Visualizations","Uncategorized","Summary","Custom Report","Metrics Explorer","Category Trends","Top Movers"])
             with rpt[0]:
                 dc = [c for c in ['Conversation_ID','Original_Text','Category','Subcategory','L3','L4','confidence','matched_rule'] if c in out.columns]
                 st.dataframe(out[dc], hide_index=True, use_container_width=True, height=500)
@@ -1377,7 +1419,7 @@ def main_app():
                 except: has_ec = False
                 vt = st.tabs(["Decomposition Tree","Sunburst"])
                 with vt[0]:
-                    if has_ec: st_echarts(get_tree_option(st.session_state.tree_data), height="700px")
+                    if has_ec: st_echarts(get_tree_option(st.session_state.tree_data), height="700px", key="main_tree")
                     else: st.info("Install streamlit-echarts for tree chart.")
                 with vt[1]:
                     fig = st.session_state.sunburst_fig
@@ -1639,6 +1681,647 @@ def main_app():
                                 st.download_button("Download Excel Report",xbuf.getvalue(),fname,
                                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                     use_container_width=True,key="cr_dl")
+            with rpt[8]:
+                st.markdown(f'<div class="sh">{IC.icon(IC.TRENDING,"#2D5F6E",18)}Metrics Explorer</div>',unsafe_allow_html=True)
+                st.markdown('<p style="font-size:12px;color:var(--muted)">Analyse any numeric field in your data — AHT, Sentiment, CSAT, Duration, or any score — grouped by classification level.</p>',unsafe_allow_html=True)
+
+                # ── Let user select numeric and date columns ──
+                _system_cols={'Category','Subcategory','L3','L4','confidence','matched_rule','match_score','match_detail','l1','l2','l3','l4','Conversation_ID','Original_Text'}
+                _all_cols=[c for c in out.columns if c not in _system_cols]
+
+                # Pre-detect likely numeric columns (auto + object that can be coerced)
+                _likely_num=[]
+                for c in _all_cols:
+                    if pd.api.types.is_numeric_dtype(out[c]):
+                        _likely_num.append(c)
+                    elif out[c].dtype=='object':
+                        coerced=pd.to_numeric(out[c],errors='coerce')
+                        if coerced.notna().sum()>len(out)*0.3:
+                            _likely_num.append(c)
+
+                # Pre-detect likely date columns
+                _likely_date=[]
+                for c in _all_cols:
+                    if pd.api.types.is_datetime64_any_dtype(out[c]):
+                        _likely_date.append(c)
+                    elif out[c].dtype=='object' and c not in _likely_num:
+                        sample=out[c].dropna().head(30)
+                        if len(sample)>0:
+                            try:
+                                pd.to_datetime(sample,format='mixed',dayfirst=False)
+                                _likely_date.append(c)
+                            except: pass
+
+                st.markdown(f'<p style="font-size:12px;color:var(--muted)">Select the columns you want to analyse. Pre-selected columns are auto-detected.</p>',unsafe_allow_html=True)
+                me_sel1,me_sel2=st.columns(2)
+                with me_sel1:
+                    num_cols=st.multiselect("Numeric Columns (for metrics)",_all_cols,default=_likely_num,key="me_num_cols",
+                        help="Pick columns containing numbers — AHT, Score, Duration, etc.")
+                with me_sel2:
+                    date_cols=st.multiselect("Date Columns (for trends)",_all_cols,default=_likely_date,key="me_date_cols",
+                        help="Pick columns containing dates for trend analysis")
+
+                if not num_cols:
+                    st.info("Select at least one numeric column above to start analysing metrics.")
+                else:
+                    # ── Metric & grouping selectors ──
+                    mx1,mx2,mx3=st.columns([2,2,1])
+                    with mx1:
+                        sel_metric=st.selectbox("Metric",num_cols,key="me_metric")
+                    with mx2:
+                        group_level=st.selectbox("Group By",["Category","Subcategory","L3","L4"],key="me_group")
+                    with mx3:
+                        agg_fn=st.selectbox("Aggregation",["Mean","Median","Sum","Min","Max","Count","Std Dev"],key="me_agg")
+
+                    agg_map={"Mean":"mean","Median":"median","Sum":"sum","Min":"min","Max":"max","Count":"count","Std Dev":"std"}
+                    agg_name=agg_map[agg_fn]
+
+                    # ── Filter out NA/Uncategorized from grouping ──
+                    me_df=out[(out[group_level]!='NA')&(out[group_level]!='Uncategorized')].copy()
+                    me_df[sel_metric]=pd.to_numeric(me_df[sel_metric],errors='coerce')
+                    me_valid=me_df.dropna(subset=[sel_metric])
+
+                    if me_valid.empty:
+                        st.warning(f"No valid numeric data in '{sel_metric}' for the selected grouping.")
+                    else:
+                        # ── Aggregated table ──
+                        me_agg=me_valid.groupby(group_level)[sel_metric].agg(['mean','median','sum','min','max','count','std']).reset_index()
+                        me_agg.columns=[group_level,'Mean','Median','Sum','Min','Max','Count','Std Dev']
+                        me_agg=me_agg.sort_values(agg_fn,ascending=False)
+                        for c in ['Mean','Median','Sum','Min','Max','Std Dev']:
+                            me_agg[c]=me_agg[c].round(2)
+                        me_agg['Count']=me_agg['Count'].astype(int)
+
+                        # ── Modern theme helper ──
+                        _PALETTE=['#2D5F6E','#D4B94E','#3D7A5F','#6B8A99','#A04040','#8C6B4A','#5A7A6B','#4A6B8C','#A8BCC8','#E8D97A']
+                        def _modern_layout(fig,h=None):
+                            fig.update_layout(
+                                font_family="DM Sans",paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',
+                                margin=dict(l=10,r=20,t=40,b=10),
+                                xaxis=dict(showgrid=True,gridcolor='rgba(168,188,200,0.15)',zeroline=False),
+                                yaxis=dict(showgrid=True,gridcolor='rgba(168,188,200,0.15)',zeroline=False),
+                                hoverlabel=dict(bgcolor='#1E2D33',font_size=12,font_family='DM Sans',font_color='#E8E6DD'),
+                            )
+                            if h: fig.update_layout(height=h)
+                            return fig
+                        def _dynamic_textsize(n):
+                            if n<=5: return 13
+                            elif n<=10: return 11
+                            elif n<=20: return 9
+                            else: return 8
+
+                        # ── Summary cards ──
+                        overall_val=me_valid[sel_metric]
+                        mc1,mc2,mc3,mc4,mc5=st.columns(5)
+                        with mc1: st.markdown(mcard(f"Overall {agg_fn}",f"{getattr(overall_val,agg_name)():.2f}"),unsafe_allow_html=True)
+                        with mc2: st.markdown(mcard("Records",f"{len(me_valid):,}","var(--slate)"),unsafe_allow_html=True)
+                        with mc3: st.markdown(mcard("Groups",f"{me_valid[group_level].nunique()}","var(--success)"),unsafe_allow_html=True)
+                        with mc4: st.markdown(mcard("Min",f"{overall_val.min():.2f}","var(--gold)"),unsafe_allow_html=True)
+                        with mc5: st.markdown(mcard("Max",f"{overall_val.max():.2f}","var(--teal-l)"),unsafe_allow_html=True)
+
+                        st.markdown("---")
+
+                        # ═══ PRIMARY METRIC BAR CHART (modern, data labels) ═══
+                        me_chart=me_agg[[group_level,agg_fn,'Count']].head(20)
+                        n_bars=len(me_chart)
+                        fig_me=go.Figure()
+                        fig_me.add_trace(go.Bar(
+                            y=me_chart[group_level],x=me_chart[agg_fn],orientation='h',
+                            marker=dict(color=me_chart[agg_fn],colorscale=[[0,'#A8BCC8'],[0.5,'#3A7A8C'],[1,'#2D5F6E']],
+                                line=dict(width=0),cornerradius=4),
+                            text=[f"{v:,.1f}" for v in me_chart[agg_fn]],
+                            textposition='outside',textfont=dict(size=_dynamic_textsize(n_bars),color='#2D5F6E',family='DM Sans'),
+                            hovertemplate=f'<b>%{{y}}</b><br>{agg_fn} of {sel_metric}: %{{x:,.2f}}<br>Count: %{{customdata[0]:,}}<extra></extra>',
+                            customdata=me_chart[['Count']].values,
+                        ))
+                        _modern_layout(fig_me,max(350,n_bars*32))
+                        fig_me.update_layout(yaxis={'categoryorder':'total ascending'},showlegend=False,
+                            title=dict(text=f"{agg_fn} of {sel_metric} by {group_level}",font=dict(size=15,color='#1E2D33'),x=0),
+                            xaxis_title=None,yaxis_title=None)
+                        st.plotly_chart(fig_me,use_container_width=True,key="me_fig_bar")
+
+                        # ═══ BOX PLOT (modern) ═══
+                        st.markdown(f'<div class="sh">{IC.icon(IC.ACTIVITY,"#2D5F6E",18)}{sel_metric} Distribution by {group_level}</div>',unsafe_allow_html=True)
+                        top_groups=me_agg[group_level].head(12).tolist()
+                        me_box=me_valid[me_valid[group_level].isin(top_groups)]
+                        fig_box=go.Figure()
+                        for gi,grp in enumerate(top_groups):
+                            gdata=me_box[me_box[group_level]==grp][sel_metric]
+                            fig_box.add_trace(go.Box(y=gdata,name=grp,marker_color=_PALETTE[gi%len(_PALETTE)],
+                                boxmean='sd',line=dict(width=1.5),
+                                hovertemplate=f'<b>{grp}</b><br>Value: %{{y:,.2f}}<extra></extra>'))
+                        _modern_layout(fig_box,450)
+                        fig_box.update_layout(showlegend=False,xaxis_tickangle=-35,
+                            title=dict(text=f"{sel_metric} Distribution (Top {len(top_groups)} {group_level})",font=dict(size=15,color='#1E2D33'),x=0))
+                        st.plotly_chart(fig_box,use_container_width=True,key="me_fig_box")
+
+                        # ═══ COMBO CHART BUILDER ═══
+                        st.markdown(f'<div class="sh">{IC.icon(IC.BAR,"#2D5F6E",18)}Combo Chart Builder</div>',unsafe_allow_html=True)
+                        st.markdown('<p style="font-size:12px;color:var(--muted)">Overlay Category Count (bars) with one or two metrics (lines) on a dual-axis chart.</p>',unsafe_allow_html=True)
+
+                        combo_metrics=st.multiselect("Metrics to overlay (line axis)",num_cols,default=[sel_metric] if sel_metric in num_cols else num_cols[:1],key="me_combo_metrics",max_selections=3)
+
+                        if combo_metrics:
+                            # Build combo data — count + selected metrics aggregated by group
+                            combo_df=me_valid.copy()
+                            for cm in combo_metrics:
+                                combo_df[cm]=pd.to_numeric(combo_df[cm],errors='coerce')
+                            combo_agg=combo_df.groupby(group_level).agg(
+                                _count=(sel_metric,'count'),
+                                **{f"_{cm}":pd.NamedAgg(column=cm,aggfunc=agg_name) for cm in combo_metrics}
+                            ).reset_index().sort_values('_count',ascending=False).head(15)
+
+                            n_combo=len(combo_agg)
+                            fig_combo=go.Figure()
+
+                            # Bars: category count
+                            fig_combo.add_trace(go.Bar(
+                                x=combo_agg[group_level],y=combo_agg['_count'],name='Record Count',
+                                marker=dict(color='#A8BCC8',cornerradius=4,line=dict(width=0)),
+                                text=[f"{int(v):,}" for v in combo_agg['_count']],
+                                textposition='outside',textfont=dict(size=_dynamic_textsize(n_combo),color='#6B8A99',family='DM Sans'),
+                                hovertemplate='<b>%{x}</b><br>Count: %{y:,}<extra></extra>',
+                                yaxis='y',opacity=0.7,
+                            ))
+
+                            # Lines: each metric on secondary axis
+                            line_colors=['#2D5F6E','#D4B94E','#A04040']
+                            for mi,cm in enumerate(combo_metrics):
+                                col_key=f"_{cm}"
+                                vals=combo_agg[col_key]
+                                fig_combo.add_trace(go.Scatter(
+                                    x=combo_agg[group_level],y=vals,name=f"{agg_fn} of {cm}",
+                                    mode='lines+markers+text',
+                                    line=dict(color=line_colors[mi%3],width=2.5),
+                                    marker=dict(size=8,color=line_colors[mi%3],line=dict(width=2,color='#FFFFFF')),
+                                    text=[f"{v:,.1f}" for v in vals],
+                                    textposition='top center',textfont=dict(size=_dynamic_textsize(n_combo),color=line_colors[mi%3],family='DM Sans'),
+                                    hovertemplate=f'<b>%{{x}}</b><br>{agg_fn} of {cm}: %{{y:,.2f}}<extra></extra>',
+                                    yaxis='y2',
+                                ))
+
+                            _modern_layout(fig_combo,480)
+                            metric_label=', '.join(combo_metrics)
+                            fig_combo.update_layout(
+                                title=dict(text=f"Record Count vs {metric_label} by {group_level}",font=dict(size=15,color='#1E2D33'),x=0),
+                                yaxis=dict(title='Record Count',showgrid=True,gridcolor='rgba(168,188,200,0.12)'),
+                                yaxis2=dict(title=metric_label,overlaying='y',side='right',showgrid=False),
+                                xaxis=dict(tickangle=-35),barmode='group',
+                                legend=dict(orientation='h',yanchor='bottom',y=1.02,xanchor='right',x=1,
+                                    bgcolor='rgba(255,255,255,0.8)',bordercolor='#D1CFC4',borderwidth=1,
+                                    font=dict(size=11)),
+                            )
+                            st.plotly_chart(fig_combo,use_container_width=True,key="me_fig_combo")
+
+                        # ═══ TREND ANALYSIS ═══
+                        if date_cols:
+                            st.markdown("---")
+                            st.markdown(f'<div class="sh">{IC.icon(IC.TRENDING,"#2D5F6E",18)}Trend Analysis</div>',unsafe_allow_html=True)
+                            tr1,tr2=st.columns([2,1])
+                            with tr1: sel_date=st.selectbox("Date Column",date_cols,key="me_date")
+                            with tr2: sel_period=st.selectbox("Period",["Day","Week","Month"],key="me_period")
+
+                            me_trend=me_valid.copy()
+                            try:
+                                me_trend[sel_date]=pd.to_datetime(me_trend[sel_date],errors='coerce')
+                                me_trend=me_trend.dropna(subset=[sel_date])
+                            except: pass
+
+                            if not me_trend.empty and pd.api.types.is_datetime64_any_dtype(me_trend[sel_date]):
+                                freq_map={"Day":"D","Week":"W","Month":"M"}
+                                me_trend['_period']=me_trend[sel_date].dt.to_period(freq_map[sel_period]).astype(str)
+
+                                # Overall trend (modern)
+                                trend_overall=me_trend.groupby('_period')[sel_metric].agg(agg_name).reset_index()
+                                trend_overall.columns=['Period',sel_metric]
+                                fig_trend=go.Figure()
+                                fig_trend.add_trace(go.Scatter(
+                                    x=trend_overall['Period'],y=trend_overall[sel_metric],
+                                    mode='lines+markers+text',
+                                    line=dict(color='#2D5F6E',width=2.5,shape='spline'),
+                                    marker=dict(size=7,color='#D4B94E',line=dict(width=2,color='#2D5F6E')),
+                                    text=[f"{v:,.1f}" for v in trend_overall[sel_metric]],
+                                    textposition='top center',textfont=dict(size=_dynamic_textsize(len(trend_overall)),color='#2D5F6E'),
+                                    fill='tozeroy',fillcolor='rgba(45,95,110,0.06)',
+                                    hovertemplate='<b>%{x}</b><br>'+f'{agg_fn}: %{{y:,.2f}}<extra></extra>',
+                                ))
+                                _modern_layout(fig_trend,370)
+                                fig_trend.update_layout(title=dict(text=f"{agg_fn} of {sel_metric} Over Time",font=dict(size=15,color='#1E2D33'),x=0),
+                                    xaxis_title=None,yaxis_title=sel_metric)
+                                st.plotly_chart(fig_trend,use_container_width=True,key="me_fig_trend")
+
+                                # Trend by top groups (modern)
+                                top5_groups=me_agg[group_level].head(5).tolist()
+                                trend_grp=me_trend[me_trend[group_level].isin(top5_groups)]
+                                if not trend_grp.empty:
+                                    st.markdown(f"**{sel_metric} Trend — Top 5 {group_level}**")
+                                    trend_by=trend_grp.groupby(['_period',group_level])[sel_metric].agg(agg_name).reset_index()
+                                    trend_by.columns=['Period',group_level,sel_metric]
+                                    fig_trend2=go.Figure()
+                                    for gi,grp in enumerate(top5_groups):
+                                        gd=trend_by[trend_by[group_level]==grp]
+                                        fig_trend2.add_trace(go.Scatter(
+                                            x=gd['Period'],y=gd[sel_metric],name=grp,
+                                            mode='lines+markers',
+                                            line=dict(color=_PALETTE[gi%len(_PALETTE)],width=2.5,shape='spline'),
+                                            marker=dict(size=6,color=_PALETTE[gi%len(_PALETTE)],line=dict(width=1.5,color='#FFFFFF')),
+                                            hovertemplate=f'<b>{grp}</b><br>%{{x}}<br>{agg_fn}: %{{y:,.2f}}<extra></extra>',
+                                        ))
+                                    _modern_layout(fig_trend2,420)
+                                    fig_trend2.update_layout(
+                                        title=dict(text=f"{sel_metric} by {group_level} Over Time",font=dict(size=15,color='#1E2D33'),x=0),
+                                        legend=dict(orientation='h',yanchor='bottom',y=1.02,xanchor='right',x=1,
+                                            bgcolor='rgba(255,255,255,0.8)',bordercolor='#D1CFC4',borderwidth=1,font=dict(size=11)),
+                                        xaxis_title=None,yaxis_title=sel_metric)
+                                    st.plotly_chart(fig_trend2,use_container_width=True,key="me_fig_trend_grp")
+                            else:
+                                st.info("Could not parse date column for trend analysis.")
+
+                        # ── Full stats table ──
+                        st.markdown("---")
+                        st.markdown(f"**Full Statistics: {sel_metric} by {group_level}**")
+                        st.dataframe(me_agg,hide_index=True,use_container_width=True)
+
+                        # ── Export ──
+                        me_buf=io.BytesIO()
+                        with pd.ExcelWriter(me_buf,engine='openpyxl') as writer:
+                            me_agg.to_excel(writer,sheet_name='Aggregated',index=False)
+                            me_valid[[group_level,sel_metric]].to_excel(writer,sheet_name='Raw Data',index=False)
+                        me_buf.seek(0)
+                        st.download_button(f"Export {sel_metric} Analysis",me_buf.getvalue(),
+                            f"metrics_{sel_metric}_{group_level}_{datetime.now().strftime('%Y%m%d')}.xlsx",
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            use_container_width=True,key="me_dl")
+            with rpt[9]:
+                # ═══ CATEGORY TRENDS ═══
+                st.markdown(f'<div class="sh">{IC.icon(IC.TRENDING,"#2D5F6E",18)}Category Volume Over Time</div>',unsafe_allow_html=True)
+
+                # Detect date columns
+                _sys={'Category','Subcategory','L3','L4','confidence','matched_rule','match_score','match_detail','Conversation_ID','Original_Text'}
+                _dcols=[]
+                for c in out.columns:
+                    if c in _sys: continue
+                    if pd.api.types.is_datetime64_any_dtype(out[c]): _dcols.append(c)
+                    elif out[c].dtype=='object':
+                        try:
+                            pd.to_datetime(out[c].dropna().head(20),format='mixed'); _dcols.append(c)
+                        except: pass
+
+                if not _dcols:
+                    st.info("No date columns detected. Upload data with a date field to see category trends over time.")
+                else:
+                    ct1,ct2,ct3=st.columns([2,1,1])
+                    with ct1: ct_date=st.selectbox("Date Column",_dcols,key="ct_date")
+                    with ct2: ct_period=st.selectbox("Period",["Day","Week","Month"],key="ct_period")
+                    with ct3: ct_level=st.selectbox("Level",["Category","Subcategory","L3","L4"],key="ct_level")
+
+                    ct_df=out.copy()
+                    ct_df[ct_date]=pd.to_datetime(ct_df[ct_date],errors='coerce')
+                    ct_df=ct_df.dropna(subset=[ct_date])
+                    ct_df=ct_df[(ct_df[ct_level]!='NA')&(ct_df[ct_level]!='Uncategorized')]
+
+                    if ct_df.empty:
+                        st.warning("No valid data for trend analysis.")
+                    else:
+                        freq_map={"Day":"D","Week":"W","Month":"M"}
+                        ct_df['_period']=ct_df[ct_date].dt.to_period(freq_map[ct_period]).astype(str)
+
+                        # Top N categories by volume
+                        ct_topn=st.slider("Top N categories",3,15,7,key="ct_topn")
+                        top_cats=ct_df[ct_level].value_counts().head(ct_topn).index.tolist()
+                        ct_filt=ct_df[ct_df[ct_level].isin(top_cats)]
+                        ct_agg=ct_filt.groupby(['_period',ct_level]).size().reset_index(name='Count')
+
+                        # Stacked area chart
+                        _PAL=['#2D5F6E','#D4B94E','#3D7A5F','#6B8A99','#A04040','#8C6B4A','#5A7A6B','#4A6B8C','#A8BCC8','#E8D97A','#7A6620','#5A3D7A','#2563EB','#D1CFC4','#3A7A8C']
+                        fig_ct=go.Figure()
+                        for gi,cat in enumerate(top_cats):
+                            gd=ct_agg[ct_agg[ct_level]==cat].sort_values('_period')
+                            fig_ct.add_trace(go.Scatter(
+                                x=gd['_period'],y=gd['Count'],name=cat,
+                                mode='lines',stackgroup='one',
+                                line=dict(width=0.5,color=_PAL[gi%len(_PAL)]),
+                                fillcolor=_PAL[gi%len(_PAL)],
+                                hovertemplate=f'<b>{cat}</b><br>%{{x}}<br>Count: %{{y:,}}<extra></extra>',
+                            ))
+                        fig_ct.update_layout(
+                            font_family="DM Sans",paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',
+                            margin=dict(l=10,r=20,t=40,b=10),height=480,
+                            title=dict(text=f"{ct_level} Volume Over Time ({ct_period}ly)",font=dict(size=15,color='#1E2D33'),x=0),
+                            xaxis=dict(showgrid=False),yaxis=dict(showgrid=True,gridcolor='rgba(168,188,200,0.15)',title='Record Count'),
+                            legend=dict(orientation='h',yanchor='bottom',y=1.02,xanchor='right',x=1,font=dict(size=10)),
+                            hoverlabel=dict(bgcolor='#1E2D33',font_size=12,font_family='DM Sans',font_color='#E8E6DD'),
+                        )
+                        st.plotly_chart(fig_ct,use_container_width=True,key="ct_fig_area")
+
+                        # Individual line chart (non-stacked)
+                        st.markdown("**Individual Trend Lines**")
+                        fig_ct2=go.Figure()
+                        for gi,cat in enumerate(top_cats):
+                            gd=ct_agg[ct_agg[ct_level]==cat].sort_values('_period')
+                            fig_ct2.add_trace(go.Scatter(
+                                x=gd['_period'],y=gd['Count'],name=cat,
+                                mode='lines+markers',
+                                line=dict(width=2.5,color=_PAL[gi%len(_PAL)],shape='spline'),
+                                marker=dict(size=5,color=_PAL[gi%len(_PAL)],line=dict(width=1,color='#FFFFFF')),
+                                hovertemplate=f'<b>{cat}</b><br>%{{x}}<br>Count: %{{y:,}}<extra></extra>',
+                            ))
+                        fig_ct2.update_layout(
+                            font_family="DM Sans",paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',
+                            margin=dict(l=10,r=20,t=10,b=10),height=400,
+                            xaxis=dict(showgrid=False),yaxis=dict(showgrid=True,gridcolor='rgba(168,188,200,0.15)',title='Count'),
+                            legend=dict(orientation='h',yanchor='bottom',y=1.02,xanchor='right',x=1,font=dict(size=10)),
+                            hoverlabel=dict(bgcolor='#1E2D33',font_size=12,font_family='DM Sans',font_color='#E8E6DD'),
+                        )
+                        st.plotly_chart(fig_ct2,use_container_width=True,key="ct_fig_lines")
+
+            with rpt[10]:
+                # ═══ TOP MOVERS ═══
+                st.markdown(f'<div class="sh">{IC.icon(IC.TRENDING,"#2D5F6E",18)}Top Movers — Period-over-Period</div>',unsafe_allow_html=True)
+
+                _sys2={'Category','Subcategory','L3','L4','confidence','matched_rule','match_score','match_detail','Conversation_ID','Original_Text'}
+                _dcols2=[]
+                for c in out.columns:
+                    if c in _sys2: continue
+                    if pd.api.types.is_datetime64_any_dtype(out[c]): _dcols2.append(c)
+                    elif out[c].dtype=='object':
+                        try:
+                            pd.to_datetime(out[c].dropna().head(20),format='mixed'); _dcols2.append(c)
+                        except: pass
+
+                if not _dcols2:
+                    st.info("No date columns detected. Upload data with a date field to compare periods.")
+                else:
+                    tm1,tm2=st.columns([2,1])
+                    with tm1: tm_date=st.selectbox("Date Column",_dcols2,key="tm_date")
+                    with tm2: tm_level=st.selectbox("Level",["Category","Subcategory","L3","L4"],key="tm_level")
+
+                    tm_df=out.copy()
+                    tm_df[tm_date]=pd.to_datetime(tm_df[tm_date],errors='coerce')
+                    tm_df=tm_df.dropna(subset=[tm_date])
+                    tm_df=tm_df[(tm_df[tm_level]!='NA')&(tm_df[tm_level]!='Uncategorized')]
+
+                    if tm_df.empty:
+                        st.warning("No valid data for period comparison.")
+                    else:
+                        # Determine split point — median date
+                        all_dates=tm_df[tm_date].sort_values()
+                        mid_date=all_dates.iloc[len(all_dates)//2]
+
+                        tm_split=st.date_input("Split Date (before = Period 1, after = Period 2)",
+                            value=mid_date.date(),key="tm_split")
+                        tm_split_dt=pd.Timestamp(tm_split)
+
+                        p1=tm_df[tm_df[tm_date]<tm_split_dt]
+                        p2=tm_df[tm_df[tm_date]>=tm_split_dt]
+
+                        p1_label=f"Before {tm_split}"
+                        p2_label=f"From {tm_split}"
+
+                        st.markdown(f'<span class="badge b-info">{p1_label}: {len(p1):,} records</span> &nbsp; '
+                            f'<span class="badge b-ok">{p2_label}: {len(p2):,} records</span>',unsafe_allow_html=True)
+
+                        if len(p1)==0 or len(p2)==0:
+                            st.warning("Both periods need records. Adjust the split date.")
+                        else:
+                            p1_counts=p1[tm_level].value_counts().reset_index()
+                            p1_counts.columns=[tm_level,'Period_1']
+                            p2_counts=p2[tm_level].value_counts().reset_index()
+                            p2_counts.columns=[tm_level,'Period_2']
+
+                            comp=p1_counts.merge(p2_counts,on=tm_level,how='outer').fillna(0)
+                            comp['Period_1']=comp['Period_1'].astype(int)
+                            comp['Period_2']=comp['Period_2'].astype(int)
+                            comp['Change']=comp['Period_2']-comp['Period_1']
+                            comp['Change_%']=((comp['Period_2']-comp['Period_1'])/comp['Period_1'].replace(0,1)*100).round(1)
+                            comp=comp.sort_values('Change',ascending=False)
+
+                            # Top gainers & losers
+                            top_gain=comp.head(10)
+                            top_loss=comp.tail(10).sort_values('Change')
+
+                            st.markdown(f'<div class="sh">{IC.icon(IC.TRENDING,"#3D7A5F",18)}Top Gainers</div>',unsafe_allow_html=True)
+                            fig_gain=go.Figure()
+                            fig_gain.add_trace(go.Bar(
+                                y=top_gain[tm_level],x=top_gain['Change'],orientation='h',
+                                marker=dict(color=['#3D7A5F' if v>=0 else '#A04040' for v in top_gain['Change']],cornerradius=4),
+                                text=[f"+{int(v):,}" if v>=0 else f"{int(v):,}" for v in top_gain['Change']],
+                                textposition='outside',textfont=dict(size=11,family='DM Sans'),
+                                customdata=top_gain[['Change_%']].values,
+                                hovertemplate='<b>%{y}</b><br>Change: %{x:,}<br>Change %: %{customdata[0]:.1f}%<extra></extra>',
+                            ))
+                            fig_gain.update_layout(
+                                font_family="DM Sans",paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',
+                                margin=dict(l=10,r=20,t=40,b=10),height=max(300,len(top_gain)*32),
+                                yaxis={'categoryorder':'total ascending'},showlegend=False,
+                                title=dict(text="Volume Increase",font=dict(size=14,color='#3D7A5F'),x=0),
+                                xaxis=dict(showgrid=True,gridcolor='rgba(168,188,200,0.15)',title='Change in Count'),
+                            )
+                            st.plotly_chart(fig_gain,use_container_width=True,key="tm_fig_gain")
+
+                            st.markdown(f'<div class="sh">{IC.icon(IC.TRENDING,"#A04040",18)}Top Decliners</div>',unsafe_allow_html=True)
+                            fig_loss=go.Figure()
+                            fig_loss.add_trace(go.Bar(
+                                y=top_loss[tm_level],x=top_loss['Change'],orientation='h',
+                                marker=dict(color=['#3D7A5F' if v>=0 else '#A04040' for v in top_loss['Change']],cornerradius=4),
+                                text=[f"+{int(v):,}" if v>=0 else f"{int(v):,}" for v in top_loss['Change']],
+                                textposition='outside',textfont=dict(size=11,family='DM Sans'),
+                                customdata=top_loss[['Change_%']].values,
+                                hovertemplate='<b>%{y}</b><br>Change: %{x:,}<br>Change %: %{customdata[0]:.1f}%<extra></extra>',
+                            ))
+                            fig_loss.update_layout(
+                                font_family="DM Sans",paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',
+                                margin=dict(l=10,r=20,t=40,b=10),height=max(300,len(top_loss)*32),
+                                yaxis={'categoryorder':'total descending'},showlegend=False,
+                                title=dict(text="Volume Decrease",font=dict(size=14,color='#A04040'),x=0),
+                                xaxis=dict(showgrid=True,gridcolor='rgba(168,188,200,0.15)',title='Change in Count'),
+                            )
+                            st.plotly_chart(fig_loss,use_container_width=True,key="tm_fig_loss")
+
+                            # Full comparison table
+                            st.markdown("---")
+                            st.markdown("**Full Period Comparison**")
+                            display_comp=comp.copy()
+                            display_comp.columns=[tm_level,p1_label,p2_label,'Change','Change %']
+                            st.dataframe(display_comp,hide_index=True,use_container_width=True)
+
+                            # Export
+                            tm_buf=io.BytesIO()
+                            display_comp.to_excel(tm_buf,index=False,engine='openpyxl')
+                            tm_buf.seek(0)
+                            st.download_button("Export Comparison",tm_buf.getvalue(),
+                                f"top_movers_{tm_level}_{datetime.now().strftime('%Y%m%d')}.xlsx",
+                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                use_container_width=True,key="tm_dl")
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # NARRATIVE INTELLIGENCE
+    # ═══════════════════════════════════════════════════════════════════════════
+    if page == "Narrative Intelligence":
+        shdr(IC.TRENDING, "Narrative Intelligence")
+        if 'out' not in st.session_state:
+            st.info("Run analysis first to generate narratives.")
+        else:
+            out=st.session_state.out
+            total=len(out)
+            unc_n=int((out['Category']=='Uncategorized').sum())
+            cat_n=total-unc_n
+            coverage=cat_n/total*100 if total>0 else 0
+
+            # Category stats
+            cat_counts=out[out['Category']!='Uncategorized']['Category'].value_counts()
+            top_cat=cat_counts.index[0] if len(cat_counts)>0 else "N/A"
+            top_cat_pct=cat_counts.iloc[0]/total*100 if len(cat_counts)>0 else 0
+            top3_cats=cat_counts.head(3)
+
+            # Subcategory stats
+            sub_counts=out[out['Subcategory']!='NA']['Subcategory'].value_counts()
+            top_sub=sub_counts.index[0] if len(sub_counts)>0 else "N/A"
+
+            # Confidence stats
+            avg_conf=out['confidence'].mean() if 'confidence' in out.columns else 0
+            low_conf_pct=(out['confidence']<0.3).mean()*100 if 'confidence' in out.columns else 0
+
+            # Detect numeric metadata columns for insights
+            _sys_n={'Category','Subcategory','L3','L4','confidence','matched_rule','match_score','match_detail','Conversation_ID','Original_Text'}
+            num_meta=[c for c in out.columns if c not in _sys_n and pd.api.types.is_numeric_dtype(out[c])]
+            # Also try coercing object columns
+            for c in out.columns:
+                if c in _sys_n or c in num_meta: continue
+                if out[c].dtype=='object':
+                    coerced=pd.to_numeric(out[c],errors='coerce')
+                    if coerced.notna().sum()>total*0.3: num_meta.append(c)
+
+            # ═══ EXECUTIVE SUMMARY NARRATIVE ═══
+            st.markdown(f"""<div style="background:linear-gradient(135deg,#2D5F6E 0%,#3A7A8C 100%);border-radius:12px;padding:28px 32px;margin-bottom:24px">
+            <span style="font-size:18px;font-weight:700;color:#FFFFFF">{IC.icon(IC.REPORT,'#FFFFFF',20)}Executive Summary</span>
+            <p style="font-size:10px;color:#A8BCC8;text-transform:uppercase;letter-spacing:1.5px;margin:6px 0 0">Auto-generated from classification results</p>
+            </div>""",unsafe_allow_html=True)
+
+            # Build narrative paragraphs
+            narrative_parts=[]
+
+            # Para 1: Overview
+            cov_verdict="excellent" if coverage>90 else "good" if coverage>75 else "moderate" if coverage>50 else "low"
+            narrative_parts.append(
+                f"The analysis processed **{total:,}** records, achieving **{coverage:.1f}%** classification coverage ({cov_verdict}). "
+                f"**{cat_n:,}** records were successfully categorized across **{cat_counts.nunique()}** categories and "
+                f"**{sub_counts.nunique()}** subcategories, while **{unc_n:,}** records ({100-coverage:.1f}%) remain uncategorized."
+            )
+
+            # Para 2: Top categories
+            top3_text=', '.join([f"**{cat}** ({cnt:,}, {cnt/total*100:.1f}%)" for cat,cnt in top3_cats.items()])
+            narrative_parts.append(
+                f"The top drivers by volume are {top3_text}. "
+                f"Together, the top 3 categories account for **{top3_cats.sum()/total*100:.1f}%** of all classified interactions."
+            )
+
+            # Para 3: Confidence
+            if 'confidence' in out.columns:
+                conf_verdict="high" if avg_conf>0.7 else "moderate" if avg_conf>0.4 else "low"
+                narrative_parts.append(
+                    f"Average classification confidence is **{avg_conf:.2f}** ({conf_verdict}). "
+                    f"**{low_conf_pct:.1f}%** of records have low confidence (<0.3), suggesting potential rule refinement opportunities in those areas."
+                )
+
+            # Para 4: Metadata insights (if numeric columns exist)
+            for mc in num_meta[:3]:
+                mc_data=pd.to_numeric(out[mc],errors='coerce').dropna()
+                if len(mc_data)>0:
+                    mc_mean=mc_data.mean()
+                    # Find category with highest and lowest average
+                    mc_by_cat=out.copy()
+                    mc_by_cat[mc]=pd.to_numeric(mc_by_cat[mc],errors='coerce')
+                    mc_by_cat=mc_by_cat[(mc_by_cat['Category']!='Uncategorized')&(mc_by_cat['Category']!='NA')].dropna(subset=[mc])
+                    if not mc_by_cat.empty:
+                        cat_avg=mc_by_cat.groupby('Category')[mc].mean()
+                        hi_cat=cat_avg.idxmax(); hi_val=cat_avg.max()
+                        lo_cat=cat_avg.idxmin(); lo_val=cat_avg.min()
+                        narrative_parts.append(
+                            f"For **{mc}**, the overall average is **{mc_mean:,.2f}**. "
+                            f"**{hi_cat}** has the highest average ({hi_val:,.2f}), while **{lo_cat}** has the lowest ({lo_val:,.2f}). "
+                            f"The spread suggests {'significant variation' if (hi_val-lo_val)/mc_mean>0.5 else 'moderate variation' if (hi_val-lo_val)/mc_mean>0.2 else 'relatively consistent performance'} across categories."
+                        )
+
+            # Para 5: Recommendations
+            recs=[]
+            if coverage<80:
+                recs.append(f"Classification coverage is at {coverage:.0f}% — review the **Uncategorized Analysis** in Reports to identify top unclassified keywords and create new rules.")
+            if low_conf_pct>20:
+                recs.append(f"{low_conf_pct:.0f}% of records have low confidence — consider adding more specific multi-term rules (AND/NEAR) to improve match precision.")
+            if unc_n>total*0.15:
+                recs.append(f"{unc_n:,} records are uncategorized — use **Concordance** to explore these records in context and build targeted rules.")
+            if len(cat_counts)>0 and cat_counts.iloc[0]/total>0.3:
+                recs.append(f"**{top_cat}** dominates at {top_cat_pct:.0f}% — consider splitting it into L2/L3 subcategories for more granular insights.")
+            if not recs:
+                recs.append("Classification coverage and confidence are strong. Continue monitoring for emerging categories via the **Top Movers** tab in Reports.")
+
+            # Render narrative
+            for p in narrative_parts:
+                st.markdown(p)
+                st.markdown("")
+
+            # Recommendations section
+            st.markdown(f'<div class="sh">{IC.icon(IC.ALERT,"#2D5F6E",18)}Recommendations</div>',unsafe_allow_html=True)
+            for r in recs:
+                st.markdown(f'<span style="color:var(--teal);font-weight:700">→</span> {r}',unsafe_allow_html=True)
+
+            # ═══ KEY METRICS AT A GLANCE ═══
+            st.markdown("---")
+            st.markdown(f'<div class="sh">{IC.icon(IC.BAR,"#2D5F6E",18)}Key Metrics at a Glance</div>',unsafe_allow_html=True)
+
+            km1,km2,km3,km4,km5,km6=st.columns(6)
+            with km1: st.markdown(mcard("Records",f"{total:,}"),unsafe_allow_html=True)
+            with km2: st.markdown(mcard("Coverage",f"{coverage:.1f}%","var(--success)" if coverage>80 else "var(--gold)"),unsafe_allow_html=True)
+            with km3: st.markdown(mcard("Categories",str(cat_counts.nunique()),"var(--teal)"),unsafe_allow_html=True)
+            with km4: st.markdown(mcard("Top Driver",top_cat[:15],"var(--slate)"),unsafe_allow_html=True)
+            with km5: st.markdown(mcard("Avg Confidence",f"{avg_conf:.2f}","var(--success)" if avg_conf>0.6 else "var(--gold)"),unsafe_allow_html=True)
+            with km6: st.markdown(mcard("Uncategorized",f"{unc_n:,}","var(--err)" if unc_n/total>0.15 else "var(--gold)"),unsafe_allow_html=True)
+
+            # Metadata metrics
+            if num_meta:
+                st.markdown("**Metadata Metrics by Top Category**")
+                nm_level=st.selectbox("Group By",["Category","Subcategory","L3","L4"],key="ni_group")
+                nm_cols=st.multiselect("Metrics",num_meta,default=num_meta[:3],key="ni_metrics")
+                if nm_cols:
+                    nm_df=out[(out[nm_level]!='NA')&(out[nm_level]!='Uncategorized')].copy()
+                    for mc in nm_cols:
+                        nm_df[mc]=pd.to_numeric(nm_df[mc],errors='coerce')
+                    nm_agg=nm_df.groupby(nm_level)[nm_cols].mean().round(2).reset_index()
+                    nm_agg=nm_agg.sort_values(nm_cols[0],ascending=False).head(15)
+                    st.dataframe(nm_agg,hide_index=True,use_container_width=True)
+
+            # ═══ EXPORT NARRATIVE ═══
+            st.markdown("---")
+            full_narrative="EXECUTIVE SUMMARY — TextInsightMiner\n"+"="*50+"\n\n"
+            full_narrative+="\n\n".join(p.replace("**","") for p in narrative_parts)
+            full_narrative+="\n\nRECOMMENDATIONS\n"+"-"*30+"\n"
+            full_narrative+="\n".join(f"• {r.replace('**','').replace('<span style=\"color:var(--teal);font-weight:700\">→</span> ','')}" for r in recs)
+            full_narrative+=f"\n\nGenerated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+
+            e1,e2=st.columns(2)
+            with e1:
+                st.download_button("Export as Text",full_narrative,
+                    f"narrative_{datetime.now().strftime('%Y%m%d')}.txt","text/plain",
+                    use_container_width=True,key="ni_dl_txt")
+            with e2:
+                ni_buf=io.BytesIO()
+                ni_excel_data={'Metric':[],'Value':[]}
+                ni_excel_data['Metric'].extend(['Total Records','Categorized','Uncategorized','Coverage %','Categories','Subcategories','Top Category','Avg Confidence'])
+                ni_excel_data['Value'].extend([total,cat_n,unc_n,f"{coverage:.1f}",cat_counts.nunique(),sub_counts.nunique(),top_cat,f"{avg_conf:.2f}"])
+                for mc in num_meta[:5]:
+                    mc_val=pd.to_numeric(out[mc],errors='coerce').mean()
+                    ni_excel_data['Metric'].append(f"Avg {mc}")
+                    ni_excel_data['Value'].append(f"{mc_val:.2f}")
+                with pd.ExcelWriter(ni_buf,engine='openpyxl') as writer:
+                    pd.DataFrame(ni_excel_data).to_excel(writer,sheet_name='Summary',index=False)
+                    if len(cat_counts)>0:
+                        cat_counts.reset_index().rename(columns={'index':'Category','count':'Count'} if 'index' in cat_counts.reset_index().columns else {}).to_excel(writer,sheet_name='Categories',index=False)
+                ni_buf.seek(0)
+                st.download_button("Export as Excel",ni_buf.getvalue(),
+                    f"narrative_{datetime.now().strftime('%Y%m%d')}.xlsx",
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    use_container_width=True,key="ni_dl_xlsx")
 
     # ═══════════════════════════════════════════════════════════════════════════
     # S3: RULE BUILDER
@@ -1710,7 +2393,7 @@ def main_app():
                 with conc_cols[0]: ef = st.radio("Export", ['csv','xlsx'], horizontal=True, key="cef")
                 with conc_cols[1]:
                     ca = st.session_state.get('conc_ca'); kw = st.session_state.get('conc_kw','')
-                    if ca: st.download_button(f"Download (.{ef})", ca.export(r,ef), f"conc_{kw}_{datetime.now().strftime('%Y%m%d')}.{ef}", use_container_width=True)
+                    if ca: st.download_button(f"Download (.{ef})", ca.export(r,ef), f"conc_{kw}_{datetime.now().strftime('%Y%m%d')}.{ef}", use_container_width=True, key="conc_dl")
                 with conc_cols[2]:
                     if st.button("Create Rule from this keyword",key="conc_to_rb",type="primary",use_container_width=True):
                         st.session_state._rb_prefill_term=kw
@@ -1800,17 +2483,23 @@ def main_app():
                 for d in sorted(pm['industries'].keys()):
                     tags = ' '.join(f'<span class="tag tag-b">{c}</span>' for c in pm['industries'][d])
                     st.markdown(f'<div class="rc"><strong>{d}</strong> ({len(pm["industries"][d])})<br>{tags}</div>', unsafe_allow_html=True)
-                st.download_button("Export Mapping", json.dumps(pm, indent=2), "project_mapping.json", "application/json", use_container_width=True)
+                st.download_button("Export Mapping", json.dumps(pm, indent=2), "project_mapping.json", "application/json", use_container_width=True, key="proj_dl")
 
     # ── EXPORT ──
     st.markdown("---")
     if 'out' in st.session_state:
         out = st.session_state.out; of = st.session_state.get('of','csv')
-        ec = [c for c in ['Conversation_ID','Original_Text','Category','Subcategory','L3','L4','confidence','matched_rule'] if c in out.columns]
-        eb = FH.save(pl.from_pandas(out[ec]), of)
+        _export_key=f"{id(out)}_{len(out)}_{of}"
+        if st.session_state.get('_export_cache_key')!=_export_key:
+            ec = [c for c in ['Conversation_ID','Original_Text','Category','Subcategory','L3','L4','confidence','matched_rule'] if c in out.columns]
+            st.session_state._export_cache_bytes=FH.save(pl.from_pandas(out[ec]), of)
+            st.session_state._export_cache_key=_export_key
+        eb=st.session_state._export_cache_bytes
+        _fname=st.session_state.get('_uploaded_name','results')
+        _fname_base=_fname.rsplit('.',1)[0] if '.' in _fname else _fname
         _, dc, _ = st.columns([1,2,1])
         with dc:
-            st.download_button(f"Download Results (.{of})", eb, f"results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{of}", type="primary", use_container_width=True)
+            st.download_button(f"Download {_fname_base}_classified.{of}", eb, f"{_fname_base}_classified_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{of}", type="primary", use_container_width=True, key="main_dl")
 
     st.markdown(f'<div style="text-align:center;color:#6B8A99;font-size:11px;padding:12px 0">{IC.icon(IC.PICKAXE,"#6B8A99",13)}TextInsightMiner v10.1 — Dig Deeper. Classify Smarter.</div>', unsafe_allow_html=True)
 
