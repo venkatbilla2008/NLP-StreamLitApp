@@ -1688,6 +1688,7 @@ class PolarsFileHandler:
                         # Get Parquet size
                         parquet_size_mb = len(parquet_buffer.getvalue()) / (1024 * 1024)
                         compression_ratio = file_size_mb / parquet_size_mb if parquet_size_mb > 0 else 1
+                        size_change = "smaller" if parquet_size_mb < file_size_mb else "larger"
                         
                         # Reload from Parquet (this is now the optimized version)
                         df_optimized = pl.read_parquet(parquet_buffer)
@@ -1697,13 +1698,13 @@ class PolarsFileHandler:
                         logger.info(f"✅ Parquet optimization complete:")
                         logger.info(f"   - Original: {file_size_mb:.2f} MB ({file_extension.upper()})")
                         logger.info(f"   - Optimized: {parquet_size_mb:.2f} MB (Parquet)")
-                        logger.info(f"   - Compression: {compression_ratio:.1f}x smaller")
+                        logger.info(f"   - Compression: {compression_ratio:.1f}x {size_change}")
                         logger.info(f"   - Conversion time: {convert_time:.2f}s")
                         
                         # Update message with success
                         optimization_msg.success(
                             f"✅ Optimized! Original: {file_size_mb:.1f}MB → Parquet: {parquet_size_mb:.1f}MB "
-                            f"({compression_ratio:.1f}x compression) • Conversion: {convert_time:.1f}s"
+                            f"({compression_ratio:.1f}x {size_change}) • Conversion: {convert_time:.1f}s"
                         )
                         
                         # Use optimized DataFrame
@@ -2597,7 +2598,7 @@ footer, .stDeployButton { display: none !important; }
                     plot_bgcolor='rgba(0,0,0,0)',
                     margin=dict(t=50, b=20, l=10, r=10)
                 )
-                st.plotly_chart(fig_bar, use_container_width=True)
+                st.plotly_chart(fig_bar, width='stretch')
             
 
             
@@ -2666,7 +2667,7 @@ footer, .stDeployButton { display: none !important; }
 
             
             # Search button
-            search_button = st.button("🚀 Search Concordances", type="primary", use_container_width=True)
+            search_button = st.button("🚀 Search Concordances", type="primary", width='stretch')
             
             # Perform search
             if search_button and search_keyword:
