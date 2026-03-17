@@ -1421,8 +1421,18 @@ class UltraFastNLPPipeline:
         
         The entire conversation transcript is analyzed simultaneously for classifications.
         """
+        # Pre-sanitize: normalise newlines and hard-cap text length.
+        # This prevents oversized cells in any export format and speeds up regex matching.
+        PROC_TEXT_LIMIT = 50_000   # generous limit for classification accuracy
+        chunk_df = chunk_df.with_columns([
+            pl.col(text_column)
+            .str.replace_all(r'\r\n', '\n')   # normalise to LF
+            .str.replace_all(r'\r',   '\n')
+            .str.slice(0, PROC_TEXT_LIMIT)
+        ])
+
         texts = chunk_df[text_column].to_list()
-        
+
         # 1. Vectorized PII Redaction (for compliance, but not in output)
         if self.enable_pii_redaction:
             pii_df = VectorizedPIIDetector.vectorized_redact_batch(texts, redaction_mode)
@@ -1550,9 +1560,15 @@ class UltraFastNLPPipeline:
             # 'pii_items_redacted': 'PII_Items_Redacted'
         })
         
-        # Sanitize Original_Text: replace raw newlines with a safe pipe separator.
-        # This prevents CSV row-break misalignment when the output is opened in Excel
-        # or re-read by pandas (the root cause of the "jumbled rows" bug).
+        # Sanitize Original_Text:
+        # 1. Replace raw newlines with " | " — prevents CSV row-break misalignment.
+        # 2. HARD-TRUNCATE to 30,000 chars AFTER replacement.
+        #    Replacing \n with " | " grows the string by 2 chars per newline.
+        #    A 28,000-char text with 2,000 newlines becomes 32,000 chars — over
+        #    Excel's 32,767-char cell limit, causing overflow into adjacent columns.
+        #    30,000 is a safe ceiling: well below the Excel limit even with encoding overhead.
+        # 3. Also sanitize Conversation_ID — rogue IDs with special chars break column alignment.
+        SAFE_TEXT_LIMIT = 30_000
         if text_column in output_df.columns or 'Original_Text' in output_df.columns:
             clean_col = 'Original_Text' if 'Original_Text' in output_df.columns else text_column
             output_df = output_df.with_columns([
@@ -1560,6 +1576,18 @@ class UltraFastNLPPipeline:
                 .str.replace_all(r'\r\n', ' | ')
                 .str.replace_all(r'\r',   ' | ')
                 .str.replace_all(r'\n',   ' | ')
+                .str.slice(0, SAFE_TEXT_LIMIT)          # hard cap AFTER expansion
+            ])
+        # Sanitize Conversation_ID: strip any embedded newlines/tabs that could shift columns
+        if 'Conversation_ID' in output_df.columns:
+            output_df = output_df.with_columns([
+                pl.col('Conversation_ID')
+                .cast(pl.Utf8)
+                .str.replace_all(r'\r\n', '')
+                .str.replace_all(r'\r',   '')
+                .str.replace_all(r'\n',   '')
+                .str.replace_all(r'\t',   '')
+                .str.slice(0, 500)                       # IDs should never exceed 500 chars
             ])
 
         # Convert to Pandas
@@ -1740,40 +1768,46 @@ class PolarsFileHandler:
     
     @staticmethod
     def save_dataframe(df: pl.DataFrame, format: str = 'csv') -> bytes:
-        """
-        Save Polars DataFrame to bytes.
-        - For large datasets (>50K rows): writes to a temp file first to avoid
-          holding the entire serialized blob in RAM, then reads back as bytes.
-        - For xlsx: splits across 50K-row sheets to stay within Excel row limits.
-        - For CSV: strips all newline variants so rows never spill across columns.
-        """
-        import tempfile, os
-
-        LARGE_ROW_THRESHOLD = 50_000
-        large = len(df) > LARGE_ROW_THRESHOLD
-
-        string_cols = [col for col, dtype in zip(df.columns, df.dtypes)
-                       if str(dtype) in ('String', 'Utf8')]
-
+        """Save Polars DataFrame to bytes (FAST!)"""
+        buffer = io.BytesIO()
+        
+        # EXCEL BUG FIXES:
+        # 1. Truncate long texts: Excel breaks cells > 32,767 chars
+        # 2. Strip double-quotes for CSV output: Excel gets hopelessly confused by nested ""
+        string_cols = [col for col, dtype in zip(df.columns, df.dtypes) if str(dtype) in ('String', 'Utf8')]
+        
         df_safe = df
         if string_cols:
             if format == 'csv':
-                # CRITICAL: Replace ALL newline variants before writing CSV.
-                # Raw \n/\r inside quoted fields causes Excel and most CSV parsers
-                # to break the row — data spills into wrong columns ("jumbled rows" bug).
+                # CRITICAL FIX: Replace ALL newline variants with a safe separator BEFORE
+                # writing CSV. Raw \n/\r inside quoted fields confuses Excel and most CSV
+                # parsers, causing column data to spill into subsequent rows (the exact
+                # "jumbled/misplaced rows" bug seen in the output).
                 df_safe = df.with_columns([
                     pl.col(c)
-                    .str.slice(0, 31000)
-                    .str.replace_all(r'\r\n', ' | ')
-                    .str.replace_all(r'\r',   ' | ')
-                    .str.replace_all(r'\n',   ' | ')
-                    .str.replace_all('"', "'")
+                    .str.replace_all(r'\r\n', ' | ')   # Windows CRLF first
+                    .str.replace_all(r'\r',   ' | ')   # old Mac CR
+                    .str.replace_all(r'\n',   ' | ')   # Unix LF
+                    .str.slice(0, 30_000)               # hard cap AFTER expansion (30k < Excel 32,767 limit)
+                    .str.replace_all('"', "'")            # keep existing quote fix
                     for c in string_cols
                 ])
             elif format == 'xlsx':
+                # For Excel: strip newlines AND hard-cap at 30,000 chars.
+                # openpyxl silently overflows cells > 32,767 chars into adjacent columns.
                 df_safe = df.with_columns([
-                    pl.col(c).str.slice(0, 31000) for c in string_cols
+                    pl.col(c)
+                    .str.replace_all(r'\r\n', ' | ')
+                    .str.replace_all(r'\r',   ' | ')
+                    .str.replace_all(r'\n',   ' | ')
+                    .str.slice(0, 30_000)
+                    for c in string_cols
                 ])
+        
+        # ── Large-dataset flag ───────────────────────────────────────────────
+        import tempfile, os
+        LARGE_ROW_THRESHOLD = 50_000
+        large = len(df) > LARGE_ROW_THRESHOLD
 
         # ── CSV ──────────────────────────────────────────────────────────────
         if format == 'csv':
