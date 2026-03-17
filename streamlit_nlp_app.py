@@ -1874,10 +1874,41 @@ class PolarsFileHandler:
                         # Continue with original DataFrame if optimization fails
                         optimization_msg.warning("⚠️ Using original format (Parquet optimization skipped)")
             
+            # ── Fix 1: Repair mojibake + deep-clean ALL string columns on read ────
+            # Mojibake (UTF-8 bytes decoded as Latin-1) in input files causes
+            # garbled Arabic/CJK/Hebrew text that explodes cell lengths and
+            # produces visual column-shift in Excel.
+            # ftfy.fix_text() detects and repairs common encoding corruption.
+            # _deep_clean_polars_col() then strips residual invisible Unicode.
+            try:
+                import ftfy as _ftfy
+                str_input_cols = [
+                    col for col, dtype in zip(df.columns, df.dtypes)
+                    if str(dtype) in ('String', 'Utf8')
+                ]
+                if str_input_cols:
+                    df = df.with_columns([
+                        pl.col(c).map_elements(
+                            lambda x: _ftfy.fix_text(x) if isinstance(x, str) and x else (x or ''),
+                            return_dtype=pl.Utf8
+                        ).alias(c)
+                        for c in str_input_cols
+                    ])
+                    logger.info(f"✅ ftfy mojibake repair applied to {len(str_input_cols)} string column(s)")
+                # Deep-clean after repair (removes residual invisible Unicode)
+                df = df.with_columns([
+                    _deep_clean_polars_col(pl.col(c), max_chars=50_000)
+                    for c in str_input_cols
+                ])
+            except ImportError:
+                logger.warning("⚠️ ftfy not installed — mojibake repair skipped. Run: pip install ftfy")
+            except Exception as _e:
+                logger.warning(f"⚠️ ftfy repair step failed (non-fatal): {_e}")
+
             # Log final stats
             total_time = (datetime.now() - start_read).total_seconds()
             logger.info(f"✅ Final: {len(df):,} records loaded in {total_time:.2f}s total")
-            
+
             return df
         
         except Exception as e:
@@ -1963,14 +1994,40 @@ class PolarsFileHandler:
                 if large:
                     for i, start in enumerate(range(0, len(pandas_df), chunk_size)):
                         chunk = pandas_df.iloc[start:start + chunk_size]
-                        # NFKC normalise each chunk individually — catches narrow NBSP
-                        # (\u202f), hair space (\u200a), and all NFKC compatibility forms
-                        # that Polars str.replace_all cannot handle.
+                        # NFKC normalise each chunk — catches \u202f, \u200a, etc.
                         chunk = _clean_pandas_df(chunk, str_cols, max_chars=30_000)
                         chunk.to_excel(writer, index=False, sheet_name=f'Results_{i + 1}')
                 else:
                     pandas_df = _clean_pandas_df(pandas_df, str_cols, max_chars=30_000)
                     pandas_df.to_excel(writer, index=False, sheet_name='Results')
+            # ── Fix 2: Force left-align + wrap_text on all cells ─────────────
+            # RTL text (Arabic/Hebrew) + long cells cause Excel to visually
+            # "shift" columns even when data is structurally correct.
+            # Explicit left-alignment + wrap_text overrides Excel's RTL auto-detect.
+            try:
+                from openpyxl.styles import Alignment as _Alignment
+                _left_wrap = _Alignment(horizontal='left', vertical='top', wrap_text=True)
+                _left_no_wrap = _Alignment(horizontal='left', vertical='top', wrap_text=False)
+                for _sheet in writer.book.worksheets:
+                    # Header row: no wrap, bold stays
+                    for _cell in _sheet[1]:
+                        _cell.alignment = _left_no_wrap
+                    # Data rows: wrap long text cells, left-align all
+                    for _row in _sheet.iter_rows(min_row=2):
+                        for _cell in _row:
+                            if _cell.value and isinstance(_cell.value, str) and len(_cell.value) > 100:
+                                _cell.alignment = _left_wrap
+                            else:
+                                _cell.alignment = _left_no_wrap
+                    # Set sensible column widths (cap at 60 so sheet is readable)
+                    for _col in _sheet.columns:
+                        max_w = max(
+                            (min(len(str(_c.value or '')), 60) for _c in _col),
+                            default=10
+                        )
+                        _sheet.column_dimensions[_col[0].column_letter].width = max(max_w, 10)
+            except Exception as _e:
+                logger.warning(f"⚠️ Excel alignment pass failed (non-fatal): {_e}")
             buf.seek(0)
             return buf.getvalue()
 
