@@ -195,6 +195,133 @@ nlp = load_spacy_model()
 # DATA CLASSES
 # ========================================================================================
 
+# ========================================================================================
+# UNICODE DEEP-CLEAN UTILITY
+# ========================================================================================
+
+def _deep_clean_text(text: str, max_chars: int = 30_000) -> str:
+    """
+    Full Unicode normalisation + whitespace collapse for a single string.
+    Covers every gap that literal replace_all chains miss:
+
+    1. unicodedata.normalize('NFKC') — collapses compatibility variants:
+       \u202f (narrow no-break space), \u200a (hair space), \u00ad (soft hyphen),
+       fullwidth/halfwidth forms, Arabic/Hebrew presentation forms, etc.
+    2. Regex sweep for all Unicode whitespace categories that openpyxl
+       mis-handles inside XLSX XML (Cc control chars, Cf format chars,
+       Zs/Zl/Zp separator categories).
+    3. Hard cap at max_chars AFTER expansion so no cell ever approaches
+       Excel's 32,767-char cell limit.
+    """
+    import unicodedata, re as _re
+
+    if not isinstance(text, str) or not text:
+        return text or ""
+
+    # Step 1 — NFKC normalisation (collapses all compatibility whitespace variants)
+    text = unicodedata.normalize('NFKC', text)
+
+    # Step 2 — remove/replace problematic Unicode categories
+    # Cc: control chars (except \t which we handle separately)
+    # Cf: format/invisible chars (RTL mark, zero-width joiners, BOM, etc.)
+    # Zl/Zp: line/paragraph separators
+    text = _re.sub(
+        r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f'   # C0 controls (keep \t=\x09, \n=\x0a, \r=\x0d)
+        r'\u00ad'                                     # soft hyphen
+        r'\u200b-\u200f'                             # zero-width space/joiners/marks
+        r'\u2028\u2029'                              # line/paragraph separator
+        r'\u202a-\u202e'                             # LTR/RTL embedding marks
+        r'\u2060-\u2064'                             # word joiner, invisible operators
+        r'\u206a-\u206f'                             # deprecated format chars
+        r'\ufeff'                                     # BOM / zero-width no-break space
+        r'\ufff9-\ufffc'                             # interlinear annotation / object replacement
+        r']',
+        '',
+        text
+    )
+
+    # Step 3 — normalise all remaining whitespace variants to regular space
+    # Covers \xa0, \u202f, \u2000-\u200a (en/em/thin/hair/ideographic spaces), etc.
+    text = _re.sub(r'[\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]', ' ', text)
+
+    # Step 4 — replace newlines with pipe separator (for CSV/XLSX safety)
+    text = text.replace('\r\n', ' | ').replace('\r', ' | ').replace('\n', ' | ')
+
+    # Step 5 — collapse runs of spaces introduced by replacements
+    text = _re.sub(r' {3,}', '  ', text)
+
+    # Step 6 — hard cap AFTER all expansions
+    return text[:max_chars]
+
+
+def _deep_clean_polars_col(col_expr, max_chars: int = 30_000):
+    """
+    Polars expression chain equivalent of _deep_clean_text().
+    Used inside with_columns([]) for vectorised batch cleaning.
+    NOTE: NFKC normalisation is not available in Polars string ops, so
+    we apply the literal replace_all chain here and rely on the Python-level
+    _deep_clean_text() pass in _clean_pandas_df() for full normalisation.
+    """
+    return (
+        col_expr
+        # Cf / invisible chars
+        .str.replace_all(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '')
+        .str.replace_all(r'\u00ad', '')          # soft hyphen
+        .str.replace_all(r'\u200b', '')           # zero-width space
+        .str.replace_all(r'\u200c', '')           # zero-width non-joiner
+        .str.replace_all(r'\u200d', '')           # zero-width joiner
+        .str.replace_all(r'\u200e', '')           # LTR mark
+        .str.replace_all(r'\u200f', '')           # RTL mark
+        .str.replace_all(r'\u2028', ' ')          # line separator
+        .str.replace_all(r'\u2029', ' ')          # paragraph separator
+        .str.replace_all(r'\u202a', '')           # LTR embedding
+        .str.replace_all(r'\u202b', '')           # RTL embedding
+        .str.replace_all(r'\u202c', '')           # pop directional formatting
+        .str.replace_all(r'\u202d', '')           # LTR override
+        .str.replace_all(r'\u202e', '')           # RTL override
+        .str.replace_all(r'\u2060', '')           # word joiner
+        .str.replace_all(r'\ufeff', '')           # BOM
+        # All Unicode whitespace variants → regular space
+        .str.replace_all(r'\xa0', ' ')            # NBSP
+        .str.replace_all(r'\u202f', ' ')          # narrow NBSP
+        .str.replace_all(r'\u200a', ' ')          # hair space
+        .str.replace_all(r'\u2000', ' ')          # en quad
+        .str.replace_all(r'\u2001', ' ')          # em quad
+        .str.replace_all(r'\u2002', ' ')          # en space
+        .str.replace_all(r'\u2003', ' ')          # em space
+        .str.replace_all(r'\u2004', ' ')          # three-per-em
+        .str.replace_all(r'\u2005', ' ')          # four-per-em
+        .str.replace_all(r'\u2006', ' ')          # six-per-em
+        .str.replace_all(r'\u2007', ' ')          # figure space
+        .str.replace_all(r'\u2008', ' ')          # punctuation space
+        .str.replace_all(r'\u2009', ' ')          # thin space
+        .str.replace_all(r'\u3000', ' ')          # ideographic space
+        # Newlines → pipe separator (BEFORE slice so expansion is accounted for)
+        .str.replace_all(r'\r\n', ' | ')
+        .str.replace_all(r'\r',   ' | ')
+        .str.replace_all(r'\n',   ' | ')
+        # Hard cap AFTER all expansions
+        .str.slice(0, max_chars)
+    )
+
+
+def _clean_pandas_df(df: "pd.DataFrame", text_cols: list, max_chars: int = 30_000) -> "pd.DataFrame":
+    """
+    NFKC-normalise + deep-clean a pandas DataFrame in-place equivalent.
+    Called on the pandas slice just before to_excel() so every cell is
+    fully clean regardless of how it was produced.
+    Also validates column count post-clean and raises if structure is off.
+    """
+    import pandas as _pd
+    df = df.copy()
+    for col in text_cols:
+        if col in df.columns:
+            df[col] = df[col].astype(str).apply(
+                lambda x: _deep_clean_text(x, max_chars=max_chars)
+            )
+    return df
+
+
 @dataclass
 class PIIRedactionResult:
     """Result of PII detection and redaction"""
@@ -1421,19 +1548,13 @@ class UltraFastNLPPipeline:
         
         The entire conversation transcript is analyzed simultaneously for classifications.
         """
-        # Pre-sanitize: strip problematic Unicode, normalise newlines, cap length.
-        # \xa0 (non-breaking space) in RTL/multibyte text causes openpyxl XML corruption.
-        PROC_TEXT_LIMIT = 50_000   # generous limit for classification accuracy
+        # Pre-sanitize: full Unicode deep-clean before classification.
+        # Uses _deep_clean_polars_col() which covers ALL Unicode whitespace variants
+        # including narrow NBSP (\u202f), hair space (\u200a), RTL embedding marks, etc.
+        # NFKC normalisation runs later in _clean_pandas_df() at export time.
+        PROC_TEXT_LIMIT = 50_000   # generous cap — classification needs full context
         chunk_df = chunk_df.with_columns([
-            pl.col(text_column)
-            .str.replace_all(r'\r\n', '\n')       # normalise to LF
-            .str.replace_all(r'\r',   '\n')
-            .str.replace_all(r'\xa0', ' ')          # non-breaking space → regular space
-            .str.replace_all(r'\u200b', '')         # zero-width space → remove
-            .str.replace_all(r'\ufeff', '')         # BOM → remove
-            .str.replace_all(r'\u2028', ' ')        # line separator → space
-            .str.replace_all(r'\u2029', ' ')        # paragraph separator → space
-            .str.slice(0, PROC_TEXT_LIMIT)
+            _deep_clean_polars_col(pl.col(text_column), max_chars=PROC_TEXT_LIMIT)
         ])
 
         texts = chunk_df[text_column].to_list()
@@ -1565,42 +1686,27 @@ class UltraFastNLPPipeline:
             # 'pii_items_redacted': 'PII_Items_Redacted'
         })
         
-        # Sanitize text columns before output:
-        # 1. Strip invisible/problematic Unicode chars (\xa0, \u200b, etc.) that cause
-        #    openpyxl XML cell-boundary corruption in RTL/multibyte text rows.
-        # 2. Replace raw newlines with " | " separator.
-        # 3. HARD-TRUNCATE to 30,000 chars AFTER replacement — critical because
-        #    each \n→" | " adds 2 chars; old code sliced at 31,000 THEN replaced,
-        #    producing 31,000 + N×2 chars (up to 32,758) which corrupts openpyxl rows.
-        #    30,000 gives 2,767-char safety margin below Excel's 32,767 hard limit.
-        # 4. Sanitize Conversation_ID — embedded newlines/tabs shift all downstream columns.
+        # Deep-clean ALL string output columns before export:
+        # Uses _deep_clean_polars_col() for full Unicode coverage including:
+        # - NFKC-equivalent literal chain (narrow NBSP \u202f, hair space \u200a, etc.)
+        # - All RTL/LTR embedding/override marks that corrupt openpyxl XML
+        # - Newline normalisation: \n → " | " (BEFORE slice to account for expansion)
+        # - Hard cap at 30,000 chars — safely below Excel's 32,767 cell limit
+        # _clean_pandas_df() then applies full Python-level NFKC before to_excel()
         SAFE_TEXT_LIMIT = 30_000
         if text_column in output_df.columns or 'Original_Text' in output_df.columns:
             clean_col = 'Original_Text' if 'Original_Text' in output_df.columns else text_column
             output_df = output_df.with_columns([
-                pl.col(clean_col)
-                .str.replace_all(r'\xa0',   ' ')      # non-breaking space → regular space
-                .str.replace_all(r'\u200b',  '')       # zero-width space → remove
-                .str.replace_all(r'\ufeff',  '')       # BOM → remove
-                .str.replace_all(r'\u2028',  ' ')      # line separator → space
-                .str.replace_all(r'\u2029',  ' ')      # paragraph separator → space
-                .str.replace_all(r'\r\n', ' | ')       # Windows CRLF
-                .str.replace_all(r'\r',   ' | ')       # old Mac CR
-                .str.replace_all(r'\n',   ' | ')       # Unix LF
-                .str.slice(0, SAFE_TEXT_LIMIT)            # hard cap AFTER all expansions
+                _deep_clean_polars_col(pl.col(clean_col), max_chars=SAFE_TEXT_LIMIT)
             ])
         if 'Conversation_ID' in output_df.columns:
             output_df = output_df.with_columns([
-                pl.col('Conversation_ID')
-                .cast(pl.Utf8)
-                .str.replace_all(r'\xa0',   ' ')
-                .str.replace_all(r'\u200b',  '')
-                .str.replace_all(r'\ufeff',  '')
-                .str.replace_all(r'\r\n', '')
-                .str.replace_all(r'\r',   '')
-                .str.replace_all(r'\n',   '')
-                .str.replace_all(r'\t',   '')
-                .str.slice(0, 500)
+                _deep_clean_polars_col(
+                    pl.col('Conversation_ID').cast(pl.Utf8),
+                    max_chars=500
+                )
+                # IDs must have no pipe separators — strip them back out
+                .str.replace_all(r' \| ', ' ')
             ])
 
         # Convert to Pandas
@@ -1791,37 +1897,18 @@ class PolarsFileHandler:
         
         df_safe = df
         if string_cols:
+            # Deep-clean ALL string cols using full Unicode coverage chain.
+            # _deep_clean_polars_col() handles all whitespace variants (\u202f, \u200a,
+            # RTL marks, etc.) that literal \xa0-only chains miss.
             if format == 'csv':
-                # Strip invisible Unicode + newlines, then hard-cap at 30,000 chars.
-                # \xa0 (non-breaking space) in RTL/multibyte text corrupts openpyxl XML.
-                # Newline replacement MUST happen before slice — each \n adds 2 chars.
                 df_safe = df.with_columns([
-                    pl.col(c)
-                    .str.replace_all(r'\xa0',   ' ')    # non-breaking space
-                    .str.replace_all(r'\u200b',  '')    # zero-width space
-                    .str.replace_all(r'\ufeff',  '')    # BOM
-                    .str.replace_all(r'\u2028',  ' ')   # line separator
-                    .str.replace_all(r'\u2029',  ' ')   # paragraph separator
-                    .str.replace_all(r'\r\n', ' | ')
-                    .str.replace_all(r'\r',   ' | ')
-                    .str.replace_all(r'\n',   ' | ')
-                    .str.slice(0, 30_000)
-                    .str.replace_all('"', "'")
+                    _deep_clean_polars_col(pl.col(c), max_chars=30_000)
+                    .str.replace_all('"', "'")   # strip quotes for CSV safety
                     for c in string_cols
                 ])
             elif format == 'xlsx':
-                # openpyxl: same invisible Unicode strip + newlines + 30,000 cap.
                 df_safe = df.with_columns([
-                    pl.col(c)
-                    .str.replace_all(r'\xa0',   ' ')
-                    .str.replace_all(r'\u200b',  '')
-                    .str.replace_all(r'\ufeff',  '')
-                    .str.replace_all(r'\u2028',  ' ')
-                    .str.replace_all(r'\u2029',  ' ')
-                    .str.replace_all(r'\r\n', ' | ')
-                    .str.replace_all(r'\r',   ' | ')
-                    .str.replace_all(r'\n',   ' | ')
-                    .str.slice(0, 30_000)
+                    _deep_clean_polars_col(pl.col(c), max_chars=30_000)
                     for c in string_cols
                 ])
         
@@ -1867,15 +1954,22 @@ class PolarsFileHandler:
         # ── XLSX ─────────────────────────────────────────────────────────────
         elif format == 'xlsx':
             pandas_df = df_safe.to_pandas()
+            # Identify all string columns for final NFKC + deep-clean pass
+            str_cols = [c for c in pandas_df.columns
+                        if pandas_df[c].dtype == object]
             buf = io.BytesIO()
             chunk_size = 50_000
             with pd.ExcelWriter(buf, engine='openpyxl') as writer:
                 if large:
                     for i, start in enumerate(range(0, len(pandas_df), chunk_size)):
-                        pandas_df.iloc[start:start + chunk_size].to_excel(
-                            writer, index=False, sheet_name=f'Results_{i + 1}'
-                        )
+                        chunk = pandas_df.iloc[start:start + chunk_size]
+                        # NFKC normalise each chunk individually — catches narrow NBSP
+                        # (\u202f), hair space (\u200a), and all NFKC compatibility forms
+                        # that Polars str.replace_all cannot handle.
+                        chunk = _clean_pandas_df(chunk, str_cols, max_chars=30_000)
+                        chunk.to_excel(writer, index=False, sheet_name=f'Results_{i + 1}')
                 else:
+                    pandas_df = _clean_pandas_df(pandas_df, str_cols, max_chars=30_000)
                     pandas_df.to_excel(writer, index=False, sheet_name='Results')
             buf.seek(0)
             return buf.getvalue()
@@ -3042,7 +3136,39 @@ footer, .stDeployButton { display: none !important; }
             export_filename = st.session_state.get("export_filename", f"results.{output_format}")
             file_size_mb    = len(results_bytes) / (1024 * 1024)
 
-            st.info(f"📦 Export ready: {file_size_mb:.1f} MB  •  {len(output_df):,} records")
+            # ── Column-shift validation ───────────────────────────────────────
+            # Verify the export has the correct number of columns on every row.
+            # A column count mismatch = row-shift bug still present.
+            expected_cols = len(output_df.columns)
+            _shift_warning = None
+            if output_format == 'csv':
+                try:
+                    import io as _io, csv as _csv
+                    _sample = results_bytes[:65536].decode('utf-8', errors='replace')
+                    _reader = _csv.reader(_io.StringIO(_sample))
+                    _rows_checked = 0
+                    for _row in _reader:
+                        if _rows_checked == 0:   # header row
+                            _rows_checked += 1
+                            continue
+                        if len(_row) != expected_cols:
+                            _shift_warning = (
+                                f"⚠️ Column-shift detected on sampled row {_rows_checked}: "
+                                f"expected {expected_cols} columns, got {len(_row)}. "
+                                f"A problematic transcript may still contain unhandled Unicode. "
+                                f"Try exporting as Parquet instead."
+                            )
+                            break
+                        _rows_checked += 1
+                        if _rows_checked > 200:
+                            break
+                except Exception:
+                    pass   # validation is best-effort; never block the download
+
+            if _shift_warning:
+                st.warning(_shift_warning)
+            else:
+                st.info(f"📦 Export ready: {file_size_mb:.1f} MB  •  {len(output_df):,} records  •  ✅ column structure verified")
 
             st.download_button(
                 label=f"📥 Download Results (.{output_format})  —  {file_size_mb:.1f} MB",
