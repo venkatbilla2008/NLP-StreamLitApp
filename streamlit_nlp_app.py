@@ -1421,13 +1421,18 @@ class UltraFastNLPPipeline:
         
         The entire conversation transcript is analyzed simultaneously for classifications.
         """
-        # Pre-sanitize: normalise newlines and hard-cap text length.
-        # This prevents oversized cells in any export format and speeds up regex matching.
+        # Pre-sanitize: strip problematic Unicode, normalise newlines, cap length.
+        # \xa0 (non-breaking space) in RTL/multibyte text causes openpyxl XML corruption.
         PROC_TEXT_LIMIT = 50_000   # generous limit for classification accuracy
         chunk_df = chunk_df.with_columns([
             pl.col(text_column)
-            .str.replace_all(r'\r\n', '\n')   # normalise to LF
+            .str.replace_all(r'\r\n', '\n')       # normalise to LF
             .str.replace_all(r'\r',   '\n')
+            .str.replace_all(r'\xa0', ' ')          # non-breaking space → regular space
+            .str.replace_all(r'\u200b', '')         # zero-width space → remove
+            .str.replace_all(r'\ufeff', '')         # BOM → remove
+            .str.replace_all(r'\u2028', ' ')        # line separator → space
+            .str.replace_all(r'\u2029', ' ')        # paragraph separator → space
             .str.slice(0, PROC_TEXT_LIMIT)
         ])
 
@@ -1560,34 +1565,42 @@ class UltraFastNLPPipeline:
             # 'pii_items_redacted': 'PII_Items_Redacted'
         })
         
-        # Sanitize Original_Text:
-        # 1. Replace raw newlines with " | " — prevents CSV row-break misalignment.
-        # 2. HARD-TRUNCATE to 30,000 chars AFTER replacement.
-        #    Replacing \n with " | " grows the string by 2 chars per newline.
-        #    A 28,000-char text with 2,000 newlines becomes 32,000 chars — over
-        #    Excel's 32,767-char cell limit, causing overflow into adjacent columns.
-        #    30,000 is a safe ceiling: well below the Excel limit even with encoding overhead.
-        # 3. Also sanitize Conversation_ID — rogue IDs with special chars break column alignment.
+        # Sanitize text columns before output:
+        # 1. Strip invisible/problematic Unicode chars (\xa0, \u200b, etc.) that cause
+        #    openpyxl XML cell-boundary corruption in RTL/multibyte text rows.
+        # 2. Replace raw newlines with " | " separator.
+        # 3. HARD-TRUNCATE to 30,000 chars AFTER replacement — critical because
+        #    each \n→" | " adds 2 chars; old code sliced at 31,000 THEN replaced,
+        #    producing 31,000 + N×2 chars (up to 32,758) which corrupts openpyxl rows.
+        #    30,000 gives 2,767-char safety margin below Excel's 32,767 hard limit.
+        # 4. Sanitize Conversation_ID — embedded newlines/tabs shift all downstream columns.
         SAFE_TEXT_LIMIT = 30_000
         if text_column in output_df.columns or 'Original_Text' in output_df.columns:
             clean_col = 'Original_Text' if 'Original_Text' in output_df.columns else text_column
             output_df = output_df.with_columns([
                 pl.col(clean_col)
-                .str.replace_all(r'\r\n', ' | ')
-                .str.replace_all(r'\r',   ' | ')
-                .str.replace_all(r'\n',   ' | ')
-                .str.slice(0, SAFE_TEXT_LIMIT)          # hard cap AFTER expansion
+                .str.replace_all(r'\xa0',   ' ')      # non-breaking space → regular space
+                .str.replace_all(r'\u200b',  '')       # zero-width space → remove
+                .str.replace_all(r'\ufeff',  '')       # BOM → remove
+                .str.replace_all(r'\u2028',  ' ')      # line separator → space
+                .str.replace_all(r'\u2029',  ' ')      # paragraph separator → space
+                .str.replace_all(r'\r\n', ' | ')       # Windows CRLF
+                .str.replace_all(r'\r',   ' | ')       # old Mac CR
+                .str.replace_all(r'\n',   ' | ')       # Unix LF
+                .str.slice(0, SAFE_TEXT_LIMIT)            # hard cap AFTER all expansions
             ])
-        # Sanitize Conversation_ID: strip any embedded newlines/tabs that could shift columns
         if 'Conversation_ID' in output_df.columns:
             output_df = output_df.with_columns([
                 pl.col('Conversation_ID')
                 .cast(pl.Utf8)
+                .str.replace_all(r'\xa0',   ' ')
+                .str.replace_all(r'\u200b',  '')
+                .str.replace_all(r'\ufeff',  '')
                 .str.replace_all(r'\r\n', '')
                 .str.replace_all(r'\r',   '')
                 .str.replace_all(r'\n',   '')
                 .str.replace_all(r'\t',   '')
-                .str.slice(0, 500)                       # IDs should never exceed 500 chars
+                .str.slice(0, 500)
             ])
 
         # Convert to Pandas
@@ -1779,24 +1792,32 @@ class PolarsFileHandler:
         df_safe = df
         if string_cols:
             if format == 'csv':
-                # CRITICAL FIX: Replace ALL newline variants with a safe separator BEFORE
-                # writing CSV. Raw \n/\r inside quoted fields confuses Excel and most CSV
-                # parsers, causing column data to spill into subsequent rows (the exact
-                # "jumbled/misplaced rows" bug seen in the output).
+                # Strip invisible Unicode + newlines, then hard-cap at 30,000 chars.
+                # \xa0 (non-breaking space) in RTL/multibyte text corrupts openpyxl XML.
+                # Newline replacement MUST happen before slice — each \n adds 2 chars.
                 df_safe = df.with_columns([
                     pl.col(c)
-                    .str.replace_all(r'\r\n', ' | ')   # Windows CRLF first
-                    .str.replace_all(r'\r',   ' | ')   # old Mac CR
-                    .str.replace_all(r'\n',   ' | ')   # Unix LF
-                    .str.slice(0, 30_000)               # hard cap AFTER expansion (30k < Excel 32,767 limit)
-                    .str.replace_all('"', "'")            # keep existing quote fix
+                    .str.replace_all(r'\xa0',   ' ')    # non-breaking space
+                    .str.replace_all(r'\u200b',  '')    # zero-width space
+                    .str.replace_all(r'\ufeff',  '')    # BOM
+                    .str.replace_all(r'\u2028',  ' ')   # line separator
+                    .str.replace_all(r'\u2029',  ' ')   # paragraph separator
+                    .str.replace_all(r'\r\n', ' | ')
+                    .str.replace_all(r'\r',   ' | ')
+                    .str.replace_all(r'\n',   ' | ')
+                    .str.slice(0, 30_000)
+                    .str.replace_all('"', "'")
                     for c in string_cols
                 ])
             elif format == 'xlsx':
-                # For Excel: strip newlines AND hard-cap at 30,000 chars.
-                # openpyxl silently overflows cells > 32,767 chars into adjacent columns.
+                # openpyxl: same invisible Unicode strip + newlines + 30,000 cap.
                 df_safe = df.with_columns([
                     pl.col(c)
+                    .str.replace_all(r'\xa0',   ' ')
+                    .str.replace_all(r'\u200b',  '')
+                    .str.replace_all(r'\ufeff',  '')
+                    .str.replace_all(r'\u2028',  ' ')
+                    .str.replace_all(r'\u2029',  ' ')
                     .str.replace_all(r'\r\n', ' | ')
                     .str.replace_all(r'\r',   ' | ')
                     .str.replace_all(r'\n',   ' | ')
