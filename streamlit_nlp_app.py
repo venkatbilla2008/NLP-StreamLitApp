@@ -1550,6 +1550,18 @@ class UltraFastNLPPipeline:
             # 'pii_items_redacted': 'PII_Items_Redacted'
         })
         
+        # Sanitize Original_Text: replace raw newlines with a safe pipe separator.
+        # This prevents CSV row-break misalignment when the output is opened in Excel
+        # or re-read by pandas (the root cause of the "jumbled rows" bug).
+        if text_column in output_df.columns or 'Original_Text' in output_df.columns:
+            clean_col = 'Original_Text' if 'Original_Text' in output_df.columns else text_column
+            output_df = output_df.with_columns([
+                pl.col(clean_col)
+                .str.replace_all(r'\r\n', ' | ')
+                .str.replace_all(r'\r',   ' | ')
+                .str.replace_all(r'\n',   ' | ')
+            ])
+
         # Convert to Pandas
         return output_df.to_pandas()
     
@@ -1727,102 +1739,60 @@ class PolarsFileHandler:
     
     @staticmethod
     def save_dataframe(df: pl.DataFrame, format: str = 'csv') -> bytes:
-        """
-        Save Polars DataFrame to bytes.
-        For large datasets (>50K rows): writes to a temp file first to avoid
-        holding the entire serialized blob in memory, then reads back as bytes.
-        For xlsx: splits into 50K-row sheets to stay within Excel limits.
-        """
-        import tempfile, os
-
-        LARGE_ROW_THRESHOLD = 50_000
-        large = len(df) > LARGE_ROW_THRESHOLD
-
-        # ── Clean string columns ─────────────────────────────────────────────
-        string_cols = [
-            col for col, dtype in zip(df.columns, df.dtypes)
-            if str(dtype) in ('String', 'Utf8')
-        ]
+        """Save Polars DataFrame to bytes (FAST!)"""
+        buffer = io.BytesIO()
+        
+        # EXCEL BUG FIXES:
+        # 1. Truncate long texts: Excel breaks cells > 32,767 chars
+        # 2. Strip double-quotes for CSV output: Excel gets hopelessly confused by nested ""
+        string_cols = [col for col, dtype in zip(df.columns, df.dtypes) if str(dtype) in ('String', 'Utf8')]
+        
         df_safe = df
         if string_cols:
             if format == 'csv':
+                # CRITICAL FIX: Replace ALL newline variants with a safe separator BEFORE
+                # writing CSV. Raw \n/\r inside quoted fields confuses Excel and most CSV
+                # parsers, causing column data to spill into subsequent rows (the exact
+                # "jumbled/misplaced rows" bug seen in the output).
                 df_safe = df.with_columns([
-                    pl.col(c).str.slice(0, 31000).str.replace_all('"', "'")
+                    pl.col(c)
+                    .str.slice(0, 31000)
+                    .str.replace_all(r'\r\n', ' | ')   # Windows CRLF
+                    .str.replace_all(r'\r',   ' | ')   # old Mac CR
+                    .str.replace_all(r'\n',   ' | ')   # Unix LF
+                    .str.replace_all('"', "'")            # keep existing quote fix
                     for c in string_cols
                 ])
             elif format == 'xlsx':
+                # Excel handles newlines inside cells fine; just truncate.
                 df_safe = df.with_columns([
                     pl.col(c).str.slice(0, 31000) for c in string_cols
                 ])
-
-        # ── CSV ──────────────────────────────────────────────────────────────
+        
         if format == 'csv':
-            if large:
-                with tempfile.NamedTemporaryFile(delete=False, suffix='.csv') as tmp:
-                    tmp_path = tmp.name
-                try:
-                    df_safe.write_csv(tmp_path, quote_style='always')
-                    with open(tmp_path, 'rb') as f:
-                        return f.read()
-                finally:
-                    os.unlink(tmp_path)
-            else:
-                buf = io.BytesIO()
-                df_safe.write_csv(buf, quote_style='always')
-                buf.seek(0)
-                return buf.getvalue()
-
-        # ── Parquet ──────────────────────────────────────────────────────────
+            # Force always quote for utmost safety
+            df_safe.write_csv(buffer, quote_style='always')
+            buffer.seek(0)
+            return buffer.getvalue()
+        
         elif format == 'parquet':
-            if large:
-                with tempfile.NamedTemporaryFile(delete=False, suffix='.parquet') as tmp:
-                    tmp_path = tmp.name
-                try:
-                    df_safe.write_parquet(tmp_path, compression='snappy')
-                    with open(tmp_path, 'rb') as f:
-                        return f.read()
-                finally:
-                    os.unlink(tmp_path)
-            else:
-                buf = io.BytesIO()
-                df_safe.write_parquet(buf, compression='snappy')
-                buf.seek(0)
-                return buf.getvalue()
-
-        # ── XLSX ─────────────────────────────────────────────────────────────
+            df_safe.write_parquet(buffer)
+            buffer.seek(0)
+            return buffer.getvalue()
+        
         elif format == 'xlsx':
-            # Split into 50K-row sheets to avoid memory exhaustion
+            # Convert to Pandas for Excel
             pandas_df = df_safe.to_pandas()
-            buf = io.BytesIO()
-            chunk_size = 50_000
-            with pd.ExcelWriter(buf, engine='openpyxl') as writer:
-                if large:
-                    for i, start in enumerate(range(0, len(pandas_df), chunk_size)):
-                        pandas_df.iloc[start:start + chunk_size].to_excel(
-                            writer, index=False, sheet_name=f'Results_{i + 1}'
-                        )
-                else:
-                    pandas_df.to_excel(writer, index=False, sheet_name='Results')
-            buf.seek(0)
-            return buf.getvalue()
-
-        # ── JSON ─────────────────────────────────────────────────────────────
+            with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+                pandas_df.to_excel(writer, index=False, sheet_name='Results')
+            buffer.seek(0)
+            return buffer.getvalue()
+        
         elif format == 'json':
-            if large:
-                with tempfile.NamedTemporaryFile(delete=False, suffix='.ndjson') as tmp:
-                    tmp_path = tmp.name
-                try:
-                    df.write_ndjson(tmp_path)
-                    with open(tmp_path, 'rb') as f:
-                        return f.read()
-                finally:
-                    os.unlink(tmp_path)
-            else:
-                buf = io.BytesIO()
-                df.write_ndjson(buf)
-                buf.seek(0)
-                return buf.getvalue()
-
+            df.write_json(buffer)
+            buffer.seek(0)
+            return buffer.getvalue()
+        
         else:
             raise ValueError(f"Unsupported format: {format}")
 
@@ -2465,13 +2435,17 @@ footer, .stDeployButton { display: none !important; }
             # Process button
             if st.button("🚀 Run ULTRA-FAST Analysis", type="primary", width='stretch'):
                 
-                # Clear old results, concordance, tree state, and export cache
-                for _key in ['concordance_results', 'search_keyword',
-                              'tree_l1', 'tree_l2', 'tree_l3',
-                              'export_bytes_csv', 'export_bytes_xlsx',
-                              'export_bytes_parquet', 'export_bytes_json',
-                              'export_filename']:
-                    st.session_state.pop(_key, None)
+                # Clear old concordance results and tree state
+                if 'concordance_results' in st.session_state:
+                    del st.session_state.concordance_results
+                if 'search_keyword' in st.session_state:
+                    del st.session_state.search_keyword
+                if 'tree_l1' in st.session_state:
+                    del st.session_state.tree_l1
+                if 'tree_l2' in st.session_state:
+                    del st.session_state.tree_l2
+                if 'tree_l3' in st.session_state:
+                    del st.session_state.tree_l3
                 
                 # Get industry data
                 industry_data = st.session_state.domain_loader.get_industry_data(selected_industry)
@@ -2948,27 +2922,14 @@ footer, .stDeployButton { display: none !important; }
             
             # Download Results
             st.subheader("💾 Download Results")
-
-            # Cache export bytes in session state so re-renders don't re-serialize
-            export_cache_key = f"export_bytes_{output_format}"
-            if export_cache_key not in st.session_state:
-                with st.spinner(f"⏳ Preparing {output_format.upper()} export for {len(output_df):,} records..."):
-                    export_df = pl.from_pandas(output_df)
-                    st.session_state[export_cache_key] = PolarsFileHandler.save_dataframe(export_df, output_format)
-                    st.session_state["export_filename"] = (
-                        f"results_{selected_industry}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{output_format}"
-                    )
-
-            results_bytes = st.session_state[export_cache_key]
-            export_filename = st.session_state.get("export_filename", f"results.{output_format}")
-
-            file_size_mb = len(results_bytes) / (1024 * 1024)
-            st.info(f"📦 Export ready: {file_size_mb:.1f} MB ({len(output_df):,} records)")
-
+            
+            # Convert back to Polars for fast export
+            export_df = pl.from_pandas(output_df)
+            results_bytes = PolarsFileHandler.save_dataframe(export_df, output_format)
             st.download_button(
-                label=f"📥 Download Results (.{output_format})  —  {file_size_mb:.1f} MB",
+                label=f"📥 Download Results (.{output_format})",
                 data=results_bytes,
-                file_name=export_filename,
+                file_name=f"results_{selected_industry}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{output_format}",
                 mime=f"application/{output_format}",
                 width='stretch'
             )
