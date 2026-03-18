@@ -76,7 +76,7 @@ logger = logging.getLogger(__name__)
 # Performance constants - ULTRA-OPTIMIZED FOR 50K+ RECORDS
 CPU_COUNT = multiprocessing.cpu_count()
 MAX_WORKERS = min(CPU_COUNT * 2, 16)  # Reduced workers, bigger chunks
-CHUNK_SIZE = 2000  # Reduced: smaller chunks = lower peak RAM for 100K+ datasets
+CHUNK_SIZE = 2000  # Reduced: lower peak RAM for 100K+ datasets
 CACHE_SIZE = 200000  # 200K cache entries
 SUPPORTED_FORMATS = ['csv', 'xlsx', 'xls', 'parquet', 'json']
 COMPLIANCE_STANDARDS = ["HIPAA", "GDPR", "PCI-DSS", "CCPA"]
@@ -1467,15 +1467,15 @@ class UltraFastNLPPipeline:
     ) -> pl.DataFrame:
         """
         Memory-safe batch processing for 100K+ records.
-        Each chunk is written to disk immediately after processing so peak RAM
-        equals 1 chunk, not all chunks simultaneously.
+        Each chunk is written to disk immediately after processing so
+        peak RAM = 1 chunk, not all chunks simultaneously.
         """
-        import tempfile, os
+        import tempfile, os as _os
 
         total_records = len(df)
         logger.info(f"🚀 Processing {total_records:,} records (memory-safe mode)")
-
         df = df.select([id_column, text_column])
+
         num_chunks = (total_records + CHUNK_SIZE - 1) // CHUNK_SIZE
         logger.info(f"📦 {num_chunks} chunks × {CHUNK_SIZE:,} records")
 
@@ -1484,22 +1484,21 @@ class UltraFastNLPPipeline:
 
         try:
             for i in range(0, total_records, CHUNK_SIZE):
-                chunk_df = df.slice(i, min(CHUNK_SIZE, total_records - i))
+                chunk_df  = df.slice(i, min(CHUNK_SIZE, total_records - i))
                 chunk_num = i // CHUNK_SIZE + 1
                 logger.info(f"⚡ Processing chunk {chunk_num}/{num_chunks} ({len(chunk_df):,} records)")
 
                 result_chunk = self.process_chunk(chunk_df, text_column, redaction_mode)
-
-                chunk_path = os.path.join(tmp_dir, f"chunk_{chunk_num:04d}.parquet")
+                chunk_path   = _os.path.join(tmp_dir, f"chunk_{chunk_num:04d}.parquet")
                 result_chunk.write_parquet(chunk_path, compression='snappy')
                 chunk_files.append(chunk_path)
-                del result_chunk
+                del result_chunk          # free RAM immediately
 
                 if progress_callback:
                     progress_callback(min(i + CHUNK_SIZE, total_records), total_records)
 
             logger.info("🔄 Combining chunks...")
-            final_df = pl.scan_parquet(os.path.join(tmp_dir, "chunk_*.parquet")).collect()
+            final_df = pl.scan_parquet(_os.path.join(tmp_dir, "chunk_*.parquet")).collect()
 
             logger.info("📊 Running DuckDB analytics...")
             try:
@@ -1511,9 +1510,9 @@ class UltraFastNLPPipeline:
 
         finally:
             for p in chunk_files:
-                try: os.unlink(p)
+                try: _os.unlink(p)
                 except Exception: pass
-            try: os.rmdir(tmp_dir)
+            try: _os.rmdir(tmp_dir)
             except Exception: pass
     
     def results_to_dataframe(self, results_df: pl.DataFrame, id_column: str, text_column: str) -> pd.DataFrame:
@@ -1712,23 +1711,22 @@ class PolarsFileHandler:
                         # Get Parquet size
                         parquet_size_mb = len(parquet_buffer.getvalue()) / (1024 * 1024)
                         compression_ratio = file_size_mb / parquet_size_mb if parquet_size_mb > 0 else 1
-                        size_change = "smaller" if parquet_size_mb < file_size_mb else "larger"
-
+                        
                         # Reload from Parquet (this is now the optimized version)
                         df_optimized = pl.read_parquet(parquet_buffer)
-
+                        
                         convert_time = (datetime.now() - start_convert).total_seconds()
-
+                        
                         logger.info(f"✅ Parquet optimization complete:")
                         logger.info(f"   - Original: {file_size_mb:.2f} MB ({file_extension.upper()})")
                         logger.info(f"   - Optimized: {parquet_size_mb:.2f} MB (Parquet)")
-                        logger.info(f"   - Compression: {compression_ratio:.1f}x {size_change}")
+                        logger.info(f"   - Compression: {compression_ratio:.1f}x smaller")
                         logger.info(f"   - Conversion time: {convert_time:.2f}s")
-
+                        
                         # Update message with success
                         optimization_msg.success(
                             f"✅ Optimized! Original: {file_size_mb:.1f}MB → Parquet: {parquet_size_mb:.1f}MB "
-                            f"({compression_ratio:.1f}x {size_change}) • Conversion: {convert_time:.1f}s"
+                            f"({compression_ratio:.1f}x compression) • Conversion: {convert_time:.1f}s"
                         )
                         
                         # Use optimized DataFrame
@@ -1752,62 +1750,78 @@ class PolarsFileHandler:
     
     @staticmethod
     def save_dataframe(df: pl.DataFrame, format: str = 'csv') -> bytes:
-        """Save Polars DataFrame to bytes (FAST!)"""
-        buffer = io.BytesIO()
-        
-        # EXCEL BUG FIXES:
-        # 1. Truncate long texts: Excel breaks cells > 32,767 chars
-        # 2. Strip double-quotes for CSV output: Excel gets hopelessly confused by nested ""
-        string_cols = [col for col, dtype in zip(df.columns, df.dtypes) if str(dtype) in ('String', 'Utf8')]
-        
+        """
+        Save Polars DataFrame to bytes — memory-safe for 100K+ rows.
+        Uses temp files on disk instead of BytesIO to avoid holding
+        the entire serialised result in RAM alongside the source DataFrame.
+        """
+        import tempfile, os as _os
+
+        # Sanitize string columns: truncate long cells and fix newlines
+        string_cols = [col for col, dtype in zip(df.columns, df.dtypes)
+                       if str(dtype) in ('String', 'Utf8')]
         df_safe = df
         if string_cols:
             if format == 'csv':
-                # CRITICAL FIX: Replace ALL newline variants with a safe separator BEFORE
-                # writing CSV. Raw \n/\r inside quoted fields confuses Excel and most CSV
-                # parsers, causing column data to spill into subsequent rows (the exact
-                # "jumbled/misplaced rows" bug seen in the output).
                 df_safe = df.with_columns([
                     pl.col(c)
-                    .str.slice(0, 31000)
-                    .str.replace_all(r'\r\n', ' | ')   # Windows CRLF
-                    .str.replace_all(r'\r',   ' | ')   # old Mac CR
-                    .str.replace_all(r'\n',   ' | ')   # Unix LF
-                    .str.replace_all('"', "'")            # keep existing quote fix
+                    .str.replace_all(r'\r\n', ' | ')
+                    .str.replace_all(r'\r',   ' | ')
+                    .str.replace_all(r'\n',   ' | ')
+                    .str.slice(0, 5_000)          # cap AFTER newline expansion
+                    .str.replace_all('"', "'")
                     for c in string_cols
                 ])
-            elif format == 'xlsx':
-                # Excel handles newlines inside cells fine; just truncate.
+            elif format in ('xlsx', 'parquet'):
                 df_safe = df.with_columns([
-                    pl.col(c).str.slice(0, 31000) for c in string_cols
+                    pl.col(c)
+                    .str.replace_all(r'\r\n', ' | ')
+                    .str.replace_all(r'\r',   ' | ')
+                    .str.replace_all(r'\n',   ' | ')
+                    .str.slice(0, 5_000)
+                    for c in string_cols
                 ])
-        
-        if format == 'csv':
-            # Force always quote for utmost safety
-            df_safe.write_csv(buffer, quote_style='always')
-            buffer.seek(0)
-            return buffer.getvalue()
-        
-        elif format == 'parquet':
-            df_safe.write_parquet(buffer)
-            buffer.seek(0)
-            return buffer.getvalue()
-        
-        elif format == 'xlsx':
-            # Convert to Pandas for Excel
-            pandas_df = df_safe.to_pandas()
-            with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
-                pandas_df.to_excel(writer, index=False, sheet_name='Results')
-            buffer.seek(0)
-            return buffer.getvalue()
-        
-        elif format == 'json':
-            df.write_json(buffer)
-            buffer.seek(0)
-            return buffer.getvalue()
-        
-        else:
-            raise ValueError(f"Unsupported format: {format}")
+
+        suffix = {'csv': '.csv', 'parquet': '.parquet',
+                  'xlsx': '.xlsx', 'json': '.ndjson'}.get(format, '.tmp')
+
+        tmp_path = None
+        try:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+                tmp_path = tmp.name
+
+            if format == 'csv':
+                df_safe.write_csv(tmp_path, quote_style='always')
+
+            elif format == 'parquet':
+                df_safe.write_parquet(tmp_path, compression='snappy')
+
+            elif format == 'xlsx':
+                # Write in 50K-row sheets to cap peak RAM per sheet
+                pandas_df = df_safe.to_pandas()
+                chunk_size = 50_000
+                with pd.ExcelWriter(tmp_path, engine='openpyxl') as writer:
+                    if len(pandas_df) > chunk_size:
+                        for i, start in enumerate(range(0, len(pandas_df), chunk_size)):
+                            pandas_df.iloc[start:start + chunk_size].to_excel(
+                                writer, index=False, sheet_name=f'Results_{i + 1}'
+                            )
+                    else:
+                        pandas_df.to_excel(writer, index=False, sheet_name='Results')
+
+            elif format == 'json':
+                df_safe.write_ndjson(tmp_path)
+
+            else:
+                raise ValueError(f"Unsupported format: {format}")
+
+            with open(tmp_path, 'rb') as f:
+                return f.read()
+
+        finally:
+            if tmp_path:
+                try: _os.unlink(tmp_path)
+                except Exception: pass
 
 
 # ========================================================================================
@@ -2489,6 +2503,11 @@ footer, .stDeployButton { display: none !important; }
                 start_time = datetime.now()
                 
                 with st.spinner("Processing with ULTRA-FAST vectorized pipeline..."):
+                    # Clear stale export cache so the new run's data is used
+                    for _k in [k for k in st.session_state if k.startswith("export_bytes_")]:
+                        del st.session_state[_k]
+                    st.session_state.pop("export_filename", None)
+
                     results_df = pipeline.process_batch_with_duckdb(
                         df=data_df,
                         text_column=text_column,
@@ -2935,14 +2954,31 @@ footer, .stDeployButton { display: none !important; }
             
             # Download Results
             st.subheader("💾 Download Results")
-            
-            # Convert back to Polars for fast export
-            export_df = pl.from_pandas(output_df)
-            results_bytes = PolarsFileHandler.save_dataframe(export_df, output_format)
+
+            # Cache the serialised bytes in session_state so re-renders don't
+            # re-serialise 100K rows on every Streamlit interaction.
+            _cache_key = f"export_bytes_{output_format}"
+            if _cache_key not in st.session_state:
+                with st.spinner(f"⏳ Preparing {output_format.upper()} export…"):
+                    export_df = pl.from_pandas(output_df)
+                    st.session_state[_cache_key] = PolarsFileHandler.save_dataframe(
+                        export_df, output_format
+                    )
+                    st.session_state["export_filename"] = (
+                        f"results_{selected_industry}_"
+                        f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.{output_format}"
+                    )
+
+            results_bytes    = st.session_state[_cache_key]
+            export_filename  = st.session_state.get("export_filename",
+                                f"results.{output_format}")
+            file_size_mb = len(results_bytes) / (1024 * 1024)
+            st.info(f"📦 Export ready: {file_size_mb:.1f} MB  •  {len(output_df):,} records")
+
             st.download_button(
                 label=f"📥 Download Results (.{output_format})",
                 data=results_bytes,
-                file_name=f"results_{selected_industry}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{output_format}",
+                file_name=export_filename,
                 mime=f"application/{output_format}",
                 width='stretch'
             )
