@@ -1,679 +1,696 @@
 [
-    {
-        "conditions": [
-            "cancel",
-            "cancellation"
-        ],
-        "set": {
-            "category": "Cancellation",
-            "subcategory": "Cancel Membership",
-            "level_3": "Subscription Cancellation",
-            "level_4": "User Initiated Cancellation",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "stop subscription",
-            "end subscription",
-            "terminate service"
-        ],
-        "set": {
-            "category": "Cancellation",
-            "subcategory": "Cancel Membership",
-            "level_3": "Subscription Cancellation",
-            "level_4": "Service Termination",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "billing",
-            "billed"
-        ],
-        "set": {
-            "category": "Billing Issues",
-            "subcategory": "Payment Problem",
-            "level_3": "Payment Error",
-            "level_4": "General Billing Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "charged",
-            "charge"
-        ],
-        "set": {
-            "category": "Billing Issues",
-            "subcategory": "Payment Problem",
-            "level_3": "Payment Error",
-            "level_4": "Unexpected Charge",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "payment"
-        ],
-        "set": {
-            "category": "Billing Issues",
-            "subcategory": "Payment Problem",
-            "level_3": "Payment Error",
-            "level_4": "Payment Processing Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "subscription"
-        ],
-        "set": {
-            "category": "Subscription Management",
-            "subcategory": "Subscription Issue",
-            "level_3": "Plan Problem",
-            "level_4": "Subscription Plan Issue",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "plan"
-        ],
-        "set": {
-            "category": "Subscription Management",
-            "subcategory": "Subscription Issue",
-            "level_3": "Plan Problem",
-            "level_4": "Plan Configuration Issue",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "membership"
-        ],
-        "set": {
-            "category": "Subscription Management",
-            "subcategory": "Subscription Issue",
-            "level_3": "Plan Problem",
-            "level_4": "Membership Issue",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "refund"
-        ],
-        "set": {
-            "category": "Refund",
-            "subcategory": "Refund Request",
-            "level_3": "Refund Needed",
-            "level_4": "Customer Requested Refund",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "money back",
-            "reimbursement"
-        ],
-        "set": {
-            "category": "Refund",
-            "subcategory": "Refund Request",
-            "level_3": "Refund Needed",
-            "level_4": "Reimbursement Request",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "expensive",
-            "overpriced"
-        ],
-        "set": {
-            "category": "Billing Issues",
-            "subcategory": "Pricing Complaint",
-            "level_3": "Price Concern",
-            "level_4": "Too Expensive",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "price",
-            "cost"
-        ],
-        "set": {
-            "category": "Billing Issues",
-            "subcategory": "Pricing Complaint",
-            "level_3": "Price Concern",
-            "level_4": "Price Inquiry",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "play",
-            "playing"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Playback Issue",
-            "level_3": "Playback Error",
-            "level_4": "General Playback Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "playback"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Playback Issue",
-            "level_3": "Playback Error",
-            "level_4": "Playback Failure",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "buffer",
-            "buffering"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Streaming Quality",
-            "level_3": "Quality Issue",
-            "level_4": "Constant Buffering",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "freeze",
-            "freezing",
-            "frozen"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Streaming Quality",
-            "level_3": "Quality Issue",
-            "level_4": "Video Freezing",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "lag",
-            "lagging",
-            "stutter"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Streaming Quality",
-            "level_3": "Quality Issue",
-            "level_4": "Lag/Stuttering",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "quality",
-            "blurry",
-            "pixelated"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Video Quality",
-            "level_3": "Quality Issue",
-            "level_4": "Poor Video Quality",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "sound",
-            "audio"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Audio Quality",
-            "level_3": "Quality Issue",
-            "level_4": "Audio Problem",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "volume"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Audio Quality",
-            "level_3": "Quality Issue",
-            "level_4": "Volume Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "removed",
-            "unavailable",
-            "gone"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Content Issue",
-            "level_3": "Content Availability",
-            "level_4": "Content Removed",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "find",
-            "search",
-            "looking for"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Content Issue",
-            "level_3": "Content Availability",
-            "level_4": "Can't Find Content",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "region",
-            "country"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Content Issue",
-            "level_3": "Content Availability",
-            "level_4": "Region Restriction",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "bluetooth",
-            "headphones"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Device Issue",
-            "level_3": "Connectivity Problem",
-            "level_4": "Bluetooth Connection Failed",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "speaker"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Device Issue",
-            "level_3": "Connectivity Problem",
-            "level_4": "Speaker Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "chromecast",
-            "airplay",
-            "cast"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Device Issue",
-            "level_3": "Connectivity Problem",
-            "level_4": "Casting Device Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "alexa",
-            "echo",
-            "google home"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Device Issue",
-            "level_3": "Connectivity Problem",
-            "level_4": "Smart Speaker Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "tv",
-            "television",
-            "smart tv"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Device Issue",
-            "level_3": "Device Compatibility",
-            "level_4": "Smart TV Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "download"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Download Issue",
-            "level_3": "Download Problem",
-            "level_4": "Download Failed",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "offline"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Download Issue",
-            "level_3": "Download Problem",
-            "level_4": "Offline Access Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "login",
-            "log in"
-        ],
-        "set": {
-            "category": "Account Access",
-            "subcategory": "Login Issue",
-            "level_3": "Access Problem",
-            "level_4": "Login Failed",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "sign in"
-        ],
-        "set": {
-            "category": "Account Access",
-            "subcategory": "Login Issue",
-            "level_3": "Access Problem",
-            "level_4": "Sign In Error",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "password",
-            "forgot password"
-        ],
-        "set": {
-            "category": "Account Access",
-            "subcategory": "Login Issue",
-            "level_3": "Password Problem",
-            "level_4": "Password Reset Request",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "reset"
-        ],
-        "set": {
-            "category": "Account Access",
-            "subcategory": "Login Issue",
-            "level_3": "Password Problem",
-            "level_4": "Account Reset Request",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "playlist"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Content Issue",
-            "level_3": "User Content",
-            "level_4": "Playlist Missing",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "library",
-            "collection"
-        ],
-        "set": {
-            "category": "Products and Services",
-            "subcategory": "Content Issue",
-            "level_3": "User Content",
-            "level_4": "Library Missing",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "sync",
-            "syncing",
-            "synchronize"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Sync Issue",
-            "level_3": "Connection Problem",
-            "level_4": "Sync Failed",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "email"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Account Update",
-            "level_3": "Contact Information",
-            "level_4": "Email Update",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "phone"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Account Update",
-            "level_3": "Contact Information",
-            "level_4": "Phone Update",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "contact"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Account Update",
-            "level_3": "Contact Information",
-            "level_4": "General Contact Update",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "promo",
-            "coupon"
-        ],
-        "set": {
-            "category": "Billing Issues",
-            "subcategory": "Promotional Issue",
-            "level_3": "Promo Code",
-            "level_4": "Promo Code Invalid",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "discount",
-            "code"
-        ],
-        "set": {
-            "category": "Billing Issues",
-            "subcategory": "Promotional Issue",
-            "level_3": "Promo Code",
-            "level_4": "Discount Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "subtitle",
-            "caption"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Subtitle Issue",
-            "level_3": "Display Problem",
-            "level_4": "Subtitle Not Working",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "cc",
-            "closed caption"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Subtitle Issue",
-            "level_3": "Display Problem",
-            "level_4": "Closed Caption Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "account settings",
-            "account preferences",
-            "account configuration"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Account Issue",
-            "level_3": "Account Settings",
-            "level_4": "Settings Update Request",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "update profile",
-            "profile update",
-            "edit profile",
-            "change profile"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Account Issue",
-            "level_3": "Profile Management",
-            "level_4": "Profile Update Request",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "account issue",
-            "account problem",
-            "account not working",
-            "account error"
-        ],
-        "set": {
-            "category": "Account Management",
-            "subcategory": "Account Issue",
-            "level_3": "Account Management Request",
-            "level_4": "General Account Query",
-            "sentiment": "neutral"
-        }
-    },
-    {
-        "conditions": [
-            "app",
-            "application"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "App Issue",
-            "level_3": "App Performance",
-            "level_4": "App Malfunction",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "software"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "App Issue",
-            "level_3": "App Performance",
-            "level_4": "Software Bug",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "connection",
-            "internet"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Connection Issue",
-            "level_3": "Network Problem",
-            "level_4": "Internet Connection Lost",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "network",
-            "wifi"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "Connection Issue",
-            "level_3": "Network Problem",
-            "level_4": "WiFi Issue",
-            "sentiment": "negative"
-        }
-    },
-    {
-        "conditions": [
-            "not working",
-            "error code",
-            "system error",
-            "technical error",
-            "something went wrong"
-        ],
-        "set": {
-            "category": "Technology Driven",
-            "subcategory": "General Issue",
-            "level_3": "Technical Problem",
-            "level_4": "General Error",
-            "sentiment": "negative"
-        }
+  {
+    "conditions": [
+      "cancel",
+      "cancellation"
+    ],
+    "set": {
+      "category": "Cancellation",
+      "subcategory": "Cancel Membership",
+      "level_3": "Subscription Cancellation",
+      "level_4": "User Initiated Cancellation",
+      "sentiment": "negative"
     }
+  },
+  {
+    "conditions": [
+      "stop subscription",
+      "end subscription",
+      "terminate service"
+    ],
+    "set": {
+      "category": "Cancellation",
+      "subcategory": "Cancel Membership",
+      "level_3": "Subscription Cancellation",
+      "level_4": "Service Termination",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "billing",
+      "billed"
+    ],
+    "set": {
+      "category": "Billing Issues",
+      "subcategory": "Payment Problem",
+      "level_3": "Payment Error",
+      "level_4": "General Billing Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "charged",
+      "charge"
+    ],
+    "set": {
+      "category": "Billing Issues",
+      "subcategory": "Payment Problem",
+      "level_3": "Payment Error",
+      "level_4": "Unexpected Charge",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "payment"
+    ],
+    "set": {
+      "category": "Billing Issues",
+      "subcategory": "Payment Problem",
+      "level_3": "Payment Error",
+      "level_4": "Payment Processing Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "subscription"
+    ],
+    "set": {
+      "category": "Subscription Management",
+      "subcategory": "Subscription Issue",
+      "level_3": "Plan Problem",
+      "level_4": "Subscription Plan Issue",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "plan"
+    ],
+    "set": {
+      "category": "Subscription Management",
+      "subcategory": "Subscription Issue",
+      "level_3": "Plan Problem",
+      "level_4": "Plan Configuration Issue",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "membership"
+    ],
+    "set": {
+      "category": "Subscription Management",
+      "subcategory": "Subscription Issue",
+      "level_3": "Plan Problem",
+      "level_4": "Membership Issue",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "refund"
+    ],
+    "set": {
+      "category": "Refund",
+      "subcategory": "Refund Request",
+      "level_3": "Refund Needed",
+      "level_4": "Customer Requested Refund",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "money back",
+      "reimbursement"
+    ],
+    "set": {
+      "category": "Refund",
+      "subcategory": "Refund Request",
+      "level_3": "Refund Needed",
+      "level_4": "Reimbursement Request",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "expensive",
+      "overpriced"
+    ],
+    "set": {
+      "category": "Billing Issues",
+      "subcategory": "Pricing Complaint",
+      "level_3": "Price Concern",
+      "level_4": "Too Expensive",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "price",
+      "cost"
+    ],
+    "set": {
+      "category": "Billing Issues",
+      "subcategory": "Pricing Complaint",
+      "level_3": "Price Concern",
+      "level_4": "Price Inquiry",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "play",
+      "playing"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Playback Issue",
+      "level_3": "Playback Error",
+      "level_4": "General Playback Problem",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "playback"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Playback Issue",
+      "level_3": "Playback Error",
+      "level_4": "Playback Failure",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "buffer",
+      "buffering"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Streaming Quality",
+      "level_3": "Quality Issue",
+      "level_4": "Constant Buffering",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "freeze",
+      "freezing",
+      "frozen"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Streaming Quality",
+      "level_3": "Quality Issue",
+      "level_4": "Video Freezing",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "lag",
+      "lagging",
+      "stutter"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Streaming Quality",
+      "level_3": "Quality Issue",
+      "level_4": "Lag/Stuttering",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "quality",
+      "blurry",
+      "pixelated"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Video Quality",
+      "level_3": "Quality Issue",
+      "level_4": "Poor Video Quality",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "sound",
+      "audio"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Audio Quality",
+      "level_3": "Quality Issue",
+      "level_4": "Audio Problem",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "volume"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Audio Quality",
+      "level_3": "Quality Issue",
+      "level_4": "Volume Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "removed",
+      "unavailable",
+      "gone"
+    ],
+    "set": {
+      "category": "Products and Services",
+      "subcategory": "Content Issue",
+      "level_3": "Content Availability",
+      "level_4": "Content Removed",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "find",
+      "search",
+      "looking for"
+    ],
+    "set": {
+      "category": "Products and Services",
+      "subcategory": "Content Issue",
+      "level_3": "Content Availability",
+      "level_4": "Can't Find Content",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "region",
+      "country"
+    ],
+    "set": {
+      "category": "Products and Services",
+      "subcategory": "Content Issue",
+      "level_3": "Content Availability",
+      "level_4": "Region Restriction",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "bluetooth",
+      "headphones"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Device Issue",
+      "level_3": "Connectivity Problem",
+      "level_4": "Bluetooth Connection Failed",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "speaker"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Device Issue",
+      "level_3": "Connectivity Problem",
+      "level_4": "Speaker Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "chromecast",
+      "airplay",
+      "cast"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Device Issue",
+      "level_3": "Connectivity Problem",
+      "level_4": "Casting Device Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "alexa",
+      "echo",
+      "google home"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Device Issue",
+      "level_3": "Connectivity Problem",
+      "level_4": "Smart Speaker Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "tv",
+      "television",
+      "smart tv"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Device Issue",
+      "level_3": "Device Compatibility",
+      "level_4": "Smart TV Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "download"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Download Issue",
+      "level_3": "Download Problem",
+      "level_4": "Download Failed",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "offline"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Download Issue",
+      "level_3": "Download Problem",
+      "level_4": "Offline Access Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "login",
+      "log in"
+    ],
+    "set": {
+      "category": "Account Access",
+      "subcategory": "Login Issue",
+      "level_3": "Access Problem",
+      "level_4": "Login Failed",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "sign in"
+    ],
+    "set": {
+      "category": "Account Access",
+      "subcategory": "Login Issue",
+      "level_3": "Access Problem",
+      "level_4": "Sign In Error",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "password",
+      "forgot password"
+    ],
+    "set": {
+      "category": "Account Access",
+      "subcategory": "Login Issue",
+      "level_3": "Password Problem",
+      "level_4": "Password Reset Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "reset"
+    ],
+    "set": {
+      "category": "Account Access",
+      "subcategory": "Login Issue",
+      "level_3": "Password Problem",
+      "level_4": "Account Reset Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "playlist"
+    ],
+    "set": {
+      "category": "Products and Services",
+      "subcategory": "Content Issue",
+      "level_3": "User Content",
+      "level_4": "Playlist Missing",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "library",
+      "collection"
+    ],
+    "set": {
+      "category": "Products and Services",
+      "subcategory": "Content Issue",
+      "level_3": "User Content",
+      "level_4": "Library Missing",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "sync",
+      "syncing",
+      "synchronize"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Sync Issue",
+      "level_3": "Connection Problem",
+      "level_4": "Sync Failed",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "email"
+    ],
+    "set": {
+      "category": "Account Management",
+      "subcategory": "Account Update",
+      "level_3": "Contact Information",
+      "level_4": "Email Update",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "phone"
+    ],
+    "set": {
+      "category": "Account Management",
+      "subcategory": "Account Update",
+      "level_3": "Contact Information",
+      "level_4": "Phone Update",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "contact"
+    ],
+    "set": {
+      "category": "Account Management",
+      "subcategory": "Account Update",
+      "level_3": "Contact Information",
+      "level_4": "General Contact Update",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "promo",
+      "coupon"
+    ],
+    "set": {
+      "category": "Billing Issues",
+      "subcategory": "Promotional Issue",
+      "level_3": "Promo Code",
+      "level_4": "Promo Code Invalid",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "discount",
+      "code"
+    ],
+    "set": {
+      "category": "Billing Issues",
+      "subcategory": "Promotional Issue",
+      "level_3": "Promo Code",
+      "level_4": "Discount Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "subtitle",
+      "caption"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Subtitle Issue",
+      "level_3": "Display Problem",
+      "level_4": "Subtitle Not Working",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "cc",
+      "closed caption"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Subtitle Issue",
+      "level_3": "Display Problem",
+      "level_4": "Closed Caption Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "account settings",
+      "account preferences",
+      "account configuration"
+    ],
+    "set": {
+      "category": "Account Management",
+      "subcategory": "Account Issue",
+      "level_3": "Account Settings",
+      "level_4": "Settings Update Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "update profile",
+      "profile update",
+      "edit profile",
+      "change profile"
+    ],
+    "set": {
+      "category": "Account Management",
+      "subcategory": "Account Issue",
+      "level_3": "Profile Management",
+      "level_4": "Profile Update Request",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "account issue",
+      "account problem",
+      "account not working",
+      "account error"
+    ],
+    "set": {
+      "category": "Account Management",
+      "subcategory": "Account Issue",
+      "level_3": "Account Management Request",
+      "level_4": "General Account Query",
+      "sentiment": "neutral"
+    }
+  },
+  {
+    "conditions": [
+      "app",
+      "application"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "App Issue",
+      "level_3": "App Performance",
+      "level_4": "App Malfunction",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "software"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "App Issue",
+      "level_3": "App Performance",
+      "level_4": "Software Bug",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "connection",
+      "internet"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Connection Issue",
+      "level_3": "Network Problem",
+      "level_4": "Internet Connection Lost",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "network",
+      "wifi"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "Connection Issue",
+      "level_3": "Network Problem",
+      "level_4": "WiFi Issue",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "not working",
+      "error code",
+      "system error",
+      "technical error",
+      "something went wrong"
+    ],
+    "set": {
+      "category": "Technology Driven",
+      "subcategory": "General Issue",
+      "level_3": "Technical Problem",
+      "level_4": "General Error",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "conditions": [
+      "allah akbar",
+      "jihad",
+      "kill",
+      "rebel",
+      "allah",
+      "uyghur"
+    ],
+    "set": {
+      "category": "Abuse_Spam",
+      "subcategory": "Harassment",
+      "level_3": "Threats",
+      "level_4": "Religious_Violence",
+      "sentiment": "negative"
+    }
+  }
 ]
