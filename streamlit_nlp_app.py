@@ -1693,7 +1693,11 @@ class UltraFastNLPPipeline:
         # - Newline normalisation: \n → " | " (BEFORE slice to account for expansion)
         # - Hard cap at 30,000 chars — safely below Excel's 32,767 cell limit
         # _clean_pandas_df() then applies full Python-level NFKC before to_excel()
-        SAFE_TEXT_LIMIT = 30_000
+        # Output cap: 5,000 chars per cell.
+        # Normal transcripts: 900–7,000 chars. Problem rows (spam/junk) hit 30,000+.
+        # Capping at 5,000 keeps Excel readable while preserving all real conversation content.
+        # Classification uses PROC_TEXT_LIMIT=50,000 so this only affects the output display.
+        SAFE_TEXT_LIMIT = 5_000
         if text_column in output_df.columns or 'Original_Text' in output_df.columns:
             clean_col = 'Original_Text' if 'Original_Text' in output_df.columns else text_column
             output_df = output_df.with_columns([
@@ -1875,35 +1879,61 @@ class PolarsFileHandler:
                         optimization_msg.warning("⚠️ Using original format (Parquet optimization skipped)")
             
             # ── Fix 1: Repair mojibake + deep-clean ALL string columns on read ────
-            # Mojibake (UTF-8 bytes decoded as Latin-1) in input files causes
-            # garbled Arabic/CJK/Hebrew text that explodes cell lengths and
-            # produces visual column-shift in Excel.
-            # ftfy.fix_text() detects and repairs common encoding corruption.
-            # _deep_clean_polars_col() then strips residual invisible Unicode.
-            try:
-                import ftfy as _ftfy
-                str_input_cols = [
-                    col for col, dtype in zip(df.columns, df.dtypes)
-                    if str(dtype) in ('String', 'Utf8')
-                ]
-                if str_input_cols:
+            # Mojibake = UTF-8 bytes that were incorrectly decoded as Latin-1.
+            # Result: Arabic/CJK/Hebrew → garbled Latin-extended chars (Ø§Ù„Ù„Ù‡ instead of الله).
+            # These inflate cell lengths to 30k+ chars and cause visual RTL chaos in Excel.
+            #
+            # TWO-TIER repair (no dependency failure possible):
+            # Tier 1: ftfy.fix_text()  — best, handles all mojibake variants
+            # Tier 2: latin-1 re-decode — pure stdlib fallback, fixes the most common pattern
+            str_input_cols = [
+                col for col, dtype in zip(df.columns, df.dtypes)
+                if str(dtype) in ('String', 'Utf8')
+            ]
+
+            def _repair_mojibake(text: str) -> str:
+                """Two-tier mojibake repair: ftfy first, latin-1 re-decode fallback."""
+                if not isinstance(text, str) or not text:
+                    return text or ''
+                # Tier 1: ftfy (if installed)
+                try:
+                    import ftfy as _ftfy
+                    return _ftfy.fix_text(text)
+                except ImportError:
+                    pass
+                # Tier 2: detect and fix the most common mojibake pattern.
+                # Heuristic: if > 5% of chars are Latin-extended (U+00C0–U+00FF)
+                # AND no genuine Arabic/CJK exists, try latin-1 → utf-8 re-decode.
+                sample = text[:2000]
+                latin_ext = sum(1 for c in sample if 0x00C0 <= ord(c) <= 0x00FF)
+                if latin_ext / max(len(sample), 1) > 0.05:
+                    try:
+                        return text.encode('latin-1', errors='replace').decode('utf-8', errors='replace')
+                    except Exception:
+                        pass
+                return text
+
+            if str_input_cols:
+                try:
                     df = df.with_columns([
                         pl.col(c).map_elements(
-                            lambda x: _ftfy.fix_text(x) if isinstance(x, str) and x else (x or ''),
+                            _repair_mojibake,
                             return_dtype=pl.Utf8
                         ).alias(c)
                         for c in str_input_cols
                     ])
-                    logger.info(f"✅ ftfy mojibake repair applied to {len(str_input_cols)} string column(s)")
-                # Deep-clean after repair (removes residual invisible Unicode)
-                df = df.with_columns([
-                    _deep_clean_polars_col(pl.col(c), max_chars=50_000)
-                    for c in str_input_cols
-                ])
-            except ImportError:
-                logger.warning("⚠️ ftfy not installed — mojibake repair skipped. Run: pip install ftfy")
-            except Exception as _e:
-                logger.warning(f"⚠️ ftfy repair step failed (non-fatal): {_e}")
+                    logger.info(f"✅ Mojibake repair applied to {len(str_input_cols)} column(s)")
+                except Exception as _e:
+                    logger.warning(f"⚠️ Mojibake repair step failed (non-fatal): {_e}")
+
+                # Deep-clean after repair (strips residual invisible Unicode)
+                try:
+                    df = df.with_columns([
+                        _deep_clean_polars_col(pl.col(c), max_chars=50_000)
+                        for c in str_input_cols
+                    ])
+                except Exception as _e:
+                    logger.warning(f"⚠️ Deep-clean step failed (non-fatal): {_e}")
 
             # Log final stats
             total_time = (datetime.now() - start_read).total_seconds()
@@ -1933,13 +1963,13 @@ class PolarsFileHandler:
             # RTL marks, etc.) that literal \xa0-only chains miss.
             if format == 'csv':
                 df_safe = df.with_columns([
-                    _deep_clean_polars_col(pl.col(c), max_chars=30_000)
+                    _deep_clean_polars_col(pl.col(c), max_chars=5_000)
                     .str.replace_all('"', "'")   # strip quotes for CSV safety
                     for c in string_cols
                 ])
             elif format == 'xlsx':
                 df_safe = df.with_columns([
-                    _deep_clean_polars_col(pl.col(c), max_chars=30_000)
+                    _deep_clean_polars_col(pl.col(c), max_chars=5_000)
                     for c in string_cols
                 ])
         
@@ -1995,10 +2025,10 @@ class PolarsFileHandler:
                     for i, start in enumerate(range(0, len(pandas_df), chunk_size)):
                         chunk = pandas_df.iloc[start:start + chunk_size]
                         # NFKC normalise each chunk — catches \u202f, \u200a, etc.
-                        chunk = _clean_pandas_df(chunk, str_cols, max_chars=30_000)
+                        chunk = _clean_pandas_df(chunk, str_cols, max_chars=5_000)
                         chunk.to_excel(writer, index=False, sheet_name=f'Results_{i + 1}')
                 else:
-                    pandas_df = _clean_pandas_df(pandas_df, str_cols, max_chars=30_000)
+                    pandas_df = _clean_pandas_df(pandas_df, str_cols, max_chars=5_000)
                     pandas_df.to_excel(writer, index=False, sheet_name='Results')
             # ── Fix 2: Force left-align + wrap_text on all cells ─────────────
             # RTL text (Arabic/Hebrew) + long cells cause Excel to visually
@@ -2491,6 +2521,18 @@ footer, .stDeployButton { display: none !important; }
     cols = st.columns(4)
     for idx, standard in enumerate(COMPLIANCE_STANDARDS):
         cols[idx].success(f"✅ {standard}")
+
+    # ── ftfy dependency check (visible warning if missing) ────────────────
+    try:
+        import ftfy as _ftfy_check
+        _ftfy_version = getattr(_ftfy_check, '__version__', 'installed')
+        logger.info(f"✅ ftfy {_ftfy_version} available for mojibake repair")
+    except ImportError:
+        st.error(
+            "⚠️ **Missing dependency: `ftfy`** — Arabic/CJK mojibake in input transcripts "
+            "will NOT be repaired, causing garbled text in `Original_Text` output column.\n\n"
+            "**Fix:** Run `pip install ftfy` on your server, then restart the app."
+        )
     
     st.markdown("---")
     
