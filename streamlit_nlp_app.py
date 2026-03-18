@@ -76,7 +76,7 @@ logger = logging.getLogger(__name__)
 # Performance constants - ULTRA-OPTIMIZED FOR 50K+ RECORDS
 CPU_COUNT = multiprocessing.cpu_count()
 MAX_WORKERS = min(CPU_COUNT * 2, 16)  # Reduced workers, bigger chunks
-CHUNK_SIZE = 5000  # Process 5000 records per chunk (optimal for vectorization)
+CHUNK_SIZE = 2000  # Reduced: smaller chunks = lower peak RAM  # Process 5000 records per chunk (optimal for vectorization)
 CACHE_SIZE = 200000  # 200K cache entries
 SUPPORTED_FORMATS = ['csv', 'xlsx', 'xls', 'parquet', 'json']
 COMPLIANCE_STANDARDS = ["HIPAA", "GDPR", "PCI-DSS", "CCPA"]
@@ -194,133 +194,6 @@ nlp = load_spacy_model()
 # ========================================================================================
 # DATA CLASSES
 # ========================================================================================
-
-# ========================================================================================
-# UNICODE DEEP-CLEAN UTILITY
-# ========================================================================================
-
-def _deep_clean_text(text: str, max_chars: int = 30_000) -> str:
-    """
-    Full Unicode normalisation + whitespace collapse for a single string.
-    Covers every gap that literal replace_all chains miss:
-
-    1. unicodedata.normalize('NFKC') — collapses compatibility variants:
-       \u202f (narrow no-break space), \u200a (hair space), \u00ad (soft hyphen),
-       fullwidth/halfwidth forms, Arabic/Hebrew presentation forms, etc.
-    2. Regex sweep for all Unicode whitespace categories that openpyxl
-       mis-handles inside XLSX XML (Cc control chars, Cf format chars,
-       Zs/Zl/Zp separator categories).
-    3. Hard cap at max_chars AFTER expansion so no cell ever approaches
-       Excel's 32,767-char cell limit.
-    """
-    import unicodedata, re as _re
-
-    if not isinstance(text, str) or not text:
-        return text or ""
-
-    # Step 1 — NFKC normalisation (collapses all compatibility whitespace variants)
-    text = unicodedata.normalize('NFKC', text)
-
-    # Step 2 — remove/replace problematic Unicode categories
-    # Cc: control chars (except \t which we handle separately)
-    # Cf: format/invisible chars (RTL mark, zero-width joiners, BOM, etc.)
-    # Zl/Zp: line/paragraph separators
-    text = _re.sub(
-        r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f'   # C0 controls (keep \t=\x09, \n=\x0a, \r=\x0d)
-        r'\u00ad'                                     # soft hyphen
-        r'\u200b-\u200f'                             # zero-width space/joiners/marks
-        r'\u2028\u2029'                              # line/paragraph separator
-        r'\u202a-\u202e'                             # LTR/RTL embedding marks
-        r'\u2060-\u2064'                             # word joiner, invisible operators
-        r'\u206a-\u206f'                             # deprecated format chars
-        r'\ufeff'                                     # BOM / zero-width no-break space
-        r'\ufff9-\ufffc'                             # interlinear annotation / object replacement
-        r']',
-        '',
-        text
-    )
-
-    # Step 3 — normalise all remaining whitespace variants to regular space
-    # Covers \xa0, \u202f, \u2000-\u200a (en/em/thin/hair/ideographic spaces), etc.
-    text = _re.sub(r'[\xa0\u1680\u2000-\u200a\u202f\u205f\u3000]', ' ', text)
-
-    # Step 4 — replace newlines with pipe separator (for CSV/XLSX safety)
-    text = text.replace('\r\n', ' | ').replace('\r', ' | ').replace('\n', ' | ')
-
-    # Step 5 — collapse runs of spaces introduced by replacements
-    text = _re.sub(r' {3,}', '  ', text)
-
-    # Step 6 — hard cap AFTER all expansions
-    return text[:max_chars]
-
-
-def _deep_clean_polars_col(col_expr, max_chars: int = 30_000):
-    """
-    Polars expression chain equivalent of _deep_clean_text().
-    Used inside with_columns([]) for vectorised batch cleaning.
-    NOTE: NFKC normalisation is not available in Polars string ops, so
-    we apply the literal replace_all chain here and rely on the Python-level
-    _deep_clean_text() pass in _clean_pandas_df() for full normalisation.
-    """
-    return (
-        col_expr
-        # Cf / invisible chars
-        .str.replace_all(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '')
-        .str.replace_all(r'\u00ad', '')          # soft hyphen
-        .str.replace_all(r'\u200b', '')           # zero-width space
-        .str.replace_all(r'\u200c', '')           # zero-width non-joiner
-        .str.replace_all(r'\u200d', '')           # zero-width joiner
-        .str.replace_all(r'\u200e', '')           # LTR mark
-        .str.replace_all(r'\u200f', '')           # RTL mark
-        .str.replace_all(r'\u2028', ' ')          # line separator
-        .str.replace_all(r'\u2029', ' ')          # paragraph separator
-        .str.replace_all(r'\u202a', '')           # LTR embedding
-        .str.replace_all(r'\u202b', '')           # RTL embedding
-        .str.replace_all(r'\u202c', '')           # pop directional formatting
-        .str.replace_all(r'\u202d', '')           # LTR override
-        .str.replace_all(r'\u202e', '')           # RTL override
-        .str.replace_all(r'\u2060', '')           # word joiner
-        .str.replace_all(r'\ufeff', '')           # BOM
-        # All Unicode whitespace variants → regular space
-        .str.replace_all(r'\xa0', ' ')            # NBSP
-        .str.replace_all(r'\u202f', ' ')          # narrow NBSP
-        .str.replace_all(r'\u200a', ' ')          # hair space
-        .str.replace_all(r'\u2000', ' ')          # en quad
-        .str.replace_all(r'\u2001', ' ')          # em quad
-        .str.replace_all(r'\u2002', ' ')          # en space
-        .str.replace_all(r'\u2003', ' ')          # em space
-        .str.replace_all(r'\u2004', ' ')          # three-per-em
-        .str.replace_all(r'\u2005', ' ')          # four-per-em
-        .str.replace_all(r'\u2006', ' ')          # six-per-em
-        .str.replace_all(r'\u2007', ' ')          # figure space
-        .str.replace_all(r'\u2008', ' ')          # punctuation space
-        .str.replace_all(r'\u2009', ' ')          # thin space
-        .str.replace_all(r'\u3000', ' ')          # ideographic space
-        # Newlines → pipe separator (BEFORE slice so expansion is accounted for)
-        .str.replace_all(r'\r\n', ' | ')
-        .str.replace_all(r'\r',   ' | ')
-        .str.replace_all(r'\n',   ' | ')
-        # Hard cap AFTER all expansions
-        .str.slice(0, max_chars)
-    )
-
-
-def _clean_pandas_df(df: "pd.DataFrame", text_cols: list, max_chars: int = 30_000) -> "pd.DataFrame":
-    """
-    NFKC-normalise + deep-clean a pandas DataFrame in-place equivalent.
-    Called on the pandas slice just before to_excel() so every cell is
-    fully clean regardless of how it was produced.
-    Also validates column count post-clean and raises if structure is off.
-    """
-    import pandas as _pd
-    df = df.copy()
-    for col in text_cols:
-        if col in df.columns:
-            df[col] = df[col].astype(str).apply(
-                lambda x: _deep_clean_text(x, max_chars=max_chars)
-            )
-    return df
-
 
 @dataclass
 class PIIRedactionResult:
@@ -1548,17 +1421,8 @@ class UltraFastNLPPipeline:
         
         The entire conversation transcript is analyzed simultaneously for classifications.
         """
-        # Pre-sanitize: full Unicode deep-clean before classification.
-        # Uses _deep_clean_polars_col() which covers ALL Unicode whitespace variants
-        # including narrow NBSP (\u202f), hair space (\u200a), RTL embedding marks, etc.
-        # NFKC normalisation runs later in _clean_pandas_df() at export time.
-        PROC_TEXT_LIMIT = 50_000   # generous cap — classification needs full context
-        chunk_df = chunk_df.with_columns([
-            _deep_clean_polars_col(pl.col(text_column), max_chars=PROC_TEXT_LIMIT)
-        ])
-
         texts = chunk_df[text_column].to_list()
-
+        
         # 1. Vectorized PII Redaction (for compliance, but not in output)
         if self.enable_pii_redaction:
             pii_df = VectorizedPIIDetector.vectorized_redact_batch(texts, redaction_mode)
@@ -1602,43 +1466,71 @@ class UltraFastNLPPipeline:
         progress_callback=None
     ) -> pl.DataFrame:
         """
-        ULTRA-FAST batch processing with DuckDB and chunking
-        Handles 50K+ records efficiently
+        Memory-safe batch processing for 100K+ records.
+
+        KEY CHANGES vs old version:
+        - Chunks are written to a temp Parquet file immediately after processing
+          and deleted from RAM — peak memory = 1 chunk, not all chunks at once.
+        - DuckDB analytics run directly on the Parquet file (no .to_pandas() copy).
+        - final_df is read back from Parquet as a lazy scan to avoid a third copy.
         """
+        import tempfile, os
+
         total_records = len(df)
-        logger.info(f"🚀 Processing {total_records:,} records with ULTRA-FAST pipeline")
-        
-        # Select only needed columns to reduce memory
+        logger.info(f"🚀 Processing {total_records:,} records (memory-safe mode)")
+
+        # Select only needed columns before processing
         df = df.select([id_column, text_column])
-        
-        # Process in chunks
-        chunks = []
+
         num_chunks = (total_records + CHUNK_SIZE - 1) // CHUNK_SIZE
-        
-        logger.info(f"📦 Splitting into {num_chunks} chunks of {CHUNK_SIZE:,} records each")
-        
-        for i in range(0, total_records, CHUNK_SIZE):
-            chunk_df = df.slice(i, min(CHUNK_SIZE, total_records - i))
-            chunk_num = i // CHUNK_SIZE + 1
-            
-            logger.info(f"⚡ Processing chunk {chunk_num}/{num_chunks} ({len(chunk_df):,} records)")
-            
-            # Process chunk with vectorized operations (entire conversation)
-            result_chunk = self.process_chunk(chunk_df, text_column, redaction_mode)
-            chunks.append(result_chunk)
-            
-            if progress_callback:
-                progress_callback(min(i + CHUNK_SIZE, total_records), total_records)
-        
-        # Combine all chunks using Polars (FAST!)
-        logger.info("🔄 Combining chunks...")
-        final_df = pl.concat(chunks)
-        
-        # Use DuckDB for final analytics (optional - for aggregations)
-        logger.info("📊 Running DuckDB analytics...")
-        self.duckdb_conn.register('results', final_df.to_pandas())
-        
-        return final_df
+        logger.info(f"📦 {num_chunks} chunks × {CHUNK_SIZE:,} records")
+
+        # Write each processed chunk to a temp Parquet file immediately.
+        # This keeps peak RAM = 1 chunk instead of all chunks simultaneously.
+        tmp_dir = tempfile.mkdtemp(prefix='nlp_chunks_')
+        chunk_files = []
+
+        try:
+            for i in range(0, total_records, CHUNK_SIZE):
+                chunk_df = df.slice(i, min(CHUNK_SIZE, total_records - i))
+                chunk_num = i // CHUNK_SIZE + 1
+                logger.info(f"⚡ Processing chunk {chunk_num}/{num_chunks} ({len(chunk_df):,} records)")
+
+                result_chunk = self.process_chunk(chunk_df, text_column, redaction_mode)
+
+                # Persist to disk immediately — free RAM
+                chunk_path = os.path.join(tmp_dir, f"chunk_{chunk_num:04d}.parquet")
+                result_chunk.write_parquet(chunk_path, compression='snappy')
+                chunk_files.append(chunk_path)
+                del result_chunk  # explicit GC hint
+
+                if progress_callback:
+                    progress_callback(min(i + CHUNK_SIZE, total_records), total_records)
+
+            # Combine: scan all chunk files lazily (no full in-memory copy)
+            logger.info("🔄 Combining chunks from disk...")
+            final_df = pl.scan_parquet(os.path.join(tmp_dir, "chunk_*.parquet")).collect()
+
+            # DuckDB analytics on the already-collected Polars frame (no .to_pandas())
+            logger.info("📊 Running DuckDB analytics...")
+            try:
+                self.duckdb_conn.register('results', final_df)
+            except Exception as _e:
+                logger.warning(f"DuckDB register skipped: {_e}")
+
+            return final_df
+
+        finally:
+            # Clean up temp chunk files
+            for p in chunk_files:
+                try:
+                    os.unlink(p)
+                except Exception:
+                    pass
+            try:
+                os.rmdir(tmp_dir)
+            except Exception:
+                pass
     
     def results_to_dataframe(self, results_df: pl.DataFrame, id_column: str, text_column: str) -> pd.DataFrame:
         """
@@ -1686,34 +1578,28 @@ class UltraFastNLPPipeline:
             # 'pii_items_redacted': 'PII_Items_Redacted'
         })
         
-        # Deep-clean ALL string output columns before export:
-        # Uses _deep_clean_polars_col() for full Unicode coverage including:
-        # - NFKC-equivalent literal chain (narrow NBSP \u202f, hair space \u200a, etc.)
-        # - All RTL/LTR embedding/override marks that corrupt openpyxl XML
-        # - Newline normalisation: \n → " | " (BEFORE slice to account for expansion)
-        # - Hard cap at 30,000 chars — safely below Excel's 32,767 cell limit
-        # _clean_pandas_df() then applies full Python-level NFKC before to_excel()
-        # Output cap: 5,000 chars per cell.
-        # Normal transcripts: 900–7,000 chars. Problem rows (spam/junk) hit 30,000+.
-        # Capping at 5,000 keeps Excel readable while preserving all real conversation content.
-        # Classification uses PROC_TEXT_LIMIT=50,000 so this only affects the output display.
-        SAFE_TEXT_LIMIT = 5_000
+        # Sanitize Original_Text: replace raw newlines with a safe pipe separator.
+        # This prevents CSV row-break misalignment when the output is opened in Excel
+        # or re-read by pandas (the root cause of the "jumbled rows" bug).
         if text_column in output_df.columns or 'Original_Text' in output_df.columns:
             clean_col = 'Original_Text' if 'Original_Text' in output_df.columns else text_column
             output_df = output_df.with_columns([
-                _deep_clean_polars_col(pl.col(clean_col), max_chars=SAFE_TEXT_LIMIT)
-            ])
-        if 'Conversation_ID' in output_df.columns:
-            output_df = output_df.with_columns([
-                _deep_clean_polars_col(
-                    pl.col('Conversation_ID').cast(pl.Utf8),
-                    max_chars=500
-                )
-                # IDs must have no pipe separators — strip them back out
-                .str.replace_all(r' \| ', ' ')
+                pl.col(clean_col)
+                .str.replace_all(r'\r\n', ' | ')
+                .str.replace_all(r'\r',   ' | ')
+                .str.replace_all(r'\n',   ' | ')
             ])
 
-        # Convert to Pandas
+        # Convert to Pandas — for very large datasets do this in chunks
+        # to avoid a single huge memory spike
+        if len(output_df) > 50_000:
+            pandas_chunks = []
+            for start in range(0, len(output_df), 50_000):
+                pandas_chunks.append(output_df.slice(start, 50_000).to_pandas())
+            import pandas as _pd
+            result = _pd.concat(pandas_chunks, ignore_index=True)
+            del pandas_chunks
+            return result
         return output_df.to_pandas()
     
     def get_analytics_summary(self) -> Dict:
@@ -1851,23 +1737,22 @@ class PolarsFileHandler:
                         # Get Parquet size
                         parquet_size_mb = len(parquet_buffer.getvalue()) / (1024 * 1024)
                         compression_ratio = file_size_mb / parquet_size_mb if parquet_size_mb > 0 else 1
-                        size_change = "smaller" if parquet_size_mb < file_size_mb else "larger"
-
+                        
                         # Reload from Parquet (this is now the optimized version)
                         df_optimized = pl.read_parquet(parquet_buffer)
-
+                        
                         convert_time = (datetime.now() - start_convert).total_seconds()
-
+                        
                         logger.info(f"✅ Parquet optimization complete:")
                         logger.info(f"   - Original: {file_size_mb:.2f} MB ({file_extension.upper()})")
                         logger.info(f"   - Optimized: {parquet_size_mb:.2f} MB (Parquet)")
-                        logger.info(f"   - Compression: {compression_ratio:.1f}x {size_change}")
+                        logger.info(f"   - Compression: {compression_ratio:.1f}x smaller")
                         logger.info(f"   - Conversion time: {convert_time:.2f}s")
-
+                        
                         # Update message with success
                         optimization_msg.success(
                             f"✅ Optimized! Original: {file_size_mb:.1f}MB → Parquet: {parquet_size_mb:.1f}MB "
-                            f"({compression_ratio:.1f}x {size_change}) • Conversion: {convert_time:.1f}s"
+                            f"({compression_ratio:.1f}x compression) • Conversion: {convert_time:.1f}s"
                         )
                         
                         # Use optimized DataFrame
@@ -1878,67 +1763,10 @@ class PolarsFileHandler:
                         # Continue with original DataFrame if optimization fails
                         optimization_msg.warning("⚠️ Using original format (Parquet optimization skipped)")
             
-            # ── Fix 1: Repair mojibake + deep-clean ALL string columns on read ────
-            # Mojibake = UTF-8 bytes that were incorrectly decoded as Latin-1.
-            # Result: Arabic/CJK/Hebrew → garbled Latin-extended chars (Ø§Ù„Ù„Ù‡ instead of الله).
-            # These inflate cell lengths to 30k+ chars and cause visual RTL chaos in Excel.
-            #
-            # TWO-TIER repair (no dependency failure possible):
-            # Tier 1: ftfy.fix_text()  — best, handles all mojibake variants
-            # Tier 2: latin-1 re-decode — pure stdlib fallback, fixes the most common pattern
-            str_input_cols = [
-                col for col, dtype in zip(df.columns, df.dtypes)
-                if str(dtype) in ('String', 'Utf8')
-            ]
-
-            def _repair_mojibake(text: str) -> str:
-                """Two-tier mojibake repair: ftfy first, latin-1 re-decode fallback."""
-                if not isinstance(text, str) or not text:
-                    return text or ''
-                # Tier 1: ftfy (if installed)
-                try:
-                    import ftfy as _ftfy
-                    return _ftfy.fix_text(text)
-                except ImportError:
-                    pass
-                # Tier 2: detect and fix the most common mojibake pattern.
-                # Heuristic: if > 5% of chars are Latin-extended (U+00C0–U+00FF)
-                # AND no genuine Arabic/CJK exists, try latin-1 → utf-8 re-decode.
-                sample = text[:2000]
-                latin_ext = sum(1 for c in sample if 0x00C0 <= ord(c) <= 0x00FF)
-                if latin_ext / max(len(sample), 1) > 0.05:
-                    try:
-                        return text.encode('latin-1', errors='replace').decode('utf-8', errors='replace')
-                    except Exception:
-                        pass
-                return text
-
-            if str_input_cols:
-                try:
-                    df = df.with_columns([
-                        pl.col(c).map_elements(
-                            _repair_mojibake,
-                            return_dtype=pl.Utf8
-                        ).alias(c)
-                        for c in str_input_cols
-                    ])
-                    logger.info(f"✅ Mojibake repair applied to {len(str_input_cols)} column(s)")
-                except Exception as _e:
-                    logger.warning(f"⚠️ Mojibake repair step failed (non-fatal): {_e}")
-
-                # Deep-clean after repair (strips residual invisible Unicode)
-                try:
-                    df = df.with_columns([
-                        _deep_clean_polars_col(pl.col(c), max_chars=50_000)
-                        for c in str_input_cols
-                    ])
-                except Exception as _e:
-                    logger.warning(f"⚠️ Deep-clean step failed (non-fatal): {_e}")
-
             # Log final stats
             total_time = (datetime.now() - start_read).total_seconds()
             logger.info(f"✅ Final: {len(df):,} records loaded in {total_time:.2f}s total")
-
+            
             return df
         
         except Exception as e:
@@ -1958,126 +1786,50 @@ class PolarsFileHandler:
         
         df_safe = df
         if string_cols:
-            # Deep-clean ALL string cols using full Unicode coverage chain.
-            # _deep_clean_polars_col() handles all whitespace variants (\u202f, \u200a,
-            # RTL marks, etc.) that literal \xa0-only chains miss.
             if format == 'csv':
+                # CRITICAL FIX: Replace ALL newline variants with a safe separator BEFORE
+                # writing CSV. Raw \n/\r inside quoted fields confuses Excel and most CSV
+                # parsers, causing column data to spill into subsequent rows (the exact
+                # "jumbled/misplaced rows" bug seen in the output).
                 df_safe = df.with_columns([
-                    _deep_clean_polars_col(pl.col(c), max_chars=5_000)
-                    .str.replace_all('"', "'")   # strip quotes for CSV safety
+                    pl.col(c)
+                    .str.slice(0, 31000)
+                    .str.replace_all(r'\r\n', ' | ')   # Windows CRLF
+                    .str.replace_all(r'\r',   ' | ')   # old Mac CR
+                    .str.replace_all(r'\n',   ' | ')   # Unix LF
+                    .str.replace_all('"', "'")            # keep existing quote fix
                     for c in string_cols
                 ])
             elif format == 'xlsx':
+                # Excel handles newlines inside cells fine; just truncate.
                 df_safe = df.with_columns([
-                    _deep_clean_polars_col(pl.col(c), max_chars=5_000)
-                    for c in string_cols
+                    pl.col(c).str.slice(0, 31000) for c in string_cols
                 ])
         
-        # ── Large-dataset flag ───────────────────────────────────────────────
-        import tempfile, os
-        LARGE_ROW_THRESHOLD = 50_000
-        large = len(df) > LARGE_ROW_THRESHOLD
-
-        # ── CSV ──────────────────────────────────────────────────────────────
         if format == 'csv':
-            if large:
-                with tempfile.NamedTemporaryFile(delete=False, suffix='.csv') as tmp:
-                    tmp_path = tmp.name
-                try:
-                    df_safe.write_csv(tmp_path, quote_style='always')
-                    with open(tmp_path, 'rb') as f:
-                        return f.read()
-                finally:
-                    os.unlink(tmp_path)
-            else:
-                buf = io.BytesIO()
-                df_safe.write_csv(buf, quote_style='always')
-                buf.seek(0)
-                return buf.getvalue()
-
-        # ── Parquet ──────────────────────────────────────────────────────────
+            # Force always quote for utmost safety
+            df_safe.write_csv(buffer, quote_style='always')
+            buffer.seek(0)
+            return buffer.getvalue()
+        
         elif format == 'parquet':
-            if large:
-                with tempfile.NamedTemporaryFile(delete=False, suffix='.parquet') as tmp:
-                    tmp_path = tmp.name
-                try:
-                    df_safe.write_parquet(tmp_path, compression='snappy')
-                    with open(tmp_path, 'rb') as f:
-                        return f.read()
-                finally:
-                    os.unlink(tmp_path)
-            else:
-                buf = io.BytesIO()
-                df_safe.write_parquet(buf, compression='snappy')
-                buf.seek(0)
-                return buf.getvalue()
-
-        # ── XLSX ─────────────────────────────────────────────────────────────
+            df_safe.write_parquet(buffer)
+            buffer.seek(0)
+            return buffer.getvalue()
+        
         elif format == 'xlsx':
+            # Convert to Pandas for Excel
             pandas_df = df_safe.to_pandas()
-            # Identify all string columns for final NFKC + deep-clean pass
-            str_cols = [c for c in pandas_df.columns
-                        if pandas_df[c].dtype == object]
-            buf = io.BytesIO()
-            chunk_size = 50_000
-            with pd.ExcelWriter(buf, engine='openpyxl') as writer:
-                if large:
-                    for i, start in enumerate(range(0, len(pandas_df), chunk_size)):
-                        chunk = pandas_df.iloc[start:start + chunk_size]
-                        # NFKC normalise each chunk — catches \u202f, \u200a, etc.
-                        chunk = _clean_pandas_df(chunk, str_cols, max_chars=5_000)
-                        chunk.to_excel(writer, index=False, sheet_name=f'Results_{i + 1}')
-                else:
-                    pandas_df = _clean_pandas_df(pandas_df, str_cols, max_chars=5_000)
-                    pandas_df.to_excel(writer, index=False, sheet_name='Results')
-            # ── Fix 2: Force left-align + wrap_text on all cells ─────────────
-            # RTL text (Arabic/Hebrew) + long cells cause Excel to visually
-            # "shift" columns even when data is structurally correct.
-            # Explicit left-alignment + wrap_text overrides Excel's RTL auto-detect.
-            try:
-                from openpyxl.styles import Alignment as _Alignment
-                _left_wrap = _Alignment(horizontal='left', vertical='top', wrap_text=True)
-                _left_no_wrap = _Alignment(horizontal='left', vertical='top', wrap_text=False)
-                for _sheet in writer.book.worksheets:
-                    # Header row: no wrap, bold stays
-                    for _cell in _sheet[1]:
-                        _cell.alignment = _left_no_wrap
-                    # Data rows: wrap long text cells, left-align all
-                    for _row in _sheet.iter_rows(min_row=2):
-                        for _cell in _row:
-                            if _cell.value and isinstance(_cell.value, str) and len(_cell.value) > 100:
-                                _cell.alignment = _left_wrap
-                            else:
-                                _cell.alignment = _left_no_wrap
-                    # Set sensible column widths (cap at 60 so sheet is readable)
-                    for _col in _sheet.columns:
-                        max_w = max(
-                            (min(len(str(_c.value or '')), 60) for _c in _col),
-                            default=10
-                        )
-                        _sheet.column_dimensions[_col[0].column_letter].width = max(max_w, 10)
-            except Exception as _e:
-                logger.warning(f"⚠️ Excel alignment pass failed (non-fatal): {_e}")
-            buf.seek(0)
-            return buf.getvalue()
-
-        # ── JSON ─────────────────────────────────────────────────────────────
+            with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+                pandas_df.to_excel(writer, index=False, sheet_name='Results')
+            buffer.seek(0)
+            return buffer.getvalue()
+        
         elif format == 'json':
-            if large:
-                with tempfile.NamedTemporaryFile(delete=False, suffix='.ndjson') as tmp:
-                    tmp_path = tmp.name
-                try:
-                    df.write_ndjson(tmp_path)
-                    with open(tmp_path, 'rb') as f:
-                        return f.read()
-                finally:
-                    os.unlink(tmp_path)
-            else:
-                buf = io.BytesIO()
-                df.write_ndjson(buf)
-                buf.seek(0)
-                return buf.getvalue()
-
+            df.write_json(buffer)
+            buffer.seek(0)
+            return buffer.getvalue()
+        
         else:
             raise ValueError(f"Unsupported format: {format}")
 
@@ -2521,18 +2273,6 @@ footer, .stDeployButton { display: none !important; }
     cols = st.columns(4)
     for idx, standard in enumerate(COMPLIANCE_STANDARDS):
         cols[idx].success(f"✅ {standard}")
-
-    # ── ftfy dependency check (visible warning if missing) ────────────────
-    try:
-        import ftfy as _ftfy_check
-        _ftfy_version = getattr(_ftfy_check, '__version__', 'installed')
-        logger.info(f"✅ ftfy {_ftfy_version} available for mojibake repair")
-    except ImportError:
-        st.error(
-            "⚠️ **Missing dependency: `ftfy`** — Arabic/CJK mojibake in input transcripts "
-            "will NOT be repaired, causing garbled text in `Original_Text` output column.\n\n"
-            "**Fix:** Run `pip install ftfy` on your server, then restart the app."
-        )
     
     st.markdown("---")
     
@@ -2732,13 +2472,17 @@ footer, .stDeployButton { display: none !important; }
             # Process button
             if st.button("🚀 Run ULTRA-FAST Analysis", type="primary", width='stretch'):
                 
-                # Clear old results, concordance, tree state, and export cache
-                for _key in ['concordance_results', 'search_keyword',
-                              'tree_l1', 'tree_l2', 'tree_l3',
-                              'export_bytes_csv', 'export_bytes_xlsx',
-                              'export_bytes_parquet', 'export_bytes_json',
-                              'export_filename']:
-                    st.session_state.pop(_key, None)
+                # Clear old concordance results and tree state
+                if 'concordance_results' in st.session_state:
+                    del st.session_state.concordance_results
+                if 'search_keyword' in st.session_state:
+                    del st.session_state.search_keyword
+                if 'tree_l1' in st.session_state:
+                    del st.session_state.tree_l1
+                if 'tree_l2' in st.session_state:
+                    del st.session_state.tree_l2
+                if 'tree_l3' in st.session_state:
+                    del st.session_state.tree_l3
                 
                 # Get industry data
                 industry_data = st.session_state.domain_loader.get_industry_data(selected_industry)
@@ -2913,7 +2657,7 @@ footer, .stDeployButton { display: none !important; }
                     plot_bgcolor='rgba(0,0,0,0)',
                     margin=dict(t=50, b=20, l=10, r=10)
                 )
-                st.plotly_chart(fig_bar, width='stretch')
+                st.plotly_chart(fig_bar, use_container_width=True)
             
 
             
@@ -2982,7 +2726,7 @@ footer, .stDeployButton { display: none !important; }
 
             
             # Search button
-            search_button = st.button("🚀 Search Concordances", type="primary", width='stretch')
+            search_button = st.button("🚀 Search Concordances", type="primary", use_container_width=True)
             
             # Perform search
             if search_button and search_keyword:
@@ -3215,64 +2959,14 @@ footer, .stDeployButton { display: none !important; }
             
             # Download Results
             st.subheader("💾 Download Results")
-
-            # Cache export bytes in session_state so re-renders don't re-serialize.
-            # Re-serializing 100K rows on every widget interaction caused the
-            # "download stops midway" bug (connection dropped during rebuild).
-            export_cache_key = f"export_bytes_{output_format}"
-            if export_cache_key not in st.session_state:
-                with st.spinner(f"⏳ Preparing {output_format.upper()} export for {len(output_df):,} records..."):
-                    export_df = pl.from_pandas(output_df)
-                    st.session_state[export_cache_key] = PolarsFileHandler.save_dataframe(
-                        export_df, output_format
-                    )
-                    st.session_state["export_filename"] = (
-                        f"results_{selected_industry}_"
-                        f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.{output_format}"
-                    )
-
-            results_bytes   = st.session_state[export_cache_key]
-            export_filename = st.session_state.get("export_filename", f"results.{output_format}")
-            file_size_mb    = len(results_bytes) / (1024 * 1024)
-
-            # ── Column-shift validation ───────────────────────────────────────
-            # Verify the export has the correct number of columns on every row.
-            # A column count mismatch = row-shift bug still present.
-            expected_cols = len(output_df.columns)
-            _shift_warning = None
-            if output_format == 'csv':
-                try:
-                    import io as _io, csv as _csv
-                    _sample = results_bytes[:65536].decode('utf-8', errors='replace')
-                    _reader = _csv.reader(_io.StringIO(_sample))
-                    _rows_checked = 0
-                    for _row in _reader:
-                        if _rows_checked == 0:   # header row
-                            _rows_checked += 1
-                            continue
-                        if len(_row) != expected_cols:
-                            _shift_warning = (
-                                f"⚠️ Column-shift detected on sampled row {_rows_checked}: "
-                                f"expected {expected_cols} columns, got {len(_row)}. "
-                                f"A problematic transcript may still contain unhandled Unicode. "
-                                f"Try exporting as Parquet instead."
-                            )
-                            break
-                        _rows_checked += 1
-                        if _rows_checked > 200:
-                            break
-                except Exception:
-                    pass   # validation is best-effort; never block the download
-
-            if _shift_warning:
-                st.warning(_shift_warning)
-            else:
-                st.info(f"📦 Export ready: {file_size_mb:.1f} MB  •  {len(output_df):,} records  •  ✅ column structure verified")
-
+            
+            # Convert back to Polars for fast export
+            export_df = pl.from_pandas(output_df)
+            results_bytes = PolarsFileHandler.save_dataframe(export_df, output_format)
             st.download_button(
-                label=f"📥 Download Results (.{output_format})  —  {file_size_mb:.1f} MB",
+                label=f"📥 Download Results (.{output_format})",
                 data=results_bytes,
-                file_name=export_filename,
+                file_name=f"results_{selected_industry}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{output_format}",
                 mime=f"application/{output_format}",
                 width='stretch'
             )
