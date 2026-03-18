@@ -76,7 +76,7 @@ logger = logging.getLogger(__name__)
 # Performance constants - ULTRA-OPTIMIZED FOR 50K+ RECORDS
 CPU_COUNT = multiprocessing.cpu_count()
 MAX_WORKERS = min(CPU_COUNT * 2, 16)  # Reduced workers, bigger chunks
-CHUNK_SIZE = 2000  # Reduced: smaller chunks = lower peak RAM  # Process 5000 records per chunk (optimal for vectorization)
+CHUNK_SIZE = 2000  # Reduced: smaller chunks = lower peak RAM for 100K+ datasets
 CACHE_SIZE = 200000  # 200K cache entries
 SUPPORTED_FORMATS = ['csv', 'xlsx', 'xls', 'parquet', 'json']
 COMPLIANCE_STANDARDS = ["HIPAA", "GDPR", "PCI-DSS", "CCPA"]
@@ -1467,26 +1467,18 @@ class UltraFastNLPPipeline:
     ) -> pl.DataFrame:
         """
         Memory-safe batch processing for 100K+ records.
-
-        KEY CHANGES vs old version:
-        - Chunks are written to a temp Parquet file immediately after processing
-          and deleted from RAM — peak memory = 1 chunk, not all chunks at once.
-        - DuckDB analytics run directly on the Parquet file (no .to_pandas() copy).
-        - final_df is read back from Parquet as a lazy scan to avoid a third copy.
+        Each chunk is written to disk immediately after processing so peak RAM
+        equals 1 chunk, not all chunks simultaneously.
         """
         import tempfile, os
 
         total_records = len(df)
         logger.info(f"🚀 Processing {total_records:,} records (memory-safe mode)")
 
-        # Select only needed columns before processing
         df = df.select([id_column, text_column])
-
         num_chunks = (total_records + CHUNK_SIZE - 1) // CHUNK_SIZE
         logger.info(f"📦 {num_chunks} chunks × {CHUNK_SIZE:,} records")
 
-        # Write each processed chunk to a temp Parquet file immediately.
-        # This keeps peak RAM = 1 chunk instead of all chunks simultaneously.
         tmp_dir = tempfile.mkdtemp(prefix='nlp_chunks_')
         chunk_files = []
 
@@ -1498,20 +1490,17 @@ class UltraFastNLPPipeline:
 
                 result_chunk = self.process_chunk(chunk_df, text_column, redaction_mode)
 
-                # Persist to disk immediately — free RAM
                 chunk_path = os.path.join(tmp_dir, f"chunk_{chunk_num:04d}.parquet")
                 result_chunk.write_parquet(chunk_path, compression='snappy')
                 chunk_files.append(chunk_path)
-                del result_chunk  # explicit GC hint
+                del result_chunk
 
                 if progress_callback:
                     progress_callback(min(i + CHUNK_SIZE, total_records), total_records)
 
-            # Combine: scan all chunk files lazily (no full in-memory copy)
-            logger.info("🔄 Combining chunks from disk...")
+            logger.info("🔄 Combining chunks...")
             final_df = pl.scan_parquet(os.path.join(tmp_dir, "chunk_*.parquet")).collect()
 
-            # DuckDB analytics on the already-collected Polars frame (no .to_pandas())
             logger.info("📊 Running DuckDB analytics...")
             try:
                 self.duckdb_conn.register('results', final_df)
@@ -1521,16 +1510,11 @@ class UltraFastNLPPipeline:
             return final_df
 
         finally:
-            # Clean up temp chunk files
             for p in chunk_files:
-                try:
-                    os.unlink(p)
-                except Exception:
-                    pass
-            try:
-                os.rmdir(tmp_dir)
-            except Exception:
-                pass
+                try: os.unlink(p)
+                except Exception: pass
+            try: os.rmdir(tmp_dir)
+            except Exception: pass
     
     def results_to_dataframe(self, results_df: pl.DataFrame, id_column: str, text_column: str) -> pd.DataFrame:
         """
@@ -1590,16 +1574,7 @@ class UltraFastNLPPipeline:
                 .str.replace_all(r'\n',   ' | ')
             ])
 
-        # Convert to Pandas — for very large datasets do this in chunks
-        # to avoid a single huge memory spike
-        if len(output_df) > 50_000:
-            pandas_chunks = []
-            for start in range(0, len(output_df), 50_000):
-                pandas_chunks.append(output_df.slice(start, 50_000).to_pandas())
-            import pandas as _pd
-            result = _pd.concat(pandas_chunks, ignore_index=True)
-            del pandas_chunks
-            return result
+        # Convert to Pandas
         return output_df.to_pandas()
     
     def get_analytics_summary(self) -> Dict:
@@ -1737,22 +1712,23 @@ class PolarsFileHandler:
                         # Get Parquet size
                         parquet_size_mb = len(parquet_buffer.getvalue()) / (1024 * 1024)
                         compression_ratio = file_size_mb / parquet_size_mb if parquet_size_mb > 0 else 1
-                        
+                        size_change = "smaller" if parquet_size_mb < file_size_mb else "larger"
+
                         # Reload from Parquet (this is now the optimized version)
                         df_optimized = pl.read_parquet(parquet_buffer)
-                        
+
                         convert_time = (datetime.now() - start_convert).total_seconds()
-                        
+
                         logger.info(f"✅ Parquet optimization complete:")
                         logger.info(f"   - Original: {file_size_mb:.2f} MB ({file_extension.upper()})")
                         logger.info(f"   - Optimized: {parquet_size_mb:.2f} MB (Parquet)")
-                        logger.info(f"   - Compression: {compression_ratio:.1f}x smaller")
+                        logger.info(f"   - Compression: {compression_ratio:.1f}x {size_change}")
                         logger.info(f"   - Conversion time: {convert_time:.2f}s")
-                        
+
                         # Update message with success
                         optimization_msg.success(
                             f"✅ Optimized! Original: {file_size_mb:.1f}MB → Parquet: {parquet_size_mb:.1f}MB "
-                            f"({compression_ratio:.1f}x compression) • Conversion: {convert_time:.1f}s"
+                            f"({compression_ratio:.1f}x {size_change}) • Conversion: {convert_time:.1f}s"
                         )
                         
                         # Use optimized DataFrame
@@ -2657,7 +2633,7 @@ footer, .stDeployButton { display: none !important; }
                     plot_bgcolor='rgba(0,0,0,0)',
                     margin=dict(t=50, b=20, l=10, r=10)
                 )
-                st.plotly_chart(fig_bar, use_container_width=True)
+                st.plotly_chart(fig_bar, width='stretch')
             
 
             
@@ -2726,7 +2702,7 @@ footer, .stDeployButton { display: none !important; }
 
             
             # Search button
-            search_button = st.button("🚀 Search Concordances", type="primary", use_container_width=True)
+            search_button = st.button("🚀 Search Concordances", type="primary", width='stretch')
             
             # Perform search
             if search_button and search_keyword:
