@@ -2314,15 +2314,14 @@ def render_landing():
 
 def main():
     """Main Streamlit application"""
-    is_app = st.session_state.get('page') == 'app'
     st.set_page_config(
         page_title="Intelli-CXMiner — NLP Text Analysis",
         page_icon="🧐",
         layout="wide",
-        initial_sidebar_state="expanded" if is_app else "collapsed"
+        initial_sidebar_state="collapsed"   # always collapsed; sidebar shows only in app
     )
     # Route to landing page until user clicks Launch
-    if not is_app:
+    if st.session_state.get('page') != 'app':
         render_landing()
         return
 
@@ -2501,6 +2500,14 @@ footer, .stDeployButton { display: none !important; }
             else:
                 st.warning("⚠️ No industries loaded from domain_packs directory")
     
+    # Expand sidebar now that we're in the app
+    # (set_page_config used collapsed for landing; expand here)
+    st.markdown("""
+    <script>
+    const sidebar = window.parent.document.querySelector('[data-testid="stSidebar"]');
+    if (sidebar) sidebar.style.display = '';
+    </script>""", unsafe_allow_html=True)
+
     # Sidebar
     st.sidebar.header("⚙️ Configuration")
     
