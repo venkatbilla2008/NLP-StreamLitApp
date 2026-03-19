@@ -189,6 +189,8 @@ def load_spacy_model():
 
 nlp = load_spacy_model()
 
+
+
 # ========================================================================================
 # DATA CLASSES
 # ========================================================================================
@@ -201,6 +203,7 @@ class PIIRedactionResult:
     pii_counts: Dict[str, int]
     total_items: int
 
+
 @dataclass
 class CategoryMatch:
     """Hierarchical category match result with 4 levels"""
@@ -211,14 +214,6 @@ class CategoryMatch:
     confidence: float
     match_path: str
     matched_rule: Optional[str] = None
-
-@dataclass
-class ProximityResult:
-    """Proximity-based grouping result"""
-    primary_proximity: str
-    proximity_group: str
-    theme_count: int
-    matched_themes: List[str]
 
 # ========================================================================================
 # VECTORIZED PII DETECTOR - ULTRA-FAST BATCH PROCESSING
@@ -429,6 +424,7 @@ class VectorizedPIIDetector:
         
         return True
 
+
 # ========================================================================================
 # DOMAIN LOADER
 # ========================================================================================
@@ -523,6 +519,7 @@ class DomainLoader:
     def get_industry_data(self, industry: str) -> Dict:
         """Get rules and keywords for specific industry"""
         return self.industries.get(industry, {'rules': [], 'keywords': []})
+
 
 # ========================================================================================
 # ULTRA-ENHANCED CLASSIFICATION ENGINE - CONVERSATION FLOW AWARE
@@ -788,6 +785,7 @@ class VectorizedRuleEngine:
         # Validate hierarchy
         validated = self._validate_hierarchy(category_data)
         
+
         confidence = min(best_match['score'] / 100.0, 1.0)
         match_path = f"{validated['l1']} > {validated['l2']}"
         if validated['l3'] != 'NA':
@@ -810,64 +808,10 @@ class VectorizedRuleEngine:
             results.append(result)
         return pl.DataFrame(results)
 
-# ========================================================================================
-# VECTORIZED PROXIMITY ANALYZER (Not used in output, but kept for internal processing)
+
 # ========================================================================================
 
-class VectorizedProximityAnalyzer:
-    """Vectorized proximity analysis for batch processing"""
-    
-    PROXIMITY_THEMES = {
-        'Agent_Behavior': ['agent', 'representative', 'rep', 'staff', 'employee', 'behavior', 'rude', 'unprofessional', 'helpful', 'courteous'],
-        'Technical_Issues': ['error', 'bug', 'issue', 'problem', 'technical', 'system', 'website', 'app', 'crash', 'down', 'not working', 'broken'],
-        'Customer_Service': ['service', 'support', 'help', 'assist', 'assistance', 'customer', 'experience', 'satisfaction', 'quality', 'care'],
-        'Communication': ['communication', 'call', 'email', 'message', 'contact', 'reach', 'respond', 'response', 'reply', 'follow up'],
-        'Billing_Payments': ['bill', 'billing', 'payment', 'charge', 'fee', 'cost', 'invoice', 'transaction', 'pay', 'paid', 'refund'],
-        'Product_Quality': ['product', 'quality', 'defect', 'damaged', 'broken', 'faulty', 'poor', 'excellent', 'good', 'bad'],
-        'Cancellation_Refund': ['cancel', 'cancellation', 'refund', 'return', 'exchange', 'reimbursement', 'money back'],
-        'Policy_Terms': ['policy', 'term', 'terms', 'condition', 'conditions', 'rule', 'rules', 'regulation', 'guideline'],
-        'Account_Access': ['account', 'login', 'password', 'access', 'locked', 'unlock', 'reset', 'credentials', 'username'],
-        'Order_Delivery': ['order', 'delivery', 'shipping', 'dispatch', 'arrival', 'received', 'tracking', 'delayed', 'late'],
-    }
-    
-    @classmethod
-    def analyze_batch(cls, texts: List[str]) -> pl.DataFrame:
-        """
-        Vectorized proximity analysis
-        NOTE: Results are calculated but NOT included in final output
-        """
-        results = []
-        
-        for text in texts:
-            if not text or not isinstance(text, str):
-                results.append({
-                    'theme_count': 0
-                })
-                continue
-            
-            text_lower = text.lower()
-            matched_themes = set()
-            
-            for theme, keywords in cls.PROXIMITY_THEMES.items():
-                for keyword in keywords:
-                    if keyword in text_lower:
-                        matched_themes.add(theme)
-                        break
-            
-            if not matched_themes:
-                results.append({
-                    'theme_count': 0
-                })
-                continue
-            
-            primary = list(matched_themes)[0]
-            matched_list = sorted(list(matched_themes))
-            
-            results.append({
-                'theme_count': len(matched_themes)
-            })
-        
-        return pl.DataFrame(results)
+
 
 # ========================================================================================
 # ADVANCED VISUALIZATION MODULE
@@ -909,6 +853,7 @@ class AdvancedVisualizer:
         fig.update_traces(textinfo="label+percent entry")
         fig.update_layout(margin=dict(t=50, l=0, r=0, b=0))
         return fig
+
 
 # ========================================================================================
 # PYECHARTS WORD TREE VISUALIZER
@@ -1139,8 +1084,10 @@ class PyEchartsWordTree:
         
         return option
 
+
 # Keep the old class name for compatibility
 HierarchicalCategoryTree = PyEchartsWordTree
+
 
 # ========================================================================================
 # CONCORDANCE ANALYZER - KEYWORD IN CONTEXT (KWIC)
@@ -1350,6 +1297,8 @@ class ConcordanceAnalyzer:
         else:
             raise ValueError(f"Unsupported format: {format}")
 
+
+
 # ========================================================================================
 # ULTRA-FAST NLP PIPELINE WITH DUCKDB
 # ========================================================================================
@@ -1407,16 +1356,12 @@ class UltraFastNLPPipeline:
         classification_df = self.rule_engine.classify_batch(redacted_texts)
         
         # 3. Vectorized Proximity Analysis (calculated but NOT in output)
-        # proximity_df = VectorizedProximityAnalyzer.analyze_batch(redacted_texts)
         
         # Combine results using Polars (zero-copy where possible)
         # ONLY INCLUDE ESSENTIAL COLUMNS
         result_df = pl.concat([
             chunk_df,
-            #     'redacted_text': redacted_texts,
-            # }),
             classification_df,
-            # proximity_df
         ], how='horizontal')
         
         return result_df
@@ -1543,13 +1488,6 @@ class UltraFastNLPPipeline:
                 ORDER BY count DESC
             """).fetchdf()
             
-            # # Proximity distribution
-            # proximity_dist = self.duckdb_conn.execute("""
-            #     SELECT primary_proximity, COUNT(*) as count
-            #     FROM results
-            #     GROUP BY primary_proximity
-            #     ORDER BY count DESC
-            #     LIMIT 10
             # """).fetchdf()
             
             # Basic statistics
@@ -1563,12 +1501,12 @@ class UltraFastNLPPipeline:
             
             return {
                 'category_distribution': category_dist.to_dict('records'),
-                # 'proximity_distribution': proximity_dist.to_dict('records'),
                 'basic_statistics': basic_stats.to_dict('records')[0]
             }
         except Exception as e:
             logger.error(f"Analytics error: {e}")
             return {}
+
 
 # ========================================================================================
 # POLARS FILE HANDLER - ULTRA-FAST I/O WITH AUTOMATIC PARQUET OPTIMIZATION
@@ -1776,6 +1714,7 @@ class PolarsFileHandler:
                 try: _os.unlink(tmp_path)
                 except Exception: pass
 
+
 # ========================================================================================
 # DISTRIBUTION TABLE HELPER  (app_new.py style — HTML tables with inline bar charts)
 # ========================================================================================
@@ -1895,6 +1834,7 @@ def build_level_table(
         f'</table>'
     )
 
+
 # ========================================================================================
 # ECHARTS DECOMPOSITION TREE HELPERS  (Power BI / app_new.py style)
 # ========================================================================================
@@ -1940,6 +1880,7 @@ def build_tree_data(df: pd.DataFrame) -> dict:
             )
         root["children"].append(n1)
     return root
+
 
 def get_tree_option(data: dict) -> dict:
     """Return ECharts option dict for a horizontal LR decomposition tree
@@ -2039,237 +1980,20 @@ def get_tree_option(data: dict) -> dict:
         }]
     }
 
+
 # ========================================================================================
 # STREAMLIT UI - ULTRA-OPTIMIZED
 # ========================================================================================
 
-# ════════════════════════════════════════════════════════════════════════════════
-# LANDING PAGE
-# ════════════════════════════════════════════════════════════════════════════════
-
-LANDING_HTML = """
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-header[data-testid="stHeader"],footer,.stDeployButton,section[data-testid="stSidebar"]{display:none!important}
-.block-container{padding:0!important;max-width:100%!important}
-@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-@keyframes gradSweep{0%{background-position:0% center}100%{background-position:200% center}}
-@keyframes pulse1{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.3}50%{transform:translate(-45%,-55%) scale(1.15);opacity:.5}}
-@keyframes pulse2{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.2}50%{transform:translate(-55%,-45%) scale(1.2);opacity:.4}}
-@keyframes float3d{0%,100%{transform:perspective(1000px) rotateX(2deg) rotateY(-1deg) translateY(0)}50%{transform:perspective(1000px) rotateX(-1deg) rotateY(1deg) translateY(-14px)}}
-@keyframes barG1{0%{width:0}100%{width:68%}}@keyframes barG2{0%{width:0}100%{width:52%}}
-@keyframes barG3{0%{width:0}100%{width:84%}}@keyframes barG4{0%{width:0}100%{width:38%}}
-@keyframes barG5{0%{width:0}100%{width:61%}}@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-@keyframes gridP{0%,100%{opacity:.04}50%{opacity:.09}}
-@keyframes countUp{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
-.lp *{margin:0;padding:0;box-sizing:border-box;font-family:'DM Sans',sans-serif}
-
-/* ── HERO ── */
-.lp-hero{position:relative;min-height:100vh;background:#0A1219;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px}
-.lp-grd{position:absolute;inset:0;background-image:linear-gradient(rgba(99,160,185,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(99,160,185,.06) 1px,transparent 1px);background-size:52px 52px;animation:gridP 8s ease-in-out infinite;z-index:1;pointer-events:none}
-.lp-o1{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(30,80,110,.5) 0%,transparent 68%);top:15%;left:18%;transform:translate(-50%,-50%);filter:blur(110px);animation:pulse1 10s ease-in-out infinite;z-index:0}
-.lp-o2{position:absolute;width:650px;height:650px;border-radius:50%;background:radial-gradient(circle,rgba(212,165,60,.28) 0%,transparent 68%);top:70%;left:78%;transform:translate(-50%,-50%);filter:blur(90px);animation:pulse2 14s ease-in-out infinite;z-index:0}
-.lp-o3{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(50,130,90,.22) 0%,transparent 68%);top:80%;left:10%;transform:translate(-50%,-50%);filter:blur(80px);animation:pulse1 16s ease-in-out 3s infinite;z-index:0}
-
-/* ── BADGE ── */
-.lp-bdg{position:relative;z-index:2;display:inline-flex;align-items:center;gap:8px;background:rgba(212,165,60,.07);color:#D4A53C;padding:9px 26px;border-radius:28px;font-size:10px;font-weight:700;letter-spacing:2.5px;border:1px solid rgba(212,165,60,.18);margin-bottom:36px;animation:fadeUp .6s ease-out both;backdrop-filter:blur(6px)}
-.lp-bdg::before{content:'';width:7px;height:7px;border-radius:50%;background:#D4A53C;box-shadow:0 0 10px rgba(212,165,60,.7)}
-
-/* ── TITLE ── */
-.lp-ttl{position:relative;z-index:2;font-size:clamp(48px,8vw,84px);font-weight:700;line-height:1.03;text-align:center;margin-bottom:12px;letter-spacing:-2px;background:linear-gradient(90deg,#6B8A99 0%,#E8E6DD 18%,#D4A53C 36%,#FFFFFF 52%,#A8BCC8 68%,#D4A53C 84%,#6B8A99 100%);background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp .6s ease-out .12s both,gradSweep 5s linear infinite}
-.lp-sub{position:relative;z-index:2;font-size:20px;color:#89A8B8;text-align:center;font-style:italic;font-weight:400;margin-bottom:16px;animation:fadeUp .6s ease-out .24s both}
-.lp-dsc{position:relative;z-index:2;font-size:15px;color:#3D5A68;text-align:center;max-width:580px;line-height:1.85;margin:0 auto 52px;animation:fadeUp .6s ease-out .36s both}
-
-/* ── MOCKUP WINDOW ── */
-.lp-mk{position:relative;z-index:2;width:min(720px,94vw);margin:0 auto;animation:fadeUp .8s ease-out .5s both,float3d 8s ease-in-out 2s infinite}
-.lp-wn{background:rgba(18,30,38,.6);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border:1px solid rgba(99,160,185,.14);border-radius:18px;overflow:hidden;box-shadow:0 50px 120px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.04)}
-.lp-wh{display:flex;align-items:center;gap:8px;padding:14px 20px;background:rgba(10,18,25,.75);border-bottom:1px solid rgba(99,160,185,.08)}
-.lp-dt{width:12px;height:12px;border-radius:50%}.lp-dr{background:#A04040}.lp-dy{background:#D4A53C}.lp-dg{background:#3D7A5F}
-.lp-wt{font-size:11px;color:#3D5A68;margin-left:10px;font-family:'JetBrains Mono',monospace;letter-spacing:.5px}
-.lp-wb{padding:26px 26px 10px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:2.1;color:#6B8A99}
-.ck{color:#D4A53C}.cf{color:#A8BCC8}.cs{color:#3D7A5F}.cm{color:#2D4A55;font-style:italic}.cn{color:#89A8B8}
-.lp-cur{display:inline-block;width:2px;height:15px;background:#D4A53C;animation:blink 1s step-end infinite;vertical-align:text-bottom;margin-left:2px}
-.lp-bars{margin-top:18px;padding:18px 26px 22px;border-top:1px solid rgba(99,160,185,.08);display:flex;flex-direction:column;gap:11px}
-.lp-br{display:flex;align-items:center;gap:12px}.lp-bl{width:120px;text-align:right;font-size:11px;color:#3D5A68;font-family:'DM Sans',sans-serif}
-.lp-bt{flex:1;height:7px;background:rgba(99,160,185,.08);border-radius:4px;overflow:hidden}
-.lp-bf{height:100%;border-radius:4px}
-.lb1{background:linear-gradient(90deg,#1E5070,#2D7A9C);animation:barG1 1.6s cubic-bezier(.4,0,.2,1) 1.2s both}
-.lb2{background:linear-gradient(90deg,#2D7A5F,#4A9A7B);animation:barG2 1.6s cubic-bezier(.4,0,.2,1) 1.4s both}
-.lb3{background:linear-gradient(90deg,#1E5070,#2D7A9C);animation:barG3 1.6s cubic-bezier(.4,0,.2,1) 1.6s both}
-.lb4{background:linear-gradient(90deg,#D4A53C,#E8C86A);animation:barG4 1.6s cubic-bezier(.4,0,.2,1) 1.8s both}
-.lb5{background:linear-gradient(90deg,#5A7A8C,#89A8B8);animation:barG5 1.6s cubic-bezier(.4,0,.2,1) 2.0s both}
-.lp-bp{width:42px;font-size:11px;color:#89A8B8;font-family:'JetBrains Mono',monospace;text-align:right}
-
-/* ── STATS ── */
-.lp-sts{position:relative;z-index:2;display:flex;justify-content:center;gap:56px;margin-top:60px;flex-wrap:wrap;animation:fadeUp .6s ease-out .75s both}
-.lp-st{text-align:center;animation:countUp .6s ease-out both}
-.lp-sn{font-size:36px;font-weight:700;color:#E8E6DD;font-family:'JetBrains Mono',monospace;line-height:1}
-.lp-sn span{color:#D4A53C}.lp-sl{font-size:10px;color:#3D5A68;text-transform:uppercase;letter-spacing:2px;margin-top:6px}
-
-/* ── FEATURES SECTION ── */
-.lp-ft{background:#F5F4F0;padding:88px 40px;text-align:center}
-.lp-fh{font-size:34px;font-weight:700;color:#1A2830;margin-bottom:12px}
-.lp-fd{font-size:15px;color:#6B8A99;margin-bottom:52px;max-width:480px;margin-left:auto;margin-right:auto}
-.lp-fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;max-width:1100px;margin:0 auto}
-.lp-fc{background:#fff;border:1px solid #D8D6CC;border-radius:16px;padding:34px 26px;transition:all .35s;position:relative;overflow:hidden;text-align:left}
-.lp-fc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1E5070,#D4A53C);transform:scaleX(0);transform-origin:left;transition:transform .4s}
-.lp-fc:hover{transform:translateY(-7px);box-shadow:0 20px 56px rgba(30,80,110,.12)}.lp-fc:hover::before{transform:scaleX(1)}
-.lp-fi{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
-.lp-fc h3{font-size:15px;font-weight:700;color:#1A2830;margin-bottom:9px}.lp-fc p{font-size:13px;color:#6B8A99;line-height:1.7}
-.fi-blue{background:linear-gradient(135deg,#1E5070,#2D7A9C);box-shadow:0 4px 14px rgba(30,80,110,.25)}
-.fi-green{background:linear-gradient(135deg,#2D7A5F,#4A9A7B);box-shadow:0 4px 14px rgba(45,122,95,.25)}
-.fi-gold{background:linear-gradient(135deg,#B8862E,#D4A53C);box-shadow:0 4px 14px rgba(184,134,46,.25)}
-.fi-slate{background:linear-gradient(135deg,#3D5A68,#6B8A99);box-shadow:0 4px 14px rgba(61,90,104,.2)}
-.fi-teal{background:linear-gradient(135deg,#1A6070,#2D8A9C);box-shadow:0 4px 14px rgba(26,96,112,.25)}
-.fi-purple{background:linear-gradient(135deg,#5A3D7A,#7A5D9C);box-shadow:0 4px 14px rgba(90,61,122,.25)}
-
-/* ── HOW IT WORKS ── */
-.lp-hw{background:#0A1219;padding:88px 40px;position:relative;overflow:hidden}
-.lp-hw::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(99,160,185,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(99,160,185,.025) 1px,transparent 1px);background-size:52px 52px;pointer-events:none}
-.lp-hwt{text-align:center;font-size:34px;font-weight:700;color:#E8E6DD;margin-bottom:14px;position:relative;z-index:1}
-.lp-hwd{text-align:center;font-size:15px;color:#3D5A68;margin-bottom:52px;position:relative;z-index:1}
-.lp-hws{display:flex;justify-content:center;gap:20px;max-width:980px;margin:0 auto;flex-wrap:wrap;position:relative;z-index:1}
-.lp-stp{text-align:center;flex:1;min-width:220px;padding:34px 22px;background:rgba(18,30,38,.5);backdrop-filter:blur(14px);border:1px solid rgba(99,160,185,.09);border-radius:18px;transition:all .3s}
-.lp-stp:hover{border-color:rgba(212,165,60,.22);transform:translateY(-4px)}
-.lp-snm{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#B8862E,#D4A53C);color:#1A2830;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 4px 28px rgba(212,165,60,.28)}
-.lp-stp h4{font-size:16px;font-weight:700;color:#E8E6DD;margin-bottom:9px}.lp-stp p{font-size:13px;color:#4A6B78;line-height:1.65}
-
-/* ── TECH STACK ── */
-.lp-tc{background:#F5F4F0;padding:48px 40px;text-align:center;border-top:1px solid #D8D6CC}
-.lp-tl{font-size:10px;color:#6B8A99;text-transform:uppercase;letter-spacing:2.5px;font-weight:700;margin-bottom:20px}
-.lp-tr{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-.lp-tp{background:#fff;border:1px solid #D8D6CC;border-radius:9px;padding:8px 22px;font-size:13px;font-weight:600;color:#3D5A68;transition:all .2s;cursor:default}
-.lp-tp:hover{border-color:#1E5070;color:#1E5070;transform:translateY(-2px)}
-
-/* ── FOOTER ── */
-.lp-fo{background:#0A1219;padding:24px;text-align:center;font-size:12px;color:#2D4A55;border-top:1px solid rgba(99,160,185,.06);letter-spacing:.3px}
-</style>
-
-<div class="lp">
-
-<!-- ═══ HERO ═══ -->
-<div class="lp-hero">
-  <div class="lp-grd"></div>
-  <div class="lp-o1"></div><div class="lp-o2"></div><div class="lp-o3"></div>
-
-  <div class="lp-bdg">ENTERPRISE NLP CLASSIFICATION ENGINE</div>
-  <h1 class="lp-ttl">Intelli-CXMiner</h1>
-  <p class="lp-sub">Classify Smarter. Understand Deeper.</p>
-  <p class="lp-dsc">Production-grade conversation intelligence for Customer Experience teams. Classify 100K+ transcripts across 10 industry domains in minutes — powered by Polars and DuckDB.</p>
-
-  <!-- Animated mockup window -->
-  <div class="lp-mk">
-    <div class="lp-wn">
-      <div class="lp-wh">
-        <div class="lp-dt lp-dr"></div><div class="lp-dt lp-dy"></div><div class="lp-dt lp-dg"></div>
-        <span class="lp-wt">pipeline.py — Vectorized Classification Engine</span>
-      </div>
-      <div class="lp-wb">
-        <span class="cm"># Polars column-ops — zero Python loops, Rust internals</span><br>
-        <span class="ck">import</span> polars <span class="ck">as</span> <span class="cn">pl</span>&nbsp;&nbsp;<span class="ck">import</span> duckdb<br><br>
-        <span class="ck">def</span> <span class="cf">classify_batch</span>(df, rules, domain):<br>
-        &nbsp;&nbsp;mask = text.<span class="cf">str.contains</span>(<span class="cs">"cancel subscription"</span>)<br>
-        &nbsp;&nbsp;mask = mask &amp; ~text.<span class="cf">str.contains</span>(<span class="cs">"policy"</span>)<br>
-        &nbsp;&nbsp;<span class="ck">return</span> <span class="cf">best_match</span>(scores, <span class="cn">rules</span>)<span class="lp-cur"></span>
-      </div>
-      <div class="lp-bars">
-        <div class="lp-br"><span class="lp-bl">Cancellation</span><div class="lp-bt"><div class="lp-bf lb1"></div></div><span class="lp-bp">31.2%</span></div>
-        <div class="lp-br"><span class="lp-bl">Billing Issues</span><div class="lp-bt"><div class="lp-bf lb2"></div></div><span class="lp-bp">24.8%</span></div>
-        <div class="lp-br"><span class="lp-bl">Technology</span><div class="lp-bt"><div class="lp-bf lb3"></div></div><span class="lp-bp">20.1%</span></div>
-        <div class="lp-br"><span class="lp-bl">Account Mgmt</span><div class="lp-bt"><div class="lp-bf lb4"></div></div><span class="lp-bp">13.4%</span></div>
-        <div class="lp-br"><span class="lp-bl">Products</span><div class="lp-bt"><div class="lp-bf lb5"></div></div><span class="lp-bp">10.5%</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Stats row -->
-  <div class="lp-sts">
-    <div class="lp-st"><div class="lp-sn">20<span>K+</span></div><div class="lp-sl">Records / Second</div></div>
-    <div class="lp-st"><div class="lp-sn">10</div><div class="lp-sl">Industry Domains</div></div>
-    <div class="lp-st"><div class="lp-sn">4</div><div class="lp-sl">Hierarchy Levels</div></div>
-    <div class="lp-st"><div class="lp-sn">100<span>K+</span></div><div class="lp-sl">Rows Supported</div></div>
-  </div>
-</div>
-
-<!-- ═══ FEATURES ═══ -->
-<div class="lp-ft">
-  <h2 class="lp-fh">Built for Enterprise Scale</h2>
-  <p class="lp-fd">Every component engineered for production. No compromises.</p>
-  <div class="lp-fg">
-    <div class="lp-fc">
-      <div class="lp-fi fi-blue"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-      <h3>Vectorized Engine</h3><p>20K+ records/sec using Polars. Pure Rust internals — zero Python loops, zero row-by-row overhead.</p>
-    </div>
-    <div class="lp-fc">
-      <div class="lp-fi fi-green"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="2" y="2" width="8" height="4" rx="1"/><rect x="14" y="2" width="8" height="4" rx="1"/><rect x="2" y="18" width="8" height="4" rx="1"/><rect x="14" y="18" width="8" height="4" rx="1"/><path d="M6 6v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6"/></svg></div>
-      <h3>4-Level Hierarchy</h3><p>Category → Subcategory → L3 → L4. Configurable JSON rules per domain. Production-ready taxonomy.</p>
-    </div>
-    <div class="lp-fc">
-      <div class="lp-fi fi-gold"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-      <h3>PII Redaction</h3><p>8 pattern types built-in. Emails, phones, credit cards, SSNs, IPs, addresses. Hash or token mode.</p>
-    </div>
-    <div class="lp-fc">
-      <div class="lp-fi fi-slate"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
-      <h3>Memory-Safe at Scale</h3><p>Disk-based chunking for 100K+ rows. Parquet temp files. Peak RAM = 1 chunk, not the full dataset.</p>
-    </div>
-    <div class="lp-fc">
-      <div class="lp-fi fi-teal"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-      <h3>Rich Analytics</h3><p>Plotly distribution charts, interactive word trees, ECharts sunburst, DuckDB-powered aggregations.</p>
-    </div>
-    <div class="lp-fc">
-      <div class="lp-fi fi-purple"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
-      <h3>Concordance Search</h3><p>Full-text search with regex support, keyword highlighting, and export — across millions of lines.</p>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ HOW IT WORKS ═══ -->
-<div class="lp-hw">
-  <div class="lp-hwt">Three Steps to Intelligence</div>
-  <p class="lp-hwd">From raw transcripts to actionable insight in minutes.</p>
-  <div class="lp-hws">
-    <div class="lp-stp"><div class="lp-snm">1</div><h4>Upload</h4><p>CSV, Excel, Parquet, or JSON. Auto-converted to Parquet for maximum throughput.</p></div>
-    <div class="lp-stp"><div class="lp-snm">2</div><h4>Configure</h4><p>Select an industry domain. Rules and keywords load automatically from JSON packs.</p></div>
-    <div class="lp-stp"><div class="lp-snm">3</div><h4>Classify &amp; Export</h4><p>Run the engine. Download CSV, XLSX, Parquet, or JSON with full category hierarchy.</p></div>
-  </div>
-</div>
-
-<!-- ═══ TECH STACK ═══ -->
-<div class="lp-tc">
-  <p class="lp-tl">Powered By</p>
-  <div class="lp-tr">
-    <div class="lp-tp">Polars</div><div class="lp-tp">DuckDB</div><div class="lp-tp">Streamlit</div>
-    <div class="lp-tp">Plotly</div><div class="lp-tp">ECharts</div><div class="lp-tp">spaCy</div>
-    <div class="lp-tp">NumPy</div><div class="lp-tp">ftfy</div><div class="lp-tp">openpyxl</div>
-  </div>
-</div>
-
-<div class="lp-fo">Intelli-CXMiner — Classify Smarter. Understand Deeper. &nbsp;|&nbsp; Powered by Polars · DuckDB · Vectorization</div>
-</div>
-"""
-
-def render_landing():
-    """Render the production landing page with Launch button."""
-    st.markdown(LANDING_HTML, unsafe_allow_html=True)
-    st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
-    _, cc, _ = st.columns([1, 2, 1])
-    with cc:
-        if st.button("🚀 Launch Application", type="primary", width='stretch'):
-            st.session_state.page = "app"
-            st.rerun()
-
 def main():
-    """Main Streamlit application"""
+    """Main Streamlit application - ULTRA-OPTIMIZED"""
+    
     st.set_page_config(
         page_title="Intelli-CXMiner — NLP Text Analysis",
         page_icon="🧐",
         layout="wide",
-        initial_sidebar_state="collapsed"   # always collapsed; sidebar shows only in app
+        initial_sidebar_state="expanded"
     )
-    # Route to landing page until user clicks Launch
-    if st.session_state.get('page') != 'app':
-        render_landing()
-        return
 
     # ── Premium CSS & Typography ──────────────────────────────────────────────
     st.markdown("""
@@ -2446,14 +2170,6 @@ footer, .stDeployButton { display: none !important; }
             else:
                 st.warning("⚠️ No industries loaded from domain_packs directory")
     
-    # Expand sidebar now that we're in the app
-    # (set_page_config used collapsed for landing; expand here)
-    st.markdown("""
-    <script>
-    const sidebar = window.parent.document.querySelector('[data-testid="stSidebar"]');
-    if (sidebar) sidebar.style.display = '';
-    </script>""", unsafe_allow_html=True)
-
     # Sidebar
     st.sidebar.header("⚙️ Configuration")
     
@@ -2829,6 +2545,8 @@ footer, .stDeployButton { display: none !important; }
                 )
                 st.plotly_chart(fig_bar, width='stretch')
             
+
+            
             # ============================================================================
             # CONCORDANCE ANALYSIS - KEYWORD IN CONTEXT (KWIC)
             # ============================================================================
@@ -2892,6 +2610,7 @@ footer, .stDeployButton { display: none !important; }
                 case_sensitive = False
                 use_regex = False
 
+            
             # Search button
             search_button = st.button("🚀 Search Concordances", type="primary", width='stretch')
             
@@ -3163,6 +2882,6 @@ footer, .stDeployButton { display: none !important; }
     </div>
     """, unsafe_allow_html=True)
 
+
 if __name__ == "__main__":
     main()
-
