@@ -1716,7 +1716,7 @@ class PolarsFileHandler:
 
 
 # ========================================================================================
-# DISTRIBUTION TABLE HELPER  (app_new.py style — HTML tables with inline bar charts)
+# DISTRIBUTION TABLE HELPER  (HTML tables with inline bar charts)
 # ========================================================================================
 
 DIST_TABLE_CSS = """
@@ -1836,7 +1836,7 @@ def build_level_table(
 
 
 # ========================================================================================
-# ECHARTS DECOMPOSITION TREE HELPERS  (Power BI / app_new.py style)
+# ECHARTS DECOMPOSITION TREE HELPERS  (Power BI)
 # ========================================================================================
 
 def build_tree_data(df: pd.DataFrame) -> dict:
