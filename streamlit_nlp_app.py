@@ -49,15 +49,12 @@ import multiprocessing
 # DuckDB for in-memory analytics
 import duckdb
 
-
 # Visualization Libraries
 import plotly.express as px
 import plotly.graph_objects as go
 import networkx as nx  # For tree diagram layout
 
 # PyEcharts for Word Tree
-from pyecharts import options as opts
-from pyecharts.charts import Tree
 from streamlit_echarts import st_echarts
 
 # ========================================================================================
@@ -112,9 +109,6 @@ ENABLE_VECTORIZATION = True
 USE_DUCKDB = True
 USE_POLARS = True
 
-
-
-
 # ========================================================================================
 # DATA CLASSES
 # ========================================================================================
@@ -126,7 +120,6 @@ class PIIRedactionResult:
     pii_detected: bool
     pii_counts: Dict[str, int]
     total_items: int
-
 
 @dataclass
 class CategoryMatch:
@@ -348,7 +341,6 @@ class VectorizedPIIDetector:
         
         return True
 
-
 # ========================================================================================
 # DOMAIN LOADER
 # ========================================================================================
@@ -443,7 +435,6 @@ class DomainLoader:
     def get_industry_data(self, industry: str) -> Dict:
         """Get rules and keywords for specific industry"""
         return self.industries.get(industry, {'rules': [], 'keywords': []})
-
 
 # ========================================================================================
 # ULTRA-ENHANCED CLASSIFICATION ENGINE - CONVERSATION FLOW AWARE
@@ -732,286 +723,7 @@ class VectorizedRuleEngine:
             results.append(result)
         return pl.DataFrame(results)
 
-
 # ========================================================================================
-
-
-
-# ========================================================================================
-# ADVANCED VISUALIZATION MODULE
-# ========================================================================================
-
-class AdvancedVisualizer:
-    """Generates executive-level visualizations for the dashboard"""
-    
-    @staticmethod
-    def create_sunburst_chart(df: pd.DataFrame):
-        """Create hierarchical sunburst chart of categories"""
-        if df.empty:
-            return None
-            
-        # Prepare data: Count occurrences of hierarchy paths
-        # Handle missing values
-        df_clean = df.fillna("Uncategorized")
-        
-        # Aggregate data for speed
-        sunburst_data = df_clean.groupby(['Category', 'Subcategory', 'L3', 'L4']).size().reset_index(name='count')
-        
-        # Replace 'NA' with None so empty rings don't appear in the sunburst
-        for col in ['Subcategory', 'L3', 'L4']:
-            sunburst_data.loc[sunburst_data[col] == 'NA', col] = None
-            
-        # Filter out extremely small segments for better visibility
-        limit = len(df) * 0.005  # 0.5% threshold
-        sunburst_data = sunburst_data[sunburst_data['count'] > limit]
-        
-        fig = px.sunburst(
-            sunburst_data,
-            path=['Category', 'Subcategory', 'L3', 'L4'],
-            values='count',
-            title="<b>Hierarchical Category Breakdown</b><br><sup>Click to zoom in/out</sup>",
-            color='Category',
-            color_discrete_sequence=px.colors.qualitative.Prism,
-            height=700
-        )
-        fig.update_traces(textinfo="label+percent entry")
-        fig.update_layout(margin=dict(t=50, l=0, r=0, b=0))
-        return fig
-
-
-# ========================================================================================
-# PYECHARTS WORD TREE VISUALIZER
-# ========================================================================================
-
-class PyEchartsWordTree:
-    """
-    Creates beautiful, interactive Word Tree visualizations using PyEcharts.
-    Features: expand/collapse, smooth animations, no overlapping labels.
-    """
-    
-    def __init__(self, df: pd.DataFrame):
-        self.df = df
-        self.hierarchy_levels = ['L1_Category', 'L2_Subcategory', 'L3_Tertiary', 'L4_Quaternary']
-    
-    def create_tree_data(self, selected_l1: str = None, selected_l2: str = None, selected_l3: str = None) -> Dict:
-        """Build tree data structure for PyEcharts"""
-        plot_df = self.df.copy()
-        
-        # Apply filters
-        if selected_l3:
-            plot_df = plot_df[
-                (plot_df['Category'] == selected_l1) &
-                (plot_df['Subcategory'] == selected_l2) &
-                (plot_df['L3'] == selected_l3)
-            ]
-            root_name = selected_l3
-            child_col = 'L4'
-        elif selected_l2:
-            plot_df = plot_df[
-                (plot_df['Category'] == selected_l1) &
-                (plot_df['Subcategory'] == selected_l2)
-            ]
-            root_name = selected_l2
-            child_col = 'L3'
-        elif selected_l1:
-            plot_df = plot_df[plot_df['Category'] == selected_l1]
-            root_name = selected_l1
-            child_col = 'Subcategory'
-        else:
-            root_name = "All Categories"
-            child_col = 'Category'
-        
-        if len(plot_df) == 0:
-            return {"name": "No Data", "value": 0, "children": []}
-        
-        # Build tree structure
-        if root_name == "All Categories":
-            # Build full hierarchy
-            tree_data = {
-                "name": f"{root_name} ({len(plot_df)})",
-                "value": len(plot_df),
-                "children": []
-            }
-            
-            # Group by L1
-            for l1, l1_df in plot_df.groupby('Category'):
-                l1_node = {
-                    "name": f"{l1} ({len(l1_df)})",
-                    "value": len(l1_df),
-                    "children": []
-                }
-                
-                # Group by L2
-                for l2, l2_df in l1_df.groupby('Subcategory'):
-                    l2_node = {
-                        "name": f"{l2} ({len(l2_df)})",
-                        "value": len(l2_df),
-                        "children": []
-                    }
-                    
-                    # Group by L3
-                    for l3, l3_df in l2_df.groupby('L3'):
-                        l3_node = {
-                            "name": f"{l3} ({len(l3_df)})",
-                            "value": len(l3_df),
-                            "children": []
-                        }
-                        
-                        # Add L4
-                        for l4, count in l3_df['L4'].value_counts().items():
-                            l3_node["children"].append({
-                                "name": f"{l4} ({count})",
-                                "value": count
-                            })
-                        
-                        l2_node["children"].append(l3_node)
-                    
-                    l1_node["children"].append(l2_node)
-                
-                tree_data["children"].append(l1_node)
-        else:
-            # Single level drill-down
-            tree_data = {
-                "name": f"{root_name} ({len(plot_df)})",
-                "value": len(plot_df),
-                "children": []
-            }
-            
-            for child, count in plot_df[child_col].value_counts().items():
-                tree_data["children"].append({
-                    "name": f"{child} ({count})",
-                    "value": count
-                })
-        
-        return tree_data
-    
-    def create_echarts_tree(self, selected_l1: str = None, selected_l2: str = None, selected_l3: str = None) -> Dict:
-        """Create PyEcharts tree configuration with improved readability"""
-        tree_data = self.create_tree_data(selected_l1, selected_l2, selected_l3)
-        
-        # Build title
-        if selected_l3:
-            title = f"🌳 Word Tree: {selected_l1} > {selected_l2} > {selected_l3}"
-        elif selected_l2:
-            title = f"🌳 Word Tree: {selected_l1} > {selected_l2}"
-        elif selected_l1:
-            title = f"🌳 Word Tree: {selected_l1}"
-        else:
-            title = "🌳 Word Tree: Complete Hierarchy"
-        
-        # ECharts configuration with improved spacing and readability
-        option = {
-            "title": {
-                "text": title,
-                "left": "center",
-                "top": "2%",
-                "textStyle": {"fontSize": 18, "fontWeight": "bold", "color": "#2C3E50"}
-            },
-            "tooltip": {
-                "trigger": "item",
-                "triggerOn": "mousemove",
-                "formatter": "{b}",
-                "backgroundColor": "rgba(50, 50, 50, 0.9)",
-                "borderColor": "#333",
-                "borderWidth": 1,
-                "textStyle": {
-                    "color": "#fff",
-                    "fontSize": 13
-                }
-            },
-            "series": [
-                {
-                    "type": "tree",
-                    "data": [tree_data],
-                    "top": "12%",
-                    "left": "5%",
-                    "bottom": "5%",
-                    "right": "25%",  # More space on right for labels
-                    "symbolSize": 8,
-                    "orient": "LR",  # Left to Right
-                    "layout": "orthogonal",  # Orthogonal layout for better spacing
-                    "edgeShape": "polyline",  # Cleaner edge connections
-                    "edgeForkPosition": "50%",  # Center fork position
-                    "roam": True,  # Enable zoom and pan
-                    "scaleLimit": {
-                        "min": 0.5,
-                        "max": 3
-                    },
-                    "label": {
-                        "show": True,
-                        "position": "right",
-                        "distance": 15,  # Distance from node
-                        "verticalAlign": "middle",
-                        "align": "left",
-                        "fontSize": 13,
-                        "color": "#2C3E50",
-                        "fontWeight": "500",
-                        "overflow": "breakAll",  # Break long text
-                        "width": 200,  # Max width for labels
-                        "backgroundColor": "rgba(255, 255, 255, 0.8)",  # Semi-transparent background
-                        "padding": [4, 8],
-                        "borderRadius": 4
-                    },
-                    "leaves": {
-                        "label": {
-                            "show": True,
-                            "position": "right",
-                            "distance": 12,
-                            "verticalAlign": "middle",
-                            "align": "left",
-                            "fontSize": 12,
-                            "color": "#555",
-                            "fontWeight": "normal",
-                            "overflow": "breakAll",
-                            "width": 180,
-                            "backgroundColor": "rgba(245, 245, 245, 0.8)",
-                            "padding": [3, 6],
-                            "borderRadius": 3
-                        }
-                    },
-                    "expandAndCollapse": True,
-                    "animationDuration": 550,
-                    "animationDurationUpdate": 750,
-                    "initialTreeDepth": 2,  # Show first 2 levels by default
-                    "lineStyle": {
-                        "color": "#999",
-                        "width": 1.5,
-                        "curveness": 0.3  # Reduced curveness for cleaner look
-                    },
-                    "itemStyle": {
-                        "color": "#1f77b4",
-                        "borderColor": "#1f77b4",
-                        "borderWidth": 2
-                    },
-                    "emphasis": {
-                        "focus": "descendant",
-                        "itemStyle": {
-                            "color": "#ff7f0e",
-                            "borderColor": "#ff7f0e",
-                            "borderWidth": 3,
-                            "shadowBlur": 10,
-                            "shadowColor": "rgba(255, 127, 14, 0.5)"
-                        },
-                        "lineStyle": {
-                            "color": "#ff7f0e",
-                            "width": 2.5
-                        },
-                        "label": {
-                            "fontWeight": "bold",
-                            "fontSize": 14,
-                            "backgroundColor": "rgba(255, 127, 14, 0.1)"
-                        }
-                    }
-                }
-            ]
-        }
-        
-        return option
-
-
-# Keep the old class name for compatibility
-HierarchicalCategoryTree = PyEchartsWordTree
-
 
 # ========================================================================================
 # CONCORDANCE ANALYZER - KEYWORD IN CONTEXT (KWIC)
@@ -1221,8 +933,6 @@ class ConcordanceAnalyzer:
         else:
             raise ValueError(f"Unsupported format: {format}")
 
-
-
 # ========================================================================================
 # ULTRA-FAST NLP PIPELINE WITH DUCKDB
 # ========================================================================================
@@ -1431,7 +1141,6 @@ class UltraFastNLPPipeline:
             logger.error(f"Analytics error: {e}")
             return {}
 
-
 # ========================================================================================
 # POLARS FILE HANDLER - ULTRA-FAST I/O WITH AUTOMATIC PARQUET OPTIMIZATION
 # ========================================================================================
@@ -1638,7 +1347,6 @@ class PolarsFileHandler:
                 try: _os.unlink(tmp_path)
                 except Exception: pass
 
-
 # ========================================================================================
 # DISTRIBUTION TABLE HELPER  (app_new.py style — HTML tables with inline bar charts)
 # ========================================================================================
@@ -1758,7 +1466,6 @@ def build_level_table(
         f'</table>'
     )
 
-
 # ========================================================================================
 # ECHARTS DECOMPOSITION TREE HELPERS  (Power BI / app_new.py style)
 # ========================================================================================
@@ -1804,7 +1511,6 @@ def build_tree_data(df: pd.DataFrame) -> dict:
             )
         root["children"].append(n1)
     return root
-
 
 def get_tree_option(data: dict) -> dict:
     """Return ECharts option dict for a horizontal LR decomposition tree
@@ -1903,7 +1609,6 @@ def get_tree_option(data: dict) -> dict:
             }
         }]
     }
-
 
 # ========================================================================================
 # STREAMLIT UI - ULTRA-OPTIMIZED
@@ -2061,7 +1766,6 @@ header[data-testid="stHeader"],footer,.stDeployButton,section[data-testid="stSid
 </div>
 """
 
-
 def render_landing():
     """Render the production landing page."""
     st.markdown(LANDING_HTML, unsafe_allow_html=True)
@@ -2071,7 +1775,6 @@ def render_landing():
         if st.button("🚀 Launch Application", type="primary", width='stretch'):
             st.session_state.page = "app"
             st.rerun()
-
 
 def main():
     """Main Streamlit application"""
@@ -3023,7 +2726,6 @@ Disk-based chunking (100K+ safe) · ThreadPoolExecutor
     <small>Intelli-CXMiner — Conversation Intelligence Platform | Powered by Polars + DuckDB + Vectorization</small>
     </div>
     """, unsafe_allow_html=True)
-
 
 if __name__ == "__main__":
     main()
