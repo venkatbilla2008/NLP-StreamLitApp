@@ -189,8 +189,6 @@ def load_spacy_model():
 
 nlp = load_spacy_model()
 
-
-
 # ========================================================================================
 # DATA CLASSES
 # ========================================================================================
@@ -203,7 +201,6 @@ class PIIRedactionResult:
     pii_counts: Dict[str, int]
     total_items: int
 
-
 @dataclass
 class CategoryMatch:
     """Hierarchical category match result with 4 levels"""
@@ -215,7 +212,6 @@ class CategoryMatch:
     match_path: str
     matched_rule: Optional[str] = None
 
-
 @dataclass
 class ProximityResult:
     """Proximity-based grouping result"""
@@ -223,7 +219,6 @@ class ProximityResult:
     proximity_group: str
     theme_count: int
     matched_themes: List[str]
-
 
 # ========================================================================================
 # VECTORIZED PII DETECTOR - ULTRA-FAST BATCH PROCESSING
@@ -376,8 +371,6 @@ class VectorizedPIIDetector:
         result_df = pl.DataFrame({
             'original_text': df['original_text'].to_list(),
             'redacted_text': redacted_texts,
-            # COMMENTED OUT - Not needed in final output
-            # 'pii_total_items': [sum(1 for t in redacted_texts[i].split('[') if t.startswith(('EMAIL:', 'PHONE:', 'CARD:', 'SSN:', 'DOB:', 'MRN:', 'IP:', 'ADDRESS:'))) for i in range(len(redacted_texts))]
         })
         
         return result_df
@@ -435,7 +428,6 @@ class VectorizedPIIDetector:
             return False
         
         return True
-
 
 # ========================================================================================
 # DOMAIN LOADER
@@ -531,7 +523,6 @@ class DomainLoader:
     def get_industry_data(self, industry: str) -> Dict:
         """Get rules and keywords for specific industry"""
         return self.industries.get(industry, {'rules': [], 'keywords': []})
-
 
 # ========================================================================================
 # ULTRA-ENHANCED CLASSIFICATION ENGINE - CONVERSATION FLOW AWARE
@@ -797,7 +788,6 @@ class VectorizedRuleEngine:
         # Validate hierarchy
         validated = self._validate_hierarchy(category_data)
         
-
         confidence = min(best_match['score'] / 100.0, 1.0)
         match_path = f"{validated['l1']} > {validated['l2']}"
         if validated['l3'] != 'NA':
@@ -819,7 +809,6 @@ class VectorizedRuleEngine:
             result = self.classify_single(text)
             results.append(result)
         return pl.DataFrame(results)
-
 
 # ========================================================================================
 # VECTORIZED PROXIMITY ANALYZER (Not used in output, but kept for internal processing)
@@ -852,9 +841,6 @@ class VectorizedProximityAnalyzer:
         for text in texts:
             if not text or not isinstance(text, str):
                 results.append({
-                    # COMMENTED OUT - Not included in final output
-                    # 'primary_proximity': "Uncategorized",
-                    # 'proximity_group': "Uncategorized",
                     'theme_count': 0
                 })
                 continue
@@ -870,9 +856,6 @@ class VectorizedProximityAnalyzer:
             
             if not matched_themes:
                 results.append({
-                    # COMMENTED OUT - Not included in final output
-                    # 'primary_proximity': "Uncategorized",
-                    # 'proximity_group': "Uncategorized",
                     'theme_count': 0
                 })
                 continue
@@ -881,15 +864,10 @@ class VectorizedProximityAnalyzer:
             matched_list = sorted(list(matched_themes))
             
             results.append({
-                # COMMENTED OUT - Not included in final output
-                # 'primary_proximity': primary,
-                # 'proximity_group': ", ".join(matched_list),
                 'theme_count': len(matched_themes)
             })
         
         return pl.DataFrame(results)
-
-
 
 # ========================================================================================
 # ADVANCED VISUALIZATION MODULE
@@ -931,7 +909,6 @@ class AdvancedVisualizer:
         fig.update_traces(textinfo="label+percent entry")
         fig.update_layout(margin=dict(t=50, l=0, r=0, b=0))
         return fig
-
 
 # ========================================================================================
 # PYECHARTS WORD TREE VISUALIZER
@@ -1162,10 +1139,8 @@ class PyEchartsWordTree:
         
         return option
 
-
 # Keep the old class name for compatibility
 HierarchicalCategoryTree = PyEchartsWordTree
-
 
 # ========================================================================================
 # CONCORDANCE ANALYZER - KEYWORD IN CONTEXT (KWIC)
@@ -1375,8 +1350,6 @@ class ConcordanceAnalyzer:
         else:
             raise ValueError(f"Unsupported format: {format}")
 
-
-
 # ========================================================================================
 # ULTRA-FAST NLP PIPELINE WITH DUCKDB
 # ========================================================================================
@@ -1427,31 +1400,22 @@ class UltraFastNLPPipeline:
         if self.enable_pii_redaction:
             pii_df = VectorizedPIIDetector.vectorized_redact_batch(texts, redaction_mode)
             redacted_texts = pii_df['redacted_text'].to_list()
-            # COMMENTED OUT - PII items not needed in output
-            # pii_items = pii_df['pii_total_items'].to_list()
         else:
             redacted_texts = texts
-            # COMMENTED OUT - PII items not needed in output
-            # pii_items = [0] * len(texts)
         
         # 2. Vectorized Classification
         classification_df = self.rule_engine.classify_batch(redacted_texts)
         
         # 3. Vectorized Proximity Analysis (calculated but NOT in output)
-        # COMMENTED OUT - Proximity not needed in output
         # proximity_df = VectorizedProximityAnalyzer.analyze_batch(redacted_texts)
         
         # Combine results using Polars (zero-copy where possible)
         # ONLY INCLUDE ESSENTIAL COLUMNS
         result_df = pl.concat([
             chunk_df,
-            # COMMENTED OUT - Not needed in output
-            # pl.DataFrame({
             #     'redacted_text': redacted_texts,
-            #     'pii_items_redacted': pii_items
             # }),
             classification_df,
-            # COMMENTED OUT - Proximity not needed in output
             # proximity_df
         ], how='horizontal')
         
@@ -1541,10 +1505,6 @@ class UltraFastNLPPipeline:
             'l2',
             'l3',
             'l4',
-            # COMMENTED OUT - Not needed in output
-            # 'primary_proximity',
-            # 'proximity_group',
-            # 'pii_items_redacted'
         ])
         
         # Rename columns
@@ -1555,10 +1515,6 @@ class UltraFastNLPPipeline:
             'l2': 'Subcategory',
             'l3': 'L3',
             'l4': 'L4',
-            # COMMENTED OUT - Not needed in output
-            # 'primary_proximity': 'Primary_Proximity',
-            # 'proximity_group': 'Proximity_Group',
-            # 'pii_items_redacted': 'PII_Items_Redacted'
         })
         
         # Sanitize Original_Text: replace raw newlines with a safe pipe separator.
@@ -1587,7 +1543,6 @@ class UltraFastNLPPipeline:
                 ORDER BY count DESC
             """).fetchdf()
             
-            # COMMENTED OUT - Proximity not in output
             # # Proximity distribution
             # proximity_dist = self.duckdb_conn.execute("""
             #     SELECT primary_proximity, COUNT(*) as count
@@ -1608,14 +1563,12 @@ class UltraFastNLPPipeline:
             
             return {
                 'category_distribution': category_dist.to_dict('records'),
-                # COMMENTED OUT - Proximity not in output
                 # 'proximity_distribution': proximity_dist.to_dict('records'),
                 'basic_statistics': basic_stats.to_dict('records')[0]
             }
         except Exception as e:
             logger.error(f"Analytics error: {e}")
             return {}
-
 
 # ========================================================================================
 # POLARS FILE HANDLER - ULTRA-FAST I/O WITH AUTOMATIC PARQUET OPTIMIZATION
@@ -1823,7 +1776,6 @@ class PolarsFileHandler:
                 try: _os.unlink(tmp_path)
                 except Exception: pass
 
-
 # ========================================================================================
 # DISTRIBUTION TABLE HELPER  (app_new.py style — HTML tables with inline bar charts)
 # ========================================================================================
@@ -1943,7 +1895,6 @@ def build_level_table(
         f'</table>'
     )
 
-
 # ========================================================================================
 # ECHARTS DECOMPOSITION TREE HELPERS  (Power BI / app_new.py style)
 # ========================================================================================
@@ -1989,7 +1940,6 @@ def build_tree_data(df: pd.DataFrame) -> dict:
             )
         root["children"].append(n1)
     return root
-
 
 def get_tree_option(data: dict) -> dict:
     """Return ECharts option dict for a horizontal LR decomposition tree
@@ -2089,11 +2039,9 @@ def get_tree_option(data: dict) -> dict:
         }]
     }
 
-
 # ========================================================================================
 # STREAMLIT UI - ULTRA-OPTIMIZED
 # ========================================================================================
-
 
 # ════════════════════════════════════════════════════════════════════════════════
 # LANDING PAGE
@@ -2300,7 +2248,6 @@ header[data-testid="stHeader"],footer,.stDeployButton,section[data-testid="stSid
 </div>
 """
 
-
 def render_landing():
     """Render the production landing page with Launch button."""
     st.markdown(LANDING_HTML, unsafe_allow_html=True)
@@ -2310,7 +2257,6 @@ def render_landing():
         if st.button("🚀 Launch Application", type="primary", width='stretch'):
             st.session_state.page = "app"
             st.rerun()
-
 
 def main():
     """Main Streamlit application"""
@@ -2883,8 +2829,6 @@ footer, .stDeployButton { display: none !important; }
                 )
                 st.plotly_chart(fig_bar, width='stretch')
             
-
-            
             # ============================================================================
             # CONCORDANCE ANALYSIS - KEYWORD IN CONTEXT (KWIC)
             # ============================================================================
@@ -2948,7 +2892,6 @@ footer, .stDeployButton { display: none !important; }
                 case_sensitive = False
                 use_regex = False
 
-            
             # Search button
             search_button = st.button("🚀 Search Concordances", type="primary", width='stretch')
             
@@ -3219,7 +3162,6 @@ footer, .stDeployButton { display: none !important; }
     <small>Dynamic Domain-Agnostic NLP Text Analysis Pipeline | Powered by Polars + DuckDB + Vectorization</small>
     </div>
     """, unsafe_allow_html=True)
-
 
 if __name__ == "__main__":
     main()
