@@ -2873,11 +2873,12 @@ Disk-based chunking (100K+ safe) · ThreadPoolExecutor
                 unsafe_allow_html=True
             )
 
-            dist_tab1, dist_tab2, dist_tab3, dist_tab4 = st.tabs([
+            dist_tab1, dist_tab2, dist_tab3, dist_tab4, dist_tab5 = st.tabs([
                 "📁 L1 — Category",
                 "📂 L2 — Subcategory",
                 "📄 L3",
-                "🏷️ L4"
+                "🏷️ L4",
+                "🔥 Heatmap"
             ])
 
             with dist_tab1:
@@ -2916,6 +2917,74 @@ Disk-based chunking (100K+ safe) · ThreadPoolExecutor
                     unsafe_allow_html=True
                 )
         
+            with dist_tab5:
+                st.markdown("#### 🔥 Cross-Level Concentration Heatmap")
+                st.markdown(
+                    "<p style='color:#64748b;font-size:13px;margin-bottom:12px'>"
+                    "Select any two hierarchy levels to see where volume concentrates "
+                    "across their combinations. Top 20 columns by volume are shown."
+                    "</p>",
+                    unsafe_allow_html=True
+                )
+                hm_col1, hm_col2 = st.columns(2)
+                with hm_col1:
+                    hm_row = st.selectbox(
+                        "Rows (Y-axis)",
+                        ["Category", "Subcategory", "L3", "L4"],
+                        index=0, key="hm_row"
+                    )
+                with hm_col2:
+                    hm_col_sel = st.selectbox(
+                        "Columns (X-axis)",
+                        ["Category", "Subcategory", "L3", "L4"],
+                        index=1, key="hm_col"
+                    )
+
+                if hm_row == hm_col_sel:
+                    st.warning("⚠️ Select different levels for rows and columns.")
+                else:
+                    hm_df = output_df[
+                        (output_df[hm_row] != "NA") &
+                        (output_df[hm_row] != "Uncategorized") &
+                        (output_df[hm_col_sel] != "NA") &
+                        (output_df[hm_col_sel] != "Uncategorized")
+                    ]
+                    if not hm_df.empty:
+                        hm_cross = (
+                            hm_df.groupby([hm_row, hm_col_sel])
+                            .size()
+                            .reset_index(name="Count")
+                        )
+                        hm_pivot = hm_cross.pivot_table(
+                            index=hm_row, columns=hm_col_sel,
+                            values="Count", fill_value=0
+                        )
+                        # Keep top 20 columns by total volume
+                        hm_top = (
+                            hm_cross.groupby(hm_col_sel)["Count"]
+                            .sum().nlargest(20).index.tolist()
+                        )
+                        hm_pivot = hm_pivot[
+                            [col for col in hm_top if col in hm_pivot.columns]
+                        ]
+                        fig_hm = px.imshow(
+                            hm_pivot,
+                            color_continuous_scale=["#F5F4F0", "#0ea5e9", "#0284c7"],
+                            labels=dict(x=hm_col_sel, y=hm_row, color="Count"),
+                            height=max(420, len(hm_pivot) * 38),
+                            aspect="auto"
+                        )
+                        fig_hm.update_layout(
+                            font_family="DM Sans",
+                            margin=dict(l=0, r=0, t=30, b=0),
+                            paper_bgcolor="rgba(0,0,0,0)",
+                            xaxis_tickangle=-35,
+                            coloraxis_colorbar=dict(title="Count", thickness=14)
+                        )
+                        st.plotly_chart(fig_hm, use_container_width=True, key="dist_heatmap")
+                    else:
+                        st.info("No data for the selected level combination.")
+
             # Download Results
             st.subheader("💾 Download Results")
 
