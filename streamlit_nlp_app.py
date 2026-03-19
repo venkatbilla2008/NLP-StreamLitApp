@@ -51,7 +51,6 @@ import duckdb
 
 # NLP Libraries
 # NLP Libraries
-import spacy
 
 # Visualization Libraries
 import plotly.express as px
@@ -115,79 +114,6 @@ ENABLE_VECTORIZATION = True
 USE_DUCKDB = True
 USE_POLARS = True
 
-# Load spaCy model with caching
-@st.cache_resource
-def load_spacy_model():
-    """Load spaCy model with fallback for PyInstaller bundles.
-
-    Resolution order:
-    1. Standard spacy.load("en_core_web_sm") – works in a normal Python env.
-    2. Load from the versioned subfolder inside sys._MEIPASS  (PyInstaller).
-       The bundle layout is:
-           _internal/
-               en_core_web_sm/
-                   __init__.py
-                   meta.json
-                   en_core_web_sm-3.7.1/   <── config.cfg lives HERE
-                       config.cfg
-                       ...
-       spacy.load(path) requires the path that contains config.cfg directly,
-       so we must resolve the versioned subfolder, not the parent.
-    3. Live download as a last resort (dev/venv only).
-    """
-    import sys
-    import subprocess
-
-    # ── Attempt 1: normal package install ────────────────────────────────────
-    try:
-        return spacy.load("en_core_web_sm")
-    except OSError:
-        pass
-
-    # ── Attempt 2: PyInstaller bundle ────────────────────────────────────────
-    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-        model_base = os.path.join(sys._MEIPASS, 'en_core_web_sm')
-        if os.path.isdir(model_base):
-            # Prefer the versioned subfolder that contains config.cfg
-            model_path = None
-            for entry in os.listdir(model_base):
-                candidate = os.path.join(model_base, entry)
-                if os.path.isdir(candidate) and os.path.exists(
-                        os.path.join(candidate, 'config.cfg')):
-                    model_path = candidate
-                    break
-            # Fall back to the base folder itself if no versioned subfolder found
-            if model_path is None and os.path.exists(
-                    os.path.join(model_base, 'config.cfg')):
-                model_path = model_base
-
-            if model_path:
-                try:
-                    logger.info(f"Loading bundled spaCy model from: {model_path}")
-                    return spacy.load(model_path)
-                except Exception as _e:
-                    logger.warning(f"Bundled model load failed: {_e}")
-
-    # ── Attempt 3: live download (dev / venv mode only) ───────────────────────
-    logger.warning("spaCy model not found. Attempting download...")
-    try:
-        result = subprocess.run(
-            [sys.executable, "-m", "spacy", "download", "en_core_web_sm"],
-            capture_output=True, text=True, timeout=120
-        )
-        if result.returncode == 0:
-            logger.info("spaCy model downloaded successfully")
-            return spacy.load("en_core_web_sm")
-        else:
-            logger.error(f"Failed to download spaCy model: {result.stderr}")
-            st.error("spaCy model download failed. Run: python -m spacy download en_core_web_sm")
-            st.stop()
-    except Exception as e:
-        logger.error(f"Error loading spaCy model: {e}")
-        st.error(f"Could not load spaCy model. Error: {e}")
-        st.stop()
-
-nlp = load_spacy_model()
 
 
 
@@ -1716,7 +1642,7 @@ class PolarsFileHandler:
 
 
 # ========================================================================================
-# DISTRIBUTION TABLE HELPER  (HTML tables with inline bar charts)
+# DISTRIBUTION TABLE HELPER  (app_new.py style — HTML tables with inline bar charts)
 # ========================================================================================
 
 DIST_TABLE_CSS = """
@@ -1836,7 +1762,7 @@ def build_level_table(
 
 
 # ========================================================================================
-# ECHARTS DECOMPOSITION TREE HELPERS  (Power BI)
+# ECHARTS DECOMPOSITION TREE HELPERS  (Power BI / app_new.py style)
 # ========================================================================================
 
 def build_tree_data(df: pd.DataFrame) -> dict:
