@@ -1,5 +1,5 @@
 """
-Dynamic Domain-Agnostic NLP Text Analysis Pipeline
+Intelli-CXMiner — Conversation Intelligence Platform
 ==================================================================================
 
 OPTIMIZATIONS:
@@ -49,8 +49,6 @@ import multiprocessing
 # DuckDB for in-memory analytics
 import duckdb
 
-# NLP Libraries
-# NLP Libraries
 
 # Visualization Libraries
 import plotly.express as px
@@ -1314,7 +1312,7 @@ class UltraFastNLPPipeline:
         num_chunks = (total_records + CHUNK_SIZE - 1) // CHUNK_SIZE
         logger.info(f"📦 {num_chunks} chunks × {CHUNK_SIZE:,} records")
 
-        tmp_dir = tempfile.mkdtemp(prefix='nlp_chunks_')
+        tmp_dir = tempfile.mkdtemp(prefix='cxm_chunks_')
         chunk_files = []
 
         try:
@@ -1996,9 +1994,9 @@ header[data-testid="stHeader"],footer,.stDeployButton,section[data-testid="stSid
 <div class="lp">
 <div class="lp-hero">
   <div class="lp-grd"></div><div class="lp-o1"></div><div class="lp-o2"></div><div class="lp-o3"></div>
-  <div class="lp-bdg">ENTERPRISE NLP CLASSIFICATION ENGINE</div>
+  <div class="lp-bdg">ENTERPRISE CONVERSATION INTELLIGENCE ENGINE</div>
   <h1 class="lp-ttl">Intelli-CXMiner</h1>
-  <p class="lp-sub">Classify Smarter. Understand Deeper.</p>
+  <p class="lp-sub">Scan Deeper. Decide Faster.</p>
   <p class="lp-dsc">Production-grade conversation intelligence for Customer Experience teams. Classify 100K+ transcripts across 10 industry domains in minutes — powered by Polars and DuckDB.</p>
   <div class="lp-mk">
     <div class="lp-wn">
@@ -2059,7 +2057,7 @@ header[data-testid="stHeader"],footer,.stDeployButton,section[data-testid="stSid
     <div class="lp-tp">NumPy</div><div class="lp-tp">ftfy</div><div class="lp-tp">openpyxl</div>
   </div>
 </div>
-<div class="lp-fo">Intelli-CXMiner — Classify Smarter. Understand Deeper. &nbsp;|&nbsp; Powered by Polars · DuckDB · Vectorization</div>
+<div class="lp-fo">Intelli-CXMiner — Scan Deeper. Decide Faster. &nbsp;|&nbsp; Powered by Polars · DuckDB · Vectorization</div>
 </div>
 """
 
@@ -2078,7 +2076,7 @@ def render_landing():
 def main():
     """Main Streamlit application"""
     st.set_page_config(
-        page_title="Intelli-CXMiner — NLP Text Analysis",
+        page_title="Intelli-CXMiner",
         page_icon="🧐",
         layout="wide",
         initial_sidebar_state="collapsed"
@@ -2228,7 +2226,7 @@ footer, .stDeployButton { display: none !important; }
       Intelli-CXMiner
     </h1>
     <p style="margin:4px 0 10px; color:#94a3b8; font-size:14px; font-weight:400;">
-      Intelligent Customer Experience Mining · Polars · DuckDB · Vectorized Engine
+      Scan Deeper. Decide Faster. · Polars · DuckDB · Vectorized Engine
     </p>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
       <span class="badge b-ok">✅ Polars 10× faster I/O</span>
@@ -2262,299 +2260,282 @@ footer, .stDeployButton { display: none !important; }
             else:
                 st.warning("⚠️ No industries loaded from domain_packs directory")
     
-    # Sidebar
-    st.sidebar.header("⚙️ Configuration")
-    
-    st.sidebar.subheader("🏭 Industry Selection")
-    available_industries = st.session_state.domain_loader.get_available_industries()
-    
-    if not available_industries:
-        st.sidebar.error("❌ No industries available")
-        st.session_state.selected_industry = None
-    else:
-        selected_industry = st.sidebar.selectbox(
-            "Select Industry",
-            options=[""] + sorted(available_industries),
-            help="Choose your industry domain"
-        )
-        
-        if selected_industry:
-            # Clear concordance results if industry changed
-            if 'selected_industry' in st.session_state and st.session_state.selected_industry != selected_industry:
-                if 'concordance_results' in st.session_state:
-                    del st.session_state.concordance_results
-                if 'search_keyword' in st.session_state:
-                    del st.session_state.search_keyword
-                # Clear word tree navigation state
-                if 'tree_l1' in st.session_state:
-                    del st.session_state.tree_l1
-                if 'tree_l2' in st.session_state:
-                    del st.session_state.tree_l2
-                if 'tree_l3' in st.session_state:
-                    del st.session_state.tree_l3
-            
-            st.session_state.selected_industry = selected_industry
-            industry_data = st.session_state.domain_loader.get_industry_data(selected_industry)
-            
-            st.sidebar.success(f"✅ **{selected_industry}**")
-        else:
-            st.sidebar.warning("⚠️ Select an industry")
-            st.session_state.selected_industry = None
-    
-    st.sidebar.markdown("---")
-    
-    # PII Settings
-    st.sidebar.subheader("🔐 PII Redaction")
-    enable_pii = st.sidebar.checkbox("Enable PII Redaction", value=True, help="PII is redacted for compliance but not shown in output")
-    
-    redaction_mode = st.sidebar.selectbox(
-        "Redaction Mode",
-        options=['hash', 'mask', 'token', 'remove'],
-        help="hash: SHA-256 | mask: *** | token: [TYPE] | remove: delete"
-    )
-    
-    st.sidebar.markdown("---")
-    
-    # Performance Info
-    st.sidebar.subheader("⚡ ULTRA-FAST Mode")
-    st.sidebar.success("🚀 v5.0 - Production Ready")
-    st.sidebar.metric("Chunk Size", f"{CHUNK_SIZE:,}")
-    st.sidebar.metric("Parallel Workers", f"{MAX_WORKERS}")
-    st.sidebar.metric("Target Speed", "15-30 rec/s")
-    st.sidebar.metric("Output Columns", "6 (essential only)")
-    
-    with st.sidebar.expander("ℹ️ Optimizations", expanded=False):
-        st.markdown(f"""
-        **Active Optimizations:**
-        - ✅ Polars for data I/O (10x faster)
-        - ✅ Vectorized PII detection
-        - ✅ Vectorized classification
-        - ✅ DuckDB in-memory analytics
-        - ✅ Chunk processing ({CHUNK_SIZE:,} per chunk)
-        - ✅ ThreadPoolExecutor ({MAX_WORKERS} workers)
-        - ✅ Zero-copy operations
-        - ✅ Reduced looping
-        - ✅ Batch regex operations
-        
-        **Output Optimization:**
-        - ✅ Only 6 essential columns
-        - ✅ Removed: Proximity, PII counts
-        - ✅ Faster export
-        
-        **Expected Performance:**
-        - 10K records: ~5-10 minutes
-        - 50K records: ~30-60 minutes
-        - 100K records: ~1-2 hours
-        """)
-    
-    # Output format
-    st.sidebar.subheader("📤 Output")
-    output_format = st.sidebar.selectbox(
-        "Format",
-        options=['csv', 'xlsx', 'parquet', 'json']
-    )
-    
-    # Main content
-    st.header("📁 Data Input")
-    
-    data_file = st.file_uploader(
-        "Upload your data file",
-        type=SUPPORTED_FORMATS,
-        help=f"Supported: CSV, Excel, Parquet, JSON (Max {MAX_FILE_SIZE_MB}MB)"
-    )
-    
-    # Check if ready
-    has_industry = st.session_state.get('selected_industry') is not None
-    has_file = data_file is not None
-    
-    if not has_industry:
-        st.info("👆 **Step 1:** Select an industry from sidebar")
-    elif not has_file:
-        st.info("👆 **Step 2:** Upload your data file")
-    else:
-        selected_industry = st.session_state.selected_industry
-        st.success(f"✅ Ready: **{selected_industry}**")
-        
-        # Load data with Polars (FAST!)
-        data_df = PolarsFileHandler.read_file(data_file)
-        
-        if data_df is not None:
-            total_records = len(data_df)
-            st.success(f"✅ Loaded {total_records:,} records with Polars")
-            
-            # Processing option for large datasets
-            MAX_CLOUD_RECORDS = 10000
-            if total_records > MAX_CLOUD_RECORDS:
-                process_option = st.radio(
-                    "Choose processing option:",
-                    [
-                        f"Process first {MAX_CLOUD_RECORDS:,} records only",
-                        f"Process all {total_records:,} records"
-                    ]
-                )
-                
-                if "first" in process_option:
-                    data_df = data_df.head(MAX_CLOUD_RECORDS)
-            
-            # Column detection
-            st.markdown("### 🎛️ Column Configuration")
-            
-            columns = data_df.columns
-            
-            # Detect likely columns
-            likely_id_cols = [col for col in columns if any(k in col.lower() for k in ['id', 'conversation', 'ticket'])]
-            likely_text_cols = [col for col in columns if data_df[col].dtype == pl.Utf8]
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                id_default = 0
-                if likely_id_cols and likely_id_cols[0] in columns:
-                    id_default = columns.index(likely_id_cols[0])
-                
-                id_column = st.selectbox(
-                    "ID Column",
-                    options=columns,
-                    index=id_default,
-                    help="Unique conversation/record ID"
-                )
-            
-            with col2:
-                text_options = [col for col in columns if col != id_column]
-                text_default = 0
-                if likely_text_cols:
-                    for idx, col in enumerate(text_options):
-                        if col in likely_text_cols:
-                            text_default = idx
-                            break
-                
-                text_column = st.selectbox(
-                    "Text Column",
-                    options=text_options,
-                    index=text_default,
-                    help="Text to analyze"
-                )
-            
-            # Preview with Polars
-            with st.expander("Preview (First 10 Rows)", expanded=True):
-                preview_df = data_df.select([id_column, text_column]).head(10)
-                st.dataframe(preview_df.to_pandas(), width='stretch')
-            
-            st.markdown("---")
-            
-            # Process button
-            if st.button("🚀 Run ULTRA-FAST Analysis", type="primary", width='stretch'):
-                
-                # Clear old concordance results and tree state
-                if 'concordance_results' in st.session_state:
-                    del st.session_state.concordance_results
-                if 'search_keyword' in st.session_state:
-                    del st.session_state.search_keyword
-                if 'tree_l1' in st.session_state:
-                    del st.session_state.tree_l1
-                if 'tree_l2' in st.session_state:
-                    del st.session_state.tree_l2
-                if 'tree_l3' in st.session_state:
-                    del st.session_state.tree_l3
-                
-                # Get industry data
-                industry_data = st.session_state.domain_loader.get_industry_data(selected_industry)
-                
-                # Initialize ULTRA-FAST pipeline
-                with st.spinner("Initializing ULTRA-FAST pipeline..."):
-                    rule_engine = VectorizedRuleEngine(industry_data)
-                    pipeline = UltraFastNLPPipeline(
-                        rule_engine=rule_engine,
-                        enable_pii_redaction=enable_pii,
-                        industry_name=selected_industry
-                    )
-                
-                # Progress tracking
-                st.subheader("📊 Progress")
-                progress_bar = st.progress(0)
-                status_text = st.empty()
-                
-                def update_progress(completed, total):
-                    progress = completed / total
-                    progress_bar.progress(progress)
-                    elapsed = (datetime.now() - start_time).total_seconds()
-                    speed = completed / elapsed if elapsed > 0 else 0
-                    eta = (total - completed) / speed if speed > 0 else 0
-                    status_text.text(f"Processed {completed:,}/{total:,} ({progress*100:.1f}%) | Speed: {speed:.1f} rec/s | ETA: {eta/60:.1f} min")
-                
-                # Process
-                start_time = datetime.now()
-                
-                with st.spinner("Processing with ULTRA-FAST vectorized pipeline..."):
-                    # Clear stale export cache so the new run's data is used
-                    for _k in [k for k in st.session_state if k.startswith("export_bytes_")]:
-                        del st.session_state[_k]
-                    st.session_state.pop("export_filename", None)
+    # ── Horizontal tab navigation ─────────────────────────────────────────────
+    tab_configure, tab_upload, tab_results = st.tabs([
+        "⚙️ Configure", "📁 Upload & Run", "📊 Results & Export"
+    ])
 
-                    results_df = pipeline.process_batch_with_duckdb(
-                        df=data_df,
-                        text_column=text_column,
-                        id_column=id_column,
-                        redaction_mode=redaction_mode,
-                        progress_callback=update_progress
+    # ── TAB 1: Configure ─────────────────────────────────────────────────────
+    with tab_configure:
+        st.markdown("#### 🏭 Industry Domain")
+        available_industries = st.session_state.domain_loader.get_available_industries()
+
+        if not available_industries:
+            st.error("❌ No industries available — check domain_packs directory")
+            st.session_state.selected_industry = None
+        else:
+            col_ind, col_pii = st.columns([2, 1])
+            with col_ind:
+                selected_industry = st.selectbox(
+                    "Select Industry",
+                    options=[""] + sorted(available_industries),
+                    help="Choose your industry domain"
+                )
+                if selected_industry:
+                    if 'selected_industry' in st.session_state and st.session_state.selected_industry != selected_industry:
+                        for _k in ['concordance_results', 'search_keyword', 'tree_l1', 'tree_l2', 'tree_l3']:
+                            st.session_state.pop(_k, None)
+                    st.session_state.selected_industry = selected_industry
+                    st.success(f"✅ **{selected_industry}** loaded")
+                else:
+                    st.session_state.selected_industry = None
+
+            with col_pii:
+                st.markdown("#### 🔐 PII Redaction")
+                enable_pii = st.checkbox(
+                    "Enable PII Redaction", value=True,
+                    help="PII is redacted for compliance but not shown in output"
+                )
+                redaction_mode = st.selectbox(
+                    "Redaction Mode",
+                    options=['hash', 'mask', 'token', 'remove'],
+                    help="hash: SHA-256 | mask: *** | token: [TYPE] | remove: delete"
+                )
+
+        st.markdown("#### 📤 Output Format")
+        output_format = st.selectbox(
+            "Download Format",
+            options=['csv', 'xlsx', 'parquet', 'json'],
+            help="CSV for Excel, Parquet for fastest re-load, XLSX for formatted reports"
+        )
+
+        with st.expander("⚡ Performance Info", expanded=False):
+            _c1, _c2, _c3, _c4 = st.columns(4)
+            _c1.metric("Chunk Size", f"{CHUNK_SIZE:,}")
+            _c2.metric("Workers", f"{MAX_WORKERS}")
+            _c3.metric("Speed", "15-30 rec/s")
+            _c4.metric("Output Cols", "6")
+            st.markdown("""
+**Active optimizations:** Polars I/O · Vectorized PII · DuckDB analytics ·
+Disk-based chunking (100K+ safe) · ThreadPoolExecutor
+
+**Expected times:** 10K ≈ 5-10 min · 50K ≈ 30-60 min · 100K ≈ 1-2 hrs
+            """)
+
+    # Resolve shared variables needed in tabs 2 & 3
+    _industry_in_state = st.session_state.get('selected_industry')
+    has_industry = _industry_in_state is not None
+    if 'output_format' not in dir():
+        output_format = 'csv'
+    if 'enable_pii' not in dir():
+        enable_pii = True
+        redaction_mode = 'hash'
+
+    # ── TAB 2: Upload & Run ───────────────────────────────────────────────────
+    with tab_upload:
+        st.markdown("#### 📁 Upload Data")
+    
+        data_file = st.file_uploader(
+            "Upload your data file",
+            type=SUPPORTED_FORMATS,
+            help=f"Supported: CSV, Excel, Parquet, JSON (Max {MAX_FILE_SIZE_MB}MB)"
+        )
+    
+        # Check if ready
+        has_industry = st.session_state.get('selected_industry') is not None
+        has_file = data_file is not None
+    
+        if not has_industry:
+            st.info("👆 **Step 1:** Go to the ⚙️ Configure tab and select an industry")
+        elif not has_file:
+            st.info("👆 **Step 2:** Upload your data file")
+        else:
+            selected_industry = st.session_state.selected_industry
+            st.success(f"✅ Ready: **{selected_industry}**")
+        
+            # Load data with Polars (FAST!)
+            data_df = PolarsFileHandler.read_file(data_file)
+        
+            if data_df is not None:
+                total_records = len(data_df)
+                st.success(f"✅ Loaded {total_records:,} records with Polars")
+            
+                # Processing option for large datasets
+                MAX_CLOUD_RECORDS = 10000
+                if total_records > MAX_CLOUD_RECORDS:
+                    process_option = st.radio(
+                        "Choose processing option:",
+                        [
+                            f"Process first {MAX_CLOUD_RECORDS:,} records only",
+                            f"Process all {total_records:,} records"
+                        ]
                     )
                 
-                end_time = datetime.now()
-                processing_time = (end_time - start_time).total_seconds()
+                    if "first" in process_option:
+                        data_df = data_df.head(MAX_CLOUD_RECORDS)
+            
+                # Column detection
+                st.markdown("### 🎛️ Column Configuration")
+            
+                columns = data_df.columns
+            
+                # Detect likely columns
+                likely_id_cols = [col for col in columns if any(k in col.lower() for k in ['id', 'conversation', 'ticket'])]
+                likely_text_cols = [col for col in columns if data_df[col].dtype == pl.Utf8]
+            
+                col1, col2 = st.columns(2)
+            
+                with col1:
+                    id_default = 0
+                    if likely_id_cols and likely_id_cols[0] in columns:
+                        id_default = columns.index(likely_id_cols[0])
                 
-                # Convert to Pandas for display
-                output_df = pipeline.results_to_dataframe(results_df, id_column, text_column)
+                    id_column = st.selectbox(
+                        "ID Column",
+                        options=columns,
+                        index=id_default,
+                        help="Unique conversation/record ID"
+                    )
+            
+                with col2:
+                    text_options = [col for col in columns if col != id_column]
+                    text_default = 0
+                    if likely_text_cols:
+                        for idx, col in enumerate(text_options):
+                            if col in likely_text_cols:
+                                text_default = idx
+                                break
                 
-                # Store in session state for persistence across reruns
-                st.session_state.output_df = output_df
-                st.session_state.processing_time = processing_time
-                st.session_state.selected_industry = selected_industry
-                st.session_state.output_format = output_format
+                    text_column = st.selectbox(
+                        "Text Column",
+                        options=text_options,
+                        index=text_default,
+                        help="Text to analyze"
+                    )
+            
+                # Preview with Polars
+                with st.expander("Preview (First 10 Rows)", expanded=True):
+                    preview_df = data_df.select([id_column, text_column]).head(10)
+                    st.dataframe(preview_df.to_pandas(), width='stretch')
+            
+                st.markdown("---")
+            
+                # Process button
+                if st.button("🚀 Run ULTRA-FAST Analysis", type="primary", width='stretch'):
                 
-                # Display results
-                st.success(f"✅ Complete! {len(output_df):,} records in {processing_time:.1f}s ({len(output_df)/processing_time:.1f} rec/s)")
+                    # Clear old concordance results and tree state
+                    if 'concordance_results' in st.session_state:
+                        del st.session_state.concordance_results
+                    if 'search_keyword' in st.session_state:
+                        del st.session_state.search_keyword
+                    if 'tree_l1' in st.session_state:
+                        del st.session_state.tree_l1
+                    if 'tree_l2' in st.session_state:
+                        del st.session_state.tree_l2
+                    if 'tree_l3' in st.session_state:
+                        del st.session_state.tree_l3
+                
+                    # Get industry data
+                    industry_data = st.session_state.domain_loader.get_industry_data(selected_industry)
+                
+                    # Initialize ULTRA-FAST pipeline
+                    with st.spinner("Initializing ULTRA-FAST pipeline..."):
+                        rule_engine = VectorizedRuleEngine(industry_data)
+                        pipeline = UltraFastNLPPipeline(
+                            rule_engine=rule_engine,
+                            enable_pii_redaction=enable_pii,
+                            industry_name=selected_industry
+                        )
+                
+                    # Progress tracking
+                    st.subheader("📊 Progress")
+                    progress_bar = st.progress(0)
+                    status_text = st.empty()
+                
+                    def update_progress(completed, total):
+                        progress = completed / total
+                        progress_bar.progress(progress)
+                        elapsed = (datetime.now() - start_time).total_seconds()
+                        speed = completed / elapsed if elapsed > 0 else 0
+                        eta = (total - completed) / speed if speed > 0 else 0
+                        status_text.text(f"Processed {completed:,}/{total:,} ({progress*100:.1f}%) | Speed: {speed:.1f} rec/s | ETA: {eta/60:.1f} min")
+                
+                    # Process
+                    start_time = datetime.now()
+                
+                    with st.spinner("Processing with ULTRA-FAST vectorized pipeline..."):
+                        # Clear stale export cache so the new run's data is used
+                        for _k in [k for k in st.session_state if k.startswith("export_bytes_")]:
+                            del st.session_state[_k]
+                        st.session_state.pop("export_filename", None)
+
+                        results_df = pipeline.process_batch_with_duckdb(
+                            df=data_df,
+                            text_column=text_column,
+                            id_column=id_column,
+                            redaction_mode=redaction_mode,
+                            progress_callback=update_progress
+                        )
+                
+                    end_time = datetime.now()
+                    processing_time = (end_time - start_time).total_seconds()
+                
+                    # Convert to Pandas for display
+                    output_df = pipeline.results_to_dataframe(results_df, id_column, text_column)
+                
+                    # Store in session state for persistence across reruns
+                    st.session_state.output_df = output_df
+                    st.session_state.processing_time = processing_time
+                    st.session_state.selected_industry = selected_industry
+                    st.session_state.output_format = output_format
+                
+                    # Display results
+                    st.success(f"✅ Complete! {len(output_df):,} records in {processing_time:.1f}s ({len(output_df)/processing_time:.1f} rec/s)")
         
+
+        # ── TAB 3: Results & Export ──────────────────────────────────────────────
+    with tab_results:
         # Display results if available (persists across reruns)
         if 'output_df' in st.session_state:
             output_df = st.session_state.output_df
             processing_time = st.session_state.processing_time
             selected_industry = st.session_state.get('selected_industry', 'Unknown')
             output_format = st.session_state.get('output_format', 'csv')
-            
+        
             # Metrics
             st.subheader("📈 Key Metrics")
-            
+        
             metric_cols = st.columns(7)
-                
+            
             with metric_cols[0]:
                 st.metric("Total Records", f"{len(output_df):,}")
-            
+        
             with metric_cols[1]:
                 st.metric("Processing Time", f"{processing_time/60:.1f} min")
-            
+        
             with metric_cols[2]:
                 st.metric("Speed", f"{len(output_df)/processing_time:.1f} rec/s")
-            
+        
             with metric_cols[3]:
                 unique_l1 = output_df['Category'].nunique()
                 st.metric("Categories", unique_l1)
-            
+        
             with metric_cols[4]:
                 unique_l2 = output_df['Subcategory'].nunique()
                 st.metric("Subcategories", unique_l2)
-            
+        
             with metric_cols[5]:
                 unique_l3 = output_df['L3'].nunique()
                 st.metric("L3 Categories", unique_l3)
-            
+        
             with metric_cols[6]:
                 unique_l4 = output_df['L4'].nunique()
                 st.metric("L4 Categories", unique_l4)
-            
+        
             # Results preview
             st.subheader("📋 Results Preview (First 20 rows)")
             st.dataframe(output_df.head(20), width='stretch')
-            
+        
             # ── Executive Dashboard ─────────────────────────────────────────
             st.subheader("📊 Executive Dashboard")
             st.markdown("### 📈 Overview")
@@ -2636,32 +2617,32 @@ footer, .stDeployButton { display: none !important; }
                     margin=dict(t=50, b=20, l=10, r=10)
                 )
                 st.plotly_chart(fig_bar, width='stretch')
-            
+        
 
-            
+        
             # ============================================================================
             # CONCORDANCE ANALYSIS - KEYWORD IN CONTEXT (KWIC)
             # ============================================================================
-            
+        
             st.subheader("🔍 Concordance Analysis - Keyword in Context")
-            
+        
             # Initialize concordance analyzer
             concordance_analyzer = ConcordanceAnalyzer(output_df)
-            
+        
             # Search controls in an attractive container
             with st.container():
                 st.markdown("#### 🎯 Search Configuration")
-                
+            
                 # Row 1: Keyword and Context
                 col1, col2 = st.columns([3, 1])
-                
+            
                 with col1:
                     search_keyword = st.text_input(
                         "🔎 Enter keyword or phrase to search",
                         placeholder="e.g., cancel subscription, billing issue, technical problem",
                         help="Enter a word or phrase to find in your data. Use quotes for exact phrases."
                     )
-                
+            
                 with col2:
                     context_window = st.slider(
                         "📏 Context Words",
@@ -2670,10 +2651,10 @@ footer, .stDeployButton { display: none !important; }
                         value=10,
                         help="Number of words to show before and after the keyword"
                     )
-                
+            
                 # Row 2: Filters
                 col3, col4 = st.columns(2)
-                
+            
                 with col3:
                     # Category filter
                     categories = ["All Categories"] + sorted(output_df['Category'].unique().tolist())
@@ -2682,7 +2663,7 @@ footer, .stDeployButton { display: none !important; }
                         options=categories,
                         help="Narrow search to specific category"
                     )
-                
+            
                 with col4:
                     # Subcategory filter
                     if category_filter != "All Categories":
@@ -2691,21 +2672,21 @@ footer, .stDeployButton { display: none !important; }
                         )
                     else:
                         subcategories = ["All Subcategories"] + sorted(output_df['Subcategory'].unique().tolist())
-                    
+                
                     subcategory_filter = st.selectbox(
                         "📁 Filter by Subcategory",
                         options=subcategories,
                         help="Further narrow by subcategory"
                     )
-                
+            
                 # Set default values for removed options
                 case_sensitive = False
                 use_regex = False
 
-            
+        
             # Search button
             search_button = st.button("🚀 Search Concordances", type="primary", width='stretch')
-            
+        
             # Perform search
             if search_button and search_keyword:
                 with st.spinner("🔍 Searching for concordances..."):
@@ -2718,7 +2699,7 @@ footer, .stDeployButton { display: none !important; }
                         case_sensitive=case_sensitive,
                         use_regex=use_regex
                     )
-                    
+                
                     if not concordance_results.is_empty():
                         # Store in session state
                         st.session_state.concordance_results = concordance_results
@@ -2726,20 +2707,20 @@ footer, .stDeployButton { display: none !important; }
                     else:
                         st.warning(f"⚠️ No matches found for '{search_keyword}'")
                         st.session_state.concordance_results = None
-            
+        
             # Display results if available
             if 'concordance_results' in st.session_state and st.session_state.concordance_results is not None:
                 concordance_results = st.session_state.concordance_results
                 search_keyword = st.session_state.search_keyword
-                
+            
                 # Get statistics
                 stats = concordance_analyzer.get_frequency_stats(concordance_results)
-                
+            
                 # Display statistics in attractive cards
                 st.markdown("#### 📊 Search Results Summary")
-                
+            
                 metric_cols = st.columns(4)
-                
+            
                 with metric_cols[0]:
                     st.markdown(f"""
                     <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
@@ -2748,7 +2729,7 @@ footer, .stDeployButton { display: none !important; }
                         <p style='margin: 5px 0 0 0; font-size: 14px;'>Total Matches</p>
                     </div>
                     """, unsafe_allow_html=True)
-                
+            
                 with metric_cols[1]:
                     st.markdown(f"""
                     <div style='background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
@@ -2757,7 +2738,7 @@ footer, .stDeployButton { display: none !important; }
                         <p style='margin: 5px 0 0 0; font-size: 14px;'>Unique Conversations</p>
                     </div>
                     """, unsafe_allow_html=True)
-                
+            
                 with metric_cols[2]:
                     st.markdown(f"""
                     <div style='background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); 
@@ -2766,7 +2747,7 @@ footer, .stDeployButton { display: none !important; }
                         <p style='margin: 5px 0 0 0; font-size: 14px;'>Categories Found</p>
                     </div>
                     """, unsafe_allow_html=True)
-                
+            
                 with metric_cols[3]:
                     avg_per_conv = stats['total_matches'] / stats['unique_conversations'] if stats['unique_conversations'] > 0 else 0
                     st.markdown(f"""
@@ -2776,19 +2757,19 @@ footer, .stDeployButton { display: none !important; }
                         <p style='margin: 5px 0 0 0; font-size: 14px;'>Avg per Conversation</p>
                     </div>
                     """, unsafe_allow_html=True)
-                
+            
                 st.markdown("<br>", unsafe_allow_html=True)
-                
+            
                 # Tabs for different views
                 tab1, tab2 = st.tabs([
                     "📝 Concordance Lines",
                     "💾 Export Results"
                 ])
-                
+            
                 with tab1:
                     st.markdown("#### 📝 Concordance Lines (Keyword in Context)")
                     st.markdown(f"*Showing how **'{search_keyword}'** is used in context*")
-                    
+                
                     # Display limit
                     max_results = len(concordance_results)
                     if max_results <= 10:
@@ -2802,10 +2783,10 @@ footer, .stDeployButton { display: none !important; }
                             value=min(50, max_results),
                             step=10
                         )
-                    
+                
                     # Convert to pandas for display
                     display_df = concordance_results.head(display_limit).to_pandas()
-                    
+                
                     # Create formatted display
                     for idx, row in display_df.iterrows():
                         # Create a visually appealing concordance line
@@ -2829,13 +2810,13 @@ footer, .stDeployButton { display: none !important; }
                             </div>
                         </div>
                         """, unsafe_allow_html=True)
-                    
+                
                     if len(concordance_results) > display_limit:
                         st.info(f"ℹ️ Showing {display_limit} of {len(concordance_results):,} results. Use export to get all results.")
-                
+            
                 with tab2:
                     st.markdown("#### 💾 Export Concordance Results")
-                    
+                
                     st.markdown("""
                     <div style='background-color: #e8f4f8; padding: 15px; border-radius: 8px; margin-bottom: 20px;'>
                         <p style='margin: 0;'>
@@ -2844,16 +2825,16 @@ footer, .stDeployButton { display: none !important; }
                         </p>
                     </div>
                     """, unsafe_allow_html=True)
-                    
+                
                     export_format = st.radio(
                         "Select export format:",
                         options=['csv', 'xlsx'],
                         horizontal=True
                     )
-                    
+                
                     # Prepare export data
                     export_data = concordance_analyzer.export_concordance(concordance_results, format=export_format)
-                    
+                
                     # Download button
                     st.download_button(
                         label=f"📥 Download Concordance Results (.{export_format})",
@@ -2863,7 +2844,7 @@ footer, .stDeployButton { display: none !important; }
                         type="primary",
                         width='stretch'
                     )
-                    
+                
                     # Summary info
                     st.markdown("---")
                     st.markdown("**📋 Export Contents:**")
@@ -2873,10 +2854,10 @@ footer, .stDeployButton { display: none !important; }
                     - **Format:** {export_format.upper()}
                     - **Keyword:** "{search_keyword}"
                     """)
-            
+        
             elif search_button and not search_keyword:
                 st.warning("⚠️ Please enter a keyword or phrase to search")
-            
+        
             st.markdown("---")
 
             # ── Premium Distribution Tables ──────────────────────────────
@@ -2934,7 +2915,7 @@ footer, .stDeployButton { display: none !important; }
                     + "</div>",
                     unsafe_allow_html=True
                 )
-            
+        
             # Download Results
             st.subheader("💾 Download Results")
 
@@ -2970,7 +2951,7 @@ footer, .stDeployButton { display: none !important; }
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: gray;'>
-    <small>Dynamic Domain-Agnostic NLP Text Analysis Pipeline | Powered by Polars + DuckDB + Vectorization</small>
+    <small>Intelli-CXMiner — Conversation Intelligence Platform | Powered by Polars + DuckDB + Vectorization</small>
     </div>
     """, unsafe_allow_html=True)
 
