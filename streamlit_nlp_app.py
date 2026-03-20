@@ -109,6 +109,117 @@ ENABLE_VECTORIZATION = True
 USE_DUCKDB = True
 USE_POLARS = True
 
+# ════════════════════════════════════════════════════════════════════════════════
+# SVG ICONS + CSS THEME  (teal/slate/gold corporate palette, DM Sans / JetBrains Mono)
+# ════════════════════════════════════════════════════════════════════════════════
+
+class IC:
+    """SVG icon library — 20+ Feather-style icons, theme-colourable via IC.icon()."""
+    _B = 'xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"'
+    SEARCH    = f'<svg {_B}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>'
+    SETTINGS  = f'<svg {_B}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
+    UPLOAD    = f'<svg {_B}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>'
+    DOWNLOAD  = f'<svg {_B}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>'
+    CHECK     = f'<svg {_B}><polyline points="20 6 9 17 4 12"/></svg>'
+    ALERT     = f'<svg {_B}><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+    TREE      = f'<svg {_B}><rect x="2" y="2" width="8" height="4" rx="1"/><rect x="14" y="2" width="8" height="4" rx="1"/><rect x="2" y="18" width="8" height="4" rx="1"/><rect x="14" y="18" width="8" height="4" rx="1"/><path d="M6 6v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6"/><path d="M6 18v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/></svg>'
+    LAYERS    = f'<svg {_B}><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>'
+    TABLE     = f'<svg {_B}><rect width="18" height="18" x="3" y="3" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>'
+    SHIELD    = f'<svg {_B}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
+    TOOL      = f'<svg {_B}><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>'
+    ZAPPER    = f'<svg {_B}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+    BAR       = f'<svg {_B}><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>'
+    PIE       = f'<svg {_B}><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>'
+    GLOBE     = f'<svg {_B}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+    EYE       = f'<svg {_B}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+    ACTIVITY  = f'<svg {_B}><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>'
+    ALERT_OCT = f'<svg {_B}><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+    TRENDING  = f'<svg {_B}><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>'
+    SAVE      = f'<svg {_B}><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>'
+    PICKAXE   = f'<svg {_B}><path d="M14.531 12.469 6.619 20.38a1 1 0 1 1-3-3l7.912-7.912"/><path d="M15.686 4.314A12.5 12.5 0 0 0 5.461 2.958 1 1 0 0 0 5.58 4.71a22 22 0 0 1 6.318 3.393"/><path d="M17.7 3.7a1 1 0 0 0-1.4 0l-4.6 4.6a1 1 0 0 0 0 1.4l2.6 2.6a1 1 0 0 0 1.4 0l4.6-4.6a1 1 0 0 0 0-1.4z"/></svg>'
+    REPORT    = f'<svg {_B}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>'
+    INFO      = f'<svg {_B}><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+
+    @staticmethod
+    def icon(svg, color="#6B8A99", size=18):
+        s = svg.replace('stroke="currentColor"', f'stroke="{color}"')
+        s = s.replace('width="18"', f'width="{size}"').replace('height="18"', f'height="{size}"')
+        return f'<span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px">{s}</span>'
+
+
+# ── Corporate palette: teal / slate / gold ────────────────────────────────────
+APP_CSS = """
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{
+  --teal:#2D5F6E;--teal-l:#3A7A8C;--slate:#6B8A99;--steel:#A8BCC8;
+  --warm:#D1CFC4;--warm-l:#E8E6DD;--gold:#D4B94E;--gold-l:#E8D97A;
+  --bg:#F5F4F0;--card:#FFFFFF;--border:#D1CFC4;
+  --text:#1E2D33;--text2:#3D5A66;--muted:#6B8A99;
+  --success:#3D7A5F;--warn:#B8963E;--err:#A04040;
+}
+.stApp{font-family:'DM Sans',sans-serif;background:var(--bg)}
+.stApp h1,.stApp h2,.stApp h3,.stApp h4{font-family:'DM Sans',sans-serif;font-weight:600;color:var(--text)}
+code,pre,.stCode{font-family:'JetBrains Mono',monospace;font-size:13px}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 16px;
+    text-align:center;border-top:3px solid var(--teal);box-shadow:0 1px 4px rgba(45,95,110,.06);transition:all .2s}
+.mc:hover{box-shadow:0 4px 16px rgba(45,95,110,.1);transform:translateY(-1px)}
+.mv{font-size:22px;font-weight:700;color:var(--text);margin:0;line-height:1.2}
+.ml{font-size:10px;font-weight:600;color:var(--muted);margin:5px 0 0;text-transform:uppercase;letter-spacing:.7px}
+.sh{display:flex;align-items:center;gap:8px;margin:28px 0 14px;font-size:15px;font-weight:600;
+    color:var(--text);padding-bottom:8px;border-bottom:2px solid var(--warm)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:5px;font-size:12px;font-weight:600}
+.b-ok{background:#D4E8DC;color:var(--success)}
+.b-warn{background:#F0E6C8;color:#7A6620}
+.b-info{background:#D6E8EE;color:var(--teal)}
+.b-err{background:#F2D6D6;color:var(--err)}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:3px}
+.tag-b{background:#D6E8EE;color:var(--teal)}.tag-r{background:#F2D6D6;color:var(--err)}
+.tag-g{background:#D4E8DC;color:var(--success)}.tag-a{background:#F0E6C8;color:#7A6620}
+.cl{background:var(--card);padding:12px 16px;margin:5px 0;border-radius:8px;
+    border-left:3px solid var(--teal);box-shadow:0 1px 4px rgba(45,95,110,.05);font-size:13px;line-height:1.7}
+.ckw{background:var(--gold-l);padding:2px 6px;border-radius:4px;font-weight:700;color:var(--text);border:1px solid var(--gold)}
+.cmeta{font-size:11px;color:var(--muted);margin-bottom:5px;font-style:italic}
+.rc{background:var(--warm-l);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:5px;font-size:12px}
+.lvl-tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.lvl-tbl th{background:var(--teal);color:#fff;font-weight:600;padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.lvl-tbl td{padding:8px 14px;border-bottom:1px solid var(--warm-l);color:var(--text)}
+.lvl-tbl tr:nth-child(even){background:var(--warm-l)}.lvl-tbl tr:hover{background:#D6E8EE}
+.lvl-tbl .num{text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px}
+.lvl-tbl .bar{background:var(--warm);border-radius:4px;height:7px;overflow:hidden;min-width:80px}
+.lvl-tbl .bfill{height:100%;border-radius:4px}
+.stTabs [data-baseweb="tab-list"]{gap:2px;background:var(--warm-l);border-radius:8px;padding:4px}
+.stTabs [data-baseweb="tab"]{border-radius:6px!important;font-family:'DM Sans',sans-serif!important;
+    font-size:13px!important;font-weight:500!important;color:var(--muted);padding:6px 14px!important}
+.stTabs [aria-selected="true"]{background:var(--card)!important;color:var(--teal)!important;
+    font-weight:600!important;box-shadow:0 1px 4px rgba(45,95,110,.08)!important}
+.stButton>button[kind="primary"]{background:var(--teal)!important;border-color:var(--teal)!important;
+    font-family:'DM Sans',sans-serif!important;font-weight:600!important;border-radius:8px!important}
+.stButton>button[kind="primary"]:hover{background:var(--teal-l)!important}
+.stButton>button{font-family:'DM Sans',sans-serif!important;font-weight:600!important;border-radius:8px!important}
+.stProgress>div>div>div{background:var(--teal)!important}
+.stDataFrame{border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.stPlotlyChart{border:none!important}
+footer,.stDeployButton{display:none!important}
+#MainMenu{visibility:hidden}
+</style>
+"""
+
+
+def mcard(label, value, color="var(--teal)"):
+    """Render a metric card with teal/gold accent top-border."""
+    return (f'<div class="mc" style="border-top-color:{color}">' +
+            f'<p class="mv">{value}</p><p class="ml">{label}</p></div>')
+
+
+def shdr(svg, text):
+    """Render a section header with left-border accent and SVG icon."""
+    st.markdown(
+        f'<div class="sh">{IC.icon(svg, "#2D5F6E", 20)}{text}</div>',
+        unsafe_allow_html=True
+    )
+
+
 # ========================================================================================
 # DATA CLASSES
 # ========================================================================================
@@ -1788,156 +1899,31 @@ def main():
         render_landing()
         return
 
-    # ── Premium CSS & Typography ──────────────────────────────────────────────
-    st.markdown("""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+    st.markdown(APP_CSS, unsafe_allow_html=True)
 
-/* ── Global typography ── */
-:root {
-  --bg:       #f8fafc;
-  --card:     #ffffff;
-  --border:   #e2e8f0;
-  --text:     #1e293b;
-  --muted:    #64748b;
-  --accent:   #0ea5e9;
-  --accent2:  #0284c7;
-  --navy:     #1a2332;
-  --success:  #059669;
-  --warn:     #d97706;
-  --err:      #dc2626;
-}
-html, body, [class*="st-"], .stApp {
-  font-family: 'DM Sans', sans-serif !important;
-  background: var(--bg) !important;
-}
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'DM Sans', sans-serif !important;
-  font-weight: 600 !important;
-  color: var(--text) !important;
-  letter-spacing: -0.2px;
-}
-code, pre, .stCode { font-family: 'JetBrains Mono', monospace !important; }
-
-/* ── Sidebar ── */
-section[data-testid="stSidebar"] {
-  background: #f1f5f9 !important;
-  border-right: 1px solid var(--border);
-}
-section[data-testid="stSidebar"] * { color: #334155 !important; }
-section[data-testid="stSidebar"] label {
-  color: var(--muted) !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-}
-
-/* ── Metric cards ── */
-.mc {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 18px 16px 14px;
-  text-align: center;
-  border-top: 3px solid var(--accent);
-  transition: box-shadow .15s ease;
-}
-.mc:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.07); }
-.mc .mv   { font-size: 24px; font-weight: 700; color: var(--text); margin: 0; line-height: 1.2; }
-.mc .ml   { font-size: 10px; font-weight: 600; color: var(--muted); margin: 5px 0 0;
-            text-transform: uppercase; letter-spacing: .7px; }
-
-/* ── Section header accent bar ── */
-.sh {
-  display: flex; align-items: center; gap: 8px;
-  margin: 26px 0 12px;
-  font-size: 15px; font-weight: 600; color: var(--text);
-  border-left: 3px solid var(--accent);
-  padding-left: 10px;
-}
-
-/* ── Badges ── */
-.badge {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 3px 11px; border-radius: 20px; font-size: 12px; font-weight: 600;
-}
-.b-ok   { background: #d1fae5; color: #065f46; }
-.b-warn { background: #fef3c7; color: #92400e; }
-.b-info { background: #e0f2fe; color: #0369a1; }
-.b-err  { background: #fee2e2; color: #991b1b; }
-
-/* ── Plotly charts — remove inner border ── */
-.stPlotlyChart { border: none !important; }
-
-/* ── Dataframe ── */
-.stDataFrame { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
-
-/* ── Buttons ── */
-.stButton > button {
-  font-family: 'DM Sans', sans-serif !important;
-  font-weight: 600 !important;
-  border-radius: 8px !important;
-}
-
-/* ── Streamlit tab styling ── */
-.stTabs [data-baseweb="tab-list"] {
-  gap: 2px;
-  background: #f1f5f9;
-  border-radius: 8px;
-  padding: 4px;
-}
-.stTabs [data-baseweb="tab"] {
-  border-radius: 6px !important;
-  font-family: 'DM Sans', sans-serif !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  padding: 6px 14px !important;
-}
-.stTabs [aria-selected="true"] {
-  background: white !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
-  color: var(--accent) !important;
-  font-weight: 600 !important;
-}
-
-/* ── Hide Streamlit branding ── */
-footer, .stDeployButton { display: none !important; }
-#MainMenu { visibility: hidden; }
-</style>
-""", unsafe_allow_html=True)
-
-    # ── Hero Header ───────────────────────────────────────────────────────────
+    # ── Hero Header ─────────────────────────────────────────────────────────────
     st.markdown(f"""
-<div style="
-  background: linear-gradient(135deg, #1a2332 0%, #0f3460 60%, #0ea5e9 100%);
-  border-radius: 14px;
-  padding: 28px 32px;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  box-shadow: 0 4px 24px rgba(14,165,233,0.18);
-">
-  <div style="font-size: 48px; line-height:1; display:flex; align-items:center;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f8fafc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-      <polyline points="2 17 12 22 22 17"/>
-      <polyline points="2 12 12 17 22 12"/>
-    </svg>
+<div style="background:linear-gradient(135deg,#1E3A42 0%,#2D5F6E 55%,#3A7A8C 100%);
+  border-radius:14px;padding:26px 32px;margin-bottom:20px;
+  display:flex;align-items:center;gap:20px;
+  box-shadow:0 4px 20px rgba(45,95,110,.25);">
+  <div style="flex-shrink:0">
+    {IC.icon(IC.LAYERS, "#D4B94E", 46)}
   </div>
   <div>
-    <h1 style="margin:0; font-size:26px; color:#f8fafc !important; font-weight:700; letter-spacing:-0.3px;">
+    <h1 style="margin:0;font-size:26px;color:#E8E6DD!important;font-weight:700;letter-spacing:-.3px;">
       Intelli-CXMiner
     </h1>
-    <p style="margin:4px 0 10px; color:#94a3b8; font-size:14px; font-weight:400;">
-      Scan Deeper. Decide Faster. · Polars · DuckDB · Vectorized Engine
+    <p style="margin:4px 0 12px;color:#A8BCC8;font-size:13px;font-weight:400;">
+      Scan Deeper. Decide Faster. &nbsp;·&nbsp; Polars · DuckDB · Vectorized Engine
     </p>
-    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-      <span class="badge b-ok">✅ Polars 10× faster I/O</span>
-      <span class="badge b-info">⚡ Vectorized Engine</span>
-      <span class="badge b-info">💾 DuckDB Analytics</span>
-      <span class="badge b-info">🌳 Word Tree</span>
-      <span class="badge b-info">🔍 Concordance</span>
-      <span class="badge b-warn">📦 {CHUNK_SIZE:,} records/chunk</span>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <span class="badge b-ok">{IC.icon(IC.ZAPPER,"#3D7A5F",13)} Polars 10× I/O</span>
+      <span class="badge b-info">{IC.icon(IC.ACTIVITY,"#2D5F6E",13)} Vectorized Engine</span>
+      <span class="badge b-info">{IC.icon(IC.TABLE,"#2D5F6E",13)} DuckDB Analytics</span>
+      <span class="badge b-info">{IC.icon(IC.TREE,"#2D5F6E",13)} Word Tree</span>
+      <span class="badge b-info">{IC.icon(IC.SEARCH,"#2D5F6E",13)} Concordance</span>
+      <span class="badge b-warn">{IC.icon(IC.LAYERS,"#7A6620",13)} {{CHUNK_SIZE:,}} rec/chunk</span>
     </div>
   </div>
 </div>
@@ -1965,12 +1951,12 @@ footer, .stDeployButton { display: none !important; }
     
     # ── Horizontal tab navigation ─────────────────────────────────────────────
     tab_configure, tab_upload, tab_results = st.tabs([
-        "⚙️ Configure", "📁 Upload & Run", "📊 Results & Export"
+        "⚙️  Configure", "📁  Upload & Run", "📊  Results & Export"
     ])
 
     # ── TAB 1: Configure ─────────────────────────────────────────────────────
     with tab_configure:
-        st.markdown("#### 🏭 Industry Domain")
+        shdr(IC.GLOBE, "Industry Domain")
         available_industries = st.session_state.domain_loader.get_available_industries()
 
         if not available_industries:
@@ -1994,7 +1980,7 @@ footer, .stDeployButton { display: none !important; }
                     st.session_state.selected_industry = None
 
             with col_pii:
-                st.markdown("#### 🔐 PII Redaction")
+                shdr(IC.SHIELD, "PII Redaction")
                 enable_pii = st.checkbox(
                     "Enable PII Redaction", value=True,
                     help="PII is redacted for compliance but not shown in output"
@@ -2005,7 +1991,7 @@ footer, .stDeployButton { display: none !important; }
                     help="hash: SHA-256 | mask: *** | token: [TYPE] | remove: delete"
                 )
 
-        st.markdown("#### 📤 Output Format")
+        shdr(IC.DOWNLOAD, "Output Format")
         output_format = st.selectbox(
             "Download Format",
             options=['csv', 'xlsx', 'parquet', 'json'],
@@ -2036,7 +2022,7 @@ Disk-based chunking (100K+ safe) · ThreadPoolExecutor
 
     # ── TAB 2: Upload & Run ───────────────────────────────────────────────────
     with tab_upload:
-        st.markdown("#### 📁 Upload Data")
+        shdr(IC.UPLOAD, "Upload Data")
     
         data_file = st.file_uploader(
             "Upload your data file",
@@ -2240,7 +2226,7 @@ Disk-based chunking (100K+ safe) · ThreadPoolExecutor
             st.dataframe(output_df.head(20), width='stretch')
         
             # ── Executive Dashboard ─────────────────────────────────────────
-            st.subheader("📊 Executive Dashboard")
+            shdr(IC.BAR, "Executive Dashboard")
             st.markdown("### 📈 Overview")
 
             # Two-tab view: Decomposition Tree + Bar Chart
@@ -2327,7 +2313,7 @@ Disk-based chunking (100K+ safe) · ThreadPoolExecutor
             # CONCORDANCE ANALYSIS - KEYWORD IN CONTEXT (KWIC)
             # ============================================================================
         
-            st.subheader("🔍 Concordance Analysis - Keyword in Context")
+            shdr(IC.SEARCH, "Concordance Analysis — Keyword in Context")
         
             # Initialize concordance analyzer
             concordance_analyzer = ConcordanceAnalyzer(output_df)
@@ -2689,7 +2675,7 @@ Disk-based chunking (100K+ safe) · ThreadPoolExecutor
                         st.info("No data for the selected level combination.")
 
             # Download Results
-            st.subheader("💾 Download Results")
+            shdr(IC.SAVE, "Download Results")
 
             # Cache the serialised bytes in session_state so re-renders don't
             # re-serialise 100K rows on every Streamlit interaction.
