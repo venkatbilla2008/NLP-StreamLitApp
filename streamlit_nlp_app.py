@@ -1902,19 +1902,20 @@ def main():
     st.markdown(APP_CSS, unsafe_allow_html=True)
 
     # ── Hero Header ─────────────────────────────────────────────────────────────
+    _chunk_badge = IC.icon(IC.LAYERS, "#B8862E", 13)
     st.markdown(f"""
-<div style="background:linear-gradient(135deg,#1E3A42 0%,#2D5F6E 55%,#3A7A8C 100%);
-  border-radius:14px;padding:26px 32px;margin-bottom:20px;
-  display:flex;align-items:center;gap:20px;
-  box-shadow:0 4px 20px rgba(45,95,110,.25);">
-  <div style="flex-shrink:0">
-    {IC.icon(IC.LAYERS, "#D4B94E", 46)}
+<div style="background:#FFFFFF;border:1px solid #D1CFC4;border-left:4px solid #2D5F6E;
+  border-radius:12px;padding:22px 28px;margin-bottom:18px;
+  display:flex;align-items:center;gap:18px;
+  box-shadow:0 2px 8px rgba(45,95,110,.08);">
+  <div style="flex-shrink:0;padding:10px;background:#F5F4F0;border-radius:10px;border:1px solid #D1CFC4;">
+    {IC.icon(IC.LAYERS, "#2D5F6E", 36)}
   </div>
   <div>
-    <h1 style="margin:0;font-size:26px;color:#FFFFFF!important;font-weight:700;letter-spacing:-.3px;text-shadow:0 2px 4px rgba(0,0,0,0.3);">
+    <h1 style="margin:0;font-size:24px;color:#1E2D33!important;font-weight:700;letter-spacing:-.3px;">
       Intelli-CXMiner
     </h1>
-    <p style="margin:4px 0 12px;color:#A8BCC8;font-size:13px;font-weight:400;">
+    <p style="margin:3px 0 10px;color:#6B8A99;font-size:13px;font-weight:400;">
       Scan Deeper. Decide Faster. &nbsp;·&nbsp; Polars · DuckDB · Vectorized Engine
     </p>
     <div style="display:flex;gap:6px;flex-wrap:wrap;">
@@ -1923,7 +1924,7 @@ def main():
       <span class="badge b-info">{IC.icon(IC.TABLE,"#2D5F6E",13)} DuckDB Analytics</span>
       <span class="badge b-info">{IC.icon(IC.TREE,"#2D5F6E",13)} Word Tree</span>
       <span class="badge b-info">{IC.icon(IC.SEARCH,"#2D5F6E",13)} Concordance</span>
-      <span class="badge b-warn">{IC.icon(IC.LAYERS,"#7A6620",13)} {{CHUNK_SIZE:,}} rec/chunk</span>
+      <span class="badge b-warn">{_chunk_badge} {CHUNK_SIZE:,} rec/chunk</span>
     </div>
   </div>
 </div>
