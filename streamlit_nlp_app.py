@@ -1911,7 +1911,7 @@ def main():
     {IC.icon(IC.LAYERS, "#D4B94E", 46)}
   </div>
   <div>
-    <h1 style="margin:0;font-size:26px;color:#E8E6DD!important;font-weight:700;letter-spacing:-.3px;text-shadow:0 2px 4px rgba(0,0,0,0.3);">
+    <h1 style="margin:0;font-size:26px;color:#FFFFFF!important;font-weight:700;letter-spacing:-.3px;text-shadow:0 2px 4px rgba(0,0,0,0.3);">
       Intelli-CXMiner
     </h1>
     <p style="margin:4px 0 12px;color:#A8BCC8;font-size:13px;font-weight:400;">
